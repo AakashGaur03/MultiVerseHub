@@ -1,9 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from "react";
-import axios from "axios";
+import Regisration from './Userontrols/Registration/Regisration';
+// import axios from "axios";
 
 
 function App() {
-  const [jokes, setJokes] = useState([]);
+  // const [jokes, setJokes] = useState([]);
 
   useEffect(() => {
     // axios
@@ -18,14 +20,11 @@ function App() {
 
   return (
     <>
-      <div>Hello</div>
+      <div className="">Hello</div>
+      <Regisration />
+      {/* <div>Hello</div>
       <div>Jokes : {jokes.length}</div>
-      {jokes.map((joke) => (
-        <div key={joke.id}>
-          <h3>{joke.title}</h3>
-          <h5>{joke.content}</h5>
-        </div>
-      ))}
+      */}
     </>
   );
 }

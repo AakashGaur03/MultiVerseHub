@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  allJokes,
+  // allJokes,
   changeCurrentPassword,
   getCurrentUser,
   loginUser,
@@ -16,7 +16,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.route("/joke").get(allJokes);
+// router.route("/joke").get(allJokes);
 
 router.route("/register").post(
   upload.fields([
