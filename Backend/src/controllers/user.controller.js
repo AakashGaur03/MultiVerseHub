@@ -51,10 +51,16 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(
+    return res
+    .status(500)
+    .json(new ApiError(
       500,
       "Something went wrong while generating Refresh and Access Token "
-    );
+    ))
+    // throw new ApiError(
+    //   500,
+    //   "Something went wrong while generating Refresh and Access Token "
+    // );
   }
 };
 
@@ -77,7 +83,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (
     [fullName, email, username, password].some((field) => field?.trim() === "")
   ) {
-    throw new ApiError(400, "All Fields are required");
+    return res
+    .status(400)
+    .json(new ApiError(400, "All Fields are required"))
+    // throw new ApiError(400, "All Fields are required");
   }
 
   // check if user already exists: username,email
@@ -86,7 +95,10 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (existedUser) {
-    throw new ApiError(409, "User with email or username already exists");
+    return res
+    .status(409)
+    .json(new ApiError(409, "User with email or username already exists"))
+    // throw new ApiError(409, "User with email or username already exists");
   }
 
   let avatarLocalPath;
@@ -113,7 +125,10 @@ const registerUser = asyncHandler(async (req, res) => {
   );
 
   if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while Registring the User");
+    return res
+    .status(500)
+    .json(new ApiError(500, "Something went wrong while Registring the User"))
+    // throw new ApiError(500, "Something went wrong while Registring the User");
   }
 
   return res
@@ -125,7 +140,10 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
 
   if (!username && !email) {
-    throw new ApiError(400, "Username and Email is Required");
+    return res
+    .status(400)
+    .json(new ApiError(400, "Username and Email is Required"))
+    // throw new ApiError(400, "Username and Email is Required");
   }
 
   const user = await User.findOne({
@@ -133,13 +151,19 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "User does not Exists");
+    return res
+    .status(404)
+    .json(new ApiError(404, "User does not Exists"))
+    // throw new ApiError(404, "User does not Exists");
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid User Credentials");
+    return res
+    .status(401)
+    .json(new ApiError(401, "Invalid User Credentials"))
+    // throw new ApiError(401, "Invalid User Credentials");
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
@@ -202,10 +226,16 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     req.cookies.refreshToken || req.body.refreshToken;
 
   if (!incomingRefreshToken) {
-    throw new ApiError(
+    return res
+    .status(401)
+    .json(new ApiError(
       401,
       "Unauthorized Access as Refresh Token Not Available"
-    );
+    ))
+    // throw new ApiError(
+    //   401,
+    //   "Unauthorized Access as Refresh Token Not Available"
+    // );
   }
 
   try {
@@ -217,11 +247,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const user = await User.findById(decodedToken?._id);
 
     if (!user) {
-      throw new ApiError(401, "Invalid Refresh Token");
+      return res
+    .status(401)
+    .json( new ApiError(401, "Invalid Refresh Token"))
+      // throw new ApiError(401, "Invalid Refresh Token");
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
-      throw new ApiError(401, "Refresh Token is expired or used");
+      return res
+    .status(401)
+    .json( new ApiError(401, "Refresh Token is expired or used"))
+      // throw new ApiError(401, "Refresh Token is expired or used");
     }
 
     const options = {
@@ -244,7 +280,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         )
       );
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid Refresh Token");
+    return res
+    .status(401)
+    .json(new ApiError(401, error?.message || "Invalid Refresh Token"))
+    // throw new ApiError(401, error?.message || "Invalid Refresh Token");
   }
 });
 
@@ -255,7 +294,10 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) {
-    throw new ApiError(400, "Invalid Old Password");
+    return res
+    .status(400)
+    .json(new ApiError(400, "Invalid Old Password"))
+    // throw new ApiError(400, "Invalid Old Password");
   }
 
   user.password = newPassword;
@@ -275,7 +317,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullName, email } = req.body;
   if (!fullName || !email) {
-    throw new ApiError(400, "All Fields are required");
+    return res
+    .status(400)
+    .json(new ApiError(400, "All Fields are required"))
+    // throw new ApiError(400, "All Fields are required");
   }
 
   const user = await User.findByIdAndUpdate(
@@ -298,13 +343,19 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar File is Missing");
+    return res
+    .status(400)
+    .json(new ApiError(400, "Avatar File is Missing"))
+    // throw new ApiError(400, "Avatar File is Missing");
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
-    throw new ApiError(400, "Error While Uploading Avatar");
+    return res
+    .status(400)
+    .json(new ApiError(400, "Error While Uploading Avatar"))
+    // throw new ApiError(400, "Error While Uploading Avatar");
   }
 
   const user = await User.findByIdAndUpdate(
