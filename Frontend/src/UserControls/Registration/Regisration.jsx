@@ -6,8 +6,8 @@ import { registerUser } from "../../Features/index";
 
 const Registration = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.auth.loading);
-  const message = useSelector((state) => state.auth.message);
+  const loading = useSelector((state) => state.register.loading);
+  const message = useSelector((state) => state.register.message);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -18,7 +18,8 @@ const Registration = () => {
   });
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { dataset, value } = e.target;
+    const id=dataset.id
     setFormData({
       ...formData,
       [id]: value,
@@ -27,7 +28,6 @@ const Registration = () => {
 
   const handleFile = (e) => {
     const file = e.target.files[0];
-
     setFormData({
       ...formData,
       avatar: file,
@@ -53,7 +53,8 @@ const Registration = () => {
           type="text"
           onChange={handleChange}
           value={formData.username}
-          id="username"
+          data-id="username"
+          id="loginUsername"
         />
 
         <Form.Label htmlFor="fullName">Full name</Form.Label>
@@ -61,7 +62,8 @@ const Registration = () => {
           type="text"
           onChange={handleChange}
           value={formData.fullName}
-          id="fullName"
+          data-id="fullName"
+          id="loginFullName"
         />
 
         <Form.Label htmlFor="password">Password</Form.Label>
@@ -69,8 +71,8 @@ const Registration = () => {
           type="password"
           onChange={handleChange}
           value={formData.password}
-          id="password"
-          aria-describedby="passwordHelp"
+          data-id="password"
+          id="loginPassword"
         />
 
         <Form.Label htmlFor="email">email</Form.Label>
@@ -78,14 +80,14 @@ const Registration = () => {
           type="email"
           onChange={handleChange}
           value={formData.email}
-          id="email"
-          aria-describedby="emailHelpBlock"
+          data-id="email"
+          id="loginEmail"
         />
-        <Form.Label htmlFor="inputavatar5">avatar</Form.Label>
+        <Form.Label htmlFor="avatar">avatar</Form.Label>
         <Form.Control
           type="file"
-          id="inputavatar5"
-          aria-describedby="avatarHelpBlock"
+          data-id="avatar"
+          id="avatar"
           onChange={handleFile}
         />
 

@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer, themeReducer } from "../Features/index.js";
+import {
+  loginReducer,
+  registerReducer,
+  themeReducer,
+} from "../Features/index.js";
 
 export default configureStore({
   reducer: {
-    auth: authReducer,
+    register: registerReducer,
     theme: themeReducer,
+    login: loginReducer,
+
     // other reducers...
   },
 });
