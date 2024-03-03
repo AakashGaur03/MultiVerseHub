@@ -1,34 +1,31 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from "react";
-import Regisration from './Userontrols/Registration/Regisration';
-import NavbarComp from "./Navbar/NavbarComp"
-// import axios from "axios";
-
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import NavbarComp from "./Navbar/NavbarComp";
+import { BrowserRouter as Router,Route,Routes} from "react-router-dom";
+import { Container } from "react-bootstrap";
+import {Login, Registration} from "./index"
 function App() {
-  // const [jokes, setJokes] = useState([]);
-
-  useEffect(() => {
-    // axios
-    //   .get("api/v1/users/joke")
-    //   .then((res) => {
-    //     setJokes(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error : ", err);
-    //   });
-  }, []);
-
   return (
     <>
-      {/* <div className="">Hello</div> */}
-      <NavbarComp >
-
-      </NavbarComp>
-      {/* <Regisration /> */}
-      {/* <div>Hello</div>
-      <div>Jokes : {jokes.length}</div>
-      */}
+    <Router>
+      <NavbarComp />
+      
+      <Container>
+        <Routes>
+          <Route path="/register"
+          element={
+            <Registration />
+          }
+          />
+          <Route 
+          path="/login"
+          element={
+            <Login/>
+          }
+          />
+          
+        </Routes>
+      </Container>
+    </Router>
     </>
   );
 }
