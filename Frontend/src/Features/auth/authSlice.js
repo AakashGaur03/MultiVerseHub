@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   loading: false,
-  error: null,
+  message: null,
 };
 
 const authSlice = createSlice({
@@ -12,14 +12,15 @@ const authSlice = createSlice({
   reducers: {
     registrationStart(state) {
       state.loading = true;
-      state.error = null;
+      state.message = null;
     },
-    registrationSuccess(state) {
+    registrationSuccess(state, action) {
       state.loading = false;
+      state.message = action.payload;
     },
     registrationFailure(state, action) {
       state.loading = false;
-      state.error = action.payload;
+      state.message = action.payload;
     },
   },
 });
@@ -36,16 +37,23 @@ export const registerUser = (userData) => async (dispatch) => {
       "http://localhost:8000/api/v1/users/register",
       userData
     ); // Adjust URL as per your backend
+    console.log(response)
+    let dispatchMessage = "";
+    dispatchMessage =
+    response?.data?.message || "User Registered SuccessFully2 ";
+    dispatch(registrationSuccess(dispatchMessage));
 
-    dispatch(registrationSuccess()); // Dispatch success action
     console.log("LOGGE INF");
     // Handle any further actions you want to take upon successful registration
   } catch (error) {
-    // dispatch(registrationFailure(error.message)); //  // Extract error message from the response
-    console.log(error)
-    const errorMessage = error.response?.data?.message || "Unknown Error Ocuured While Registering user";
-    dispatch(registrationFailure(errorMessage)); // Dispatch failure action with error message
-    // You can also handle further error actions here if needed
+    // dispatch(registrationFailure(message.message)); //  // Extract message message from the response
+    console.log(error);
+    let dispatchMessage = "";
+    dispatchMessage =
+      error.response?.data?.message ||
+      "Unknown message Ocuured While Registering user";
+    dispatch(registrationFailure(dispatchMessage)); // Dispatch failure action with message message
+    // You can also handle further message actions here if needed
   }
 };
 

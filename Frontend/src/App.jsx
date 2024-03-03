@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from "react";
 import Regisration from './Userontrols/Registration/Regisration';
+import NavbarComp from "./Navbar/NavbarComp"
 // import axios from "axios";
 
 
@@ -20,8 +21,11 @@ function App() {
 
   return (
     <>
-      <div className="">Hello</div>
-      <Regisration />
+      {/* <div className="">Hello</div> */}
+      <NavbarComp >
+
+      </NavbarComp>
+      {/* <Regisration /> */}
       {/* <div>Hello</div>
       <div>Jokes : {jokes.length}</div>
       */}
