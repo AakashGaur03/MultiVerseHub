@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   loading: false,
   message: null,
+  currentState: "logout",
 };
 
 const loginSlice = createSlice({
@@ -13,14 +14,17 @@ const loginSlice = createSlice({
     loginStart(state) {
       state.loading = true;
       state.message = null;
+      state.currentState = "logout";
     },
     loginSuccess(state, action) {
       state.loading = false;
       state.message = action.payload;
+      state.currentState = "login";
     },
     loginFailure(state, action) {
       state.loading = false;
       state.message = action.payload;
+      state.currentState = "logout";
     },
   },
 });

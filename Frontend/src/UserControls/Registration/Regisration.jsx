@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -28,17 +28,34 @@ const Registration = () => {
 
   const handleFile = (e) => {
     const file = e.target.files[0];
-    setFormData({
-      ...formData,
+    console.log(formData)
+    setFormData(prevFormData => ({
+      ...prevFormData,
       avatar: file,
-    });
+    }));
+    console.log(formData)
   };
+
+  useEffect(() => {
+    console.log(formData,"UseEffect");
+  }, [formData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await dispatch(registerUser(formData));
+
+      const formDataToSend = new FormData(); // Create a new FormData object
+
+      // Append each field to the FormData object
+      formDataToSend.append('username', formData.username);
+      formDataToSend.append('fullName', formData.fullName);
+      formDataToSend.append('password', formData.password);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('avatar', formData.avatar);
+  
+      await dispatch(registerUser(formDataToSend));
+      // await dispatch(registerUser(formData));
     } catch (error) {
       console.error('Error registering user:', error);
     }
@@ -54,7 +71,7 @@ const Registration = () => {
           onChange={handleChange}
           value={formData.username}
           data-id="username"
-          id="loginUsername"
+          id="registerUsername"
         />
 
         <Form.Label htmlFor="fullName">Full name</Form.Label>
@@ -63,7 +80,7 @@ const Registration = () => {
           onChange={handleChange}
           value={formData.fullName}
           data-id="fullName"
-          id="loginFullName"
+          id="registerFullName"
         />
 
         <Form.Label htmlFor="password">Password</Form.Label>
@@ -72,7 +89,7 @@ const Registration = () => {
           onChange={handleChange}
           value={formData.password}
           data-id="password"
-          id="loginPassword"
+          id="registerPassword"
         />
 
         <Form.Label htmlFor="email">email</Form.Label>
@@ -81,10 +98,9 @@ const Registration = () => {
           onChange={handleChange}
           value={formData.email}
           data-id="email"
-          id="loginEmail"
+          id="registerEmail"
         />
         <Form.Label htmlFor="avatar">avatar</Form.Label>
-        <Form.Control
           type="file"
           data-id="avatar"
           id="avatar"

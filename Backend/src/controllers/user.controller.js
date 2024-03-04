@@ -287,6 +287,45 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
+// const forgotPassword = asyncHandler(async (req, res) => {
+//   const { username,email,oldPassword, newPassword } = req.body;
+
+
+//   if (username=="" && email=="") {
+//     return res
+//     .status(400)
+//     .json(new ApiError(400, "Username or Email is Required"))
+//     // throw new ApiError(400, "Username and Email is Required");
+//   }
+
+//   const user = await User.findOne({
+//     $or: [{ username }, { email }],
+//   });
+
+//   if (!user) {
+//     return res
+//     .status(404)
+//     .json(new ApiError(404, "User does not Exists"))
+//     // throw new ApiError(404, "User does not Exists");
+//   }
+
+//     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
+//   if (!isPasswordCorrect) {
+//     return res
+//     .status(400)
+//     .json(new ApiError(400, "Invalid Old Password"))
+//     // throw new ApiError(400, "Invalid Old Password");
+//   }
+
+//   user.password = newPassword;
+//   await user.save({ validateBeforeSave: false });
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, {}, "Password Changed Successfully"));
+// });
+
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
@@ -383,5 +422,6 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
-  updateUserAvatar
+  updateUserAvatar,
+  // forgotPassword
 };
