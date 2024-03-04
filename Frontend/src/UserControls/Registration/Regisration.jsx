@@ -101,6 +101,7 @@ const Registration = () => {
           id="registerEmail"
         />
         <Form.Label htmlFor="avatar">avatar</Form.Label>
+        <input
           type="file"
           data-id="avatar"
           id="avatar"
