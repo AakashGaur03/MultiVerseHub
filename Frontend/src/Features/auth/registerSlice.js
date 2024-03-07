@@ -32,14 +32,12 @@ export const registerUser = (userData) => async (dispatch) => {
   try {
     dispatch(registrationStart()); // Dispatch start action
 
-    console.log(userData,"dd")
 
     // Make API call to register user
     const response = await axios.post(
       "http://localhost:8000/api/v1/users/register",
       userData
     ); // Adjust URL as per your backend
-    console.log(userData)
     console.log(response)
     let dispatchMessage = "";
     dispatchMessage =

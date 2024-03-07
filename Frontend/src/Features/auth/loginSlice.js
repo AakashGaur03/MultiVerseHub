@@ -43,6 +43,8 @@ export const loginUser = (data) => async (dispatch) => {
       data
     );
     const accessToken = response?.data?.data?.accessToken;
+    localStorage.setItem("accessToken",accessToken)
+    document.cookie = `accessToken=${accessToken}; path=/; domain=localhost`;
 
     dispatch(storeAccessToken(accessToken));
 
