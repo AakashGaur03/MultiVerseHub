@@ -42,7 +42,7 @@ const Login = () => {
     {message && <div>{message}</div>}
       <Form onSubmit={handleSubmit}>
 
-      <Form.Label htmlFor="loginEmail">email</Form.Label>
+      <Form.Label htmlFor="email">email</Form.Label>
         <Form.Control
           type="email"
           onChange={handleChange}
@@ -51,7 +51,7 @@ const Login = () => {
           data-id="email"
         />
        
-        <Form.Label htmlFor="loginUsername">username</Form.Label>
+        <Form.Label htmlFor="userName">username</Form.Label>
         <Form.Control
           type="text"
           onChange={handleChange}
@@ -60,7 +60,7 @@ const Login = () => {
           id="loginUsername"
         />
 
-        <Form.Label htmlFor="loginPassword">Password</Form.Label>
+        <Form.Label htmlFor="password">Password</Form.Label>
         <Form.Control
           type="password"
           onChange={handleChange}

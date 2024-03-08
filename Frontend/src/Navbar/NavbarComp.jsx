@@ -5,8 +5,6 @@ import { toggleTheme } from "../Features";
 
 function NavbarComp() {
   const theme = useSelector((state) => state.theme.theme);
-  const currentloginState = useSelector((state) => state.login.currentState);
-
   const dispatch = useDispatch();
 
   const handleToggleTheme = () => {
@@ -25,39 +23,23 @@ function NavbarComp() {
               <Nav.Link href="#link">Link</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {currentloginState === "logout" && (
-            <>
-              <NavLink to="/login">
-                <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
-                  Login
-                </button>
-              </NavLink>
-              <NavLink to="/register">
-                <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
-                  Sign Up
-                </button>
-              </NavLink>
-            </>
-          )}
-          {currentloginState === "login" && (
-            <>
-              <NavLink to="/logout">
-                <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
-                  Logout
-                </button>
-              </NavLink>
-            </>
-          )}
-
+          <NavLink to="/login">
+            <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
+              Login
+            </button>
+          </NavLink>
+          <NavLink to="/register">
+            <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
+              Sign Up
+            </button>
+          </NavLink>
           <Form className="togglePosition" name="togglePosition">
-            <Form.Label htmlFor="toggleThemeBtn"></Form.Label>
             <Form.Check
               name="themeMode"
               checked={theme === "Dark"}
               onChange={handleToggleTheme}
               type="switch"
               label={`${theme} Mode`}
-              id="toggleThemeBtn"
             />
           </Form>
         </Container>
