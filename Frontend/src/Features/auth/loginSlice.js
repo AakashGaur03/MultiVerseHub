@@ -26,10 +26,13 @@ const loginSlice = createSlice({
       state.message = action.payload;
       state.currentState = "logout";
     },
+    storeAccessToken(state, action) {
+      state.accessToken = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure } = loginSlice.actions;
+export const { loginStart, loginSuccess, loginFailure,storeAccessToken } = loginSlice.actions;
 
 export const loginUser = (data) => async (dispatch) => {
   try {
@@ -39,11 +42,14 @@ export const loginUser = (data) => async (dispatch) => {
       "http://localhost:8000/api/v1/users/login",
       data
     );
+    const accessToken = response?.data?.data?.accessToken;
+    localStorage.setItem("accessToken",accessToken)
+    document.cookie = `accessToken=${accessToken}; path=/; domain=localhost`;
 
-    console.log(response);
+    dispatch(storeAccessToken(accessToken));
 
     let dispatchMessage = "";
-    dispatchMessage = response?.data?.message || "User Logged In SuccessFully ";
+    dispatchMessage = response?.data?.data?.message || "User Logged In SuccessFully ";
 
     dispatch(loginSuccess(dispatchMessage));
   } catch (error) {
