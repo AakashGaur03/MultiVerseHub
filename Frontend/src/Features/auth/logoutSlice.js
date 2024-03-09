@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setCurrentStatus } from "./getCurrentStatus";
 
 const initialState = {
   loading: false,
@@ -46,8 +47,10 @@ export const logoutUser = (accessToken) => async (dispatch) => {
     let dispatchMessage = "";
     dispatchMessage =
       response?.data?.message || "User Logged Out SuccessFully ";
+      dispatch(setCurrentStatus(false));
 
     dispatch(logoutSuccess(dispatchMessage));
+    localStorage.setItem("accessToken","")
   } catch (error) {
     console.log(error);
     let dispatchMessage = "";

@@ -6,6 +6,10 @@ import loginReducer, { loginUser } from "./auth/loginSlice.js";
 
 import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
+import getCurrentStatusReducer, {
+  fetchCurrentStatusUser,
+} from "./auth/getCurrentStatus.js";
+
 export {
   registerReducer,
   themeReducer,
@@ -15,4 +19,6 @@ export {
   loginUser,
   logoutReducer,
   logoutUser,
+  getCurrentStatusReducer,
+  fetchCurrentStatusUser,
 };

@@ -1,17 +1,21 @@
 import { Container, Nav, Navbar, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from "../Features";
+import { fetchCurrentStatusUser, toggleTheme } from "../Features";
+import { useEffect, useState } from "react";
 
 function NavbarComp() {
   const theme = useSelector((state) => state.theme.theme);
-  const currentloginState = useSelector((state) => state.login.currentState);
-
+  const accessToken = useSelector((state) => state.getCurrentStatus.isUserLoggedIn)
   const dispatch = useDispatch();
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
   };
+
+  useEffect(() => {
+    dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
+  }, [dispatch]);
 
   return (
     <>
@@ -25,7 +29,7 @@ function NavbarComp() {
               <Nav.Link href="#link">Link</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {currentloginState === "logout" && (
+          {!accessToken && (
             <>
               <NavLink to="/login">
                 <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
@@ -39,7 +43,7 @@ function NavbarComp() {
               </NavLink>
             </>
           )}
-          {currentloginState === "login" && (
+          {accessToken && (
             <>
               <NavLink to="/logout">
                 <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">

@@ -4,6 +4,7 @@ import {
   logoutReducer,
   registerReducer,
   themeReducer,
+  getCurrentStatusReducer
 } from "../Features/index.js";
 
 export default configureStore({
@@ -11,7 +12,8 @@ export default configureStore({
     register: registerReducer,
     theme: themeReducer,
     login: loginReducer,
-    logout:logoutReducer
+    logout: logoutReducer,
+    getCurrentStatus: getCurrentStatusReducer,
 
     // other reducers...
   },

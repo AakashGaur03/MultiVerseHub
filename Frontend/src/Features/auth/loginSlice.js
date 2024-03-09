@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setCurrentStatus } from "./getCurrentStatus";
 
 const initialState = {
   loading: false,
@@ -50,6 +51,7 @@ export const loginUser = (data) => async (dispatch) => {
 
     let dispatchMessage = "";
     dispatchMessage = response?.data?.data?.message || "User Logged In SuccessFully ";
+    dispatch(setCurrentStatus(true));
 
     dispatch(loginSuccess(dispatchMessage));
   } catch (error) {
