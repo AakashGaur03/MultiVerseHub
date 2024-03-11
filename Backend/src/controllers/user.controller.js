@@ -376,7 +376,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Avatar Updated Successfully"));
 });
 
-const forgotPassword = asyncHandler(async (req, res) => {
+const sendOtponMail = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -490,7 +490,7 @@ export {
   getCurrentUser,
   updateAccountDetails,
   updateUserAvatar,
-  forgotPassword,
+  sendOtponMail,
   verifyOTP,
   createNewPassword
 };

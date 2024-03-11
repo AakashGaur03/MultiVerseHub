@@ -3,7 +3,7 @@ import {
   // allJokes,
   changeCurrentPassword,
   createNewPassword,
-  forgotPassword,
+  sendOtponMail,
   getCurrentUser,
   loginUser,
   logoutUser,
@@ -39,7 +39,7 @@ router.route("/refresh-token").post(refreshAccessToken);
 router.route("/change-password").post(verifyJWT, changeCurrentPassword);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
-router.route("/forgot-password").post(forgotPassword);
+router.route("/send-otp-mail").post(sendOtponMail);
 router.route("/verifyOTP").post(verifyOTP);
 router.route("/create-new-password").post(createNewPassword);
 router

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { setCurrentStatus } from "./getCurrentStatus";
+import { loginUserApi } from "../../Api";
 
 const initialState = {
   loading: false,
@@ -33,24 +33,23 @@ const loginSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure,storeAccessToken } = loginSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, storeAccessToken } =
+  loginSlice.actions;
 
 export const loginUser = (data) => async (dispatch) => {
   try {
     dispatch(loginStart());
 
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/users/login",
-      data
-    );
+    const response = await loginUserApi(data);
     const accessToken = response?.data?.data?.accessToken;
-    localStorage.setItem("accessToken",accessToken)
+    localStorage.setItem("accessToken", accessToken);
     document.cookie = `accessToken=${accessToken}; path=/; domain=localhost`;
 
     dispatch(storeAccessToken(accessToken));
 
     let dispatchMessage = "";
-    dispatchMessage = response?.data?.data?.message || "User Logged In SuccessFully ";
+    dispatchMessage =
+      response?.data?.data?.message || "User Logged In SuccessFully ";
     dispatch(setCurrentStatus(true));
 
     dispatch(loginSuccess(dispatchMessage));

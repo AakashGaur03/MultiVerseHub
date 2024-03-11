@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { registerUserApi } from "../../Api";
 
 const initialState = {
   loading: false,
@@ -34,10 +34,7 @@ export const registerUser = (userData) => async (dispatch) => {
 
 
     // Make API call to register user
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/users/register",
-      userData
-    ); // Adjust URL as per your backend
+    const response = await registerUserApi(userData)
     console.log(response)
     let dispatchMessage = "";
     dispatchMessage =

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { setCurrentStatus } from "./getCurrentStatus";
+import { logoutuserApi } from "../../Api";
 
 const initialState = {
   loading: false,
@@ -37,15 +37,7 @@ export const logoutUser = (accessToken) => async (dispatch) => {
       accessToken = localStorage.getItem("accessToken");
     }
 
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/users/logout",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await logoutuserApi(accessToken)
 
     console.log(response);
 
