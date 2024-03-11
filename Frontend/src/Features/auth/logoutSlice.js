@@ -32,6 +32,11 @@ export const { logoutStart, logoutSuccess, logoutFailure } =
 export const logoutUser = (accessToken) => async (dispatch) => {
   try {
     dispatch(logoutStart());
+
+    if(!accessToken) {
+      accessToken = localStorage.getItem("accessToken");
+    }
+
     const response = await axios.post(
       "http://localhost:8000/api/v1/users/logout",
       {},

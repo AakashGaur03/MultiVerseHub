@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   isUserLoggedIn: null,
@@ -20,7 +21,17 @@ export const fetchCurrentStatusUser = () => async (dispatch) => {
   try {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      dispatch(setCurrentStatus(true));
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/users/current-user",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (response) {
+        dispatch(setCurrentStatus(true));
+      }
     } else {
       dispatch(setCurrentStatus(false));
     }
