@@ -8,7 +8,13 @@ import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
 import getCurrentStatusReducer, {
   fetchCurrentStatusUser,
-} from "./auth/getCurrentStatus.js";
+} from "./auth/getCurrentStatusSlice.js";
+
+import forgotPasswordReducer, {
+  sendOTPMail,
+  verifyOTP,
+  createNewPassword,
+} from "./auth/forgotPasswordSlice.js";
 
 export {
   registerReducer,
@@ -21,4 +27,8 @@ export {
   logoutUser,
   getCurrentStatusReducer,
   fetchCurrentStatusUser,
+  forgotPasswordReducer,
+  sendOTPMail,
+  verifyOTP,
+  createNewPassword,
 };

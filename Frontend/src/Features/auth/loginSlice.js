@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setCurrentStatus } from "./getCurrentStatus";
+import { setCurrentStatus } from "./getCurrentStatusSlice";
 import { loginUserApi } from "../../Api";
 
 const initialState = {

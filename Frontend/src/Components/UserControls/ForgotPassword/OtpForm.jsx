@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const OtpForm = ({ length = 6 }) => {
+const OtpForm = ({ length = 6,onOTPSubmit }) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
 
   const inputRefs = useRef([]);
@@ -11,9 +11,9 @@ const OtpForm = ({ length = 6 }) => {
     }
   });
 
-  const onOTPSubmit = (combinedOTP) => {
-    console.log(combinedOTP);
-  };
+  // const onOTPSubmit = (combinedOTP) => {
+  //   console.log(combinedOTP);
+  // };
 
   const handleChange = (index, e) => {
     const value = e.target.value;

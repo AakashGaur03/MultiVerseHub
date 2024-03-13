@@ -44,3 +44,31 @@ export const getCurrentUserStatusApi = async (accessToken) => {
 
   return response;
 };
+
+// sendOTP
+export const sendOTPApi = async (emailId) => {
+  const response = await axios.post(
+    "http://localhost:8000/api/v1/users/send-otp-mail",
+    emailId
+  );
+
+  return response;
+};
+// verifyOTP
+export const verifyOTPApi = async (otp) => {
+  const response = await axios.post(
+    "http://localhost:8000/api/v1/users/verifyOTP",
+    otp
+  );
+
+  return response;
+};
+// resetPassword
+export const resetPassordApi = async (data) => {
+  const response = await axios.post(
+    "http://localhost:8000/api/v1/users/create-new-password",
+    data
+  );
+
+  return response;
+};

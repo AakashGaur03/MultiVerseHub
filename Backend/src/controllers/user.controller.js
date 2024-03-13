@@ -419,7 +419,7 @@ const sendOtponMail = asyncHandler(async (req, res) => {
         return res
           .status(200)
           .cookie("otpToken", otpToken, options)
-          .json(new ApiResponse(200, {}, "OTP Mail Sent Successfully"));
+          .json(new ApiResponse(200, {otpToken}, "OTP Mail Sent Successfully"));
       }
     });
   } catch (error) {
@@ -432,6 +432,9 @@ const verifyOTP = asyncHandler(async (req, res) => {
   const otpToken = req.cookies.otpToken || req.body.otpToken;
 
   try {
+    if (!otpToken) {
+      throw new Error('JWT token not provided');
+    }
     const decodedToken = jwt.verify(otpToken, process.env.OTP_TOKEN_SECRET);
     console.log(decodedToken);
     // console.log(decodedToken.otp);
@@ -446,6 +449,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
       return res.status(400).json(new ApiError(400, "Invalid OTP"));
     }
   } catch (error) {
+    console.log(error)
     return res
       .status(401)
       .json(new ApiError(401, "Invalid or Expired OTP Token"));
