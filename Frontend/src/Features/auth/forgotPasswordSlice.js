@@ -4,7 +4,6 @@ import { resetPassordApi, sendOTPApi, verifyOTPApi } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
-  userId: null,
 };
 
 const forgotPassowrdSlice = createSlice({
@@ -18,7 +17,6 @@ const forgotPassowrdSlice = createSlice({
 
     sendOTPMailSuccess(state, action) {
       state.status = "OTPsent";
-      state.userId = action.payload.userId;
       state.error = null;
     },
 
@@ -76,7 +74,7 @@ export const sendOTPMail = (email) => async (dispatch) => {
     dispatch(sendOTPMailStart());
     const response = await sendOTPApi(email);
     if (response) {
-      console.log(response);
+    //   console.log(response);
       dispatch(sendOTPMailSuccess(response.data));
       return response
     }

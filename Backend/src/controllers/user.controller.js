@@ -419,7 +419,7 @@ const sendOtponMail = asyncHandler(async (req, res) => {
         return res
           .status(200)
           .cookie("otpToken", otpToken, options)
-          .json(new ApiResponse(200, {otpToken}, "OTP Mail Sent Successfully"));
+          .json(new ApiResponse(200, {otpToken,userId: user._id}, "OTP Mail Sent Successfully"));
       }
     });
   } catch (error) {
