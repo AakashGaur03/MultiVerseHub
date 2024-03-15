@@ -8,13 +8,20 @@ import {
   Login,
   Logout,
   Registration,
+  OptionContainer,
+  News,
+  Favorite,
+  Cricket,
+  Entertainment,
 } from "./index";
+import Games from "./Components/Games/Games";
 
 function App() {
   return (
     <>
       <Router>
         <NavbarComp />
+        <OptionContainer />
         <Container>
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -22,6 +29,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/favorites" element={<Favorite />} />
+            <Route path="/cricket" element={<Cricket />} />
+            <Route path="/entertainment" element={<Entertainment />} />
+            <Route path="/games" element={<Games />} />
           </Routes>
         </Container>
       </Router>
