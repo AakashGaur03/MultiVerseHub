@@ -1,12 +1,33 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 const OptionContainer = () => {
+  const [isSticky, setIsSticky] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const optionContainerHeight =
+        document.querySelector(".optionContainer").clientHeight;
+
+      if (window.scrollY > optionContainerHeight) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+    window.addEventListener("scroll",handleScroll)
+
+    return()=>{
+      window.removeEventListener("scroll",handleScroll)
+    }
+  });
+
   return (
-    <div>
+    <div className={`${isSticky ? " posFixedAtTop" : "posNormal"}`}>
       <Container fluid>
-        <Navbar className="navbar-dark bg-dark d-block">
+        <Navbar className="navbar-dark bg-dark d-block optionContainer">
           <div className=" sm:px-20 px-7">
             <Nav className="gap-16" style={{ overflowX: "auto" }}>
               <Nav.Item>

@@ -22,7 +22,7 @@ function App() {
       <Router>
         <NavbarComp />
         <OptionContainer />
-        <Container>
+        <Container className="restOfComponets">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/register" element={<Registration />} />

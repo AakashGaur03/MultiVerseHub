@@ -7,3 +7,19 @@
     padding: 50px;
     background-color: rgb(74, 66, 66);
 }
+
+.posNormal {
+    position: relative;
+    z-index: 1; /* Ensure it's above other content */
+  }
+  
+  .posFixedAtTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .posFixedAtTop  + .restOfComponets{
+    padding-top: 50px;
+  }
+  
