@@ -5,16 +5,6 @@ Cricket : https://rapidapi.com/sudityakumar1/api/free-cricket-live-score1			250 
 
 News : https://rapidapi.com/connexun-srl-connexun-srl-default/api/news67/pricing		15/day
 
-Currently Subscribing to this and Exploring more
-
-
-News : https://newsdata.io/pricing   								200/day 	
-Status : 200OK Time : 34.54s    Size : 13.54 KB
-
-News : https://mediastack.com/payment    Check It Out Again Tom 
-
-
-News : https://rapidapi.com/MatcherLabs/api/news-api14/pricing                                  1000/month
-But no images
+News : https://newsdata.io/pricing								200/day
 
 Games : https://www.freetogame.com/api-doc
