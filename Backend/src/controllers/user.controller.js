@@ -6,6 +6,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+import axios from "axios";
 
 // const allJokes = asyncHandler(async (req, res) => {
 //   const jokes = [
@@ -419,7 +420,13 @@ const sendOtponMail = asyncHandler(async (req, res) => {
         return res
           .status(200)
           .cookie("otpToken", otpToken, options)
-          .json(new ApiResponse(200, {otpToken,userId: user._id}, "OTP Mail Sent Successfully"));
+          .json(
+            new ApiResponse(
+              200,
+              { otpToken, userId: user._id },
+              "OTP Mail Sent Successfully"
+            )
+          );
       }
     });
   } catch (error) {
@@ -433,7 +440,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
 
   try {
     if (!otpToken) {
-      throw new Error('JWT token not provided');
+      throw new Error("JWT token not provided");
     }
     const decodedToken = jwt.verify(otpToken, process.env.OTP_TOKEN_SECRET);
     console.log(decodedToken);
@@ -449,7 +456,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
       return res.status(400).json(new ApiError(400, "Invalid OTP"));
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res
       .status(401)
       .json(new ApiError(401, "Invalid or Expired OTP Token"));
@@ -484,6 +491,38 @@ const createNewPassword = asyncHandler(async (req, res) => {
   }
 });
 
+const getNews = asyncHandler(async (req, res) => {
+  const { query } = req.body;
+  console.log(query)
+
+  console.log(query)
+  try {
+    const response = await axios.get(
+      `https://newsdata.io/api/1/news?apikey=${process.env.NEWS_API_KEY}&q=${query}`
+    );
+    if (response) {
+      // console.log(response)
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "NEWS API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "NEWS API Failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching News:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
 export {
   // allJokes,
   registerUser,
@@ -496,5 +535,6 @@ export {
   updateUserAvatar,
   sendOtponMail,
   verifyOTP,
-  createNewPassword
+  createNewPassword,
+  getNews,
 };

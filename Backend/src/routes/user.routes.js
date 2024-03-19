@@ -12,6 +12,7 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   verifyOTP,
+  getNews,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -45,5 +46,7 @@ router.route("/create-new-password").post(createNewPassword);
 router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+
+router.route("/newsApi").get(getNews);
 
 export default router;

@@ -72,3 +72,11 @@ export const resetPassordApi = async (data) => {
 
   return response;
 };
+
+export const getNewsApi = async (query) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/newsApi?query=${query}`
+  );
+
+  return response;
+};
