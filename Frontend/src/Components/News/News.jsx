@@ -37,47 +37,150 @@ const News = () => {
           Submit
         </button>
 
-        {newsData.length > 0 ? (
+        {/* {newsData.length > 0 ? (
           <>
             <Row className="d-flex gap-y-12 justify-center">
               {newsData.map((news, index) => (
-                <Col key={index} lg={4} className="d-flex justify-center">
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img
-                      variant="top"
-                      alt="public/ImageNotFound.png"
-                      src={
-                        news.image_url && !news.image_url.includes("410")
-                          ? news.image_url
-                          : "/public/ImageNotFound.png"
-                      }
-                      onError={(e) => {
-                        console.error("Error loading image:", e);
-                        e.target.src = "/public/ImageNotFound.png";
-                      }}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        {news.title
-                          ? truncateText(news.title, 10)
-                          : "No Title Found"}
-                      </Card.Title>
-                      <Card.Text>
-                        {news.description
-                          ? truncateText(news.description, 60)
-                          : "No Description Found"}
-                      </Card.Text>
-                      <a
-                        target="_blank"
-                        href={news.link}
-                        className="btn border-fuchsia-700 hover:bg-pink-400"
-                      >
-                        Read Full News
-                      </a>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                <React.Fragment key={index}>
+                  {index < 8 ? (
+                      <Col md={8}>
+                    <Row>
+                      <Col md={6}>
+                        <Card style={{ width: "18rem" }}>
+                          <Card.Img
+                            variant="top"
+                            alt="public/ImageNotFound.png"
+                            src={
+                              news.image_url && !news.image_url.includes("410")
+                                ? news.image_url
+                                : "/public/ImageNotFound.png"
+                            }
+                            onError={(e) => {
+                              console.error("Error loading image:", e);
+                              e.target.src = "/public/ImageNotFound.png";
+                            }}
+                          />
+                          <Card.Body>
+                            <Card.Title>
+                              {news.title
+                                ? truncateText(news.title, 10)
+                                : "No Title Found"}
+                            </Card.Title>
+                            <Card.Text>
+                              {news.description
+                                ? truncateText(news.description, 60)
+                                : "No Description Found"}
+                            </Card.Text>
+                            <a
+                              target="_blank"
+                              href={news.link}
+                              className="btn border-fuchsia-700 hover:bg-pink-400"
+                            >
+                              Read Full News
+                            </a>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                      </Col>
+                  ) : (
+                    <div>Hello</div>
+                  )}
+                </React.Fragment>
               ))}
+            </Row>
+          </>
+        ) : (
+          <div>No data Found</div>
+        )} */}
+            {newsData.length > 0 ? (
+          <>
+            <Row className="">
+              {/* Display news in two parts: col-md-9 and col-md-3 */}
+              <Col md={9}>
+                {/* Render the first 6 news */}
+                <Row>
+                  {newsData.slice(0, 8).map((news, index) => (
+                    <Col md={6} key={index}>
+                      <Card style={{ width: "18rem" }}>
+                        <Card.Img
+                          variant="top"
+                          alt="public/ImageNotFound.png"
+                          src={
+                            news.image_url && !news.image_url.includes("410")
+                              ? news.image_url
+                              : "/public/ImageNotFound.png"
+                          }
+                          onError={(e) => {
+                            console.error("Error loading image:", e);
+                            e.target.src = "/public/ImageNotFound.png";
+                          }}
+                        />
+                        <Card.Body>
+                          <Card.Title>
+                            {news.title
+                              ? truncateText(news.title, 10)
+                              : "No Title Found"}
+                          </Card.Title>
+                          <Card.Text>
+                            {news.description
+                              ? truncateText(news.description, 60)
+                              : "No Description Found"}
+                          </Card.Text>
+                          <a
+                            target="_blank"
+                            href={news.link}
+                            className="btn border-fuchsia-700 hover:bg-pink-400"
+                          >
+                            Read Full News
+                          </a>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
+              <Col md={3}>
+                {/* Render the remaining news separately */}
+                {newsData.slice(6).map((news, index) => (
+                  <div key={index}>
+                    <Card style={{ width: "18rem" }}>
+                      <Card.Img
+                        variant="top"
+                        alt="public/ImageNotFound.png"
+                        src={
+                          news.image_url && !news.image_url.includes("410")
+                            ? news.image_url
+                            : "/public/ImageNotFound.png"
+                        }
+                        onError={(e) => {
+                          console.error("Error loading image:", e);
+                          e.target.src = "/public/ImageNotFound.png";
+                        }}
+                      />
+                      <Card.Body>
+                        <Card.Title>
+                          {news.title
+                            ? truncateText(news.title, 10)
+                            : "No Title Found"}
+                        </Card.Title>
+                        <Card.Text>
+                          {news.description
+                            ? truncateText(news.description, 60)
+                            : "No Description Found"}
+                        </Card.Text>
+                        <a
+                          target="_blank"
+                          href={news.link}
+                          className="btn border-fuchsia-700 hover:bg-pink-400"
+                        >
+                          Read Full News
+                        </a>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                ))}
+              </Col>
             </Row>
           </>
         ) : (
