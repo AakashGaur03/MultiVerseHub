@@ -25,6 +25,7 @@ import {
   getCurrentStatusReducer,
   fetchCurrentStatusUser,
 } from "./Features/index.js";
+import truncateText from "./GlobalComp/TruncateText.js";
 
 export {
   OtpForm,
@@ -49,4 +50,5 @@ export {
   Cricket,
   News,
   Favorite,
+  truncateText
 };

@@ -492,10 +492,8 @@ const createNewPassword = asyncHandler(async (req, res) => {
 });
 
 const getNews = asyncHandler(async (req, res) => {
-  const { query } = req.body;
-  console.log(query)
-
-  console.log(query)
+  const { query } = req.query;
+  // console.log(query)
   try {
     const response = await axios.get(
       `https://newsdata.io/api/1/news?apikey=${process.env.NEWS_API_KEY}&q=${query}`
