@@ -74,9 +74,28 @@ export const resetPassordApi = async (data) => {
 };
 
 export const getNewsApi = async (query) => {
+  if (query === "") query = "India";
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/newsApi?query=${query}`
   );
 
   return response;
+};
+
+export const getCricketAPI = async (query) => {
+  if (query === "") query = "recent";
+  const options = {
+    method: "GET",
+    url: `https://cricbuzz-cricket.p.rapidapi.com/matches/v1/${query}`,
+    headers: {
+      "X-RapidAPI-Key": "bb3721361emshddcfed580ee75dap16315bjsn1b92129b04d2",
+      "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+    },
+  };
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
 };

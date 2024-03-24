@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 function NavbarComp() {
   const theme = useSelector((state) => state.theme.theme);
-  const accessToken = useSelector((state) => state.getCurrentStatus.isUserLoggedIn)
+  const accessToken = useSelector(
+    (state) => state.getCurrentStatus.isUserLoggedIn
+  );
   const dispatch = useDispatch();
 
   const handleToggleTheme = () => {
@@ -14,7 +16,9 @@ function NavbarComp() {
   };
 
   useEffect(() => {
-    dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
+    if (accessToken) {
+      dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
+    }
   }, [dispatch]);
 
   return (

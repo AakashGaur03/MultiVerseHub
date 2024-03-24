@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getNewsApi } from "../../Api";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
@@ -19,6 +19,10 @@ const News = () => {
       console.error("Error fetching news:", error);
     }
   };
+
+  useEffect(()=>{
+    
+  })
   console.log(newsData);
   return (
     <div>
@@ -43,9 +47,9 @@ const News = () => {
               {newsData.map((news, index) => (
                 <React.Fragment key={index}>
                   {index < 8 ? (
-                      <Col md={8}>
+                      <Col lg={8}>
                     <Row>
-                      <Col md={6}>
+                      <Col lg={6}>
                         <Card style={{ width: "18rem" }}>
                           <Card.Img
                             variant="top"
@@ -97,11 +101,11 @@ const News = () => {
           <>
             <Row className="">
               {/* Display news in two parts: col-md-9 and col-md-3 */}
-              <Col md={9}>
+              <Col lg={9}>
                 {/* Render the first 6 news */}
                 <Row>
-                  {newsData.slice(0, 8).map((news, index) => (
-                    <Col md={6} key={index}>
+                  {newsData.slice(0, 12).map((news, index) => (
+                    <Col lg={6} key={index}>
                       <Card style={{ width: "18rem" }}>
                         <Card.Img
                           variant="top"
@@ -140,7 +144,7 @@ const News = () => {
                   ))}
                 </Row>
               </Col>
-              <Col md={3}>
+              <Col lg={3}>
                 {/* Render the remaining news separately */}
                 {newsData.slice(6).map((news, index) => (
                   <div key={index}>
