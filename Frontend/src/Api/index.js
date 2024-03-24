@@ -73,7 +73,7 @@ export const resetPassordApi = async (data) => {
   return response;
 };
 
-export const getNewsApi = async (query) => {
+export const getNewsAPIFunc = async (query) => {
   if (query === "") query = "India";
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/newsApi?query=${query}`
@@ -82,7 +82,7 @@ export const getNewsApi = async (query) => {
   return response;
 };
 
-export const getCricketAPI = async (query) => {
+export const getCricketAPIFunc = async (query) => {
   if (query === "") query = "recent";
   const options = {
     method: "GET",

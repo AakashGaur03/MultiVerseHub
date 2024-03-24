@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getNewsApi } from "../../Api";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
+import { getNews } from "../../Features";
+import { useDispatch } from "react-redux";
 
 const News = () => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [newsData, setNewsData] = useState([]);
   const handleChange = (e) => {
@@ -11,19 +13,14 @@ const News = () => {
   };
   const handleSubmitNews = async (e) => {
     e.preventDefault();
-    try {
-      const response = await getNewsApi(query);
-      console.log(response);
+
+    const response = await dispatch(getNews(query));
+    if (response) {
       setNewsData(response.data.data.responseData.results);
-    } catch (error) {
-      console.error("Error fetching news:", error);
     }
   };
 
-  useEffect(()=>{
-    
-  })
-  console.log(newsData);
+  useEffect(() => {});
   return (
     <div>
       News
@@ -97,7 +94,7 @@ const News = () => {
         ) : (
           <div>No data Found</div>
         )} */}
-            {newsData.length > 0 ? (
+        {newsData.length > 0 ? (
           <>
             <Row className="">
               {/* Display news in two parts: col-md-9 and col-md-3 */}

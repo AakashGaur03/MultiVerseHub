@@ -16,6 +16,8 @@ import forgotPasswordReducer, {
   createNewPassword,
 } from "./auth/forgotPasswordSlice.js";
 
+import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
+
 export {
   registerReducer,
   themeReducer,
@@ -31,4 +33,6 @@ export {
   sendOTPMail,
   verifyOTP,
   createNewPassword,
+  getNewsAPIReducer,
+  getNews
 };

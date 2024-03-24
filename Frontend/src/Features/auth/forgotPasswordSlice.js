@@ -15,7 +15,7 @@ const forgotPassowrdSlice = createSlice({
       state.error = null;
     },
 
-    sendOTPMailSuccess(state, action) {
+    sendOTPMailSuccess(state) {
       state.status = "OTPsent";
       state.error = null;
     },
