@@ -18,6 +18,10 @@ import forgotPasswordReducer, {
 
 import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
 
+import getCricketAPIReducer, {
+  getCricket,
+} from "./APIReducers/getCricketAPISlice.js";
+
 export {
   registerReducer,
   themeReducer,
@@ -34,5 +38,7 @@ export {
   verifyOTP,
   createNewPassword,
   getNewsAPIReducer,
-  getNews
+  getNews,
+  getCricketAPIReducer,
+  getCricket,
 };
