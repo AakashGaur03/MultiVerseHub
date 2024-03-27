@@ -94,7 +94,7 @@ export const getCricketAPIFunc = async (query) => {
   };
   try {
     const response = await axios.request(options);
-    console.log(response.data);
+    return response.data
   } catch (error) {
     console.log(error);
   }
