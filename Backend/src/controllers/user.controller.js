@@ -521,6 +521,27 @@ const getNews = asyncHandler(async (req, res) => {
   }
 });
 
+const getCricket = asyncHandler(async (req, res) => {
+  const { query } = req.query;
+  const options = {
+    method: "GET",
+    url: `https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent`,
+    headers: {
+      "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
+      "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+    },
+  };
+  try {
+    console.log(options,"AAAAAAAAAa")
+    const response = await axios.request(options);
+    console.log(response,"Response")
+    return response;
+  } catch (error) {
+    console.error("Error fetching Cricket:", error , "sdsssssssssssss");
+    return res.status(500).json(new ApiError(500, "Internal Server Error HERE"));
+  }
+});
+
 export {
   // allJokes,
   registerUser,
@@ -535,4 +556,5 @@ export {
   verifyOTP,
   createNewPassword,
   getNews,
+  getCricket,
 };
