@@ -521,8 +521,7 @@ const getNews = asyncHandler(async (req, res) => {
   }
 });
 
-const getCricket = asyncHandler(async (req, res) => {
-  const { query } = req.query;
+const getRecentCricket = asyncHandler(async (req, res) => {
   const options = {
     method: "GET",
     url: `https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent`,
@@ -532,13 +531,26 @@ const getCricket = asyncHandler(async (req, res) => {
     },
   };
   try {
-    console.log(options,"AAAAAAAAAa")
     const response = await axios.request(options);
-    console.log(response,"Response")
-    return response;
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Cricket API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Cricket API Failed to fetch Data"));
+    }
   } catch (error) {
-    console.error("Error fetching Cricket:", error , "sdsssssssssssss");
-    return res.status(500).json(new ApiError(500, "Internal Server Error HERE"));
+    console.error("Error fetching Cricket:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
 
@@ -556,5 +568,5 @@ export {
   verifyOTP,
   createNewPassword,
   getNews,
-  getCricket,
+  getRecentCricket,
 };

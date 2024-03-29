@@ -13,7 +13,7 @@ import {
   updateUserAvatar,
   verifyOTP,
   getNews,
-  getCricket,
+  getRecentCricket,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -49,6 +49,6 @@ router
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 router.route("/newsApi").get(getNews);
-router.route("/cricketApi").get(getCricket);
+router.route("/cricketApi").get(getRecentCricket);
 
 export default router;

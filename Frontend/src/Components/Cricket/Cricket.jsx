@@ -34,8 +34,8 @@ const Cricket = () => {
   useEffect(() => {
     dispatch(getCricket(cricketQuery)).then((response) => {
       console.log(response, "AA");
-      console.log(response.typeMatches, "BB");
-      const matchTypes = response.typeMatches.map((matchType) => {
+      console.log(response.data.responseData, "BB");
+      const matchTypes = response.data.responseData.typeMatches.map((matchType) => {
         console.log(matchType.seriesMatches, "CC")
         return matchType.seriesMatches
       });
