@@ -6,7 +6,6 @@ import Entertainment from "./Components/Entertainment/Entertainment.jsx";
 import Cricket from "./Components/Cricket/Cricket.jsx";
 import News from "./Components/News/News.jsx";
 import Favorite from "./Components/Favorites/Favorite.jsx";
-import Sidebar from "./Components/Sidebar/Sidebar.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -51,7 +50,5 @@ export {
   Cricket,
   News,
   Favorite,
-  truncateText,
-  Games,
-  Sidebar,
+  truncateText
 };

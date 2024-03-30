@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { Sidebar, truncateText } from "../../index";
+import { truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -29,7 +29,7 @@ const News = () => {
   return (
     <div>
       News
-      {<Form onSubmit={handleSubmitNews}>
+      {theme==="Dark" &&<Form onSubmit={handleSubmitNews}>
         <Form.Label htmlFor="searchQuery">Search</Form.Label>
         <Form.Control
           type="text"
@@ -89,6 +89,7 @@ const News = () => {
                 </Row>
               </Col>
               <Col lg={3}>
+                {/* Render the remaining news separately */}
                 {newsData.slice(6).map((news, index) => (
                   <div key={index}>
                     <Card style={{ width: "18rem" }}>
