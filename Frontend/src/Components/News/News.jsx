@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
 import { getNews } from "../../Features";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const News = () => {
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [newsData, setNewsData] = useState([]);
@@ -28,7 +29,7 @@ const News = () => {
   return (
     <div>
       News
-      <Form onSubmit={handleSubmitNews}>
+      {theme==="Dark" &&<Form onSubmit={handleSubmitNews}>
         <Form.Label htmlFor="searchQuery">Search</Form.Label>
         <Form.Control
           type="text"
@@ -52,15 +53,15 @@ const News = () => {
                       <Card style={{ width: "18rem" }}>
                         <Card.Img
                           variant="top"
-                          alt="public/ImageNotFound.png"
+                          alt="ImageNotFound.png"
                           src={
                             news.image_url && !news.image_url.includes("410")
                               ? news.image_url
-                              : "/public/ImageNotFound.png"
+                              : "/ImageNotFound.png"
                           }
                           onError={(e) => {
                             console.error("Error loading image:", e);
-                            e.target.src = "/public/ImageNotFound.png";
+                            e.target.src = "/ImageNotFound.png";
                           }}
                         />
                         <Card.Body>
@@ -94,15 +95,15 @@ const News = () => {
                     <Card style={{ width: "18rem" }}>
                       <Card.Img
                         variant="top"
-                        alt="public/ImageNotFound.png"
+                        alt="ImageNotFound.png"
                         src={
                           news.image_url && !news.image_url.includes("410")
                             ? news.image_url
-                            : "/public/ImageNotFound.png"
+                            : "/ImageNotFound.png"
                         }
                         onError={(e) => {
                           console.error("Error loading image:", e);
-                          e.target.src = "/public/ImageNotFound.png";
+                          e.target.src = "/ImageNotFound.png";
                         }}
                       />
                       <Card.Body>
@@ -133,7 +134,7 @@ const News = () => {
         ) : (
           <div>No data Found</div>
         )}
-      </Form>
+      </Form>}
     </div>
   );
 };

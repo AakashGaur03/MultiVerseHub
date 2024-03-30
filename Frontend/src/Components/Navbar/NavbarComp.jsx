@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 function NavbarComp() {
   const theme = useSelector((state) => state.theme.theme);
-  const accessToken = useSelector(
+  const isLoggedIn = useSelector(
     (state) => state.getCurrentStatus.isUserLoggedIn
   );
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ function NavbarComp() {
   };
 
   useEffect(() => {
-    if (accessToken) {
+    if (isLoggedIn) {
       dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
     }
   }, [dispatch]);
@@ -33,7 +33,7 @@ function NavbarComp() {
               <Nav.Link href="#link">Link</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {!accessToken && (
+          {!isLoggedIn && (
             <>
               <NavLink to="/login">
                 <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
@@ -47,27 +47,26 @@ function NavbarComp() {
               </NavLink>
             </>
           )}
-          {accessToken && (
+          {isLoggedIn && (
             <>
               <NavLink to="/logout">
                 <button className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10">
                   Logout
                 </button>
               </NavLink>
+              <Form className="togglePosition d-flex" name="togglePosition">
+                <Form.Label htmlFor="toggleThemeBtn"></Form.Label>
+                <Form.Check
+                  name="themeMode"
+                  checked={theme === "Dark"}
+                  onChange={handleToggleTheme}
+                  type="switch"
+                  label={`${theme} Mode`}
+                  id="toggleThemeBtn"
+                />
+              </Form>
             </>
           )}
-
-          <Form className="togglePosition" name="togglePosition">
-            <Form.Label htmlFor="toggleThemeBtn"></Form.Label>
-            <Form.Check
-              name="themeMode"
-              checked={theme === "Dark"}
-              onChange={handleToggleTheme}
-              type="switch"
-              label={`${theme} Mode`}
-              id="toggleThemeBtn"
-            />
-          </Form>
         </Container>
       </Navbar>
       <div></div>

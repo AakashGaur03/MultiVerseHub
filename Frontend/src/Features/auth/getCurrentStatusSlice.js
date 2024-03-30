@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUserStatusApi } from "../../Api";
 
 const initialState = {
-  isUserLoggedIn: null,
+  isUserLoggedIn: localStorage.getItem("isUserLoggedIn") || null,
 };
 
 const getCurrentStatusSlice = createSlice({
@@ -11,6 +11,7 @@ const getCurrentStatusSlice = createSlice({
   reducers: {
     setCurrentStatus(state, action) {
       state.isUserLoggedIn = action.payload;
+      localStorage.setItem("isUserLoggedIn",action.payload)
     },
   },
 });
