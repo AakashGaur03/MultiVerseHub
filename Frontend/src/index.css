@@ -1,25 +1,38 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.backColor{
-    padding: 50px;
-    background-color: rgb(74, 66, 66);
+.backColor {
+  padding: 50px;
+  background-color: rgb(74, 66, 66);
 }
 
 .posNormal {
-    position: relative;
-    z-index: 1; /* Ensure it's above other content */
-  }
-  
-  .posFixedAtTop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-  .posFixedAtTop  + .restOfComponets{
-    padding-top: 50px;
-  }
-  
+  position: relative;
+  z-index: 1; /* Ensure it's above other content */
+}
+
+.posFixedAtTop {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.posFixedAtTop + .restOfComponets {
+  padding-top: 50px;
+}
+
+.sidebarFixedSide {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 60px;
+  min-height: calc(100vh - 112px);
+}
+
+.sidebarFixedSide li{
+  cursor: pointer;
+  margin-top: 20px;
+}
