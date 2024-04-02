@@ -18,17 +18,47 @@
   import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
 import { getNews } from "./Features";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
   function App() {
-    const sidebarItems = [
-      { title: "World", path: "/" },
-      { title: "Business", path: "/business" },
-      { title: "Sports", path: "/sports" },
-      { title: "Entertainment", path: "/entertainment" },
-      { title: "Education", path: "/education" },
-      { title: "Technology", path: "/technology" },
-    ];
+    console.log(location.pathname)
+    const getSidebarItems = () => {
+      switch (location.pathname) {
+        case "/news":
+          return [
+            { title: "World", path: "/" },
+            { title: "Business", path: "/business" },
+            { title: "Sports", path: "/sports" },
+            { title: "Entertainment", path: "/entertainment" },
+            { title: "Education", path: "/education" },
+            { title: "Technology", path: "/technology" },
+          ];
+        case "/cricket":
+          return [
+            { title: "Matches", path: "/" },
+            { title: "Player", path: "/Player" },
+            { title: "recent", path: "/recent" },
+            { title: "series", path: "/series" },
+            { title: "rankings", path: "/rankings" },
+            { title: "Points", path: "/Points" },
+          ];
+        case "/games":
+          return [
+            { title: "Car", path: "/" },
+            { title: "Bike", path: "/Bike" },
+            { title: "Brain", path: "/Brain" },
+            { title: "Truck", path: "/Truck" },
+          ];
+        default:
+          return [];
+      }
+    };
+    const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
+    useEffect(() => {
+      // Update the sidebar items whenever location.pathname changes
+      const items = getSidebarItems();
+      setSidebarItems(items);
+    }, [location.pathname]);
     const handleSidebarClick = async (category) => {
       setQuery(category); // Update query based on sidebar item clicked
   
@@ -60,7 +90,10 @@ import { useState } from "react";
           <OptionContainer />
           <Container fluid className="restOfComponets">
             <div className="d-flex">
-              <Sidebar items={sidebarItems} handleItemClick={handleSidebarClick} />
+              {/* <Sidebar items={sidebarItems} handleItemClick={handleSidebarClick} /> */}
+              {["/cricket", "/entertainment", "/news", "/games"].includes(location.pathname) && (
+        <Sidebar items={sidebarItems} handleItemClick={handleSidebarClick} />
+      )}
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/news" element={<News query={query} setQuery={setQuery} newsData={newsData} setNewsData={setNewsData} handleChange={handleChange} handleSubmitNews={handleSubmitNews} />} />
