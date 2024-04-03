@@ -522,18 +522,15 @@ const getNews = asyncHandler(async (req, res) => {
 });
 
 const getRecentCricket = asyncHandler(async (req, res) => {
-  const options = {
-    method: "GET",
-    url: `https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent`,
-    headers: {
-      "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
-      "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
-    },
-  };
+ 
   try {
-    const response = await axios.request(options);
+    const response = await axios.get(
+      `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
+    );
     if (response) {
-      const responseData = response.data;
+      // console.log(response,"Response ISS")
+      // console.log(response.data.data,"Response ISS 2222222222222222222")
+      const responseData = response.data.data;
       return res
         .status(200)
         .json(

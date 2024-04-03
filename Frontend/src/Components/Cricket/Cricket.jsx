@@ -31,18 +31,18 @@ const Cricket = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(getCricket(cricketQuery)).then((response) => {
-      console.log(response, "AA");
-      console.log(response.data.responseData, "BB");
-      const matchTypes = response.data.responseData.typeMatches.map((matchType) => {
-        console.log(matchType.seriesMatches, "CC")
-        return matchType.seriesMatches
-      });
-      console.log(matchTypes, "DD");
-      // setCricketData(response.data.data.responseData.results);
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getCricket(cricketQuery)).then((response) => {
+  //     console.log(response, "AA");
+  //     // console.log(response.data.responseData, "BB");
+  //     // const matchTypes = response.data.responseData.typeMatches.map((matchType) => {
+  //     //   console.log(matchType.seriesMatches, "CC")
+  //     //   return matchType.seriesMatches
+  //     // });
+  //     // console.log(matchTypes, "DD");
+  //     // setCricketData(response.data.data.responseData.results);
+  //   });
+  // }, []);
   return (
     <div>
       Cricket
