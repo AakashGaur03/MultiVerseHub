@@ -1,5 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import {
   ForgotPassword,
@@ -21,6 +26,7 @@ import { getNews } from "./Features";
 import { useEffect, useState } from "react";
 
 function App() {
+  const location = useLocation();
   console.log(location.pathname);
   const getSidebarItems = () => {
     switch (location.pathname) {
@@ -54,6 +60,17 @@ function App() {
     }
   };
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
+  const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
+  useEffect(() => {
+    if (
+      ["/cricket", "/entertainment", "/news", "/games"].includes(
+        location.pathname
+      )
+    ) {
+      setSidebarItemsActive(true);
+    } else setSidebarItemsActive(false);
+  }, [location.pathname]);
+
   useEffect(() => {
     // Update the sidebar items whenever location.pathname changes
     const items = getSidebarItems();
@@ -85,15 +102,12 @@ function App() {
   };
   return (
     <>
-      <Router>
+      {/* <Router> */}
         <NavbarComp />
         <OptionContainer />
         <Container fluid className="restOfComponets">
-          <div className="d-flex">
-            {/* <Sidebar items={sidebarItems} handleItemClick={handleSidebarClick} /> */}
-            {["/cricket", "/entertainment", "/news", "/games"].includes(
-              location.pathname
-            ) && (
+          <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
+            {sidebarItemsActive && (
               <Sidebar
                 items={sidebarItems}
                 handleItemClick={handleSidebarClick}
@@ -125,7 +139,7 @@ function App() {
             </Routes>
           </div>
         </Container>
-      </Router>
+      {/* </Router> */}
     </>
   );
 }
