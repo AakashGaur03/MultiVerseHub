@@ -92,7 +92,7 @@ export const getNewsAPIFunc = async (query) => {
 
 export const getCricketAPIFunc = async (query) => {
   if (query === "") query = "recent";
-  console.log(query, "ff");
+  // console.log(query, "ff");
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketApi`
   );

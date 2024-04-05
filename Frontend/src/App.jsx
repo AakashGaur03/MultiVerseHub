@@ -27,7 +27,6 @@ import { useEffect, useState } from "react";
 
 function App() {
   const location = useLocation();
-  console.log(location.pathname);
   const getSidebarItems = () => {
     switch (location.pathname) {
       case "/news":
@@ -72,14 +71,11 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    // Update the sidebar items whenever location.pathname changes
     const items = getSidebarItems();
     setSidebarItems(items);
   }, [location.pathname]);
   const handleSidebarClick = async (category) => {
-    setQuery(category); // Update query based on sidebar item clicked
-
-    // Fetch news data based on the clicked category
+    setQuery(category);
     const response = await dispatch(getNews(category));
     if (response) {
       setNewsData(response.data.data.responseData.results);
@@ -103,42 +99,45 @@ function App() {
   return (
     <>
       {/* <Router> */}
-        <NavbarComp />
-        <OptionContainer />
-        <Container fluid className="restOfComponets">
-          <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
-            {sidebarItemsActive && (
-              <Sidebar
-                items={sidebarItems}
-                handleItemClick={handleSidebarClick}
-              />
-            )}
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route
-                path="/news"
-                element={
-                  <News
-                    query={query}
-                    setQuery={setQuery}
-                    newsData={newsData}
-                    setNewsData={setNewsData}
-                    handleChange={handleChange}
-                    handleSubmitNews={handleSubmitNews}
-                  />
-                }
-              />
-              <Route path="/favorites" element={<Favorite />} />
-              <Route path="/cricket" element={<Cricket />} />
-              <Route path="/entertainment" element={<Entertainment />} />
-              <Route path="/games" element={<Games />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/logout" element={<Logout />} />
-              <Route path="/register" element={<Registration />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-            </Routes>
-          </div>
-        </Container>
+      <NavbarComp />
+      <OptionContainer 
+      query={query}
+      handleChange={handleChange}
+      handleSubmitNews={handleSubmitNews} />
+      <Container fluid className="restOfComponets">
+        <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
+          {sidebarItemsActive && (
+            <Sidebar
+              items={sidebarItems}
+              handleItemClick={handleSidebarClick}
+            />
+          )}
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route
+              path="/news"
+              element={
+                <News
+                  query={query}
+                  setQuery={setQuery}
+                  newsData={newsData}
+                  setNewsData={setNewsData}
+                  handleChange={handleChange}
+                  handleSubmitNews={handleSubmitNews}
+                />
+              }
+            />
+            <Route path="/favorites" element={<Favorite />} />
+            <Route path="/cricket" element={<Cricket />} />
+            <Route path="/entertainment" element={<Entertainment />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
+        </div>
+      </Container>
       {/* </Router> */}
     </>
   );

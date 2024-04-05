@@ -7,6 +7,7 @@ import Cricket from "./Components/Cricket/Cricket.jsx";
 import News from "./Components/News/News.jsx";
 import Favorite from "./Components/Favorites/Favorite.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
+import LocalSearch from "./Components/LocalSearch/LocalSearch.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -54,4 +55,5 @@ export {
   truncateText,
   Games,
   Sidebar,
+  LocalSearch,
 };

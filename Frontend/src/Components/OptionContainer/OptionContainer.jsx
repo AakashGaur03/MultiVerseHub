@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { LocalSearch } from "../../index";
 
-const OptionContainer = () => {
+const OptionContainer = ({ query, handleChange, handleSubmitNews }) => {
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +18,11 @@ const OptionContainer = () => {
         setIsSticky(false);
       }
     };
-    window.addEventListener("scroll",handleScroll)
+    window.addEventListener("scroll", handleScroll);
 
-    return()=>{
-      window.removeEventListener("scroll",handleScroll)
-    }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   });
 
   return (
@@ -55,6 +56,11 @@ const OptionContainer = () => {
                   Games
                 </NavLink>
               </Nav.Item>
+              <LocalSearch
+                query={query}
+                handleChange={handleChange}
+                handleSubmitNews={handleSubmitNews}
+              />
             </Nav>
           </div>
         </Navbar>
