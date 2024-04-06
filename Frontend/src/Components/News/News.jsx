@@ -12,7 +12,6 @@ const News = ({
   handleChange,
   handleSubmitNews,
 }) => {
-
   function formatDate(dateString) {
     const date = new Date(dateString);
     const hours = date.getHours().toString().padStart(2, "0");
@@ -20,8 +19,8 @@ const News = ({
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear() % 100;
-  
-    return `${hours}:${minutes} ${day}/${month}/${year}`;
+
+    return `${day}/${month}/${year}`;
   }
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const News = ({
   }, []);
   return (
     <div>
-      News
+      {/* News */}
       {/* <Form onSubmit={handleSubmitNews}>
         <Form.Label htmlFor="searchQuery">Search</Form.Label>
         <Form.Control
@@ -64,14 +63,15 @@ const News = ({
       {newsData.length > 0 ? (
         <>
           <Row className="">
-            <Col lg={9}>
+            <Col lg={12}>
               <Row>
-                {newsData.slice(0, 8).map((news, index) => (
-                  <Col lg={6} key={index}>
+                {newsData.slice(0,9).map((news, index) => (
+                  <Col lg={4} md={6} key={index} className="d-flex justify-center mb-3 mt-3">
                     <Card style={{ width: "18rem" }}>
                       <Card.Img
                         variant="top"
                         alt="ImageNotFound.png"
+                        className="cardImages"
                         src={
                           news.image_url && !news.image_url.includes("410")
                             ? news.image_url
@@ -82,13 +82,13 @@ const News = ({
                           e.target.src = "/ImageNotFound.png";
                         }}
                       />
-                      <Card.Body>
-                        <Card.Title>
+                      <Card.Body className="minHeightCard">
+                        <Card.Title className="limit2Lines">
                           {news.title
                             ? truncateText(news.title, 10)
                             : "No Title Found"}
                         </Card.Title>
-                        <Card.Text>
+                        <Card.Text className="limit5Lines">
                           {news.description
                             ? truncateText(news.description, 60)
                             : "No Description Found"}
@@ -100,27 +100,40 @@ const News = ({
                         >
                           Read Full News
                         </a>
-                        {formatDate(news.pubDate)}
-                        <img
-                        variant="top"
-                        alt="ImageNotFound.png"
-                        src={
-                          news.source_icon && !news.source_icon.includes("410")
-                            ? news.source_icon
-                            : "/ImageNotFound.png"
-                        }
-                        onError={(e) => {
-                          console.error("Error loading image:", e);
-                          e.target.src = "/ImageNotFound.png";
-                        }}
-                      />
+                        <div className="d-flex justify-between mt-6">
+
+                        <a href={news.source_url} target="_blank">
+                          <img
+                            variant="top"
+                            alt="LogoNotAvail.png"
+                            height={30}
+                            width={30}
+                            src={
+                              news.source_icon &&
+                              !news.source_icon.includes("410")
+                                ? news.source_icon
+                                : "/LogoNotAvail.png"
+                            }
+                            onError={(e) => {
+                              console.error("Error loading image:", e);
+                              e.target.src = "/LogoNotAvail.png";
+                              e.target.style.height ="50px";
+                              e.target.style.width = "50px";
+                            }}
+                          />
+                        </a>
+                        <strong>
+
+                        Updated on : {formatDate(news.pubDate)}
+                        </strong>
+                        </div>
                       </Card.Body>
                     </Card>
                   </Col>
                 ))}
               </Row>
             </Col>
-            <Col lg={3}>
+            {/* <Col lg={3}>
               {newsData.slice(6).map((news, index) => (
                 <div key={index}>
                   <Card style={{ width: "18rem" }}>
@@ -159,7 +172,7 @@ const News = ({
                   </Card>
                 </div>
               ))}
-            </Col>
+            </Col> */}
           </Row>
         </>
       ) : (
