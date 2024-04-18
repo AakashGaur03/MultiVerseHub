@@ -50,13 +50,13 @@
   -webkit-box-orient: vertical;
 }
 .minHeightCard {
-  min-height: 300px;
+  /* min-height: 300px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .cardImages{
-  min-height: 165px;
-  max-height: 165px;
+  /* min-height: 165px; */
+  max-height: 200px;
 }

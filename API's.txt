@@ -8,7 +8,7 @@ News : https://rapidapi.com/connexun-srl-connexun-srl-default/api/news67/pricing
 Currently Subscribing to this and Exploring more
 
 
-News : https://newsdata.io/pricing   								200/day 	
+News : https://newsdata.io/pricing   								200/day 	Currently Using	
 Status : 200OK Time : 34.54s    Size : 13.54 KB
 
 News : https://mediastack.com/payment    Check It Out Again Tom 

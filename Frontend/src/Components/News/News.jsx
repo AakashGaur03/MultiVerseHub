@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,63 +45,50 @@ const News = ({
   }, []);
   return (
     <div>
-      {/* News */}
-      {/* <Form onSubmit={handleSubmitNews}>
-        <Form.Label htmlFor="searchQuery">Search</Form.Label>
-        <Form.Control
-          type="text"
-          onChange={handleChange}
-          value={query}
-          id="searchQuery"
-          data-id="qyuery"
-        />
-
-        <button type="submit" className="btn btn-outline-primary">
-          Submit
-        </button>
-      </Form> */}
       {newsData.length > 0 ? (
         <>
-          <Row className="">
-            <Col lg={12}>
-              <Row>
-                {newsData.slice(0,9).map((news, index) => (
-                  <Col lg={4} md={6} key={index} className="d-flex justify-center mb-3 mt-3">
-                    <Card style={{ width: "18rem" }}>
-                      <Card.Img
-                        variant="top"
-                        alt="ImageNotFound.png"
-                        className="cardImages"
-                        src={
-                          news.image_url && !news.image_url.includes("410")
-                            ? news.image_url
-                            : "/ImageNotFound.png"
-                        }
-                        onError={(e) => {
-                          console.error("Error loading image:", e);
-                          e.target.src = "/ImageNotFound.png";
-                        }}
-                      />
-                      <Card.Body className="minHeightCard">
-                        <Card.Title className="limit2Lines">
-                          {news.title
-                            ? truncateText(news.title, 10)
-                            : "No Title Found"}
-                        </Card.Title>
-                        <Card.Text className="limit5Lines">
-                          {news.description
-                            ? truncateText(news.description, 60)
-                            : "No Description Found"}
-                        </Card.Text>
-                        <a
-                          target="_blank"
-                          href={news.link}
-                          className="btn border-fuchsia-700 hover:bg-pink-400"
-                        >
-                          Read Full News
-                        </a>
-                        <div className="d-flex justify-between mt-6">
-
+          {newsData.slice(0, 9).map((news, index) => (
+            <Card style={{ minWidth: "60vw", maxWidth: "60vw" }} key={index} className="my-8 ms-3 rounded-2xl">
+              <Card.Body className="minHeightCard">
+                <Row>
+                  <Col md={4} className="d-flex align-items-center">
+                    <Card.Img
+                      variant="top"
+                      alt="ImageNotFound.png"
+                      className="cardImages"
+                      src={
+                        news.image_url && !news.image_url.includes("410")
+                          ? news.image_url
+                          : "/ImageNotFound.png"
+                      }
+                      onError={(e) => {
+                        // console.error("Error loading image:", e);
+                        e.target.src = "/ImageNotFound.png";
+                      }}
+                    />
+                  </Col>
+                  <Col md={8} className="d-flex justify-center flex-col">
+                    <div>
+                      <Card.Title className="limit2Lines">
+                        {news.title
+                          ? truncateText(news.title, 10)
+                          : "No Title Found"}
+                      </Card.Title>
+                      <Card.Text className="limit5Lines">
+                        {news.description
+                          ? truncateText(news.description, 60)
+                          : "No Description Found"}
+                      </Card.Text>
+                    </div>
+                    <div>
+                      <a
+                        target="_blank"
+                        href={news.link}
+                        className="btn border-fuchsia-700 hover:bg-pink-400"
+                      >
+                        Read Full News
+                      </a>
+                      <div className="d-flex justify-between mt-6">
                         <a href={news.source_url} target="_blank">
                           <img
                             variant="top"
@@ -117,63 +104,19 @@ const News = ({
                             onError={(e) => {
                               console.error("Error loading image:", e);
                               e.target.src = "/LogoNotAvail.png";
-                              e.target.style.height ="50px";
+                              e.target.style.height = "50px";
                               e.target.style.width = "50px";
                             }}
                           />
                         </a>
-                        <strong>
-
-                        Updated on : {formatDate(news.pubDate)}
-                        </strong>
-                        </div>
-                      </Card.Body>
-                    </Card>
+                        <strong>Updated on : {formatDate(news.pubDate)}</strong>
+                      </div>
+                    </div>
                   </Col>
-                ))}
-              </Row>
-            </Col>
-            {/* <Col lg={3}>
-              {newsData.slice(6).map((news, index) => (
-                <div key={index}>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img
-                      variant="top"
-                      alt="ImageNotFound.png"
-                      src={
-                        news.image_url && !news.image_url.includes("410")
-                          ? news.image_url
-                          : "/ImageNotFound.png"
-                      }
-                      onError={(e) => {
-                        console.error("Error loading image:", e);
-                        e.target.src = "/ImageNotFound.png";
-                      }}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        {news.title
-                          ? truncateText(news.title, 10)
-                          : "No Title Found"}
-                      </Card.Title>
-                      <Card.Text>
-                        {news.description
-                          ? truncateText(news.description, 60)
-                          : "No Description Found"}
-                      </Card.Text>
-                      <a
-                        target="_blank"
-                        href={news.link}
-                        className="btn border-fuchsia-700 hover:bg-pink-400"
-                      >
-                        Read Full News
-                      </a>
-                    </Card.Body>
-                  </Card>
-                </div>
-              ))}
-            </Col> */}
-          </Row>
+                </Row>
+              </Card.Body>
+            </Card>
+          ))}
         </>
       ) : (
         <div>No data Found</div>
