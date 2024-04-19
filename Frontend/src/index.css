@@ -59,4 +59,5 @@
 .cardImages{
   /* min-height: 165px; */
   max-height: 200px;
+  border-radius: 50px;
 }

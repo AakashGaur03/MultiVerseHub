@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
+
+body{
+    background-size: cover;
+    font-family: 'Mooli', sans-serif;
+}
+.myCard {
+  font-weight: 900;
+  transition: 2s ;
+  background-size: cover;
+  transform-origin: center;
+}
+.card-body{
+    color: white;
+}
+.backSide {
+  display: none;
+}
+.myCard:hover {
+  transition: 2s ;
+  transform: rotateY(180deg);
+}
+.myCard:hover .frontSide {
+  display: none;
+}
+.myCard:hover .backSide {
+  display: flex;
+  animation: fadeIn 2s;
+}
+.myCard:hover .textrotate {
+  transform: rotateY(180deg);
+  transition-delay: 0.5s;
+}
+.myCard:not(:hover) {
+  transform: rotateY(0deg);
+}
+
+.myCard:not(:hover) .frontSide {
+  display: flex;
+  animation: fadeIn 2s;
+}
+.myCard:not(:hover) .backSide {
+  display: none;
+}
+.myCard:not(:hover) .textrotate {
+    transform: rotateY(0deg);
+    transition-delay: 0.5s;
+  }
+
+.iconwidth {
+  width: 70px;
+}
+
+@keyframes fadeIn{
+    from
+    {
+        opacity: 0.1;
+    }
+    to 
+    {
+        opacity: 1;
+    }
+}

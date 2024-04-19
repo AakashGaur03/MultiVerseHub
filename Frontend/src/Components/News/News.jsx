@@ -3,6 +3,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
+import Weather from "./Weather";
 
 const News = ({
   query,
@@ -45,10 +46,13 @@ const News = ({
   }, []);
   return (
     <div>
+      <Row>
+<Col md={8}>
+
       {newsData.length > 0 ? (
         <>
           {newsData.slice(0, 9).map((news, index) => (
-            <Card style={{ minWidth: "60vw", maxWidth: "60vw" }} key={index} className="my-8 ms-3 rounded-2xl">
+            <Card style={{ }} key={index} className="my-8 ms-3 rounded-2xl border-zinc-600">
               <Card.Body className="minHeightCard">
                 <Row>
                   <Col md={4} className="d-flex align-items-center">
@@ -121,6 +125,11 @@ const News = ({
       ) : (
         <div>No data Found</div>
       )}
+</Col>
+<Col md={4}>
+<Weather/>
+</Col>
+      </Row>
     </div>
   );
 };
