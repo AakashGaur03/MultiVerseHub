@@ -10,9 +10,6 @@ body{
   background-size: cover;
   transform-origin: center;
 }
-.card-body{
-    color: white;
-}
 .backSide {
   display: none;
 }

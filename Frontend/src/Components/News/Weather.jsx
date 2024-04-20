@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import "./weather.css"; // Import the CSS file
+import "./weather.css";
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -49,6 +49,10 @@ const Weather = () => {
   } = weatherData;
 
   const backgroundImage = getBackgroundImage(condition.text);
+  const getCardBodyClassName = (conditionText) => {
+    const darkBackgroundConditions = ["Icepellets", "Partlycloudy", "Blizzard", "Freezingdrizzle", "Snow"];
+    return darkBackgroundConditions.includes(conditionText) ? "text-black" : "text-white";
+  };
 
   return (
     <>
@@ -66,7 +70,8 @@ const Weather = () => {
       </button>
       <div className="d-flex justify-content-center mt-5">
         <Card className="myCard" style={{ width: "18rem", backgroundImage }}>
-          <Card.Body>
+          {/* <Card.Body className="text-white"> */}
+          <Card.Body className={getCardBodyClassName(condition.text)}>
             <div className="text-center">
               <img
                 src={condition.icon}
