@@ -98,3 +98,11 @@ export const getCricketAPIFunc = async (query) => {
   );
   return response.data;
 };
+
+export const getWeatherAPIFunc = async(city)=>{
+  if(city=="") city="Delhi"
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/weatherApi?query=${city}`
+  );
+  return response.data.data.responseData;
+}

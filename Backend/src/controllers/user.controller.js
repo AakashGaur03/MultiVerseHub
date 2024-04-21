@@ -522,7 +522,6 @@ const getNews = asyncHandler(async (req, res) => {
 });
 
 const getRecentCricket = asyncHandler(async (req, res) => {
- 
   try {
     const response = await axios.get(
       `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
@@ -551,6 +550,36 @@ const getRecentCricket = asyncHandler(async (req, res) => {
   }
 });
 
+const getWeathter = asyncHandler(async (req, res) => {
+    console.log(req)
+  const { query } = req.query;
+  if (!query) query = "Delhi";
+  try {
+    const response = await axios.get(
+      `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${query}`
+    );
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Weather Details Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Weather API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Weahter:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
 export {
   // allJokes,
   registerUser,
@@ -566,4 +595,5 @@ export {
   createNewPassword,
   getNews,
   getRecentCricket,
+  getWeathter,
 };

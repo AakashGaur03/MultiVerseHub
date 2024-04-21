@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import "./weather.css";
+import { getWeatherAPIFunc } from "../../Api";
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
+  const [searchWeatherState, setSearchWeatherState] = useState(false);
   const [city, setCity] = useState("Boston");
   const [searchWeather, setSearchWeather] = useState("");
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const url = `https://api.weatherapi.com/v1/current.json?key=df4a82f0766e465cb20153214230410&q=${city}`;
-
+      setSearchWeatherState(true);
       try {
-        const response = await fetch(url);
-        const result = await response.json();
-        setWeatherData(result);
+        const response = await getWeatherAPIFunc(city);
+        if (response) {
+          setWeatherData(response);
+          setSearchWeatherState(false);
+        }
       } catch (error) {
-        console.error(error);
+      } finally {
+        setSearchWeatherState(false);
       }
     };
 
@@ -24,15 +28,17 @@ const Weather = () => {
   }, [city]);
 
   const handleSearch = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setCity(searchWeather);
   };
   const handleChange = (e) => {
     setSearchWeather(e.target.value);
   };
 
-  if (!weatherData) {
+  if (!weatherData && searchWeatherState) {
     return <div>Loading...</div>;
+  }else if(!weatherData){
+    return <div>Oopsie Weahter Data Not Found...</div>
   }
 
   const {
@@ -50,8 +56,16 @@ const Weather = () => {
 
   const backgroundImage = getBackgroundImage(condition.text);
   const getCardBodyClassName = (conditionText) => {
-    const darkBackgroundConditions = ["Icepellets", "Partlycloudy", "Blizzard", "Freezingdrizzle", "Snow"];
-    return darkBackgroundConditions.includes(conditionText) ? "text-black" : "text-white";
+    const darkBackgroundConditions = [
+      "Icepellets",
+      "Partlycloudy",
+      "Blizzard",
+      "Freezingdrizzle",
+      "Snow",
+    ];
+    return darkBackgroundConditions.includes(conditionText)
+      ? "text-black"
+      : "text-white";
   };
 
   return (
