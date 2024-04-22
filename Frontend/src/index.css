@@ -56,8 +56,17 @@
   justify-content: space-between;
 }
 
-.cardImages{
+.cardImages {
   /* min-height: 165px; */
   max-height: 200px;
   border-radius: 50px;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+/* For Firefox */
+input[type="search"]::-webkit-search-decoration {
+  cursor: pointer;
 }

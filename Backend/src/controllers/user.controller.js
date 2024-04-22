@@ -551,7 +551,6 @@ const getRecentCricket = asyncHandler(async (req, res) => {
 });
 
 const getWeathter = asyncHandler(async (req, res) => {
-    console.log(req)
   const { query } = req.query;
   if (!query) query = "Delhi";
   try {
