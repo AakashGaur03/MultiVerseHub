@@ -31,3 +31,9 @@ https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						500,000 / month
 https://rapidapi.com/rapihub-rapihub-default/api/imdb-top-100-movies/pricing			100 / month
 
 https://rapidapi.com/elisbushaj2/api/movies-api14						1,000 / month
+
+Weather : https://www.weatherapi.com/								1 Million / month
+
+Dictionary : https://api.dictionaryapi.dev/api/v2/entries/en/<word>				FREE
+
+Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				50/Day

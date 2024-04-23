@@ -8,6 +8,8 @@ import News from "./Components/News/News.jsx";
 import Favorite from "./Components/Favorites/Favorite.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
 import LocalSearch from "./Components/LocalSearch/LocalSearch.jsx";
+import Weather from "./Components/News/Weather.jsx";
+import WordOfTheDay from "./Components/News/WordOfTheDay.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -56,4 +58,6 @@ export {
   Games,
   Sidebar,
   LocalSearch,
+  Weather,
+  WordOfTheDay,
 };
