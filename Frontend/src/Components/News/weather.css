@@ -5,6 +5,7 @@ body {
   font-family: "Mooli", sans-serif;
 }
 .myCard {
+  min-height: 370px;
   font-weight: 900;
   transition: 2s;
   background-size: cover;
