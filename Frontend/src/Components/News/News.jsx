@@ -53,7 +53,8 @@ const News = ({
                 <Card
                   style={{}}
                   key={index}
-                  className="my-8 ms-3 rounded-2xl border-zinc-600"
+                  // className="my-8 ms-3 rounded-2xl border-zinc-600"
+                  className="my-8 ms-3 rounded-2xl border-0"
                 >
                   <Card.Body className="minHeightCard">
                     <Row>
@@ -90,7 +91,7 @@ const News = ({
                           <a
                             target="_blank"
                             href={news.link}
-                            className="btn border-fuchsia-700 hover:bg-pink-400"
+                            className="btn border-fuchsia-700 hover:bg-pink-400 text-white"
                           >
                             Read Full News
                           </a>

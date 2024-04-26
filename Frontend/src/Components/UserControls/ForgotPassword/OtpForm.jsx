@@ -84,7 +84,8 @@ const OtpForm = ({ length = 6,onOTPSubmit }) => {
           onChange={(e) => handleChange(index, e)}
           onClick={(e) => handleClick(index)}
           onKeyDown={(e) => handleKeyDown(index, e)}
-          className="w-9 border-pink-200 border-2 me-3 h-10 text-center"
+          // className="w-9 border-pink-200 border-2 me-3 h-10 text-center"
+          className="w-9 me-3 h-10 text-center"
         />
       ))}
     </>

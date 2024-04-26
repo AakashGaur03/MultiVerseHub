@@ -8,8 +8,8 @@ const Sidebar = ({ items,handleItemClick }) => {
   };
   return (
     <>
-      <div className="min-w-52 bg-slate-300">
-        <ul className="sidebarFixedSide bg-slate-300 min-w-52">
+      <div className="min-w-52 bg-slate-30 0">
+        <ul className="sidebarFixedSide bg-s late-300 min-w-52">
           {items.map((item, index) => (
             <li key={index}>
               <NavLink onClick={() => handleClick(item.title)}>{item.title}</NavLink>

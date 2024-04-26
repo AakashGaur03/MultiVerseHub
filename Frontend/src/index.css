@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body{
+  background-color: black !important;
+  color: white !important;
+}
 .backColor {
   padding: 50px;
   background-color: rgb(74, 66, 66);
@@ -54,6 +59,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: black;
+  color: white;
 }
 
 .cardImages {

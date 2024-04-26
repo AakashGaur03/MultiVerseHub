@@ -31,7 +31,8 @@ const WordOfTheDay = () => {
   //   });
   return (
     <>
-      <div className="border-blue-950 text-center flex flex-col justify-evenly h-52 m-8 border-2 wordOfTheDay border-solid p-2">
+      {/* <div className="border-blue-950 text-center flex flex-col justify-evenly h-52 m-8 border-2 wordOfTheDay border-solid p-2"> */}
+      <div className="text-center flex flex-col justify-evenly h-52 m-8 wordOfTheDay p-2">
         <div>
           <h2>Word of the Day</h2>
         </div>
