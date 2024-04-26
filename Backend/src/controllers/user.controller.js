@@ -527,8 +527,6 @@ const getRecentCricket = asyncHandler(async (req, res) => {
       `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
     );
     if (response) {
-      // console.log(response,"Response ISS")
-      // console.log(response.data.data,"Response ISS 2222222222222222222")
       const responseData = response.data.data;
       return res
         .status(200)
@@ -579,6 +577,40 @@ const getWeathter = asyncHandler(async (req, res) => {
   }
 });
 
+const getWordOfTheDay = asyncHandler(async (req, res) => {
+  const options = {
+    method: "GET",
+    url: "https://words-api5.p.rapidapi.com/api/v1/dict/word-today",
+    headers: {
+      "X-RapidAPI-Key": process.env.WORDOFTHEDAY_API_KEY,
+      "X-RapidAPI-Host": "words-api5.p.rapidapi.com",
+    },
+  };
+  try {
+    const response = await axios.request(options);
+    if (response) {
+      const responseData = response.data.data;
+      console.log(responseData,"REQOFPOJDS")
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Word Of The Data Details Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Word Of The Day API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Word Of The Day:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
 export {
   // allJokes,
   registerUser,
@@ -595,4 +627,5 @@ export {
   getNews,
   getRecentCricket,
   getWeathter,
+  getWordOfTheDay,
 };

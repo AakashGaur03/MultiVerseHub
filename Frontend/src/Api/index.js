@@ -106,3 +106,10 @@ export const getWeatherAPIFunc = async(city)=>{
   );
   return response.data.data.responseData;
 }
+export const getWordOfTheDayAPIFunc = async()=>{
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/wordofthedayApi`
+  );
+  console.log(response,"RESSSSSS")
+  return response.data.data.responseData;
+}

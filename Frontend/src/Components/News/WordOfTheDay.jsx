@@ -1,32 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { getWordOfTheDayAPIFunc } from "../../Api";
 
 const WordOfTheDay = () => {
   const [wordOfTheDayData, setWordOfTheDayData] = useState(
     JSON.parse(localStorage.getItem("wordOfTheDay")) || null
   );
-  //   useEffect(() => {
   const handleClicl = async () => {
     const currentDate = new Date().toDateString();
     const storedDate = localStorage.getItem("wordOfTheDayDate") || null;
-
-    const options = {
-      method: "GET",
-      url: "https://words-api5.p.rapidapi.com/api/v1/dict/word-today",
-      headers: {
-        "X-RapidAPI-Key": "bb3721361emshddcfed580ee75dap16315bjsn1b92129b04d2",
-        "X-RapidAPI-Host": "words-api5.p.rapidapi.com",
-      },
-    };
-
     try {
       if (
         !wordOfTheDayData ||
         !wordOfTheDayData.word ||
         storedDate != currentDate
       ) {
-        const response = await axios.request(options);
-        const wordData = response.data.data;
+        const response = await getWordOfTheDayAPIFunc();
+        const wordData = response;
         setWordOfTheDayData(wordData);
         localStorage.setItem("wordOfTheDay", JSON.stringify(wordData));
         localStorage.setItem("wordOfTheDayDate", currentDate);
@@ -46,8 +36,8 @@ const WordOfTheDay = () => {
           <h2>Word of the Day</h2>
         </div>
         <div>
-          <p className="text-left">Word : {wordOfTheDayData.word}</p>
-          <p className="text-left">Meaning : {wordOfTheDayData.meaning}</p>
+          <p className="text-left">Word : {wordOfTheDayData?.word}</p>
+          <p className="text-left">Meaning : {wordOfTheDayData?.meaning}</p>
         </div>
       </div>
     </>

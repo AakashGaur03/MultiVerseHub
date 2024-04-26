@@ -15,6 +15,7 @@ import {
   getNews,
   getRecentCricket,
   getWeathter,
+  getWordOfTheDay,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -52,5 +53,6 @@ router
 router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
 router.route("/weatherApi").get(getWeathter);
+router.route("/wordofthedayApi").get(getWordOfTheDay);
 
 export default router;
