@@ -1,15 +1,16 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const LocalSearch = ({ query,handleChange, handleSubmitNews }) => {
+const LocalSearch = ({ query, handleChange, handleSubmitNews }) => {
   return (
     <div>
       <Form onSubmit={handleSubmitNews} className="d-flex">
-        <Form.Label htmlFor="searchQuery">Search</Form.Label>
+        {/* <Form.Label htmlFor="searchQuery"></Form.Label> */}
         <Form.Control
           type="text"
-            onChange={handleChange}
-            value={query}
+          placeholder="Search"
+          onChange={handleChange}
+          value={query}
           id="searchQuery"
           data-id="qyuery"
         />

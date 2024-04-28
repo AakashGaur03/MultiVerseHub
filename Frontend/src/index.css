@@ -83,3 +83,27 @@ input[type="search"]::-webkit-search-decoration {
   background: linear-gradient(45deg, black, #726e6e);
   color: #fffaf1;
 }
+
+
+/* Dark Theme Form Input */
+
+.form-control{
+  background-color: black;
+  color: white;
+}
+.form-control:focus{
+  background-color: black;
+  color: white;
+}
+.form-control::placeholder{
+  color: white;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  transition: background-color 5000s;
+  -webkit-text-fill-color: #fff !important;
+}
