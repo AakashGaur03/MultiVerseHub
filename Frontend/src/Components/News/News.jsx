@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Weather, WordOfTheDay, truncateText } from "../../index";
 import { getNews } from "../../Features";
@@ -12,6 +12,8 @@ const News = ({
   handleChange,
   handleSubmitNews,
 }) => {
+
+  const [financeNews,setFinanceNews] = useState([])
   function formatDate(dateString) {
     const date = new Date(dateString);
     const hours = date.getHours().toString().padStart(2, "0");
@@ -42,6 +44,9 @@ const News = ({
     dispatch(getNews(query)).then((response) => {
       setNewsData(response.data.data.responseData.results);
     });
+    dispatch(getNews("finance")).then((response) => {
+      setFinanceNews(response.data.data.responseData.results);
+    });
   }, []);
   return (
     <div>
@@ -69,7 +74,6 @@ const News = ({
                               : "/ImageNotFound.png"
                           }
                           onError={(e) => {
-                            // console.error("Error loading image:", e);
                             e.target.src = "/ImageNotFound.png";
                           }}
                         />
@@ -134,6 +138,51 @@ const News = ({
         <Col md={4}>
           <Weather />
           <WordOfTheDay />
+
+          <div>
+            {financeNews.length > 0 ? (
+              <>
+                {financeNews.slice(0, 6).map((news, index) => (
+                  <Card
+                    style={{}}
+                    key={index}
+                    className="my-8 ms-3 rounded-2xl border-0"
+                  >
+                    <Card.Body className="minHeightCard">
+                      <Row>
+                        <Col md={4} className="d-flex align-items-center">
+                          <Card.Img
+                            variant="top"
+                            alt="ImageNotFound.png"
+                            className=""
+                            src={
+                              news.image_url && !news.image_url.includes("410")
+                                ? news.image_url
+                                : "/ImageNotFound.png"
+                            }
+                            onError={(e) => {
+                              e.target.src = "/ImageNotFound.png";
+                            }}
+                          />
+                        </Col>
+                        <Col md={8} className="d-flex justify-center flex-col">
+                          <div>
+                            <Card.Body className="limit2Lines">
+                              {news.title
+                                ? truncateText(news.title, 10)
+                                : "No Title Found"}
+                            </Card.Body>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </>
+            ) : (
+              <div>No data Found</div>
+            )}
+          </div>
         </Col>
       </Row>
     </div>
