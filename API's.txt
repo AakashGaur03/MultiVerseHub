@@ -2,6 +2,7 @@ Cricbuzz : https://rapidapi.com/cricketapilive/api/cricbuzz-cricket				100 / day
 
 Cricket : https://rapidapi.com/sudityakumar1/api/free-cricket-live-score1			250 / month
 
+Cricket : https://cricketdata.org/pricing/							100 / day
 
 News : https://rapidapi.com/connexun-srl-connexun-srl-default/api/news67/pricing		15/day
 

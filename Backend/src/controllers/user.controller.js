@@ -521,13 +521,37 @@ const getNews = asyncHandler(async (req, res) => {
   }
 });
 
+
+// const axios = require('axios');
+
+
+
+// // try {
+// // 	const response = await axios.request(options);
+// // 	console.log(response.data);
+// // } catch (error) {
+// // 	console.error(error);
+// // }
+
 const getRecentCricket = asyncHandler(async (req, res) => {
   try {
-    const response = await axios.get(
-      `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
-    );
+    // const response = await axios.get(
+    //   `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
+    // );
+    const options = {
+      method: 'GET',
+      url: 'https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent',
+      headers: {
+        'X-RapidAPI-Key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
+        'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+	const response = await axios.request(options);
+
     if (response) {
-      const responseData = response.data.data;
+      console.log(response,"response")
+      // const responseData = response.data.data;
+      const responseData = response.data;
       return res
         .status(200)
         .json(
