@@ -542,7 +542,7 @@ const getRecentCricket = asyncHandler(async (req, res) => {
       method: 'GET',
       url: 'https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent',
       headers: {
-        'X-RapidAPI-Key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
+        'X-RapidAPI-Key': process.env.CRICKET_API_KEY,
         'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
       }
     };

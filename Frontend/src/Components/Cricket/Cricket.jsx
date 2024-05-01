@@ -1,14 +1,3 @@
-// import React from 'react'
-
-// const cricket = () => {
-//   return (
-//     <div className='min-h-screen'>
-//       Cricket
-//     </div>
-//   )
-// }
-
-// export default cricket
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { truncateText } from "../../index";
@@ -17,56 +6,71 @@ import { useDispatch } from "react-redux";
 
 const Cricket = () => {
   const dispatch = useDispatch();
-  const [cricketQuery, setCricketQuery] = useState("");
   const [cricketData, setCricketData] = useState([]);
-  const handleChange = (e) => {
-    setCricketQuery(e.target.value);
-  };
-  const handleSubmitCricket = async (e) => {
-    e.preventDefault();
-
-    const response = await dispatch(getCricket(cricketQuery));
-    if (response) {
-      setCricketData(response.data.data.responseData.results);
-    }
-  };
-
   useEffect(() => {
-    dispatch(getCricket(cricketQuery)).then((response) => {
-      console.log(response, "AA");
-      console.log(response.data, "AA");
-      console.log(response.data.responseData, "AA");
-      let arrayOfMatches = response.data.responseData;
-      arrayOfMatches.sort(
-        (a, b) => new Date(b.dateTimeGMT) - new Date(a.dateTimeGMT)
+    dispatch(getCricket()).then((response) => {
+      let LeaguesMatches = response.data.responseData.typeMatches.find(
+        (match) => match.matchType == "League"
       );
-      console.log(arrayOfMatches, "BB");
-      // console.log(response.data.responseData, "BB");
-      // const matchTypes = response.data.responseData.typeMatches.map((matchType) => {
-      //   console.log(matchType.seriesMatches, "CC")
-      //   return matchType.seriesMatches
-      // });
-      // console.log(matchTypes, "DD");
-      // setCricketData(response.data.data.responseData.results);
+      let InterMatches = response.data.responseData.typeMatches.find(
+        (match) => match.matchType == "International"
+      );
+      console.log(LeaguesMatches, "LeaguesMatches");
+      console.log(InterMatches, "InterMatches");
+
+      let IPLMatches = LeaguesMatches.seriesMatches.find((matchseries) =>
+        matchseries.seriesAdWrapper.seriesName.includes("Indian Premier League")
+      ).seriesAdWrapper.matches;
+
+      let IntlMatches = InterMatches.seriesMatches.filter(
+        (match) => match.seriesAdWrapper
+      );
+
+      console.log(IntlMatches, "IntlMatches");
+
+      let newCricketData = [];
+
+      // Adding IPL matches to newCricketData
+      if (Array.isArray(IPLMatches)) {
+        newCricketData.push(...IPLMatches);
+      }
+
+      // Adding International matches to newCricketData
+      IntlMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches);
+        }
+      });
+
+      // Update the state once with all the data
+      setCricketData(newCricketData);
     });
   }, []);
   return (
     <div>
       Cricket
-      <Form onSubmit={handleSubmitCricket}>
-        <Form.Label htmlFor="searchQuery">Search</Form.Label>
-        <Form.Control
-          type="text"
-          onChange={handleChange}
-          value={cricketQuery}
-          id="searchQuery"
-          data-id="qyuery"
-        />
-
-        <button type="submit" className="btn btn-outline-primary">
-          Submit
-        </button>
-      </Form>
+      {cricketData &&
+        cricketData.map((data, index) => (
+          <div key={index}>
+            <div>{data.matchInfo?.seriesName}</div>
+            <div>{data.matchInfo?.stateTitle}</div>
+            <div>
+              {data.matchInfo.team1?.teamSName} :{" "}
+              {data.matchScore?.team1Score.inngs1.runs}-
+              {data.matchScore?.team1Score.inngs1.wickets} (
+              {data.matchScore?.team1Score.inngs1.overs})
+            </div>
+            <div></div>
+            <div>
+              {data.matchInfo.team2?.teamSName} :{" "}
+              {data.matchScore?.team2Score.inngs1.runs}-
+              {data.matchScore?.team2Score.inngs1.wickets} (
+              {data.matchScore?.team2Score.inngs1.overs})
+            </div>
+            <div></div>
+            <div>{data.matchInfo?.status}</div>
+          </div>
+        ))}
     </div>
   );
 };
