@@ -47,30 +47,33 @@ const Cricket = () => {
     });
   }, []);
   return (
-    <div>
-      Cricket
-      {cricketData &&
-        cricketData.map((data, index) => (
-          <div key={index}>
-            <div>{data.matchInfo?.seriesName}</div>
-            <div>{data.matchInfo?.stateTitle}</div>
-            <div>
-              {data.matchInfo.team1?.teamSName} :{" "}
-              {data.matchScore?.team1Score.inngs1.runs}-
-              {data.matchScore?.team1Score.inngs1.wickets} (
-              {data.matchScore?.team1Score.inngs1.overs})
+    <div className="flex overflow-y-auto">
+      <>
+        {cricketData &&
+          cricketData.map((data, index) => (
+            <div className="min-w-52 me-4" md={4} key={index}>
+              <div>
+                {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
+                {data.matchInfo?.matchFormat}
+              </div>
+              <div>
+                {data.matchInfo.team1?.teamSName} :{" "}
+                {data.matchScore?.team1Score.inngs1.runs}-
+                {data.matchScore?.team1Score.inngs1.wickets} (
+                {data.matchScore?.team1Score.inngs1.overs})
+              </div>
+              <div></div>
+              <div>
+                {data.matchInfo.team2?.teamSName} :{" "}
+                {data.matchScore?.team2Score.inngs1.runs}-
+                {data.matchScore?.team2Score.inngs1.wickets} (
+                {data.matchScore?.team2Score.inngs1.overs})
+              </div>
+              <div></div>
+              <div>{data.matchInfo?.status}</div>
             </div>
-            <div></div>
-            <div>
-              {data.matchInfo.team2?.teamSName} :{" "}
-              {data.matchScore?.team2Score.inngs1.runs}-
-              {data.matchScore?.team2Score.inngs1.wickets} (
-              {data.matchScore?.team2Score.inngs1.overs})
-            </div>
-            <div></div>
-            <div>{data.matchInfo?.status}</div>
-          </div>
-        ))}
+          ))}
+      </>
     </div>
   );
 };

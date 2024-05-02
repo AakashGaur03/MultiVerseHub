@@ -12,6 +12,21 @@ body{
   background-color: rgb(74, 66, 66);
 }
 
+::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+  height: 5px;
+  background: transparent; /* make scrollbar invisible */
+  /* background: red; */
+}
+html {
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+body {
+  -ms-overflow-style: none; /* Hide scrollbar for Edge and IE */
+  overflow: -moz-scrollbars-none; /* Hide scrollbar for other browsers */
+}
+
+
 .posNormal {
   position: relative;
   z-index: 1; /* Ensure it's above other content */
