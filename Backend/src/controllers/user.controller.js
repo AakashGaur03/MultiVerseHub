@@ -571,6 +571,42 @@ const getRecentCricket = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
+const getCricketImage = asyncHandler(async (req, res) => {
+  const { query } = req.query;
+console.log(query,"querytsssss")
+  try {
+    const options = {
+      method: 'GET',
+      url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
+      headers: {
+        'X-RapidAPI-Key': process.env.CRICKET_API_KEY,
+        'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+	const response = await axios.request(options);
+
+    if (response) {
+      console.log(response,"response232323")
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Cricket API Image Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Cricket API Image  Failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Cricket Image:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
 
 const getWeathter = asyncHandler(async (req, res) => {
   const { query } = req.query;
@@ -652,4 +688,5 @@ export {
   getRecentCricket,
   getWeathter,
   getWordOfTheDay,
+  getCricketImage,
 };
