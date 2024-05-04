@@ -521,10 +521,7 @@ const getNews = asyncHandler(async (req, res) => {
   }
 });
 
-
 // const axios = require('axios');
-
-
 
 // // try {
 // // 	const response = await axios.request(options);
@@ -539,17 +536,17 @@ const getRecentCricket = asyncHandler(async (req, res) => {
     //   `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
     // );
     const options = {
-      method: 'GET',
-      url: 'https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent',
+      method: "GET",
+      url: "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent",
       headers: {
-        'X-RapidAPI-Key': process.env.CRICKET_API_KEY,
-        'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
-      }
+        "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
+        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+      },
     };
-	const response = await axios.request(options);
+    const response = await axios.request(options);
 
     if (response) {
-      console.log(response,"response")
+      console.log(response, "response");
       // const responseData = response.data.data;
       const responseData = response.data;
       return res
@@ -573,20 +570,20 @@ const getRecentCricket = asyncHandler(async (req, res) => {
 });
 const getCricketImage = asyncHandler(async (req, res) => {
   const { query } = req.query;
-console.log(query,"querytsssss")
+  console.log(query, "querytsssss");
   try {
     const options = {
-      method: 'GET',
+      method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
       headers: {
-        'X-RapidAPI-Key': process.env.CRICKET_API_KEY,
-        'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
-      }
+        "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
+        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+      },
     };
-	const response = await axios.request(options);
+    const response = await axios.request(options);
 
     if (response) {
-      console.log(response,"response232323")
+      console.log(response, "response232323");
       const responseData = response.data;
       return res
         .status(200)
@@ -650,7 +647,7 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
     const response = await axios.request(options);
     if (response) {
       const responseData = response.data.data;
-      console.log(responseData,"REQOFPOJDS")
+      console.log(responseData, "REQOFPOJDS");
       return res
         .status(200)
         .json(

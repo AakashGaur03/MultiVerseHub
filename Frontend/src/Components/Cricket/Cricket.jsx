@@ -67,18 +67,16 @@ const Cricket = () => {
       console.error("Error fetching cricket image:", error);
     }
   };
-  
+
   return (
     <div className="flex overflow-y-auto">
       <>
         {cricketData &&
-          cricketData.slice(1,2).map((data, index) => (
+          cricketData.slice(1, 2).map((data, index) => (
             <div className="min-w-52 me-4" md={4} key={index}>
               {/* <img src={data.matchInfo.team2?.imageId} alt="" /> */}
               {/* <img src={getCricketImage(data.matchInfo.team1?.imageId)} alt="" /> */}
-              {imageData && (
-                <img src={imageData} alt="" />
-              )}
+              {imageData && <img src={imageData} alt="" />}
               <div> {data.matchInfo.team1?.imageId}</div>
               <img src={data.matchInfo.team1?.imageId} alt="" />
               <div>

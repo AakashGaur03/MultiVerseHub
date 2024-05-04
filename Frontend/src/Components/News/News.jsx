@@ -12,8 +12,7 @@ const News = ({
   handleChange,
   handleSubmitNews,
 }) => {
-
-  const [financeNews,setFinanceNews] = useState([])
+  const [financeNews, setFinanceNews] = useState([]);
   function formatDate(dateString) {
     const date = new Date(dateString);
     const hours = date.getHours().toString().padStart(2, "0");

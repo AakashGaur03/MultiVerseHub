@@ -3,7 +3,7 @@ import { getCricketAPIFunc } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
-  data:null
+  data: null,
 };
 const getCricketAPISlice = createSlice({
   name: "getCricketAPI",
@@ -14,7 +14,7 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.data = null;
     },
-    getCricketSuccess(state,action) {
+    getCricketSuccess(state, action) {
       state.status = "News Fetched";
       state.error = null;
       state.data = action.payload;
