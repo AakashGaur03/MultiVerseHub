@@ -103,6 +103,7 @@ export const getCricketImageAPIFunc = async (query) => {
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
   );
   // return response.data;
+  console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
 

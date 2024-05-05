@@ -4,6 +4,7 @@ import { truncateText } from "../../index";
 import { getCricket } from "../../Features";
 import { useDispatch } from "react-redux";
 import { getCricketImageAPIFunc } from "../../Api";
+import axios from "axios";
 
 const Cricket = () => {
   const dispatch = useDispatch();
@@ -59,14 +60,77 @@ const Cricket = () => {
   //     return null;
   //   }
   // };
-  const getCricketImage = async (imageId) => {
-    try {
-      const response = await getCricketImageAPIFunc(imageId);
-      setImageData(response); // Update imageData state with the fetched image data
-    } catch (error) {
-      console.error("Error fetching cricket image:", error);
-    }
-  };
+  // const [imageSrcMap, setImageSrcMap] = useState({});
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     const srcMap = {};
+  //     for (const data of cricketData) {
+  //       if (data.matchInfo.team1) {
+  //         const imageId = data.matchInfo.team1.imageId;
+  //         if (!imageSrcMap[imageId]) {
+  //           try {
+  //             const imageData = await getCricketImage(imageId);
+  //             srcMap[imageId] = imageData;
+  //           } catch (error) {
+  //             console.error("Error fetching cricket image:", error);
+  //             srcMap[imageId] = null;
+  //           }
+  //         } else {
+  //           srcMap[imageId] = imageSrcMap[imageId];
+  //         }
+  //       }
+  //     }
+  //     setImageSrcMap(srcMap);
+  //   };
+
+  //   if (cricketData.length > 0) {
+  //     fetchImages();
+  //   }
+  // }, [cricketData]);
+
+  // const getCricketImage = async (imageId) => {
+  //   try {
+  //     const response = await getCricketImageAPIFunc(imageId);
+  //     // Convert binary data to base64 encoded string
+  //     const imageData = Buffer.from(response.data, 'binary').toString('base64');
+  //     return `data:image/jpeg;base64,${imageData}`;
+  //   } catch (error) {
+  //     console.error("Error fetching cricket image:", error);
+  //     return null;
+  //   }
+  // };
+
+  const [imageSrc, setImageSrc] = useState('');
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c231889/i.jpg',
+        headers: {
+          'X-RapidAPI-Key': '22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b',
+          'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
+        },
+        responseType: 'blob' // Set the response type to blob
+      };
+    
+      try {
+        const response = await axios.request(options);
+        const reader = new FileReader(); // Create a new FileReader object
+        reader.readAsDataURL(response.data); // Read the blob data as a data URL
+    
+        reader.onload = () => {
+          const imageSrc = reader.result; // Get the base64-encoded data URL
+          setImageSrc(imageSrc); // Set the image source for rendering
+        };
+      } catch (error) {
+        console.error('Error fetching cricket image:', error);
+      }
+    };
+    
+
+    fetchImage();
+  }, []);
 
   return (
     <div className="flex overflow-y-auto">
@@ -74,11 +138,13 @@ const Cricket = () => {
         {cricketData &&
           cricketData.slice(1, 2).map((data, index) => (
             <div className="min-w-52 me-4" md={4} key={index}>
-              {/* <img src={data.matchInfo.team2?.imageId} alt="" /> */}
-              {/* <img src={getCricketImage(data.matchInfo.team1?.imageId)} alt="" /> */}
-              {imageData && <img src={imageData} alt="" />}
+               {/* {data.matchInfo.team1 && (
+              <img
+                src={imageSrcMap[data.matchInfo.team1.imageId]}
+                alt={`Team 1: ${data.matchInfo.team1.teamSName}`}
+              />
+            )} */}
               <div> {data.matchInfo.team1?.imageId}</div>
-              <img src={data.matchInfo.team1?.imageId} alt="" />
               <div>
                 {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
                 {data.matchInfo?.matchFormat}
@@ -100,6 +166,12 @@ const Cricket = () => {
               <div>{data.matchInfo?.status}</div>
             </div>
           ))}
+
+
+
+<div>
+      {imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}
+    </div>
       </>
     </div>
   );
