@@ -51,15 +51,25 @@ const Cricket = () => {
     });
   }, []);
 
-  // const getCricketImage = async (imageId) => {
-  //   try {
-  //     const response = await getCricketImageAPIFunc(imageId); // Call getCricketImageAPIFunc with imageId
-  //     return response; // Return the image directly from the API response
-  //   } catch (error) {
-  //     console.error("Error fetching cricket image:", error);
-  //     return null;
-  //   }
-  // };
+  const getCricketImage = async (imageId) => {
+    try {
+      const response = await getCricketImageAPIFunc(imageId); // Call getCricketImageAPIFunc with imageId
+      console.log(response,"respmse")
+        const reader = new FileReader(); // Create a new FileReader object
+        console.log(reader,"reader")
+
+        reader.readAsDataURL(response.data); // Read the blob data as a data URL
+    
+        reader.onload = () => {
+          const imageSrc = reader.result; // Get the base64-encoded data URL
+          console.log(reader.result,"resdrresyl")
+          setImageSrc(imageSrc); // Set the image source for rendering
+        };
+    } catch (error) {
+      console.error("Error fetching cricket image:", error);
+      return null;
+    }
+  };
   // const [imageSrcMap, setImageSrcMap] = useState({});
   // useEffect(() => {
   //   const fetchImages = async () => {
@@ -108,7 +118,7 @@ const Cricket = () => {
         method: 'GET',
         url: 'https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c231889/i.jpg',
         headers: {
-          'X-RapidAPI-Key': '22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b',
+          'X-RapidAPI-Key': '',
           'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
         },
         responseType: 'blob' // Set the response type to blob
@@ -116,11 +126,15 @@ const Cricket = () => {
     
       try {
         const response = await axios.request(options);
+        console.log(response,"respmse")
         const reader = new FileReader(); // Create a new FileReader object
+        console.log(reader,"reader")
+
         reader.readAsDataURL(response.data); // Read the blob data as a data URL
     
         reader.onload = () => {
           const imageSrc = reader.result; // Get the base64-encoded data URL
+          console.log(reader.result,"resdrresyl")
           setImageSrc(imageSrc); // Set the image source for rendering
         };
       } catch (error) {
@@ -144,6 +158,7 @@ const Cricket = () => {
                 alt={`Team 1: ${data.matchInfo.team1.teamSName}`}
               />
             )} */}
+            <img src={getCricketImage(data.matchInfo.team1?.imageId)} alt="" />
               <div> {data.matchInfo.team1?.imageId}</div>
               <div>
                 {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
