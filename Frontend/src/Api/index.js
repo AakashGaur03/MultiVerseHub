@@ -99,6 +99,7 @@ export const getCricketAPIFunc = async (query) => {
   return response.data;
 };
 export const getCricketImageAPIFunc = async (query) => {
+  console.log(query,"asasasasasasassasasasasasasass")
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
   );

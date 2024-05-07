@@ -53,23 +53,29 @@ const Cricket = () => {
 
   const getCricketImage = async (imageId) => {
     try {
-      const response = await getCricketImageAPIFunc(imageId); // Call getCricketImageAPIFunc with imageId
-      console.log(response,"respmse")
-        const reader = new FileReader(); // Create a new FileReader object
-        console.log(reader,"reader")
+        const response = await getCricketImageAPIFunc(imageId);
+        console.log(response, "response");
 
-        reader.readAsDataURL(response.data); // Read the blob data as a data URL
-    
+        // Check if response data is a Blob
+        if (!(response instanceof Blob)) {
+            throw new Error('Response data is not a Blob.');
+        }
+
+        const reader = new FileReader(); // Create a new FileReader object
+
+        reader.readAsDataURL(response); // Read the blob data as a data URL
+
         reader.onload = () => {
-          const imageSrc = reader.result; // Get the base64-encoded data URL
-          console.log(reader.result,"resdrresyl")
-          setImageSrc(imageSrc); // Set the image source for rendering
+            const imageSrc = reader.result; // Get the base64-encoded data URL
+            console.log(imageSrc, "imageSrc");
+            setImageSrc(imageSrc); // Set the image source for rendering
         };
     } catch (error) {
-      console.error("Error fetching cricket image:", error);
-      return null;
+        console.error("Error fetching cricket image:", error);
+        return null;
     }
-  };
+};
+
   // const [imageSrcMap, setImageSrcMap] = useState({});
   // useEffect(() => {
   //   const fetchImages = async () => {
@@ -118,7 +124,7 @@ const Cricket = () => {
         method: 'GET',
         url: 'https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c231889/i.jpg',
         headers: {
-          'X-RapidAPI-Key': '',
+          'X-RapidAPI-Key': '22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b',
           'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
         },
         responseType: 'blob' // Set the response type to blob
@@ -126,7 +132,7 @@ const Cricket = () => {
     
       try {
         const response = await axios.request(options);
-        console.log(response,"respmse")
+        console.log(response,"respmse22")
         const reader = new FileReader(); // Create a new FileReader object
         console.log(reader,"reader")
 
