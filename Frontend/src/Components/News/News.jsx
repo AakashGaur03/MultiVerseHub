@@ -40,12 +40,12 @@ const News = ({
   // };
 
   useEffect(() => {
-    // dispatch(getNews(query)).then((response) => {
-    //   setNewsData(response.data.data.responseData.results);
-    // });
-    // dispatch(getNews("finance")).then((response) => {
-    //   setFinanceNews(response.data.data.responseData.results);
-    // });
+    dispatch(getNews(query)).then((response) => {
+      setNewsData(response.data.data.responseData.results);
+    });
+    dispatch(getNews("finance")).then((response) => {
+      setFinanceNews(response.data.data.responseData.results);
+    });
   }, []);
   return (
     <div>
