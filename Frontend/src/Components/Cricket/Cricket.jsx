@@ -12,36 +12,48 @@ const Cricket = () => {
 
   useEffect(() => {
     dispatch(getCricket()).then((response) => {
-      let LeaguesMatches = response.data.responseData.typeMatches.find(
+      const typeMatches = response.data.responseData.typeMatches;
+
+      let LeaguesMatches = typeMatches.find(
         (match) => match.matchType == "League"
       );
-      let InterMatches = response.data.responseData.typeMatches.find(
+      let InterMatches = typeMatches.find(
         (match) => match.matchType == "International"
       );
-      console.log(LeaguesMatches, "LeaguesMatches");
-      console.log(InterMatches, "InterMatches");
-
-      let IPLMatches = LeaguesMatches.seriesMatches.find((matchseries) =>
-        matchseries.seriesAdWrapper.seriesName.includes("Indian Premier League")
-      ).seriesAdWrapper.matches;
-
-      let IntlMatches = InterMatches.seriesMatches.filter(
-        (match) => match.seriesAdWrapper
+      let WomenMatches = typeMatches.find(
+        (match) => match.matchType == "Women"
       );
 
-      console.log(IntlMatches, "IntlMatches");
+      let IPLMatches = LeaguesMatches?.seriesMatches.find((matchseries) =>
+        matchseries.seriesAdWrapper.seriesName.includes("Indian Premier League")
+      ).seriesAdWrapper.matches?.slice(0,3);
+
+      let IntlMatches = InterMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      let WomMatches = WomenMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      // console.log(IntlMatches, "IntlMatches");
 
       let newCricketData = [];
 
       // Adding IPL matches to newCricketData
       if (Array.isArray(IPLMatches)) {
-        newCricketData.push(...IPLMatches);
+        newCricketData.push(...IPLMatches.slice(0, 3));
       }
 
       // Adding International matches to newCricketData
       IntlMatches.forEach((match) => {
         if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches);
+          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+        }
+      });
+      WomMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
         }
       });
 
@@ -115,7 +127,7 @@ const Cricket = () => {
     <div className="flex overflow-y-auto">
       <>
         {cricketData &&
-          cricketData.slice(1, 2).map((data, index) => (
+          cricketData.map((data, index) => (
             <div className="min-w-52 me-4" md={4} key={index}>
               {/* {data.matchInfo.team1 && (
               <img
@@ -123,7 +135,7 @@ const Cricket = () => {
                 alt={`Team 1: ${data.matchInfo.team1.teamSName}`}
               />
             )} */}
-           {/* <img
+              {/* <img
               src={getCricketImage(data.matchInfo.team1?.imageId)}
               alt=""
             />*/}
