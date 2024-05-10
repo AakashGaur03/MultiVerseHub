@@ -18,10 +18,21 @@ News : https://mediastack.com/payment    Check It Out Again Tom
 News : https://rapidapi.com/MatcherLabs/api/news-api14/pricing                                  1000/month
 But no images
 
-Games : https://www.freetogame.com/api-doc
+Games 
 
 -> https://www.freetogame.com/api-doc
-->https://rapidapi.com/digiwalls/api/free-to-play-games-database
+
+-> https://www.freetogame.com/crossout
+
+
+-> https://www.freetogame.com/api-doc
+-> https://rapidapi.com/digiwalls/api/free-to-play-games-database
+
+
+-> https://www.postman.com/explore/gaming-apis
+
+-> https://docs.unity.com/
+
 
 Entertainment 
 
