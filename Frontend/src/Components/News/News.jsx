@@ -79,11 +79,13 @@ const News = ({
                       </Col>
                       <Col md={8} className="d-flex justify-center flex-col">
                         <div>
-                          <Card.Title className="limit2Lines">
-                            {news.title
-                              ? truncateText(news.title, 10)
-                              : "No Title Found"}
-                          </Card.Title>
+                          <a href={news.link} target="_blank">
+                            <Card.Title className="limit2Lines hover:text-amber-500">
+                              {news.title
+                                ? truncateText(news.title, 10)
+                                : "No Title Found"}
+                            </Card.Title>
+                          </a>
                           <Card.Text className="limit5Lines">
                             {news.description
                               ? truncateText(news.description, 60)
@@ -91,13 +93,6 @@ const News = ({
                           </Card.Text>
                         </div>
                         <div>
-                          <a
-                            target="_blank"
-                            href={news.link}
-                            className="btn border-fuchsia-700 hover:bg-pink-400 text-white"
-                          >
-                            Read Full News
-                          </a>
                           <div className="d-flex justify-between mt-6">
                             <a href={news.source_url} target="_blank">
                               <img
@@ -166,11 +161,13 @@ const News = ({
                         </Col>
                         <Col md={8} className="d-flex justify-center flex-col">
                           <div>
-                            <Card.Body className="limit2Lines">
-                              {news.title
-                                ? truncateText(news.title, 10)
-                                : "No Title Found"}
-                            </Card.Body>
+                            <a href={news.link} target="_blank">
+                              <Card.Body className="limit2Lines hover:text-amber-500">
+                                {news.title
+                                  ? truncateText(news.title, 10)
+                                  : "No Title Found"}
+                              </Card.Body>
+                            </a>
                           </div>
                         </Col>
                       </Row>
