@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Weather, WordOfTheDay, truncateText } from "../../index";
 import { getNews } from "../../Features";
@@ -25,20 +25,6 @@ const News = ({
   }
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-  // const [query, setQuery] = useState("");
-  // const [newsData, setNewsData] = useState([]);
-  // const handleChange = (e) => {
-  //   setQuery(e.target.value);
-  // };
-  // const handleSubmitNews = async (e) => {
-  //   e.preventDefault();
-
-  //   const response = await dispatch(getNews(query));
-  //   if (response) {
-  //     setNewsData(response.data.data.responseData.results);
-  //   }
-  // };
-
   useEffect(() => {
     dispatch(getNews(query)).then((response) => {
       setNewsData(response.data.data.responseData.results);
@@ -47,17 +33,25 @@ const News = ({
       setFinanceNews(response.data.data.responseData.results);
     });
   }, []);
+  const colmd4ref = useRef(null)
+  if(colmd4ref.current){
+    console.log(colmd4ref.current,"colmd4ref.current")
+    const height = colmd4ref.current.offsetHeight;
+    const colMd8Div = document.querySelector(".colMd8Div")
+    if(colMd8Div){
+      colMd8Div.style.maxHeight=`${height}px`
+    }
+  }
   return (
     <div>
       <Row>
-        <Col md={8}>
+        <Col md={8} className="colMd8Div" style={{overflowY:"auto"}}>
           {newsData.length > 0 ? (
             <>
               {newsData.slice(0, 9).map((news, index) => (
                 <Card
                   style={{}}
                   key={index}
-                  // className="my-8 ms-3 rounded-2xl border-zinc-600"
                   className="my-8 ms-3 rounded-2xl border-0"
                 >
                   <Card.Body className="minHeightCard">
@@ -130,6 +124,7 @@ const News = ({
           )}
         </Col>
         <Col md={4}>
+          <div className="colMd4Div" ref={colmd4ref}>
           <Weather />
           <WordOfTheDay />
 
@@ -178,6 +173,8 @@ const News = ({
             ) : (
               <div>No data Found</div>
             )}
+          </div>
+
           </div>
         </Col>
       </Row>

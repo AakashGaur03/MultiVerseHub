@@ -32,13 +32,13 @@ const WordOfTheDay = () => {
   return (
     <>
       {/* <div className="border-blue-950 text-center flex flex-col justify-evenly h-52 m-8 border-2 wordOfTheDay border-solid p-2"> */}
-      <div className="text-center flex flex-col h-52 m-8 wordOfTheDay p-2">
+      <div className="text-center flex flex-col min:h-52 m-8 wordOfTheDay p-2">
         <div className="mt-4">
           <h2>Word of the Day</h2>
         </div>
         <div className="mt-5">
           <p className="text-left">Word : {wordOfTheDayData?.word}</p>
-          <p className="text-left">Meaning : {wordOfTheDayData?.meaning}</p>
+          <p className="text-left pb-6">Meaning : {wordOfTheDayData?.meaning}</p>
         </div>
       </div>
     </>
