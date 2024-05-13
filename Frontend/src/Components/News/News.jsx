@@ -33,19 +33,19 @@ const News = ({
       setFinanceNews(response.data.data.responseData.results);
     });
   }, []);
-  const colmd4ref = useRef(null)
-  if(colmd4ref.current){
-    console.log(colmd4ref.current,"colmd4ref.current")
+  const colmd4ref = useRef(null);
+  if (colmd4ref.current) {
+    console.log(colmd4ref.current, "colmd4ref.current");
     const height = colmd4ref.current.offsetHeight;
-    const colMd8Div = document.querySelector(".colMd8Div")
-    if(colMd8Div){
-      colMd8Div.style.maxHeight=`${height}px`
+    const colMd8Div = document.querySelector(".colMd8Div");
+    if (colMd8Div) {
+      colMd8Div.style.maxHeight = `${height}px`;
     }
   }
   return (
     <div>
       <Row>
-        <Col md={8} className="colMd8Div" style={{overflowY:"auto"}}>
+        <Col md={8} className="colMd8Div" style={{ overflowY: "auto" }}>
           {newsData.length > 0 ? (
             <>
               {newsData.slice(0, 9).map((news, index) => (
@@ -125,56 +125,59 @@ const News = ({
         </Col>
         <Col md={4}>
           <div className="colMd4Div" ref={colmd4ref}>
-          <Weather />
-          <WordOfTheDay />
+            <Weather />
+            <WordOfTheDay />
 
-          <div>
-            {financeNews.length > 0 ? (
-              <>
-                {financeNews.slice(0, 6).map((news, index) => (
-                  <Card
-                    style={{}}
-                    key={index}
-                    className="my-8 ms-3 rounded-2xl border-0"
-                  >
-                    <Card.Body className="minHeightCard">
-                      <Row>
-                        <Col md={4} className="d-flex align-items-center">
-                          <Card.Img
-                            variant="top"
-                            alt="ImageNotFound.png"
-                            className=""
-                            src={
-                              news.image_url && !news.image_url.includes("410")
-                                ? news.image_url
-                                : "/ImageNotFound.png"
-                            }
-                            onError={(e) => {
-                              e.target.src = "/ImageNotFound.png";
-                            }}
-                          />
-                        </Col>
-                        <Col md={8} className="d-flex justify-center flex-col">
-                          <div>
-                            <a href={news.link} target="_blank">
-                              <Card.Body className="limit2Lines hover:text-amber-500">
-                                {news.title
-                                  ? truncateText(news.title, 10)
-                                  : "No Title Found"}
-                              </Card.Body>
-                            </a>
-                          </div>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </>
-            ) : (
-              <div>No data Found</div>
-            )}
-          </div>
-
+            <div>
+              {financeNews.length > 0 ? (
+                <>
+                  {financeNews.slice(0, 6).map((news, index) => (
+                    <Card
+                      style={{}}
+                      key={index}
+                      className="my-8 ms-3 rounded-2xl border-0"
+                    >
+                      <Card.Body className="minHeightCard">
+                        <Row>
+                          <Col md={4} className="d-flex align-items-center">
+                            <Card.Img
+                              variant="top"
+                              alt="ImageNotFound.png"
+                              className=""
+                              src={
+                                news.image_url &&
+                                !news.image_url.includes("410")
+                                  ? news.image_url
+                                  : "/ImageNotFound.png"
+                              }
+                              onError={(e) => {
+                                e.target.src = "/ImageNotFound.png";
+                              }}
+                            />
+                          </Col>
+                          <Col
+                            md={8}
+                            className="d-flex justify-center flex-col"
+                          >
+                            <div>
+                              <a href={news.link} target="_blank">
+                                <Card.Body className="limit2Lines hover:text-amber-500">
+                                  {news.title
+                                    ? truncateText(news.title, 10)
+                                    : "No Title Found"}
+                                </Card.Body>
+                              </a>
+                            </div>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </>
+              ) : (
+                <div>No data Found</div>
+              )}
+            </div>
           </div>
         </Col>
       </Row>
