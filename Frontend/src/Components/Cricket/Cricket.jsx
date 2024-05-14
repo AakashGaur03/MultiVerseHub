@@ -24,9 +24,13 @@ const Cricket = () => {
         (match) => match.matchType == "Women"
       );
 
-      let IPLMatches = LeaguesMatches?.seriesMatches.find((matchseries) =>
-        matchseries.seriesAdWrapper.seriesName.includes("Indian Premier League")
-      ).seriesAdWrapper.matches?.slice(0,3);
+      let IPLMatches = LeaguesMatches?.seriesMatches
+        .find((matchseries) =>
+          matchseries.seriesAdWrapper.seriesName.includes(
+            "Indian Premier League"
+          )
+        )
+        .seriesAdWrapper.matches?.slice(0, 3);
 
       let IntlMatches = InterMatches.seriesMatches
         .filter((match) => match.seriesAdWrapper)
@@ -139,23 +143,51 @@ const Cricket = () => {
               src={getCricketImage(data.matchInfo.team1?.imageId)}
               alt=""
             />*/}
-              <div> {data.matchInfo.team1?.imageId}</div>
+              {/* <div> {data.matchInfo.team1?.imageId}</div> */}
               <div>
                 {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
                 {data.matchInfo?.matchFormat}
               </div>
               <div>
-                {data.matchInfo.team1?.teamSName} :{" "}
-                {data.matchScore?.team1Score.inngs1.runs}-
-                {data.matchScore?.team1Score.inngs1.wickets} (
-                {data.matchScore?.team1Score.inngs1.overs})
+                {data.matchInfo.team1?.teamSName}
+                {(data.matchScore?.team1Score.inngs1.runs &&
+                  !data.matchScore?.team1Score.inngs2?.runs) && (
+                    <>
+                      : {data.matchScore?.team1Score.inngs1.runs}-
+                      {data.matchScore?.team1Score.inngs1.wickets} (
+                      {data.matchScore?.team1Score.inngs1.overs})
+                    </>
+                  )}
+                {(data.matchScore?.team1Score.inngs1.runs &&
+                  data.matchScore?.team1Score.inngs2?.runs) &&(
+                    <>
+                      : {data.matchScore?.team1Score.inngs1.runs}-
+                      {data.matchScore?.team1Score.inngs1.wickets}{" "}
+                      {data.matchScore?.team1Score.inngs2?.runs}-
+                      {data.matchScore?.team1Score.inngs2?.wickets}
+                    </>
+                  )}
               </div>
               <div></div>
               <div>
-                {data.matchInfo.team2?.teamSName} :{" "}
-                {data.matchScore?.team2Score.inngs1.runs}-
-                {data.matchScore?.team2Score.inngs1.wickets} (
-                {data.matchScore?.team2Score.inngs1.overs})
+                {data.matchInfo.team2?.teamSName}
+                {data.matchScore?.team2Score.inngs1.runs &&
+                  !data.matchScore?.team2Score.inngs2?.runs &&(
+                    <>
+                      : {data.matchScore?.team2Score.inngs1.runs}-
+                      {data.matchScore?.team2Score.inngs1.wickets} (
+                      {data.matchScore?.team2Score.inngs1.overs})
+                    </>
+                  )}
+                {data.matchScore?.team2Score.inngs1.runs &&
+                  data.matchScore?.team2Score.inngs2?.runs &&(
+                    <>
+                      : {data.matchScore?.team2Score.inngs1.runs}-
+                      {data.matchScore?.team2Score.inngs1.wickets}{" "}
+                      {data.matchScore?.team2Score.inngs2?.runs}-
+                      {data.matchScore?.team2Score.inngs2?.wickets}
+                    </>
+                  )}
               </div>
               <div></div>
               <div>{data.matchInfo?.status}</div>
