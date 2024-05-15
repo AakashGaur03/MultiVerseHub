@@ -579,7 +579,7 @@ const getCricketImage = asyncHandler(async (req, res) => {
         "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
         "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
       },
-      responseType: 'blob'
+      responseType: "blob",
     };
     const response = await axios.request(options);
 

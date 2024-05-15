@@ -6,7 +6,7 @@ import { getWeatherAPIFunc } from "../../Api";
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [searchWeatherState, setSearchWeatherState] = useState(false);
-  const [city, setCity] = useState("Boston");
+  const [city, setCity] = useState("New Delhi");
   const [searchWeather, setSearchWeather] = useState("");
 
   useEffect(() => {

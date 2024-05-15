@@ -150,16 +150,16 @@ const Cricket = () => {
               </div>
               <div>
                 {data.matchInfo.team1?.teamSName}
-                {(data.matchScore?.team1Score.inngs1.runs &&
-                  !data.matchScore?.team1Score.inngs2?.runs) && (
+                {data.matchScore?.team1Score.inngs1.runs &&
+                  !data.matchScore?.team1Score.inngs2?.runs && (
                     <>
                       : {data.matchScore?.team1Score.inngs1.runs}-
                       {data.matchScore?.team1Score.inngs1.wickets} (
                       {data.matchScore?.team1Score.inngs1.overs})
                     </>
                   )}
-                {(data.matchScore?.team1Score.inngs1.runs &&
-                  data.matchScore?.team1Score.inngs2?.runs) &&(
+                {data.matchScore?.team1Score.inngs1.runs &&
+                  data.matchScore?.team1Score.inngs2?.runs && (
                     <>
                       : {data.matchScore?.team1Score.inngs1.runs}-
                       {data.matchScore?.team1Score.inngs1.wickets}{" "}
@@ -172,7 +172,7 @@ const Cricket = () => {
               <div>
                 {data.matchInfo.team2?.teamSName}
                 {data.matchScore?.team2Score.inngs1.runs &&
-                  !data.matchScore?.team2Score.inngs2?.runs &&(
+                  !data.matchScore?.team2Score.inngs2?.runs && (
                     <>
                       : {data.matchScore?.team2Score.inngs1.runs}-
                       {data.matchScore?.team2Score.inngs1.wickets} (
@@ -180,7 +180,7 @@ const Cricket = () => {
                     </>
                   )}
                 {data.matchScore?.team2Score.inngs1.runs &&
-                  data.matchScore?.team2Score.inngs2?.runs &&(
+                  data.matchScore?.team2Score.inngs2?.runs && (
                     <>
                       : {data.matchScore?.team2Score.inngs1.runs}-
                       {data.matchScore?.team2Score.inngs1.wickets}{" "}
