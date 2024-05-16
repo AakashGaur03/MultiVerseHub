@@ -13,6 +13,7 @@ const Cricket = () => {
   useEffect(() => {
     dispatch(getCricket()).then((response) => {
       const typeMatches = response.data.responseData.typeMatches;
+      console.log(response, "responseOFCRi");
 
       let LeaguesMatches = typeMatches.find(
         (match) => match.matchType == "League"
@@ -126,6 +127,27 @@ const Cricket = () => {
 
   //   fetchImage();
   // }, []);
+  const getPointsTable = async () => {
+    const options = {
+      method: "GET",
+      url: "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/7607/points-table",
+      headers: {
+        "x-rapidapi-key": "",
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log(response);
+      console.log(response.data);
+      console.log(response.data.pointsTable);
+      console.log(response.data.pointsTable[0].pointsTableInfo,"pointsTableInfo");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex overflow-y-auto">
@@ -191,6 +213,9 @@ const Cricket = () => {
               </div>
               <div></div>
               <div>{data.matchInfo?.status}</div>
+              <div className="cursor-pointer" onClick={getPointsTable}>
+                Table
+              </div>
             </div>
           ))}
 
