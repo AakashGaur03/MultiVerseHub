@@ -29,48 +29,71 @@ import { useEffect, useState } from "react";
 function App() {
   const location = useLocation();
   const getSidebarItems = () => {
-    switch (location.pathname) {
-      case "/news":
-        return [
-          { title: "World", path: "/" },
-          { title: "Business", path: "/business" },
-          { title: "Sports", path: "/sports" },
-          { title: "Entertainment", path: "/entertainment" },
-          { title: "Education", path: "/education" },
-          { title: "Technology", path: "/technology" },
-        ];
-      case "/cricket":
-      case "/pointsTable":
-        return [
-          { title: "Matches", path: "/" },
-          { title: "Player", path: "/Player" },
-          { title: "recent", path: "/recent" },
-          { title: "series", path: "/series" },
-          { title: "rankings", path: "/rankings" },
-          { title: "Points", path: "/Points" },
-        ];
-      case "/games":
-        return [
-          { title: "Car", path: "/" },
-          { title: "Bike", path: "/Bike" },
-          { title: "Brain", path: "/Brain" },
-          { title: "Truck", path: "/Truck" },
-        ];
-      default:
-        return [];
+    // switch (location.pathname) {
+    //   case "/news":
+    //     return [
+    //       { title: "World", path: "/" },
+    //       { title: "Business", path: "/business" },
+    //       { title: "Sports", path: "/sports" },
+    //       { title: "Entertainment", path: "/entertainment" },
+    //       { title: "Education", path: "/education" },
+    //       { title: "Technology", path: "/technology" },
+    //     ];
+    //   case "/cricket":
+    //     return [
+    //       { title: "Matches", path: "/" },
+    //       { title: "Player", path: "/Player" },
+    //       { title: "recent", path: "/recent" },
+    //       { title: "series", path: "/series" },
+    //       { title: "rankings", path: "/rankings" },
+    //       { title: "Points", path: "/Points" },
+    //     ];
+    //   case "/games":
+    //     return [
+    //       { title: "Car", path: "/" },
+    //       { title: "Bike", path: "/Bike" },
+    //       { title: "Brain", path: "/Brain" },
+    //       { title: "Truck", path: "/Truck" },
+    //     ];
+    //   default:
+    //     return [];
+    // }
+    if (location.pathname.includes("/news")) {
+      return [
+        { title: "World", path: "/" },
+        { title: "Business", path: "/business" },
+        { title: "Sports", path: "/sports" },
+        { title: "Entertainment", path: "/entertainment" },
+        { title: "Education", path: "/education" },
+        { title: "Technology", path: "/technology" },
+      ];
+    } else if (location.pathname.includes("/cricket")) {
+      return [
+        { title: "Matches", path: "/" },
+        { title: "Player", path: "/Player" },
+        { title: "recent", path: "/recent" },
+        { title: "series", path: "/series" },
+        { title: "rankings", path: "/rankings" },
+        { title: "Points", path: "/Points" },
+      ];
+    } else if (location.pathname.includes("/games")) {
+      return [
+        { title: "Car", path: "/" },
+        { title: "Bike", path: "/Bike" },
+        { title: "Brain", path: "/Brain" },
+        { title: "Truck", path: "/Truck" },
+      ];
+    } else {
+      return [];
     }
   };
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
   useEffect(() => {
     if (
-      [
-        "/cricket",
-        "/entertainment",
-        "/news",
-        "/games",
-        "/pointsTable",
-      ].includes(location.pathname)
+      ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
+        location.pathname.includes(path)
+      )
     ) {
       setSidebarItemsActive(true);
     } else setSidebarItemsActive(false);
@@ -134,9 +157,12 @@ function App() {
                 />
               }
             />
-            <Route path="/pointsTable" element={<PointsTable />} />
             <Route path="/favorites" element={<Favorite />} />
             <Route path="/cricket" element={<Cricket />} />
+            <Route
+              path="/cricket/:seriesId/pointsTable"
+              element={<PointsTable />}
+            />
             <Route path="/entertainment" element={<Entertainment />} />
             <Route path="/games" element={<Games />} />
             <Route path="/login" element={<Login />} />

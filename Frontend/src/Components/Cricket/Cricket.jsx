@@ -228,7 +228,7 @@ const Cricket = () => {
               <div></div>
               <div>{data.matchInfo?.status}</div>
               <NavLink
-                to={`/pointsTable`}
+                to={`${data.matchInfo.seriesId}/pointsTable`}
                 className="cursor-pointer"
                 onClick={() => getPointsTable(data.matchInfo.seriesId)}
               >
