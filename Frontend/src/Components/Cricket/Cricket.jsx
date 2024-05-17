@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { truncateText } from "../../index";
+import { PointsTable, truncateText } from "../../index";
+import { NavLink } from "react-router-dom";
 import { getCricket } from "../../Features";
 import { useDispatch } from "react-redux";
 import { getCricketImageAPIFunc } from "../../Api";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import axios from "axios";
 
 const Cricket = () => {
   const dispatch = useDispatch();
   const [cricketData, setCricketData] = useState([]);
+  const [pointstable, setpointstable] = useState([]);
 
   useEffect(() => {
     dispatch(getCricket()).then((response) => {
@@ -127,12 +135,12 @@ const Cricket = () => {
 
   //   fetchImage();
   // }, []);
-  const getPointsTable = async () => {
+  const getPointsTable = async (id) => {
     const options = {
       method: "GET",
-      url: "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/7607/points-table",
+      url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,
       headers: {
-        "x-rapidapi-key": "",
+        "x-rapidapi-key": "22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b",
         "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
         "Content-Type": "application/json",
       },
@@ -143,7 +151,13 @@ const Cricket = () => {
       console.log(response);
       console.log(response.data);
       console.log(response.data.pointsTable);
-      console.log(response.data.pointsTable[0].pointsTableInfo,"pointsTableInfo");
+      console.log(
+        response.data.pointsTable[0].pointsTableInfo,
+        "pointsTableInfo"
+      );
+      if (response.data) {
+        setpointstable(response.data.pointsTable[0].pointsTableInfo);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -213,11 +227,18 @@ const Cricket = () => {
               </div>
               <div></div>
               <div>{data.matchInfo?.status}</div>
-              <div className="cursor-pointer" onClick={getPointsTable}>
+              <NavLink
+                to={`/pointsTable`}
+                className="cursor-pointer"
+                onClick={() => getPointsTable(data.matchInfo.seriesId)}
+              >
                 Table
-              </div>
+              </NavLink>
             </div>
           ))}
+{/* <Routes>
+
+</Routes> */}
 
         {/* <div>{imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}</div> */}
       </>

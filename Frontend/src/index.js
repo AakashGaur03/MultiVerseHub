@@ -30,6 +30,7 @@ import {
   fetchCurrentStatusUser,
 } from "./Features/index.js";
 import truncateText from "./GlobalComp/TruncateText.js";
+import PointsTable from "./Components/Cricket/PointsTable.jsx";
 
 export {
   OtpForm,
@@ -60,4 +61,5 @@ export {
   LocalSearch,
   Weather,
   WordOfTheDay,
+  PointsTable,
 };

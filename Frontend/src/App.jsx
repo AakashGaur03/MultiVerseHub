@@ -19,6 +19,7 @@ import {
   Cricket,
   Entertainment,
   Sidebar,
+  PointsTable,
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
@@ -39,6 +40,7 @@ function App() {
           { title: "Technology", path: "/technology" },
         ];
       case "/cricket":
+      case "/pointsTable":
         return [
           { title: "Matches", path: "/" },
           { title: "Player", path: "/Player" },
@@ -62,9 +64,13 @@ function App() {
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
   useEffect(() => {
     if (
-      ["/cricket", "/entertainment", "/news", "/games"].includes(
-        location.pathname
-      )
+      [
+        "/cricket",
+        "/entertainment",
+        "/news",
+        "/games",
+        "/pointsTable",
+      ].includes(location.pathname)
     ) {
       setSidebarItemsActive(true);
     } else setSidebarItemsActive(false);
@@ -100,10 +106,11 @@ function App() {
     <>
       {/* <Router> */}
       <NavbarComp />
-      <OptionContainer 
-      query={query}
-      handleChange={handleChange}
-      handleSubmitNews={handleSubmitNews} />
+      <OptionContainer
+        query={query}
+        handleChange={handleChange}
+        handleSubmitNews={handleSubmitNews}
+      />
       <Container fluid className="restOfComponets">
         <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
           {sidebarItemsActive && (
@@ -127,6 +134,7 @@ function App() {
                 />
               }
             />
+            <Route path="/pointsTable" element={<PointsTable />} />
             <Route path="/favorites" element={<Favorite />} />
             <Route path="/cricket" element={<Cricket />} />
             <Route path="/entertainment" element={<Entertainment />} />
