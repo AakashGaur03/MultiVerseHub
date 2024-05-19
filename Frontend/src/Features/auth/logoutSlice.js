@@ -39,7 +39,7 @@ export const logoutUser = (accessToken) => async (dispatch) => {
 
     const response = await logoutuserApi(accessToken)
 
-    console.log(response);
+    // console.log(response);
 
     let dispatchMessage = "";
     dispatchMessage =

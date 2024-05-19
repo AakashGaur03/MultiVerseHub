@@ -88,7 +88,7 @@ export const verifyOTP = (otp) => async (dispatch) => {
     dispatch(verifyOTPStart());
     const response = await verifyOTPApi(otp);
     if (response) {
-      console.log(response);
+      // console.log(response);
       dispatch(verifyOTPSuccess());
       return response
     }
@@ -102,7 +102,7 @@ export const createNewPassword = (data) => async (dispatch) => {
     dispatch(resetPasswordStart());
     const response = await resetPassordApi(data);
     if (response) {
-      console.log(response);
+      // console.log(response);
       dispatch(resetPasswordSuccess());
       return response
     }

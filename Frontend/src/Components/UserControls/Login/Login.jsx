@@ -17,7 +17,7 @@ const Login = () => {
   })
 
   const handleChange = (e) => {
-    console.log(e.target)
+    // console.log(e.target)
     // const { id, value } = e.target;
     const { dataset, value } = e.target;
     const id = dataset.id

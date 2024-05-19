@@ -19,10 +19,10 @@ const ForgotPassword = () => {
   const error = useSelector((state) => state.forgotPassword.error);
 
   const handleEmailSubmit = async (e) => {
-    console.log(email);
+    // console.log(email);
     e.preventDefault();
     const response = await dispatch(sendOTPMail({ email }));
-    console.log(otpToken, "otpToken");
+    // console.log(otpToken, "otpToken");
     if (response) {
       setOTPToken(response.data.data.otpToken, "AA");
       setUserId(response.data.data.userId, "AA");
@@ -43,17 +43,17 @@ const ForgotPassword = () => {
   const handleOTPSubmit = async (otp) => {
     const response = await dispatch(verifyOTP({ otp, otpToken }));
     if (response) {
-      console.log("sdsds");
+      // console.log("sdsds");
       setShowOTPForm(false);
       setShowPasswordRest(true);
     }
   };
   const handleSetPassword = async (e) => {
     e.preventDefault()
-    console.log(userId,"aaaa")
+    // console.log(userId,"aaaa")
     const response = await dispatch(createNewPassword({ userId,newPassword:password,confirmPassword:confPassword }));
     if (response) {
-      console.log("sdsds");
+      // console.log("sdsds");
       setShowOTPForm(false);
       setShowPasswordRest(true);
     }

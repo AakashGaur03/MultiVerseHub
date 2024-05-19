@@ -16,7 +16,7 @@ import axios from "axios";
 const Cricket = () => {
   const dispatch = useDispatch();
   const [cricketData, setCricketData] = useState([]);
-  const [pointstable, setpointstable] = useState([]);
+  const [pointstable, setpointstable] = useState({ id: null, data: [] });
 
   useEffect(() => {
     dispatch(getCricket()).then((response) => {
@@ -109,7 +109,7 @@ const Cricket = () => {
   //       url: "https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c231889/i.jpg",
   //       headers: {
   //         "X-RapidAPI-Key":
-  //           "22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b",
+  //           "",
   //         "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
   //       },
   //       responseType: "blob", // Set the response type to blob
@@ -140,7 +140,7 @@ const Cricket = () => {
       method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,
       headers: {
-        "x-rapidapi-key": "22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b",
+        "x-rapidapi-key": "",
         "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
         "Content-Type": "application/json",
       },
@@ -156,7 +156,12 @@ const Cricket = () => {
         "pointsTableInfo"
       );
       if (response.data) {
-        setpointstable(response.data.pointsTable[0].pointsTableInfo);
+        let datatoStrore = {
+          id,
+          data: response.data.pointsTable[0].pointsTableInfo,
+        };
+        setpointstable(datatoStrore);
+        console.log(pointstable.data, "pointstable");
       }
     } catch (error) {
       console.error(error);
@@ -164,85 +169,96 @@ const Cricket = () => {
   };
 
   return (
-    <div className="flex overflow-y-auto">
-      <>
-        {cricketData &&
-          cricketData.map((data, index) => (
-            <div className="min-w-52 me-4" md={4} key={index}>
-              {/* {data.matchInfo.team1 && (
+    <>
+      <div className="flex overflow-y-auto">
+        <>
+          {cricketData &&
+            cricketData.map((data, index) => (
+              <div className="min-w-52 me-4" md={4} key={index}>
+                {/* {data.matchInfo.team1 && (
               <img
                 src={imageSrcMap[data.matchInfo.team1.imageId]}
                 alt={`Team 1: ${data.matchInfo.team1.teamSName}`}
               />
             )} */}
-              {/* <img
+                {/* <img
               src={getCricketImage(data.matchInfo.team1?.imageId)}
               alt=""
             />*/}
-              {/* <div> {data.matchInfo.team1?.imageId}</div> */}
-              <div>
-                {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
-                {data.matchInfo?.matchFormat}
+                {/* <div> {data.matchInfo.team1?.imageId}</div> */}
+                <div>
+                  {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
+                  {data.matchInfo?.matchFormat}
+                </div>
+                <div>
+                  {data.matchInfo.team1?.teamSName}
+                  {data.matchScore?.team1Score.inngs1.runs &&
+                    !data.matchScore?.team1Score.inngs2?.runs && (
+                      <>
+                        : {data.matchScore?.team1Score.inngs1.runs}-
+                        {data.matchScore?.team1Score.inngs1.wickets} (
+                        {data.matchScore?.team1Score.inngs1.overs})
+                      </>
+                    )}
+                  {data.matchScore?.team1Score.inngs1.runs &&
+                    data.matchScore?.team1Score.inngs2?.runs && (
+                      <>
+                        : {data.matchScore?.team1Score.inngs1.runs}-
+                        {data.matchScore?.team1Score.inngs1.wickets}{" "}
+                        {data.matchScore?.team1Score.inngs2?.runs}-
+                        {data.matchScore?.team1Score.inngs2?.wickets}
+                      </>
+                    )}
+                </div>
+                <div></div>
+                <div>
+                  {data.matchInfo.team2?.teamSName}
+                  {data.matchScore?.team2Score.inngs1.runs &&
+                    !data.matchScore?.team2Score.inngs2?.runs && (
+                      <>
+                        : {data.matchScore?.team2Score.inngs1.runs}-
+                        {data.matchScore?.team2Score.inngs1.wickets} (
+                        {data.matchScore?.team2Score.inngs1.overs})
+                      </>
+                    )}
+                  {data.matchScore?.team2Score.inngs1.runs &&
+                    data.matchScore?.team2Score.inngs2?.runs && (
+                      <>
+                        : {data.matchScore?.team2Score.inngs1.runs}-
+                        {data.matchScore?.team2Score.inngs1.wickets}{" "}
+                        {data.matchScore?.team2Score.inngs2?.runs}-
+                        {data.matchScore?.team2Score.inngs2?.wickets}
+                      </>
+                    )}
+                </div>
+                <div></div>
+                <div>{data.matchInfo?.status}</div>
+                <NavLink
+                  // to={`${data.matchInfo.seriesId}/pointsTable`}
+                  className="cursor-pointer"
+                  onClick={() => getPointsTable(data.matchInfo.seriesId)}
+                >
+                  Table
+                </NavLink>
               </div>
-              <div>
-                {data.matchInfo.team1?.teamSName}
-                {data.matchScore?.team1Score.inngs1.runs &&
-                  !data.matchScore?.team1Score.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team1Score.inngs1.runs}-
-                      {data.matchScore?.team1Score.inngs1.wickets} (
-                      {data.matchScore?.team1Score.inngs1.overs})
-                    </>
-                  )}
-                {data.matchScore?.team1Score.inngs1.runs &&
-                  data.matchScore?.team1Score.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team1Score.inngs1.runs}-
-                      {data.matchScore?.team1Score.inngs1.wickets}{" "}
-                      {data.matchScore?.team1Score.inngs2?.runs}-
-                      {data.matchScore?.team1Score.inngs2?.wickets}
-                    </>
-                  )}
-              </div>
-              <div></div>
-              <div>
-                {data.matchInfo.team2?.teamSName}
-                {data.matchScore?.team2Score.inngs1.runs &&
-                  !data.matchScore?.team2Score.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team2Score.inngs1.runs}-
-                      {data.matchScore?.team2Score.inngs1.wickets} (
-                      {data.matchScore?.team2Score.inngs1.overs})
-                    </>
-                  )}
-                {data.matchScore?.team2Score.inngs1.runs &&
-                  data.matchScore?.team2Score.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team2Score.inngs1.runs}-
-                      {data.matchScore?.team2Score.inngs1.wickets}{" "}
-                      {data.matchScore?.team2Score.inngs2?.runs}-
-                      {data.matchScore?.team2Score.inngs2?.wickets}
-                    </>
-                  )}
-              </div>
-              <div></div>
-              <div>{data.matchInfo?.status}</div>
-              <NavLink
-                to={`${data.matchInfo.seriesId}/pointsTable`}
-                className="cursor-pointer"
-                onClick={() => getPointsTable(data.matchInfo.seriesId)}
-              >
-                Table
-              </NavLink>
-            </div>
-          ))}
-{/* <Routes>
+            ))}
+
+          {/* <Routes>
 
 </Routes> */}
 
-        {/* <div>{imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}</div> */}
-      </>
-    </div>
+          {/* <div>{imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}</div> */}
+        </>
+      </div>
+      <div>
+        {pointstable.data &&
+          pointstable.data.map((data, index) => (
+            <div key={index}>
+              <div>Hi</div>
+            </div>
+          ))}
+      </div>
+    </>
   );
 };
 

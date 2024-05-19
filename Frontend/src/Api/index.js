@@ -99,12 +99,12 @@ export const getCricketAPIFunc = async (query) => {
   return response.data;
 };
 export const getCricketImageAPIFunc = async (query) => {
-  console.log(query,"asasasasasasassasasasasasasass")
+  // console.log(query,"asasasasasasassasasasasasasass")
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
   );
   // return response.data;
-  console.log(response.data,"asasasasasasass")
+  // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
 
@@ -119,6 +119,6 @@ export const getWordOfTheDayAPIFunc = async () => {
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/wordofthedayApi`
   );
-  console.log(response, "RESSSSSS");
+  // console.log(response, "RESSSSSS");
   return response.data.data.responseData;
 };

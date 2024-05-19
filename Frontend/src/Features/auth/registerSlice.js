@@ -35,7 +35,7 @@ export const registerUser = (userData) => async (dispatch) => {
 
     // Make API call to register user
     const response = await registerUserApi(userData)
-    console.log(response)
+    // console.log(response)
     let dispatchMessage = "";
     dispatchMessage =
     response?.data?.message || "User Registered SuccessFully ";

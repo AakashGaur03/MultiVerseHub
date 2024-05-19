@@ -443,7 +443,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
       throw new Error("JWT token not provided");
     }
     const decodedToken = jwt.verify(otpToken, process.env.OTP_TOKEN_SECRET);
-    console.log(decodedToken);
+    // console.log(decodedToken);
     // console.log(decodedToken.otp);
     // console.log(otp);
     const userId = decodedToken.userId;
@@ -546,7 +546,7 @@ const getRecentCricket = asyncHandler(async (req, res) => {
     const response = await axios.request(options);
 
     if (response) {
-      console.log(response, "response");
+      // console.log(response, "response");
       // const responseData = response.data.data;
       const responseData = response.data;
       return res
@@ -570,7 +570,7 @@ const getRecentCricket = asyncHandler(async (req, res) => {
 });
 const getCricketImage = asyncHandler(async (req, res) => {
   const { query } = req.query;
-  console.log(query, "querytsssss");
+  // console.log(query, "querytsssss");
   try {
     const options = {
       method: "GET",
@@ -584,7 +584,7 @@ const getCricketImage = asyncHandler(async (req, res) => {
     const response = await axios.request(options);
 
     if (response) {
-      console.log(response, "response232323");
+      // console.log(response, "response232323");
       const responseData = response.data;
       return res
         .status(200)
@@ -648,7 +648,7 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
     const response = await axios.request(options);
     if (response) {
       const responseData = response.data.data;
-      console.log(responseData, "REQOFPOJDS");
+      // console.log(responseData, "REQOFPOJDS");
       return res
         .status(200)
         .json(

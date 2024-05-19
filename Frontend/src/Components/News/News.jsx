@@ -35,7 +35,7 @@ const News = ({
   }, []);
   const colmd4ref = useRef(null);
   if (colmd4ref.current) {
-    console.log(colmd4ref.current, "colmd4ref.current");
+    // console.log(colmd4ref.current, "colmd4ref.current");
     const height = colmd4ref.current.offsetHeight;
     const colMd8Div = document.querySelector(".colMd8Div");
     if (colMd8Div) {

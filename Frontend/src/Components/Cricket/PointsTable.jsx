@@ -1,12 +1,12 @@
-import React from 'react'
-
+import React from "react";
+import { useParams } from "react-router-dom";
 const PointsTable = () => {
-  console.log("Comos")
-  return (
-    <div>
-      PointsTable
-    </div>
-  )
-}
+  console.log("Comos");
+  const { seriesId } = useParams();
 
-export default PointsTable
+  // Now `seriesId` contains the value captured from the URL
+  console.log(seriesId);
+  return <div>PointsTable</div>;
+};
+
+export default PointsTable;
