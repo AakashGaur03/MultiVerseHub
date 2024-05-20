@@ -170,8 +170,8 @@ const Cricket = () => {
 
   return (
     <>
-      <div className="flex overflow-y-auto">
-        <>
+      <div>
+        <div className="flex overflow-y-auto">
           {cricketData &&
             cricketData.map((data, index) => (
               <div className="min-w-52 me-4" md={4} key={index}>
@@ -248,15 +248,16 @@ const Cricket = () => {
 </Routes> */}
 
           {/* <div>{imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}</div> */}
-        </>
-      </div>
-      <div>
-        {pointstable.data &&
-          pointstable.data.map((data, index) => (
-            <div key={index}>
-              <div>Hi</div>
-            </div>
-          ))}
+        </div>
+        
+        <div>
+          {pointstable.data &&
+            pointstable.data.map((data, index) => (
+              <div key={index}>
+                <div>Hi</div>
+              </div>
+            ))}
+        </div>
       </div>
     </>
   );
