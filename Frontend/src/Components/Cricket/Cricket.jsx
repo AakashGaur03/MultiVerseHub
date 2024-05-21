@@ -4,6 +4,8 @@ import { PointsTable, truncateText } from "../../index";
 import { NavLink } from "react-router-dom";
 import { getCricket } from "../../Features";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { getCricketImageAPIFunc } from "../../Api";
 import {
   BrowserRouter as Router,
@@ -14,6 +16,7 @@ import {
 import axios from "axios";
 
 const Cricket = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cricketData, setCricketData] = useState([]);
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
@@ -162,6 +165,10 @@ const Cricket = () => {
         };
         setpointstable(datatoStrore);
         console.log(pointstable.data, "pointstable");
+
+        navigate(`${id}/pointsTable`, {
+          state: { pointsTableData: datatoStrore },
+        });
       }
     } catch (error) {
       console.error(error);
@@ -170,94 +177,69 @@ const Cricket = () => {
 
   return (
     <>
-      <div>
-        <div className="flex overflow-y-auto">
-          {cricketData &&
-            cricketData.map((data, index) => (
-              <div className="min-w-52 me-4" md={4} key={index}>
-                {/* {data.matchInfo.team1 && (
-              <img
-                src={imageSrcMap[data.matchInfo.team1.imageId]}
-                alt={`Team 1: ${data.matchInfo.team1.teamSName}`}
-              />
-            )} */}
-                {/* <img
-              src={getCricketImage(data.matchInfo.team1?.imageId)}
-              alt=""
-            />*/}
-                {/* <div> {data.matchInfo.team1?.imageId}</div> */}
-                <div>
-                  {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
-                  {data.matchInfo?.matchFormat}
-                </div>
-                <div>
-                  {data.matchInfo.team1?.teamSName}
-                  {data.matchScore?.team1Score.inngs1.runs &&
-                    !data.matchScore?.team1Score.inngs2?.runs && (
-                      <>
-                        : {data.matchScore?.team1Score.inngs1.runs}-
-                        {data.matchScore?.team1Score.inngs1.wickets} (
-                        {data.matchScore?.team1Score.inngs1.overs})
-                      </>
-                    )}
-                  {data.matchScore?.team1Score.inngs1.runs &&
-                    data.matchScore?.team1Score.inngs2?.runs && (
-                      <>
-                        : {data.matchScore?.team1Score.inngs1.runs}-
-                        {data.matchScore?.team1Score.inngs1.wickets}{" "}
-                        {data.matchScore?.team1Score.inngs2?.runs}-
-                        {data.matchScore?.team1Score.inngs2?.wickets}
-                      </>
-                    )}
-                </div>
-                <div></div>
-                <div>
-                  {data.matchInfo.team2?.teamSName}
-                  {data.matchScore?.team2Score.inngs1.runs &&
-                    !data.matchScore?.team2Score.inngs2?.runs && (
-                      <>
-                        : {data.matchScore?.team2Score.inngs1.runs}-
-                        {data.matchScore?.team2Score.inngs1.wickets} (
-                        {data.matchScore?.team2Score.inngs1.overs})
-                      </>
-                    )}
-                  {data.matchScore?.team2Score.inngs1.runs &&
-                    data.matchScore?.team2Score.inngs2?.runs && (
-                      <>
-                        : {data.matchScore?.team2Score.inngs1.runs}-
-                        {data.matchScore?.team2Score.inngs1.wickets}{" "}
-                        {data.matchScore?.team2Score.inngs2?.runs}-
-                        {data.matchScore?.team2Score.inngs2?.wickets}
-                      </>
-                    )}
-                </div>
-                <div></div>
-                <div>{data.matchInfo?.status}</div>
-                <NavLink
-                  // to={`${data.matchInfo.seriesId}/pointsTable`}
-                  className="cursor-pointer"
-                  onClick={() => getPointsTable(data.matchInfo.seriesId)}
-                >
-                  Table
-                </NavLink>
+      <div className="flex overflow-y-auto">
+        {cricketData &&
+          cricketData.map((data, index) => (
+            <div className="min-w-52 me-4" md={4} key={index}>
+              <div>
+                {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
+                {data.matchInfo?.matchFormat}
               </div>
-            ))}
-
-          {/* <Routes>
-
-</Routes> */}
-
-          {/* <div>{imageSrc && <img src={imageSrc} alt="Cricbuzz Image" />}</div> */}
-        </div>
-        
-        <div>
-          {pointstable.data &&
-            pointstable.data.map((data, index) => (
-              <div key={index}>
-                <div>Hi</div>
+              <div>
+                {data.matchInfo.team1?.teamSName}
+                {data.matchScore?.team1Score.inngs1.runs &&
+                  !data.matchScore?.team1Score.inngs2?.runs && (
+                    <>
+                      : {data.matchScore?.team1Score.inngs1.runs}-
+                      {data.matchScore?.team1Score.inngs1.wickets} (
+                      {data.matchScore?.team1Score.inngs1.overs})
+                    </>
+                  )}
+                {data.matchScore?.team1Score.inngs1.runs &&
+                  data.matchScore?.team1Score.inngs2?.runs && (
+                    <>
+                      : {data.matchScore?.team1Score.inngs1.runs}-
+                      {data.matchScore?.team1Score.inngs1.wickets}{" "}
+                      {data.matchScore?.team1Score.inngs2?.runs}-
+                      {data.matchScore?.team1Score.inngs2?.wickets}
+                    </>
+                  )}
               </div>
-            ))}
-        </div>
+              <div></div>
+              <div>
+                {data.matchInfo.team2?.teamSName}
+                {data.matchScore?.team2Score.inngs1.runs &&
+                  !data.matchScore?.team2Score.inngs2?.runs && (
+                    <>
+                      : {data.matchScore?.team2Score.inngs1.runs}-
+                      {data.matchScore?.team2Score.inngs1.wickets} (
+                      {data.matchScore?.team2Score.inngs1.overs})
+                    </>
+                  )}
+                {data.matchScore?.team2Score.inngs1.runs &&
+                  data.matchScore?.team2Score.inngs2?.runs && (
+                    <>
+                      : {data.matchScore?.team2Score.inngs1.runs}-
+                      {data.matchScore?.team2Score.inngs1.wickets}{" "}
+                      {data.matchScore?.team2Score.inngs2?.runs}-
+                      {data.matchScore?.team2Score.inngs2?.wickets}
+                    </>
+                  )}
+              </div>
+              <div></div>
+              <div>{data.matchInfo?.status}</div>
+              <NavLink
+                // to={{
+                //   pathname: `${data.matchInfo.seriesId}/pointsTable`,
+                //   state: { pointsTableData: pointstable },
+                // }}
+                className="cursor-pointer"
+                onClick={() => getPointsTable(data.matchInfo.seriesId)}
+              >
+                Table
+              </NavLink>
+            </div>
+          ))}
       </div>
     </>
   );
