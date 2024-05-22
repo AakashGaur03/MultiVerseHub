@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body{
+body {
   background-color: black !important;
   color: white !important;
 }
@@ -25,7 +24,6 @@ body {
   -ms-overflow-style: none; /* Hide scrollbar for Edge and IE */
   overflow: -moz-scrollbars-none; /* Hide scrollbar for other browsers */
 }
-
 
 .posNormal {
   position: relative;
@@ -62,8 +60,7 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-      max-height: 3.6em; /* 2 lines * line-height */
-
+  max-height: 3.6em; /* 2 lines * line-height */
 }
 .limit5Lines {
   overflow: hidden;
@@ -95,32 +92,34 @@ input[type="search"]::-webkit-search-decoration {
   cursor: pointer;
 }
 
-.wordOfTheDay{
+.wordOfTheDay {
   border-radius: 45px;
   background: linear-gradient(45deg, black, #726e6e);
   color: #fffaf1;
 }
 
-
 /* Dark Theme Form Input */
 
-.form-control{
+.form-control {
   background-color: black;
   color: white;
 }
-.form-control:focus{
+.form-control:focus {
   background-color: black;
   color: white;
 }
-.form-control::placeholder{
+.form-control::placeholder {
   color: white;
 }
-
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
   transition: background-color 5000s;
   -webkit-text-fill-color: #fff !important;
+}
+
+.table {
+  --bs-table-bg: black;
 }
