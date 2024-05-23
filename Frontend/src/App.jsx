@@ -23,7 +23,7 @@ import {
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
-import { getNews } from "./Features";
+import { getCricket, getNews } from "./Features";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -69,12 +69,12 @@ function App() {
       ];
     } else if (location.pathname.includes("/cricket")) {
       return [
-        { title: "Matches", path: "/" },
-        { title: "Player", path: "/Player" },
-        { title: "recent", path: "/recent" },
-        { title: "series", path: "/series" },
-        { title: "rankings", path: "/rankings" },
-        { title: "Points", path: "/Points" },
+        { title: "All", path: "/" },
+        { title: "International", path: "/International" },
+        { title: "League", path: "/League" },
+        { title: "Domestic", path: "/Domestic" },
+        { title: "Women", path: "/Women" },
+        { title: "Rankings", path: "/Rankings" },
       ];
     } else if (location.pathname.includes("/games")) {
       return [
@@ -105,15 +105,22 @@ function App() {
   }, [location.pathname]);
   const handleSidebarClick = async (category) => {
     setQuery(category);
-    const response = await dispatch(getNews(category));
-    if (response) {
-      setNewsData(response.data.data.responseData.results);
+    if (location.pathname.includes("/news")) {
+      const response = await dispatch(getNews(category));
+      if (response) {
+        setNewsData(response.data.data.responseData.results);
+      }
+    }else if (location.pathname.includes("/cricket")) {
+      // Conditioning To be Done
+      // const response = await dispatch(getCricket(category));
     }
   };
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState("");
   const [newsData, setNewsData] = useState([]);
+  const [cricketData, setCricketData] = useState([]);
+
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
@@ -158,7 +165,14 @@ function App() {
               }
             />
             <Route path="/favorites" element={<Favorite />} />
-            <Route path="/cricket" element={<Cricket />} />
+            <Route path="/cricket" element={<Cricket 
+            query={query}
+            setQuery={setQuery}
+            cricketData={cricketData}
+            setCricketData={setCricketData}
+            handleChange={handleChange}
+
+            />} />
             <Route
               path="/cricket/:seriesId/pointsTable"
               element={<PointsTable />}

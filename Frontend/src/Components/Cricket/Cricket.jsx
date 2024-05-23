@@ -7,18 +7,19 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { getCricketImageAPIFunc } from "../../Api";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+
 import axios from "axios";
 
-const Cricket = () => {
+const Cricket = ({
+  query,
+  setQuery,
+  cricketData,
+  setCricketData,
+  handleChange,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [cricketData, setCricketData] = useState([]);
+  // const [cricketData, setCricketData] = useState([]);
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
 
   useEffect(() => {
