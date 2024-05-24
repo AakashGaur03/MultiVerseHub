@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { getCricketImageAPIFunc } from "../../Api";
-
 import axios from "axios";
 
 const Cricket = ({
@@ -22,62 +21,62 @@ const Cricket = ({
   // const [cricketData, setCricketData] = useState([]);
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
 
-  useEffect(() => {
-    dispatch(getCricket()).then((response) => {
-      const typeMatches = response.data.responseData.typeMatches;
-      console.log(response, "responseOFCRi");
+  // useEffect(() => {
+  //   dispatch(getCricket()).then((response) => {
+  //     const typeMatches = response.data.responseData.typeMatches;
+  //     console.log(response, "responseOFCRi");
 
-      let LeaguesMatches = typeMatches.find(
-        (match) => match.matchType == "League"
-      );
-      let InterMatches = typeMatches.find(
-        (match) => match.matchType == "International"
-      );
-      let WomenMatches = typeMatches.find(
-        (match) => match.matchType == "Women"
-      );
+  //     let LeaguesMatches = typeMatches.find(
+  //       (match) => match.matchType == "League"
+  //     );
+  //     let InterMatches = typeMatches.find(
+  //       (match) => match.matchType == "International"
+  //     );
+  //     let WomenMatches = typeMatches.find(
+  //       (match) => match.matchType == "Women"
+  //     );
 
-      let IPLMatches = LeaguesMatches?.seriesMatches
-        .find((matchseries) =>
-          matchseries.seriesAdWrapper.seriesName.includes(
-            "Indian Premier League"
-          )
-        )
-        .seriesAdWrapper.matches?.slice(0, 3);
+  //     let IPLMatches = LeaguesMatches?.seriesMatches
+  //       .find((matchseries) =>
+  //         matchseries.seriesAdWrapper.seriesName.includes(
+  //           "Indian Premier League"
+  //         )
+  //       )
+  //       .seriesAdWrapper.matches?.slice(0, 3);
 
-      let IntlMatches = InterMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+  //     let IntlMatches = InterMatches.seriesMatches
+  //       .filter((match) => match.seriesAdWrapper)
+  //       .slice(0, 2); // It slices number of series to 2
 
-      let WomMatches = WomenMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+  //     let WomMatches = WomenMatches.seriesMatches
+  //       .filter((match) => match.seriesAdWrapper)
+  //       .slice(0, 2); // It slices number of series to 2
 
-      // console.log(IntlMatches, "IntlMatches");
+  //     // console.log(IntlMatches, "IntlMatches");
 
-      let newCricketData = [];
+  //     let newCricketData = [];
 
-      // Adding IPL matches to newCricketData
-      if (Array.isArray(IPLMatches)) {
-        newCricketData.push(...IPLMatches.slice(0, 3));
-      }
+  //     // Adding IPL matches to newCricketData
+  //     if (Array.isArray(IPLMatches)) {
+  //       newCricketData.push(...IPLMatches.slice(0, 3));
+  //     }
 
-      // Adding International matches to newCricketData
-      IntlMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-      WomMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
+  //     // Adding International matches to newCricketData
+  //     IntlMatches.forEach((match) => {
+  //       if (Array.isArray(match.seriesAdWrapper.matches)) {
+  //         newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+  //       }
+  //     });
+  //     WomMatches.forEach((match) => {
+  //       if (Array.isArray(match.seriesAdWrapper.matches)) {
+  //         newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+  //       }
+  //     });
 
-      // Update the state once with all the data
-      setCricketData(newCricketData);
-    });
-  }, []);
+  //     // Update the state once with all the data
+  //     setCricketData(newCricketData);
+  //   });
+  // }, []);
 
   //   const getCricketImage = async (imageId) => {
   //     try {
@@ -144,7 +143,7 @@ const Cricket = ({
       method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,
       headers: {
-        "x-rapidapi-key": "",
+        "x-rapidapi-key": "22d26b47d8msh803eeb4fcc0d938p12274fjsna785b41ba11b",
         "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
         "Content-Type": "application/json",
       },

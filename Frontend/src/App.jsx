@@ -89,6 +89,7 @@ function App() {
   };
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
+  const [typeMatches, setTypeMatches] = useState([]);
   useEffect(() => {
     if (
       ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
@@ -103,6 +104,64 @@ function App() {
     const items = getSidebarItems();
     setSidebarItems(items);
   }, [location.pathname]);
+
+  useEffect(() => {
+    dispatch(getCricket()).then((response) => {
+      const typeMatches = response.data.responseData.typeMatches;
+      setTypeMatches(typeMatches)
+      console.log(response, "responseOFCRi");
+
+      let LeaguesMatches = typeMatches.find(
+        (match) => match.matchType == "League"
+      );
+      let InterMatches = typeMatches.find(
+        (match) => match.matchType == "International"
+      );
+      let WomenMatches = typeMatches.find(
+        (match) => match.matchType == "Women"
+      );
+
+      let IPLMatches = LeaguesMatches?.seriesMatches
+        .find((matchseries) =>
+          matchseries.seriesAdWrapper.seriesName.includes(
+            "Indian Premier League"
+          )
+        )
+        .seriesAdWrapper.matches?.slice(0, 3);
+
+      let IntlMatches = InterMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      let WomMatches = WomenMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      // console.log(IntlMatches, "IntlMatches");
+
+      let newCricketData = [];
+
+      // Adding IPL matches to newCricketData
+      if (Array.isArray(IPLMatches)) {
+        newCricketData.push(...IPLMatches.slice(0, 3));
+      }
+
+      // Adding International matches to newCricketData
+      IntlMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+        }
+      });
+      WomMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+        }
+      });
+
+      // Update the state once with all the data
+      setCricketData(newCricketData);
+    });
+  }, []);
   const handleSidebarClick = async (category) => {
     setQuery(category);
     if (location.pathname.includes("/news")) {
@@ -110,9 +169,28 @@ function App() {
       if (response) {
         setNewsData(response.data.data.responseData.results);
       }
-    }else if (location.pathname.includes("/cricket")) {
+    } else if (location.pathname.includes("/cricket")) {
       // Conditioning To be Done
+      console.log(category);
+
+      let InterMatches = typeMatches.find(
+        (match) => match.matchType == "International"
+      );
+
+      let IntlMatches = InterMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      console.log(IntlMatches,"IntlMatches")
+      let newCricketData = [];
+      IntlMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
+        }
+        console.log(newCricketData)
+      });
       // const response = await dispatch(getCricket(category));
+      setCricketData(newCricketData)
     }
   };
   const dispatch = useDispatch();
@@ -165,14 +243,18 @@ function App() {
               }
             />
             <Route path="/favorites" element={<Favorite />} />
-            <Route path="/cricket" element={<Cricket 
-            query={query}
-            setQuery={setQuery}
-            cricketData={cricketData}
-            setCricketData={setCricketData}
-            handleChange={handleChange}
-
-            />} />
+            <Route
+              path="/cricket"
+              element={
+                <Cricket
+                  query={query}
+                  setQuery={setQuery}
+                  cricketData={cricketData}
+                  setCricketData={setCricketData}
+                  handleChange={handleChange}
+                />
+              }
+            />
             <Route
               path="/cricket/:seriesId/pointsTable"
               element={<PointsTable />}
