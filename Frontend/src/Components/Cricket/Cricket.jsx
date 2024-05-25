@@ -154,6 +154,7 @@ const Cricket = ({
       console.log(response);
       console.log(response.data);
       console.log(response.data.pointsTable);
+      setQuery("")
       console.log(
         response.data.pointsTable[0].pointsTableInfo,
         "pointsTableInfo"

@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import {
@@ -28,6 +29,9 @@ import { useEffect, useState } from "react";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
   const getSidebarItems = () => {
     // switch (location.pathname) {
     //   case "/news":
@@ -111,25 +115,32 @@ function App() {
       setTypeMatches(typeMatches)
       console.log(response, "responseOFCRi");
 
-      let LeaguesMatches = typeMatches.find(
-        (match) => match.matchType == "League"
-      );
+      // let LeaguesMatches = typeMatches.find(
+      //   (match) => match.matchType == "League"
+      // );
       let InterMatches = typeMatches.find(
         (match) => match.matchType == "International"
       );
       let WomenMatches = typeMatches.find(
         (match) => match.matchType == "Women"
       );
+      let LeagueMatches = typeMatches.find(
+        (match) => match.matchType == "League"
+      );
 
-      let IPLMatches = LeaguesMatches?.seriesMatches
-        .find((matchseries) =>
-          matchseries.seriesAdWrapper.seriesName.includes(
-            "Indian Premier League"
-          )
-        )
-        .seriesAdWrapper.matches?.slice(0, 3);
+      // let IPLMatches = LeaguesMatches?.seriesMatches
+      //   .find((matchseries) =>
+      //     matchseries.seriesAdWrapper.seriesName.includes(
+      //       "Indian Premier League"
+      //     )
+      //   )
+      //   .seriesAdWrapper.matches?.slice(0, 3);
 
       let IntlMatches = InterMatches.seriesMatches
+        .filter((match) => match.seriesAdWrapper)
+        .slice(0, 2); // It slices number of series to 2
+
+      let LegMatches = LeagueMatches.seriesMatches
         .filter((match) => match.seriesAdWrapper)
         .slice(0, 2); // It slices number of series to 2
 
@@ -142,11 +153,16 @@ function App() {
       let newCricketData = [];
 
       // Adding IPL matches to newCricketData
-      if (Array.isArray(IPLMatches)) {
-        newCricketData.push(...IPLMatches.slice(0, 3));
-      }
+      // if (Array.isArray(IPLMatches)) {
+      //   newCricketData.push(...IPLMatches.slice(0, 3));
+      // }
 
       // Adding International matches to newCricketData
+      LegMatches.forEach((match) => {
+        if (Array.isArray(match.seriesAdWrapper.matches)) {
+          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+        }
+      });
       IntlMatches.forEach((match) => {
         if (Array.isArray(match.seriesAdWrapper.matches)) {
           newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
@@ -162,19 +178,30 @@ function App() {
       setCricketData(newCricketData);
     });
   }, []);
+  useEffect(() => {
+    if(query && location.pathname.includes("/pointsTable")){
+      navigate('/cricket');
+      setQuery("")
+    }
+  }, [location.pathname, navigate,query])
+  
   const handleSidebarClick = async (category) => {
     setQuery(category);
     if (location.pathname.includes("/news")) {
       const response = await dispatch(getNews(category));
       if (response) {
         setNewsData(response.data.data.responseData.results);
+      // setQuery("")
       }
     } else if (location.pathname.includes("/cricket")) {
+      console.log("Current pathname:", location.pathname);
       // Conditioning To be Done
+      // navigate('/cricket');
+      // window.location.href="/cricket"
       console.log(category);
 
       let InterMatches = typeMatches.find(
-        (match) => match.matchType == "International"
+        (match) => match.matchType == category
       );
 
       let IntlMatches = InterMatches.seriesMatches
@@ -191,11 +218,15 @@ function App() {
       });
       // const response = await dispatch(getCricket(category));
       setCricketData(newCricketData)
+      console.log("routing")
+      // navigate('/cricket');
+      console.log("routed")
+      // setQuery("")
+
     }
   };
   const dispatch = useDispatch();
 
-  const [query, setQuery] = useState("");
   const [newsData, setNewsData] = useState([]);
   const [cricketData, setCricketData] = useState([]);
 
