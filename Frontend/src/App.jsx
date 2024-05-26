@@ -112,7 +112,7 @@ function App() {
   useEffect(() => {
     dispatch(getCricket()).then((response) => {
       const typeMatches = response.data.responseData.typeMatches;
-      setTypeMatches(typeMatches)
+      setTypeMatches(typeMatches);
       console.log(response, "responseOFCRi");
 
       // let LeaguesMatches = typeMatches.find(
@@ -150,48 +150,49 @@ function App() {
 
       // console.log(IntlMatches, "IntlMatches");
 
-      let newCricketData = [];
+      let newCricketData2 = [];
 
-      // Adding IPL matches to newCricketData
+      // Adding IPL matches to newCricketData2
       // if (Array.isArray(IPLMatches)) {
-      //   newCricketData.push(...IPLMatches.slice(0, 3));
+      //   newCricketData2.push(...IPLMatches.slice(0, 3));
       // }
 
-      // Adding International matches to newCricketData
+      // Adding International matches to newCricketData2
       LegMatches.forEach((match) => {
         if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
         }
       });
       IntlMatches.forEach((match) => {
         if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
         }
       });
       WomMatches.forEach((match) => {
         if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
         }
       });
 
       // Update the state once with all the data
-      setCricketData(newCricketData);
+      setCricketData(newCricketData2);
+      setNewCricketData(newCricketData2);
     });
   }, []);
   useEffect(() => {
-    if(query && location.pathname.includes("/pointsTable")){
-      navigate('/cricket');
-      setQuery("")
+    if (query && location.pathname.includes("/pointsTable")) {
+      navigate("/cricket");
+      setQuery("");
     }
-  }, [location.pathname, navigate,query])
-  
+  }, [location.pathname, navigate, query]);
+
   const handleSidebarClick = async (category) => {
     setQuery(category);
     if (location.pathname.includes("/news")) {
       const response = await dispatch(getNews(category));
       if (response) {
         setNewsData(response.data.data.responseData.results);
-      // setQuery("")
+        // setQuery("")
       }
     } else if (location.pathname.includes("/cricket")) {
       console.log("Current pathname:", location.pathname);
@@ -200,35 +201,39 @@ function App() {
       // window.location.href="/cricket"
       console.log(category);
 
-      let InterMatches = typeMatches.find(
-        (match) => match.matchType == category
-      );
+      if (category === "All") {
+        setCricketData(newCricketData);
+      } else {
+        let InterMatches = typeMatches.find(
+          (match) => match.matchType == category
+        );
 
-      let IntlMatches = InterMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+        let IntlMatches = InterMatches.seriesMatches
+          .filter((match) => match.seriesAdWrapper)
+          .slice(0, 2); // It slices number of series to 2
 
-      console.log(IntlMatches,"IntlMatches")
-      let newCricketData = [];
-      IntlMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
-        }
-        console.log(newCricketData)
-      });
-      // const response = await dispatch(getCricket(category));
-      setCricketData(newCricketData)
-      console.log("routing")
-      // navigate('/cricket');
-      console.log("routed")
-      // setQuery("")
-
+        console.log(IntlMatches, "IntlMatches");
+        let FilteredCricketData = [];
+        IntlMatches.forEach((match) => {
+          if (Array.isArray(match.seriesAdWrapper.matches)) {
+            FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
+          }
+          console.log(FilteredCricketData);
+        });
+        // const response = await dispatch(getCricket(category));
+        setCricketData(FilteredCricketData);
+        console.log("routing");
+        // navigate('/cricket');
+        console.log("routed");
+        // setQuery("")
+      }
     }
   };
   const dispatch = useDispatch();
 
   const [newsData, setNewsData] = useState([]);
   const [cricketData, setCricketData] = useState([]);
+  const [newCricketData, setNewCricketData] = useState([]);
 
   const handleChange = (e) => {
     setQuery(e.target.value);

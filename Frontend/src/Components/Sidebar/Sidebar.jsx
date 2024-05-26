@@ -11,8 +11,8 @@ const Sidebar = ({ items,handleItemClick }) => {
       <div className="min-w-52 bg-slate-30 0">
         <ul className="sidebarFixedSide bg-s late-300 min-w-52">
           {items.map((item, index) => (
-            <li key={index}>
-              <NavLink onClick={() => handleClick(item.title)}>{item.title}</NavLink>
+            <li key={index} onClick={() => handleClick(item.title)}>
+              <NavLink>{item.title}</NavLink>
             </li>
           ))}
         </ul>
