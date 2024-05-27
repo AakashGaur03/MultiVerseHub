@@ -17,6 +17,7 @@ import {
   getWeathter,
   getWordOfTheDay,
   getCricketImage,
+  getCricketPointsTable,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -53,6 +54,7 @@ router
 
 router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
+router.route("/:id/pointsTable").get(getCricketPointsTable);
 router.route("/cricketImageApi").get(getCricketImage);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { PointsTable, truncateText } from "../../index";
 import { NavLink } from "react-router-dom";
-import { getCricket } from "../../Features";
+import { getCricket, getCricketPointsTable } from "../../Features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricketImageAPIFunc } from "../../Api";
+import { getCricketImageAPIFunc, getCricketPointsTableAPIFunc } from "../../Api";
 import axios from "axios";
 
 const Cricket = ({
@@ -150,22 +150,21 @@ const Cricket = ({
     };
 
     try {
-      const response = await axios.request(options);
-      console.log(response);
-      console.log(response.data);
-      console.log(response.data.pointsTable);
+      const response = await getCricketPointsTableAPIFunc(id);
+      console.log(response,"1");
+      console.log(response.pointsTable,"3");
       setQuery("");
       console.log(
-        response.data.pointsTable[0].pointsTableInfo,
+        response.pointsTable[0].pointsTableInfo,
         "pointsTableInfo"
       );
-      if (response.data) {
+      if (response) {
         let datatoStrore = {
           id,
-          data: response.data.pointsTable[0].pointsTableInfo,
+          data: response.pointsTable[0].pointsTableInfo,
         };
         setpointstable(datatoStrore);
-        console.log(pointstable.data, "pointstable");
+        // console.log(pointstable.data, "pointstable");
 
         navigate(`${id}/pointsTable`, {
           state: { pointsTableData: datatoStrore },

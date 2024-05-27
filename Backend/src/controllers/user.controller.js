@@ -568,6 +568,42 @@ const getRecentCricket = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
+const getCricketPointsTable = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id,"getWordOfTheDayAPIFunc")
+    const options = {
+      method: "GET",
+      url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,
+      headers: {
+        "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
+        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios.request(options);
+
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Points Table API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Cricket API Failed to fetch Points Table"));
+    }
+  } catch (error) {
+    console.error("Error fetching Points Table:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
 const getCricketImage = asyncHandler(async (req, res) => {
   const { query } = req.query;
   // console.log(query, "querytsssss");
@@ -684,6 +720,7 @@ export {
   createNewPassword,
   getNews,
   getRecentCricket,
+  getCricketPointsTable,
   getWeathter,
   getWordOfTheDay,
   getCricketImage,

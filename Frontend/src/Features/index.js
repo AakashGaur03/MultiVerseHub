@@ -20,6 +20,7 @@ import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
 
 import getCricketAPIReducer, {
   getCricket,
+  getCricketPointsTable,
 } from "./APIReducers/getCricketAPISlice.js";
 
 export {
@@ -41,4 +42,5 @@ export {
   getNews,
   getCricketAPIReducer,
   getCricket,
+  getCricketPointsTable,
 };

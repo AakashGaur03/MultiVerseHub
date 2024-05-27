@@ -98,6 +98,15 @@ export const getCricketAPIFunc = async (query) => {
   );
   return response.data;
 };
+export const getCricketPointsTableAPIFunc = async (seriesId) => {
+  // if (query === "") query = "recent";
+  // console.log(query, "ff");
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/${seriesId}/pointsTable`
+  );
+  // console.log(response.data,"asasasasasasass")
+  return response.data.data.responseData;
+};
 export const getCricketImageAPIFunc = async (query) => {
   // console.log(query,"asasasasasasassasasasasasasass")
   const response = await axios.get(
