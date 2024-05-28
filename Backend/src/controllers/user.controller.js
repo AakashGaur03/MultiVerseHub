@@ -571,7 +571,7 @@ const getRecentCricket = asyncHandler(async (req, res) => {
 const getCricketPointsTable = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id,"getWordOfTheDayAPIFunc")
+    // console.log(id,"getWordOfTheDayAPIFunc")
     const options = {
       method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,

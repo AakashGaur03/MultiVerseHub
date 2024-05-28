@@ -6,7 +6,10 @@ import { getCricket, getCricketPointsTable } from "../../Features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricketImageAPIFunc, getCricketPointsTableAPIFunc } from "../../Api";
+import {
+  getCricketImageAPIFunc,
+  getCricketPointsTableAPIFunc,
+} from "../../Api";
 import axios from "axios";
 
 const Cricket = ({
@@ -151,25 +154,29 @@ const Cricket = ({
 
     try {
       const response = await getCricketPointsTableAPIFunc(id);
-      console.log(response,"1");
-      console.log(response.pointsTable,"3");
+      console.log(response, "1");
+      // console.log(response.pointsTable, "3");
       setQuery("");
-      console.log(
-        response.pointsTable[0].pointsTableInfo,
-        "pointsTableInfo"
-      );
+      // console.log(response.pointsTable[0].pointsTableInfo, "pointsTableInfo");
+      let datatoStrore ={}
       if (response) {
-        let datatoStrore = {
+        datatoStrore = {
           id,
           data: response.pointsTable[0].pointsTableInfo,
         };
-        setpointstable(datatoStrore);
-        // console.log(pointstable.data, "pointstable");
+      } else{
+        datatoStrore={
+          id:-1,
+          data:[]
+        }
 
-        navigate(`${id}/pointsTable`, {
-          state: { pointsTableData: datatoStrore },
-        });
-      }
+      } 
+      setpointstable(datatoStrore);
+      // console.log(pointstable.data, "pointstable");
+
+      navigate(`${id}/pointsTable`, {
+        state: { pointsTableData: datatoStrore },
+      });
     } catch (error) {
       console.error(error);
     }
@@ -187,42 +194,42 @@ const Cricket = ({
               </div>
               <div>
                 {data.matchInfo.team1?.teamSName}
-                {data.matchScore?.team1Score.inngs1.runs &&
-                  !data.matchScore?.team1Score.inngs2?.runs && (
+                {data.matchScore?.team1Score?.inngs1.runs &&
+                  !data.matchScore?.team1Score?.inngs2?.runs && (
                     <>
-                      : {data.matchScore?.team1Score.inngs1.runs}-
-                      {data.matchScore?.team1Score.inngs1.wickets} (
-                      {data.matchScore?.team1Score.inngs1.overs})
+                      : {data.matchScore?.team1Score?.inngs1.runs}-
+                      {data.matchScore?.team1Score?.inngs1.wickets} (
+                      {data.matchScore?.team1Score?.inngs1.overs})
                     </>
                   )}
-                {data.matchScore?.team1Score.inngs1.runs &&
-                  data.matchScore?.team1Score.inngs2?.runs && (
+                {data.matchScore?.team1Score?.inngs1.runs &&
+                  data.matchScore?.team1Score?.inngs2?.runs && (
                     <>
-                      : {data.matchScore?.team1Score.inngs1.runs}-
-                      {data.matchScore?.team1Score.inngs1.wickets}{" "}
-                      {data.matchScore?.team1Score.inngs2?.runs}-
-                      {data.matchScore?.team1Score.inngs2?.wickets}
+                      : {data.matchScore?.team1Score?.inngs1.runs}-
+                      {data.matchScore?.team1Score?.inngs1.wickets}{" "}
+                      {data.matchScore?.team1Score?.inngs2?.runs}-
+                      {data.matchScore?.team1Score?.inngs2?.wickets}
                     </>
                   )}
               </div>
               <div></div>
               <div>
                 {data.matchInfo.team2?.teamSName}
-                {data.matchScore?.team2Score.inngs1.runs &&
-                  !data.matchScore?.team2Score.inngs2?.runs && (
+                {data.matchScore?.team2Score?.inngs1.runs &&
+                  !data.matchScore?.team2Score?.inngs2?.runs && (
                     <>
-                      : {data.matchScore?.team2Score.inngs1.runs}-
-                      {data.matchScore?.team2Score.inngs1.wickets} (
-                      {data.matchScore?.team2Score.inngs1.overs})
+                      : {data.matchScore?.team2Score?.inngs1.runs}-
+                      {data.matchScore?.team2Score?.inngs1.wickets} (
+                      {data.matchScore?.team2Score?.inngs1.overs})
                     </>
                   )}
-                {data.matchScore?.team2Score.inngs1.runs &&
-                  data.matchScore?.team2Score.inngs2?.runs && (
+                {data.matchScore?.team2Score?.inngs1.runs &&
+                  data.matchScore?.team2Score?.inngs2?.runs && (
                     <>
-                      : {data.matchScore?.team2Score.inngs1.runs}-
-                      {data.matchScore?.team2Score.inngs1.wickets}{" "}
-                      {data.matchScore?.team2Score.inngs2?.runs}-
-                      {data.matchScore?.team2Score.inngs2?.wickets}
+                      : {data.matchScore?.team2Score?.inngs1.runs}-
+                      {data.matchScore?.team2Score?.inngs1.wickets}{" "}
+                      {data.matchScore?.team2Score?.inngs2?.runs}-
+                      {data.matchScore?.team2Score?.inngs2?.wickets}
                     </>
                   )}
               </div>
