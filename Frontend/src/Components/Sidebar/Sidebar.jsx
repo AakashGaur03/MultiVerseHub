@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = ({ items,handleItemClick }) => {
+const Sidebar = ({ items, handleItemClick }) => {
   // console.log(items)
   const handleClick = (category) => {
     handleItemClick(category);

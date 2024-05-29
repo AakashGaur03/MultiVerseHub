@@ -158,19 +158,18 @@ const Cricket = ({
       // console.log(response.pointsTable, "3");
       setQuery("");
       // console.log(response.pointsTable[0].pointsTableInfo, "pointsTableInfo");
-      let datatoStrore ={}
+      let datatoStrore = {};
       if (response) {
         datatoStrore = {
           id,
           data: response.pointsTable[0].pointsTableInfo,
         };
-      } else{
-        datatoStrore={
-          id:-1,
-          data:[]
-        }
-
-      } 
+      } else {
+        datatoStrore = {
+          id: -1,
+          data: [],
+        };
+      }
       setpointstable(datatoStrore);
       // console.log(pointstable.data, "pointstable");
 
