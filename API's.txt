@@ -1,21 +1,21 @@
-Cricbuzz : https://rapidapi.com/cricketapilive/api/cricbuzz-cricket				100 / day
+Cricbuzz : https://rapidapi.com/cricketapilive/api/cricbuzz-cricket				        100 / day
 
-Cricket : https://rapidapi.com/sudityakumar1/api/free-cricket-live-score1			250 / month
+Cricket : https://rapidapi.com/sudityakumar1/api/free-cricket-live-score1			    250 / month
 
-Cricket : https://cricketdata.org/pricing/							100 / day
+Cricket : https://cricketdata.org/pricing/							                    100 / day
 
 News : https://rapidapi.com/connexun-srl-connexun-srl-default/api/news67/pricing		15/day
 
 Currently Subscribing to this and Exploring more
 
 
-News : https://newsdata.io/pricing   								200/day 	Currently Using	
+News : https://newsdata.io/pricing   								                    200/day 	Currently Using	
 Status : 200OK Time : 34.54s    Size : 13.54 KB
 
 News : https://mediastack.com/payment    Check It Out Again Tom 
 
 
-News : https://rapidapi.com/MatcherLabs/api/news-api14/pricing                                  1000/month
+News : https://rapidapi.com/MatcherLabs/api/news-api14/pricing                          1000/month
 But no images
 
 Games 
@@ -36,16 +36,16 @@ Games
 
 Entertainment 
 
-Netflix :https://rapidapi.com/Glavier/api/netflix54/						100 / month
+Netflix :https://rapidapi.com/Glavier/api/netflix54/						            100 / month
 
-https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						500,000 / month
+https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						            500,000 / month
 
 https://rapidapi.com/rapihub-rapihub-default/api/imdb-top-100-movies/pricing			100 / month
 
-https://rapidapi.com/elisbushaj2/api/movies-api14						1,000 / month
+https://rapidapi.com/elisbushaj2/api/movies-api14						                1,000 / month
 
-Weather : https://www.weatherapi.com/								1 Million / month
+Weather : https://www.weatherapi.com/								                    1 Million / month
 
-Dictionary : https://api.dictionaryapi.dev/api/v2/entries/en/<word>				FREE
+Dictionary : https://api.dictionaryapi.dev/api/v2/entries/en/<word>				        FREE
 
-Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				50/Day
+Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				        50/Day
