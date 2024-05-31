@@ -108,13 +108,12 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   return response.data.data.responseData;
 };
 export const getCricketImageAPIFunc = async (query) => {
-  // console.log(query,"asasasasasasassasasasasasasass")
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
   );
   // return response.data;
   // console.log(response.data,"asasasasasasass")
-  return response.data.data.responseData;
+  return response.data.data;
 };
 
 export const getWeatherAPIFunc = async (city) => {

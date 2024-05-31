@@ -609,29 +609,38 @@ const getCricketImage = asyncHandler(async (req, res) => {
   // console.log(query, "querytsssss");
   try {
     const options = {
-      method: "GET",
-      url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
+      method: 'GET',
+      url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/${query}/i.jpg`,
       headers: {
-        "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
-        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+        'x-rapidapi-key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
+        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
       },
-      responseType: "blob",
+      responseType: 'arraybuffer', 
     };
     const response = await axios.request(options);
 
+    // if (response) {
+    //   let imageUrl = URL.createObjectURL(response.data);
+    //   const responseData = imageUrl;
+    //   return res
+    //     .status(200)
+    //     .json(
+    //       new ApiResponse(
+    //         200,
+    //         { responseData },
+    //         "Cricket API Image Fetched Successfully"
+    //       )
+    //     );
+    // }
     if (response) {
-      // console.log(response, "response232323");
-      const responseData = response.data;
-      return res
-        .status(200)
-        .json(
-          new ApiResponse(
-            200,
-            { responseData },
-            "Cricket API Image Fetched Successfully"
-          )
-        );
-    } else {
+      const buffer = Buffer.from(response.data, 'binary');
+      const base64Image = buffer.toString('base64');
+      const imageUrl = `data:image/jpeg;base64,${base64Image}`;
+      return res.status(200).json(
+        new ApiResponse(200, { imageUrl }, "Cricket API Image Fetched Successfully")
+      );
+    } 
+    else {
       return res
         .status(400)
         .json(new ApiError(400, "Cricket API Image  Failed to fetch Data"));

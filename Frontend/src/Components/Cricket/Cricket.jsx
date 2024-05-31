@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { PointsTable, truncateText } from "../../index";
 import { NavLink } from "react-router-dom";
-import { getCricket, getCricketPointsTable } from "../../Features";
+import { getCricket, getCricketImages, getCricketPointsTable } from "../../Features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ const Cricket = ({
   const dispatch = useDispatch();
   // const [cricketData, setCricketData] = useState([]);
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
+  const [imageUrl, setImageUrl] = useState("");
 
   const getPointsTable = async (id) => {
     try {
@@ -73,6 +74,18 @@ const Cricket = ({
       } catch (error) {
         console.error(error);
       }
+  }
+
+  const getImage = async () =>{
+    try {
+      const response  = await dispatch(getCricketImages("c231895"));
+      console.log(response,"ff")
+      if (response.imageUrl) {
+        setImageUrl(response.imageUrl);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -138,6 +151,8 @@ const Cricket = ({
           ))}
 
           <button onClick={getRanking}>Get Ranks</button>
+          <button onClick={getImage}>Get Image</button>
+          <img src={imageUrl} alt="" />
       </div>
     </>
   );

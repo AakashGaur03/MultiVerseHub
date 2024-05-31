@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCricketAPIFunc } from "../../Api";
-import { getCricketPointsTableAPIFunc } from "../../Api";
+import { getCricketAPIFunc ,getCricketPointsTableAPIFunc,getCricketImageAPIFunc } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
@@ -47,6 +46,18 @@ export const getCricketPointsTable = (query) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
     const response = await getCricketPointsTableAPIFunc(query);
+    if (response) {
+      dispatch(getCricketSuccess(response));
+      return response;
+    }
+  } catch (error) {
+    dispatch(getCricketFailure(error.message));
+  }
+};
+export const getCricketImages = (query) => async (dispatch) => {
+  try {
+    dispatch(getCricketStart());
+    const response = await getCricketImageAPIFunc(query);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;
