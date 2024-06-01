@@ -604,6 +604,45 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
+const getCricketRankings = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    // console.log(id,"getWordOfTheDayAPIFunc")
+    const options = {
+      method: 'GET',
+      url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
+      params: {
+        formatType: 'odi',
+        isWomen: '1'
+      },
+      headers: {
+        'x-rapidapi-key': process.env.CRICKET_API_KEY,
+        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+    const response = await axios.request(options);
+
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Ranking API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Ranking API Failed to fetch Points Table"));
+    }
+  } catch (error) {
+    console.error("Error fetching Rankings:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
 const getCricketImage = asyncHandler(async (req, res) => {
   const { query } = req.query;
   // console.log(query, "querytsssss");
@@ -612,7 +651,7 @@ const getCricketImage = asyncHandler(async (req, res) => {
       method: 'GET',
       url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/${query}/i.jpg`,
       headers: {
-        'x-rapidapi-key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
+        'x-rapidapi-key': process.env.CRICKET_API_KEY,
         'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
       },
       responseType: 'arraybuffer', 
@@ -730,6 +769,7 @@ export {
   getNews,
   getRecentCricket,
   getCricketPointsTable,
+  getCricketRankings,
   getWeathter,
   getWordOfTheDay,
   getCricketImage,

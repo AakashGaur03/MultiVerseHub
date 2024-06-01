@@ -21,10 +21,11 @@ import {
   Entertainment,
   Sidebar,
   PointsTable,
+  Ranking,
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
-import { getCricket, getNews } from "./Features";
+import { getCricket, getCricketRanking, getNews } from "./Features";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -203,6 +204,13 @@ function App() {
 
       if (category === "All") {
         setCricketData(newCricketData);
+      } else if(category === "Rankings"){
+        console.log(sidebarItems,"ss")
+        const response = await dispatch(getCricketRanking())
+        console.log(response,"GG");
+        navigate(`cricket/ranking`, {
+          state: { rankingsData: response },
+        });
       } else {
         let InterMatches = typeMatches.find(
           (match) => match.matchType == category
@@ -294,6 +302,10 @@ function App() {
             <Route
               path="/cricket/:seriesId/pointsTable"
               element={<PointsTable />}
+            />
+            <Route
+              path="/cricket/ranking"
+              element={<Ranking />}
             />
             <Route path="/entertainment" element={<Entertainment />} />
             <Route path="/games" element={<Games />} />

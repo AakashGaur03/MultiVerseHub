@@ -4,6 +4,8 @@ import OptionContainer from "./Components/OptionContainer/OptionContainer.jsx";
 import Games from "./Components/Games/Games.jsx";
 import Entertainment from "./Components/Entertainment/Entertainment.jsx";
 import Cricket from "./Components/Cricket/Cricket.jsx";
+import PointsTable from "./Components/Cricket/PointsTable.jsx";
+import Ranking from "./Components/Cricket/Ranking.jsx";
 import News from "./Components/News/News.jsx";
 import Favorite from "./Components/Favorites/Favorite.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
@@ -30,7 +32,6 @@ import {
   fetchCurrentStatusUser,
 } from "./Features/index.js";
 import truncateText from "./GlobalComp/TruncateText.js";
-import PointsTable from "./Components/Cricket/PointsTable.jsx";
 
 export {
   OtpForm,
@@ -53,6 +54,8 @@ export {
   OptionContainer,
   Entertainment,
   Cricket,
+  PointsTable,
+  Ranking,
   News,
   Favorite,
   truncateText,
@@ -61,5 +64,4 @@ export {
   LocalSearch,
   Weather,
   WordOfTheDay,
-  PointsTable,
 };

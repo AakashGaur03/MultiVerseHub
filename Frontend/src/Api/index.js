@@ -107,6 +107,12 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
+export const getCricketRankingAPIFunc = async (seriesId) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/cricketRankings`
+  );
+  return response.data.data.responseData;
+};
 export const getCricketImageAPIFunc = async (query) => {
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`

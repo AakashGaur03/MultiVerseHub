@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { PointsTable, truncateText } from "../../index";
 import { NavLink } from "react-router-dom";
-import { getCricket, getCricketImages, getCricketPointsTable } from "../../Features";
+import { getCricket, getCricketImages, getCricketPointsTable, getCricketRanking } from "../../Features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -55,22 +55,22 @@ const Cricket = ({
   const getRanking = async() =>{
       // console.log(pointstable.data, "pointstable");
 
-      const options = {
-        method: 'GET',
-        url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
-        params: {
-          formatType: 'odi',
-          isWomen: '1'
-        },
-        headers: {
-          'x-rapidapi-key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
-          'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
-        }
-      };
+      // const options = {
+      //   method: 'GET',
+      //   url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
+      //   params: {
+      //     formatType: 'odi',
+      //     isWomen: '1'
+      //   },
+      //   headers: {
+      //     'x-rapidapi-key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
+      //     'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+      //   }
+      // };
       
       try {
-        const response = await axios.request(options);
-        console.log(response.data);
+        // const response = await dispatch(getCricketRanking());
+        // console.log(response);
       } catch (error) {
         console.error(error);
       }
