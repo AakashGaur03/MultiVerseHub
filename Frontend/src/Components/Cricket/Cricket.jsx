@@ -78,7 +78,7 @@ const Cricket = ({
 
   const getImage = async () =>{
     try {
-      const response  = await dispatch(getCricketImages("c231895"));
+      const response  = await dispatch(getCricketImages("231895"));
       console.log(response,"ff")
       if (response.imageUrl) {
         setImageUrl(response.imageUrl);
