@@ -206,7 +206,7 @@ function App() {
         setCricketData(newCricketData);
       } else if(category === "Rankings"){
         console.log(sidebarItems,"ss")
-        const response = await dispatch(getCricketRanking())
+        const response = await dispatch(getCricketRanking("t20","isWomen"))
         console.log(response,"GG");
         navigate(`cricket/ranking`, {
           state: { rankingsData: response },

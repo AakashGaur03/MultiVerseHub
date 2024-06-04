@@ -56,7 +56,7 @@ router
 router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
 router.route("/:id/pointsTable").get(getCricketPointsTable);
-router.route("/cricketRankings").get(getCricketRankings);
+router.route("/cricketRankings/:format/:isWomen?").get(getCricketRankings);
 router.route("/cricketImageApi").get(getCricketImage);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);

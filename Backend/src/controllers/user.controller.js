@@ -606,15 +606,16 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.params;
+    const { format,isWomen } = req.params;
     // console.log(id,"getWordOfTheDayAPIFunc")
+    const params = { formatType: format };
+    if (isWomen !== undefined) {
+      params.isWomen = isWomen === '1' ? '1' : '0';
+    }
     const options = {
       method: 'GET',
       url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
-      params: {
-        formatType: 'odi',
-        isWomen: '1'
-      },
+      params: params,
       headers: {
         'x-rapidapi-key': process.env.CRICKET_API_KEY,
         'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'

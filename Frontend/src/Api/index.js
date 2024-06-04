@@ -107,10 +107,12 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
-export const getCricketRankingAPIFunc = async (seriesId) => {
-  const response = await axios.get(
-    `http://localhost:8000/api/v1/users/cricketRankings`
-  );
+export const getCricketRankingAPIFunc = async (format,isWomen) => {
+  let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}`;
+  if (isWomen !== undefined && isWomen !== '') {
+    url += `/${isWomen}`;
+  }
+  const response = await axios.get(url);
   return response.data.data.responseData;
 };
 export const getCricketImageAPIFunc = async (query) => {
