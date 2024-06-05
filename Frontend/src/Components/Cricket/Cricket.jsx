@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { PointsTable, truncateText } from "../../index";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { getCricket, getCricketImages, getCricketPointsTable, getCricketRanking } from "../../Features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import {
-  getCricketImageAPIFunc,
-  getCricketPointsTableAPIFunc,
-} from "../../Api";
-import axios from "axios";
+import { getCricketPointsTableAPIFunc } from "../../Api";
 
 const Cricket = ({
   query,
@@ -21,7 +14,6 @@ const Cricket = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const [cricketData, setCricketData] = useState([]);
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
   const [imageUrl, setImageUrl] = useState("");
 
@@ -51,42 +43,6 @@ const Cricket = ({
       console.error(error);
     }
   };
-
-  const getRanking = async() =>{
-      // console.log(pointstable.data, "pointstable");
-
-      // const options = {
-      //   method: 'GET',
-      //   url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
-      //   params: {
-      //     formatType: 'odi',
-      //     isWomen: '1'
-      //   },
-      //   headers: {
-      //     'x-rapidapi-key': '94d5879a35msh63d070accbd04e3p13e33ejsnb6869afe3816',
-      //     'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
-      //   }
-      // };
-      
-      try {
-        // const response = await dispatch(getCricketRanking());
-        // console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-  }
-
-  const getImage = async () =>{
-    try {
-      const response  = await dispatch(getCricketImages("231895"));
-      console.log(response,"ff")
-      if (response.imageUrl) {
-        setImageUrl(response.imageUrl);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <>
@@ -149,10 +105,6 @@ const Cricket = ({
               </NavLink>
             </div>
           ))}
-
-          <button onClick={getRanking}>Get Ranks</button>
-          <button onClick={getImage}>Get Image</button>
-          <img src={imageUrl} alt="" />
       </div>
     </>
   );

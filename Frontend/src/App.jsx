@@ -34,35 +34,6 @@ function App() {
   const [query, setQuery] = useState("");
 
   const getSidebarItems = () => {
-    // switch (location.pathname) {
-    //   case "/news":
-    //     return [
-    //       { title: "World", path: "/" },
-    //       { title: "Business", path: "/business" },
-    //       { title: "Sports", path: "/sports" },
-    //       { title: "Entertainment", path: "/entertainment" },
-    //       { title: "Education", path: "/education" },
-    //       { title: "Technology", path: "/technology" },
-    //     ];
-    //   case "/cricket":
-    //     return [
-    //       { title: "Matches", path: "/" },
-    //       { title: "Player", path: "/Player" },
-    //       { title: "recent", path: "/recent" },
-    //       { title: "series", path: "/series" },
-    //       { title: "rankings", path: "/rankings" },
-    //       { title: "Points", path: "/Points" },
-    //     ];
-    //   case "/games":
-    //     return [
-    //       { title: "Car", path: "/" },
-    //       { title: "Bike", path: "/Bike" },
-    //       { title: "Brain", path: "/Brain" },
-    //       { title: "Truck", path: "/Truck" },
-    //     ];
-    //   default:
-    //     return [];
-    // }
     if (location.pathname.includes("/news")) {
       return [
         { title: "World", path: "/" },
