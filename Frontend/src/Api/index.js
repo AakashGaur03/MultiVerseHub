@@ -107,14 +107,37 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
-export const getCricketRankingAPIFunc = async (format,isWomen) => {
+export const getCricketRankingAPIFunc = async (format, isWomen) => {
   let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}`;
-  if (isWomen !== undefined && isWomen !== '') {
+  if (isWomen !== undefined && isWomen !== "") {
     url += `/${isWomen}`;
   }
   const response = await axios.get(url);
   return response.data.data.responseData;
 };
+// export const getUploadImageCloudinaryFunc = async (imageUrl) => {
+//   console.log("Request to backend with image URL:", imageUrl);
+//   // let url = ;
+//   payload = {
+//     imageUrl 
+//   };
+//   const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, imageUrl);
+//   console.log("Response from backend:", response.data);
+//   return response.data.data.responseData;
+// };
+export const getUploadImageCloudinaryFunc = async (imageUrl) => {
+  console.log("Request to backend with image URL:", imageUrl);
+  const payload = { imageUrl };
+  try {
+    const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, payload);
+    console.log("Response from backend:", response.data);
+    return response.data.data.responseData;
+  } catch (error) {
+    console.error("Error uploading image to Cloudinary:", error);
+    throw error;
+  }
+};
+
 export const getCricketImageAPIFunc = async (query) => {
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`

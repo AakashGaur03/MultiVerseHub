@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCricketAPIFunc ,getCricketPointsTableAPIFunc,getCricketImageAPIFunc, getCricketRankingAPIFunc } from "../../Api";
+import { getCricketAPIFunc ,getCricketPointsTableAPIFunc,getCricketImageAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
@@ -70,6 +70,19 @@ export const getCricketRanking = (format,isWomen) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
     const response = await getCricketRankingAPIFunc(format,isWomen);
+    if (response) {
+      dispatch(getCricketSuccess(response));
+      return response;
+    }
+  } catch (error) {
+    dispatch(getCricketFailure(error.message));
+  }
+};
+export const getUploadImageCloudinary = (imageUrl) => async (dispatch) => {
+  try {
+    console.log("Dispatching upload image to Cloudinary action");
+    dispatch(getCricketStart());
+    const response = await getUploadImageCloudinaryFunc(imageUrl);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;

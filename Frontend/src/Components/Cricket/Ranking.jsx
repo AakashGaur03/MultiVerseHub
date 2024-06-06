@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCricketImages } from "../../Features";
+import { getCricketImages,getUploadImageCloudinary } from "../../Features";
 
 const Ranking = () => {
   const location = useLocation();
@@ -21,7 +21,8 @@ const Ranking = () => {
     if (!imageUrls[faceImageId]) {
         try {
           const response = await dispatch(getCricketImages(faceImageId));
-          if (response.imageUrl) {
+          const uploadResponse = await dispatch(getUploadImageCloudinary(response.imageUrl)); 
+          if (uploadResponse) {
             setImageUrls(prevState => ({
               ...prevState,
               [faceImageId]: response.imageUrl 
@@ -39,8 +40,9 @@ const Ranking = () => {
       {rankingData.rank?.length > 0 ? (
         <div>
           {rankingData.rank.map((data, index) => (
-            <div key={index}>
+            <div key={index} className="flex">
               <div>{data.rank}</div>
+              <div>{data.rating}</div>
               <div onClick={() => getImageUrl(data.faceImageId)}>{data.faceImageId}</div>
               <img src={imageUrls[data.faceImageId]} alt="" />
             </div>

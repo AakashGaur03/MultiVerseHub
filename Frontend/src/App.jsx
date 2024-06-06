@@ -66,6 +66,7 @@ function App() {
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
   const [typeMatches, setTypeMatches] = useState([]);
+  const [rankingData, setRankingData] = useState([]);
   useEffect(() => {
     if (
       ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
@@ -160,6 +161,7 @@ function App() {
 
   const handleSidebarClick = async (category) => {
     setQuery(category);
+    navigate("/cricket");
     if (location.pathname.includes("/news")) {
       const response = await dispatch(getNews(category));
       if (response) {
@@ -175,13 +177,18 @@ function App() {
 
       if (category === "All") {
         setCricketData(newCricketData);
-      } else if(category === "Rankings"){
-        console.log(sidebarItems,"ss")
-        const response = await dispatch(getCricketRanking("t20","isWomen"))
-        console.log(response,"GG");
-        navigate(`cricket/ranking`, {
-          state: { rankingsData: response },
-        });
+      } else if (category === "Rankings") {
+        if (rankingData.length <= 0) {
+          const response = await dispatch(getCricketRanking("t20", "isWomen"));
+          setRankingData(response);
+          navigate(`cricket/ranking`, {
+            state: { rankingsData: response },
+          });
+        } else {
+          navigate(`cricket/ranking`, {
+            state: { rankingsData: rankingData },
+          });
+        }
       } else {
         let InterMatches = typeMatches.find(
           (match) => match.matchType == category
@@ -274,10 +281,7 @@ function App() {
               path="/cricket/:seriesId/pointsTable"
               element={<PointsTable />}
             />
-            <Route
-              path="/cricket/ranking"
-              element={<Ranking />}
-            />
+            <Route path="/cricket/ranking" element={<Ranking />} />
             <Route path="/entertainment" element={<Entertainment />} />
             <Route path="/games" element={<Games />} />
             <Route path="/login" element={<Login />} />

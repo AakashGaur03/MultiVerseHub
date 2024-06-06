@@ -23,6 +23,7 @@ import getCricketAPIReducer, {
   getCricketPointsTable,
   getCricketImages,
   getCricketRanking,
+  getUploadImageCloudinary,
 } from "./APIReducers/getCricketAPISlice.js";
 
 export {
@@ -47,4 +48,5 @@ export {
   getCricketPointsTable,
   getCricketImages,
   getCricketRanking,
+  getUploadImageCloudinary,
 };

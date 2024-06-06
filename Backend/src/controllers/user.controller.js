@@ -754,6 +754,37 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
   }
 });
 
+const uploadImageCloudinary = asyncHandler(async (req, res) => {
+  console.log("object")
+  const { imageUrl } = req.body; // Ensure it's imageUrl as used in the frontend
+  console.log("Received image URL:", imageUrl);
+
+  try {
+
+    const image = await uploadOnCloudinary(imageUrl);
+    if (image) {
+      const responseData = image;
+      console.log(responseData, "REQOFPOJDSImage");
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Image Saved to Cloudinary Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Failed to save Image on Cloudinary"));
+    }
+  } catch (error) {
+    console.error("Error saving image to Cloudinary:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
 export {
   // allJokes,
   registerUser,
@@ -774,4 +805,5 @@ export {
   getWeathter,
   getWordOfTheDay,
   getCricketImage,
+  uploadImageCloudinary,
 };
