@@ -125,9 +125,9 @@ export const getCricketRankingAPIFunc = async (format, isWomen) => {
 //   console.log("Response from backend:", response.data);
 //   return response.data.data.responseData;
 // };
-export const getUploadImageCloudinaryFunc = async (imageUrl) => {
+export const getUploadImageCloudinaryFunc = async (imageUrl,faceImageID) => {
   console.log("Request to backend with image URL:", imageUrl);
-  const payload = { imageUrl };
+  const payload = { imageUrl,faceImageID };
   try {
     const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, payload);
     console.log("Response from backend:", response.data);

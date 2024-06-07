@@ -21,7 +21,7 @@ const Ranking = () => {
     if (!imageUrls[faceImageId]) {
         try {
           const response = await dispatch(getCricketImageCBs(faceImageId));
-          const uploadResponse = await dispatch(getUploadImageCloudinary(response.imageUrl)); 
+          const uploadResponse = await dispatch(getUploadImageCloudinary(response.imageUrl,faceImageId)); 
           if (uploadResponse) {
             setImageUrls(prevState => ({
               ...prevState,

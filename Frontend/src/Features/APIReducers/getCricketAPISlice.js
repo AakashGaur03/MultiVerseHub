@@ -78,11 +78,11 @@ export const getCricketRanking = (format,isWomen) => async (dispatch) => {
     dispatch(getCricketFailure(error.message));
   }
 };
-export const getUploadImageCloudinary = (imageUrl) => async (dispatch) => {
+export const getUploadImageCloudinary = (imageUrl,faceImageID) => async (dispatch) => {
   try {
     console.log("Dispatching upload image to Cloudinary action");
     dispatch(getCricketStart());
-    const response = await getUploadImageCloudinaryFunc(imageUrl);
+    const response = await getUploadImageCloudinaryFunc(imageUrl,faceImageID);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;

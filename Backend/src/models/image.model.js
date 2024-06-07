@@ -29,6 +29,9 @@ const imageSchema = new Schema(
     resource_type: {
       type: String,
     },
+    faceImageID: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
