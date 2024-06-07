@@ -138,7 +138,7 @@ export const getUploadImageCloudinaryFunc = async (imageUrl) => {
   }
 };
 
-export const getCricketImageAPIFunc = async (query) => {
+export const getCricketImageCBAPIFunc = async (query) => {
   const response = await axios.get(
     `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCricketImages,getUploadImageCloudinary } from "../../Features";
+import { getCricketImageCBs,getUploadImageCloudinary } from "../../Features";
 
 const Ranking = () => {
   const location = useLocation();
@@ -20,7 +20,7 @@ const Ranking = () => {
     if (Data) {
     if (!imageUrls[faceImageId]) {
         try {
-          const response = await dispatch(getCricketImages(faceImageId));
+          const response = await dispatch(getCricketImageCBs(faceImageId));
           const uploadResponse = await dispatch(getUploadImageCloudinary(response.imageUrl)); 
           if (uploadResponse) {
             setImageUrls(prevState => ({

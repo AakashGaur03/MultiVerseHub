@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import axios from "axios";
+import { Image } from "../models/image.model.js";
 
 // const allJokes = asyncHandler(async (req, res) => {
 //   const jokes = [
@@ -606,20 +607,20 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
   try {
-    const { format,isWomen } = req.params;
+    const { format, isWomen } = req.params;
     // console.log(id,"getWordOfTheDayAPIFunc")
     const params = { formatType: format };
     if (isWomen !== undefined) {
-      params.isWomen = isWomen === '1' ? '1' : '0';
+      params.isWomen = isWomen === "1" ? "1" : "0";
     }
     const options = {
-      method: 'GET',
-      url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen',
+      method: "GET",
+      url: "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen",
       params: params,
       headers: {
-        'x-rapidapi-key': process.env.CRICKET_API_KEY,
-        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
-      }
+        "x-rapidapi-key": process.env.CRICKET_API_KEY,
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+      },
     };
     const response = await axios.request(options);
 
@@ -644,18 +645,18 @@ const getCricketRankings = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
-const getCricketImage = asyncHandler(async (req, res) => {
+const getCricketImageCB = asyncHandler(async (req, res) => {
   const { query } = req.query;
   // console.log(query, "querytsssss");
   try {
     const options = {
-      method: 'GET',
+      method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
       headers: {
-        'x-rapidapi-key': process.env.CRICKET_API_KEY,
-        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+        "x-rapidapi-key": process.env.CRICKET_API_KEY,
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
       },
-      responseType: 'arraybuffer', 
+      responseType: "arraybuffer",
     };
     const response = await axios.request(options);
 
@@ -673,14 +674,19 @@ const getCricketImage = asyncHandler(async (req, res) => {
     //     );
     // }
     if (response) {
-      const buffer = Buffer.from(response.data, 'binary');
-      const base64Image = buffer.toString('base64');
+      const buffer = Buffer.from(response.data, "binary");
+      const base64Image = buffer.toString("base64");
       const imageUrl = `data:image/jpeg;base64,${base64Image}`;
-      return res.status(200).json(
-        new ApiResponse(200, { imageUrl }, "Cricket API Image Fetched Successfully")
-      );
-    } 
-    else {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { imageUrl },
+            "Cricket API Image Fetched Successfully"
+          )
+        );
+    } else {
       return res
         .status(400)
         .json(new ApiError(400, "Cricket API Image  Failed to fetch Data"));
@@ -755,16 +761,16 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
 });
 
 const uploadImageCloudinary = asyncHandler(async (req, res) => {
-  console.log("object")
+  console.log("object");
   const { imageUrl } = req.body; // Ensure it's imageUrl as used in the frontend
   console.log("Received image URL:", imageUrl);
 
   try {
-
     const image = await uploadOnCloudinary(imageUrl);
     if (image) {
       const responseData = image;
       console.log(responseData, "REQOFPOJDSImage");
+      saveDataInDatabase(responseData);
       return res
         .status(200)
         .json(
@@ -783,6 +789,68 @@ const uploadImageCloudinary = asyncHandler(async (req, res) => {
     console.error("Error saving image to Cloudinary:", error);
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
+});
+
+// const getImageDB = asyncHandler(async (req, res) => {
+
+//   const {} =req.body
+
+//   // try {
+
+//   //   if (response) {
+//   //     const responseData = response.data;
+//   //     return res
+//   //       .status(200)
+//   //       .json(
+//   //         new ApiResponse(
+//   //           200,
+//   //           { responseData },
+//   //           "Image Fetched from DB Successfully"
+//   //         )
+//   //       );
+//   //   } else {
+//   //     return res
+//   //       .status(400)
+//   //       .json(new ApiError(400, "Failed to fetch Image from DB"));
+//   //   }
+//   // } catch (error) {
+//   //   console.error("Error fetching Image from DB:", error);
+//   //   return res.status(500).json(new ApiError(500, "Internal Server Error"));
+//   // }
+// });
+
+const saveDataInDatabase = (async (data) => {
+  const { public_id, url, secure_url, format, width, height, resource_type } =
+    data;
+  // console.log(data,);
+  console.log(
+    public_id,
+    url,
+    secure_url,
+    format,
+    width,
+    height,
+    resource_type,
+    "SAVEDATA"
+  );
+
+  const existedData = await Image.findOne({ id: public_id });
+
+  if (existedData) {
+    return res
+      .status(409)
+      .json(new ApiError(409, "Data with same ID already exists"));
+  }
+
+  const dataUpload = await Image.create({
+    id: public_id,
+    url,
+    secureUrl: secure_url,
+    format,
+    width,
+    height,
+    resourceType: resource_type,
+  });
 });
 
 export {
@@ -804,6 +872,6 @@ export {
   getCricketRankings,
   getWeathter,
   getWordOfTheDay,
-  getCricketImage,
+  getCricketImageCB,
   uploadImageCloudinary,
 };

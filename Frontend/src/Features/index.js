@@ -21,7 +21,7 @@ import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
 import getCricketAPIReducer, {
   getCricket,
   getCricketPointsTable,
-  getCricketImages,
+  getCricketImageCBs,
   getCricketRanking,
   getUploadImageCloudinary,
 } from "./APIReducers/getCricketAPISlice.js";
@@ -46,7 +46,7 @@ export {
   getCricketAPIReducer,
   getCricket,
   getCricketPointsTable,
-  getCricketImages,
+  getCricketImageCBs,
   getCricketRanking,
   getUploadImageCloudinary,
 };
