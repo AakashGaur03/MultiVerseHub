@@ -760,66 +760,161 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
   }
 });
 
+const uploadImageCloudinary = asyncHandler(async (req, res) => {
+  console.log("object");
+  const { imageUrl, faceImageID } = req.body; // Ensure it's imageUrl as used in the frontend
+  console.log("Received image URL:", imageUrl);
+
+  try {
+    const image = await uploadOnCloudinary(imageUrl);
+    if (image) {
+      const responseData = image;
+      console.log(responseData, "REQOFPOJDSImage");
+      responseData.faceImageID = faceImageID;
+      const isDataSaved = saveDataInDatabase(responseData);
+
+      if (isDataSaved) {
+        return res
+          .status(200)
+          .json(
+            new ApiResponse(
+              200,
+              { responseData },
+              "Image Fetched from DB Successfully"
+            )
+          );
+      } else {
+        return res
+          .status(200)
+          .json(
+            new ApiResponse(
+              200,
+              { responseData },
+              "Image Saved to Cloudinary Successfully"
+            )
+          );
+      }
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Failed to save Image on Cloudinary"));
+    }
+  } catch (error) {
+    console.error("Error saving image to Cloudinary:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
+const saveDataInDatabase = async (data) => {
+  const {
+    public_id,
+    url,
+    secure_url,
+    format,
+    width,
+    height,
+    resource_type,
+    faceImageID,
+  } = data;
+  // console.log(data,);
+  console.log(
+    public_id,
+    url,
+    secure_url,
+    format,
+    width,
+    height,
+    resource_type,
+    faceImageID,
+    "SAVEDATA"
+  );
+
+  const existedData = await Image.findOne({ faceImageID });
+
+  console.log(existedData, "existedDataexistedData");
+
+  if (existedData) {
+    return false;
+  }
+
+  const dataUpload = await Image.create({
+    id: public_id,
+    url,
+    secureUrl: secure_url,
+    format,
+    width,
+    height,
+    resourceType: resource_type,
+    faceImageID,
+  });
+};
+const getImageFromDB = asyncHandler(async (req, res) => {
+  const { faceImageID } = req.body;
+  // console.log(data,);
+  console.log(faceImageID, "faceImageIDfaceImageID");
+
+  const existedData = await Image.findOne({ faceImageID });
+
+  console.log(existedData, "existedDataexistedData");
+
+  if (existedData) {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { responseData:existedData },
+          "Image Fetched from DB Successfully"
+        )
+      );
+  }
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      {  },
+      "Image Not Found in DB "
+    )
+  );
+
+});
+
 // const uploadImageCloudinary = asyncHandler(async (req, res) => {
-//   console.log("object");
-//   const { imageUrl,faceImageID } = req.body; // Ensure it's imageUrl as used in the frontend
+//   const { imageUrl, faceImageID } = req.body;
 //   console.log("Received image URL:", imageUrl);
 
 //   try {
-//     const image = await uploadOnCloudinary(imageUrl);
-//     if (image) {
-//       const responseData = image;
-//       console.log(responseData, "REQOFPOJDSImage");
-//       responseData.faceImageID=faceImageID
-//       saveDataInDatabase(responseData);
-//       return res
-//         .status(200)
-//         .json(
-//           new ApiResponse(
-//             200,
-//             { responseData },
-//             "Image Saved to Cloudinary Successfully"
-//           )
-//         );
+//     // Check if the image already exists in the database
+//     const existedData = await Image.findOne({ faceImageID });
+
+//     console.log(existedData,"existedDataexistedDataexistedData")
+//     if (existedData) {
+//       // Image already exists, return it
+//       return res.status(200).json(new ApiResponse(200, { responseData: existedData }, "Image fetched from database successfully"));
 //     } else {
-//       return res
-//         .status(400)
-//         .json(new ApiError(400, "Failed to save Image on Cloudinary"));
+//       // Image doesn't exist, fetch from external source
+//       const externalImageUrl = `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${faceImageID}/i.jpg`;
+//       const image = await uploadOnCloudinary(externalImageUrl);
+
+//       if (image) {
+//         image.faceImageID = faceImageID;
+//         await saveDataInDatabase(image);
+//         return res.status(200).json(new ApiResponse(200, { responseData: image }, "Image fetched and uploaded to Cloudinary successfully"));
+//       } else {
+//         return res.status(400).json(new ApiError(400, "Failed to fetch and save image"));
+//       }
 //     }
 //   } catch (error) {
-//     console.error("Error saving image to Cloudinary:", error);
+//     console.error("Error processing image:", error);
 //     return res.status(500).json(new ApiError(500, "Internal Server Error"));
 //   }
 // });
 
+// const saveDataInDatabase = async (data) => {
+//   const { public_id, url, secure_url, format, width, height, resource_type, faceImageID } = data;
 
-// const saveDataInDatabase = (async (data) => {
-//   const { public_id, url, secure_url, format, width, height, resource_type,faceImageID } =
-//     data;
-//   // console.log(data,);
-//   console.log(
-//     public_id,
-//     url,
-//     secure_url,
-//     format,
-//     width,
-//     height,
-//     resource_type,
-//     faceImageID,
-//     "SAVEDATA"
-//   );
-
-//   const existedData = await Image.findOne({ faceImageID });
-
-//   console.log(existedData,"existedDataexistedData")
-
-//   if (existedData) {
-//     return res
-//       .status(404)
-//       .json(new ApiError(409, "Data with same ID already exists"));
-//   }
-
-//   const dataUpload = await Image.create({
+//   const dataUpload = Image.create({
 //     id: public_id,
 //     url,
 //     secureUrl: secure_url,
@@ -829,56 +924,9 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
 //     resourceType: resource_type,
 //     faceImageID
 //   });
-// });
 
-const uploadImageCloudinary = asyncHandler(async (req, res) => {
-  const { imageUrl, faceImageID } = req.body;
-  console.log("Received image URL:", imageUrl);
-
-  try {
-    // Check if the image already exists in the database
-    const existedData = await Image.findOne({ faceImageID });
-    
-    console.log(existedData,"existedDataexistedDataexistedData")
-    if (existedData) {
-      // Image already exists, return it
-      return res.status(200).json(new ApiResponse(200, { responseData: existedData }, "Image fetched from database successfully"));
-    } else {
-      // Image doesn't exist, fetch from external source
-      const externalImageUrl = `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${faceImageID}/i.jpg`;
-      const image = await uploadOnCloudinary(externalImageUrl);
-
-      if (image) {
-        image.faceImageID = faceImageID;
-        await saveDataInDatabase(image);
-        return res.status(200).json(new ApiResponse(200, { responseData: image }, "Image fetched and uploaded to Cloudinary successfully"));
-      } else {
-        return res.status(400).json(new ApiError(400, "Failed to fetch and save image"));
-      }
-    }
-  } catch (error) {
-    console.error("Error processing image:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
-  }
-});
-
-const saveDataInDatabase = async (data) => {
-  const { public_id, url, secure_url, format, width, height, resource_type, faceImageID } = data;
-
-  const dataUpload = Image.create({
-    id: public_id,
-    url,
-    secureUrl: secure_url,
-    format,
-    width,
-    height,
-    resourceType: resource_type,
-    faceImageID
-  });
-
-  await dataUpload.save();
-};
-
+//   await dataUpload.save();
+// };
 
 export {
   // allJokes,
@@ -901,4 +949,5 @@ export {
   getWordOfTheDay,
   getCricketImageCB,
   uploadImageCloudinary,
+  getImageFromDB,
 };

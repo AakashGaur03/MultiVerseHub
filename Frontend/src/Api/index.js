@@ -137,6 +137,18 @@ export const getUploadImageCloudinaryFunc = async (imageUrl,faceImageID) => {
     throw error;
   }
 };
+export const getImageDBFunc = async (faceImageID) => {
+  console.log("Request to backend with image faceimageID:", faceImageID);
+  const payload = { faceImageID };
+  try {
+    const response = await axios.post(`http://localhost:8000/api/v1/users/getImageFromDB`, payload);
+    console.log("Response from backend:", response.data);
+    return response.data.data.responseData;
+  } catch (error) {
+    console.error("Error getting image from DB:", error);
+    throw error;
+  }
+};
 
 export const getCricketImageCBAPIFunc = async (query) => {
   const response = await axios.get(

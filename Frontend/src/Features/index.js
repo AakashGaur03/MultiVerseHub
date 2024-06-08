@@ -24,6 +24,7 @@ import getCricketAPIReducer, {
   getCricketImageCBs,
   getCricketRanking,
   getUploadImageCloudinary,
+  getCricketImageDB,
 } from "./APIReducers/getCricketAPISlice.js";
 
 export {
@@ -49,4 +50,5 @@ export {
   getCricketImageCBs,
   getCricketRanking,
   getUploadImageCloudinary,
+  getCricketImageDB,
 };
