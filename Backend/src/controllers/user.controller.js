@@ -417,7 +417,7 @@ const sendOtponMail = asyncHandler(async (req, res) => {
           .status(400)
           .json(new ApiError(400, "Error Occured While Sending Mail"));
       } else {
-        console.log("Email sent successfully:", info.response);
+        // console.log("Email sent successfully:", info.response);
         return res
           .status(200)
           .cookie("otpToken", otpToken, options)
@@ -761,15 +761,15 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
 });
 
 const uploadImageCloudinary = asyncHandler(async (req, res) => {
-  console.log("object");
+  // console.log("object");
   const { imageUrl, faceImageID } = req.body; // Ensure it's imageUrl as used in the frontend
-  console.log("Received image URL:", imageUrl);
+  // console.log("Received image URL:", imageUrl);
 
   try {
     const image = await uploadOnCloudinary(imageUrl);
     if (image) {
       const responseData = image;
-      console.log(responseData, "REQOFPOJDSImage");
+      // console.log(responseData, "REQOFPOJDSImage");
       responseData.faceImageID = faceImageID;
       const isDataSaved = saveDataInDatabase(responseData);
 
@@ -817,21 +817,10 @@ const saveDataInDatabase = async (data) => {
     faceImageID,
   } = data;
   // console.log(data,);
-  console.log(
-    public_id,
-    url,
-    secure_url,
-    format,
-    width,
-    height,
-    resource_type,
-    faceImageID,
-    "SAVEDATA"
-  );
 
   const existedData = await Image.findOne({ faceImageID });
 
-  console.log(existedData, "existedDataexistedData");
+  // console.log(existedData, "existedDataexistedData");
 
   if (existedData) {
     return false;
@@ -851,11 +840,11 @@ const saveDataInDatabase = async (data) => {
 const getImageFromDB = asyncHandler(async (req, res) => {
   const { faceImageID } = req.body;
   // console.log(data,);
-  console.log(faceImageID, "faceImageIDfaceImageID");
+  // console.log(faceImageID, "faceImageIDfaceImageID");
 
   const existedData = await Image.findOne({ faceImageID });
 
-  console.log(existedData, "existedDataexistedData");
+  // console.log(existedData, "existedDataexistedData");
 
   if (existedData) {
     return res

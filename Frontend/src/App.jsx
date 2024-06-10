@@ -179,7 +179,7 @@ function App() {
         setCricketData(newCricketData);
       } else if (category === "Rankings") {
         if (rankingData.length <= 0) {
-          const response = await dispatch(getCricketRanking("t20", "isWomen"));
+          const response = await dispatch(getCricketRanking("odi", "IsWomen"));
           setRankingData(response);
           navigate(`cricket/ranking`, {
             state: { rankingsData: response },

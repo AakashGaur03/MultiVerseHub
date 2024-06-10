@@ -108,6 +108,7 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   return response.data.data.responseData;
 };
 export const getCricketRankingAPIFunc = async (format, isWomen) => {
+  // console.log(isWomen,"isWomenisWomenisWomen")
   let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}`;
   if (isWomen !== undefined && isWomen !== "") {
     url += `/${isWomen}`;
@@ -126,11 +127,11 @@ export const getCricketRankingAPIFunc = async (format, isWomen) => {
 //   return response.data.data.responseData;
 // };
 export const getUploadImageCloudinaryFunc = async (imageUrl,faceImageID) => {
-  console.log("Request to backend with image URL:", imageUrl);
+  // console.log("Request to backend with image URL:", imageUrl);
   const payload = { imageUrl,faceImageID };
   try {
     const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, payload);
-    console.log("Response from backend:", response.data);
+    // console.log("Response from backend:", response.data);
     return response.data.data.responseData;
   } catch (error) {
     console.error("Error uploading image to Cloudinary:", error);
@@ -138,11 +139,11 @@ export const getUploadImageCloudinaryFunc = async (imageUrl,faceImageID) => {
   }
 };
 export const getImageDBFunc = async (faceImageID) => {
-  console.log("Request to backend with image faceimageID:", faceImageID);
+  // console.log("Request to backend with image faceimageID:", faceImageID);
   const payload = { faceImageID };
   try {
     const response = await axios.post(`http://localhost:8000/api/v1/users/getImageFromDB`, payload);
-    console.log("Response from backend:", response.data);
+    // console.log("Response from backend:", response.data);
     return response.data.data.responseData;
   } catch (error) {
     console.error("Error getting image from DB:", error);

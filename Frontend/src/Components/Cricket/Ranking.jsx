@@ -13,54 +13,63 @@ const Ranking = () => {
   const dispatch = useDispatch();
   const [rankingData, setRankingData] = useState([]);
   const [imageUrls, setImageUrls] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
 
   useEffect(() => {
     if (Data) {
       setRankingData(Data);
+      fetchImages(Data.rank);
     }
   }, [Data]);
 
-  const getImageUrl = async (faceImageId) => {
-    if (Data) {
-      if (!imageUrls[faceImageId]) {
-        try {
-          // const response = await dispatch(getCricketImageCBs(faceImageId));
-          // const uploadResponse = await dispatch(getUploadImageCloudinary(response.imageUrl,faceImageId));
-          // console.log(uploadResponse.secure_url,"uploadResponse")
-          // console.log(response.imageUrl,"response.imageUrl")
+  const fetchImages = async (rankings) => {
+    setLoadingImages(
+      rankings.reduce((acc, data) => {
+        acc[data.faceImageId] = true;
+        return acc;
+      }, {})
+    );
 
-          const imageDB = await dispatch(getCricketImageDB(faceImageId));
-          console.log(imageDB,"imageDBimageDB")
-          if (imageDB) {
-            console.log("1111111");
+    //     for (const data of rankings) {
+    //       await getImageUrl(data.faceImageId);
+    //     }
+    //   };
+    const imageFetchPromises = rankings.map((data) =>
+      getImageUrl(data.faceImageId)
+    );
+
+    await Promise.all(imageFetchPromises);
+  };
+
+  const getImageUrl = async (faceImageId) => {
+    if (!imageUrls[faceImageId]) {
+      try {
+        const imageDB = await dispatch(getCricketImageDB(faceImageId));
+        if (imageDB) {
+          setImageUrls((prevState) => ({
+            ...prevState,
+            [faceImageId]: imageDB.secureUrl,
+          }));
+        } else {
+          const response = await dispatch(getCricketImageCBs(faceImageId));
+          if (response) {
             setImageUrls((prevState) => ({
               ...prevState,
-              [faceImageId]: imageDB.secureUrl,
+              [faceImageId]: response.imageUrl,
             }));
-          } else {
-            console.log("22222");
-
-            const response = await dispatch(getCricketImageCBs(faceImageId));
-            if (response) {
-              setImageUrls((prevState) => ({
-                ...prevState,
-                [faceImageId]: response.imageUrl,
-              }));
-            }
-            const uploadResponse = await dispatch(
+            await dispatch(
               getUploadImageCloudinary(response.imageUrl, faceImageId)
             );
           }
-
-          // if (uploadResponse) {
-          //   setImageUrls(prevState => ({
-          //     ...prevState,
-          //     [faceImageId]: response.imageUrl
-          //   }));
-          // }
-        } catch (error) {
-          console.error("Error fetching image URL:", error);
+          await new Promise((resolve) => setTimeout(resolve, 300));
         }
+      } catch (error) {
+        console.error("Error fetching image URL:", error);
+      } finally {
+        setLoadingImages((prevState) => ({
+          ...prevState,
+          [faceImageId]: false,
+        }));
       }
     }
   };
@@ -73,10 +82,12 @@ const Ranking = () => {
             <div key={index} className="flex">
               <div>{data.rank}</div>
               <div>{data.rating}</div>
-              <div onClick={() => getImageUrl(data.faceImageId)}>
-                {data.faceImageId}
-              </div>
-              <img src={imageUrls[data.faceImageId]} alt="" />
+              <div>{data.faceImageId}</div>
+              {loadingImages[data.faceImageId] ? (
+                <div>Loading...</div>
+              ) : (
+                <img src={imageUrls[data.faceImageId]} alt="" />
+              )}
             </div>
           ))}
         </div>
