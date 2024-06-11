@@ -607,7 +607,7 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
   try {
-    const { format, isWomen } = req.params;
+    const { format, isWomen,category } = req.params;
     // console.log(id,"getWordOfTheDayAPIFunc")
     const params = { formatType: format };
     if (isWomen !== undefined) {
@@ -615,7 +615,7 @@ const getCricketRankings = asyncHandler(async (req, res) => {
     }
     const options = {
       method: "GET",
-      url: "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen",
+      url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/${category}`,
       params: params,
       headers: {
         "x-rapidapi-key": process.env.CRICKET_API_KEY,
@@ -626,6 +626,9 @@ const getCricketRankings = asyncHandler(async (req, res) => {
 
     if (response) {
       const responseData = response.data;
+      responseData.format=format
+      responseData.IsWomen=isWomen
+      console.log(responseData,"responseDataresponseData")
       return res
         .status(200)
         .json(

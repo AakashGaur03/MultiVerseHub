@@ -66,10 +66,11 @@ export const getCricketImageCBs = (query) => async (dispatch) => {
     dispatch(getCricketFailure(error.message));
   }
 };
-export const getCricketRanking = (format,isWomen) => async (dispatch) => {
+export const getCricketRanking = (format,isWomen,category) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
-    const response = await getCricketRankingAPIFunc(format,isWomen);
+    console.log("object")
+    const response = await getCricketRankingAPIFunc(format,isWomen,category);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;

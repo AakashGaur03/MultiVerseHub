@@ -60,7 +60,7 @@ router.route("/cricketApi").get(getRecentCricket);
 router.route("/:id/pointsTable").get(getCricketPointsTable);
 router.route("/uploadImagetoCloudinary").post(uploadImageCloudinary);
 router.route("/getImageFromDB").post(getImageFromDB);
-router.route("/cricketRankings/:format/:isWomen?").get(getCricketRankings);
+router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRankings);
 router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);

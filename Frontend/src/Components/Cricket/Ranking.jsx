@@ -22,53 +22,69 @@ const Ranking = () => {
     }
   }, [Data]);
 
+  // const fetchImages = async (rankings) => {
+  //   setLoadingImages(
+  //     rankings.reduce((acc, data) => {
+  //       const imageId = data.faceImageId || data.imageId;
+  //       acc[imageId] = true;
+  //       return acc;
+  //     }, {})
+  //   );
+
+  //   //     for (const data of rankings) {
+  //   //       await getImageUrl(imageId);
+  //   //     }
+  //   //   };
+  //   const imageFetchPromises = rankings.map((data) => {
+  //     const imageId = data.faceImageId || data.imageId;
+  //     return getImageUrl(imageId);
+  //   });
+
+  //   await Promise.all(imageFetchPromises);
+  // };
   const fetchImages = async (rankings) => {
     setLoadingImages(
       rankings.reduce((acc, data) => {
-        acc[data.faceImageId] = true;
+        const imageId = data.faceImageId || data.imageId;
+        acc[imageId] = true;
         return acc;
       }, {})
     );
 
-    //     for (const data of rankings) {
-    //       await getImageUrl(data.faceImageId);
-    //     }
-    //   };
-    const imageFetchPromises = rankings.map((data) =>
-      getImageUrl(data.faceImageId)
-    );
-
-    await Promise.all(imageFetchPromises);
+    for (const data of rankings) {
+      const imageId = data.faceImageId || data.imageId;
+      await getImageUrl(imageId);
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
+    }
   };
-
-  const getImageUrl = async (faceImageId) => {
-    if (!imageUrls[faceImageId]) {
+  const getImageUrl = async (imageId) => {
+    if (!imageUrls[imageId]) {
       try {
-        const imageDB = await dispatch(getCricketImageDB(faceImageId));
+        const imageDB = await dispatch(getCricketImageDB(imageId));
         if (imageDB) {
           setImageUrls((prevState) => ({
             ...prevState,
-            [faceImageId]: imageDB.secureUrl,
+            [imageId]: imageDB.secureUrl,
           }));
         } else {
-          const response = await dispatch(getCricketImageCBs(faceImageId));
+          const response = await dispatch(getCricketImageCBs(imageId));
           if (response) {
             setImageUrls((prevState) => ({
               ...prevState,
-              [faceImageId]: response.imageUrl,
+              [imageId]: response.imageUrl,
             }));
             await dispatch(
-              getUploadImageCloudinary(response.imageUrl, faceImageId)
+              getUploadImageCloudinary(response.imageUrl, imageId)
             );
           }
-          await new Promise((resolve) => setTimeout(resolve, 300));
+          await new Promise((resolve) => setTimeout(resolve, 500));
         }
       } catch (error) {
         console.error("Error fetching image URL:", error);
       } finally {
         setLoadingImages((prevState) => ({
           ...prevState,
-          [faceImageId]: false,
+          [imageId]: false,
         }));
       }
     }
@@ -78,18 +94,21 @@ const Ranking = () => {
     <div>
       {rankingData.rank?.length > 0 ? (
         <div>
-          {rankingData.rank.map((data, index) => (
-            <div key={index} className="flex">
-              <div>{data.rank}</div>
-              <div>{data.rating}</div>
-              <div>{data.faceImageId}</div>
-              {loadingImages[data.faceImageId] ? (
-                <div>Loading...</div>
-              ) : (
-                <img src={imageUrls[data.faceImageId]} alt="" />
-              )}
-            </div>
-          ))}
+          {rankingData.rank.map((data, index) => {
+            const imageId = data.faceImageId || data.imageId;
+            return (
+              <div key={index} className="flex">
+                <div>{data.rank}</div>
+                <div>{data.rating}</div>
+                <div>{imageId}</div>
+                {loadingImages[imageId] ? (
+                  <div>Loading...</div>
+                ) : (
+                  <img src={imageUrls[imageId]} alt="" />
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div>No Data Available</div>

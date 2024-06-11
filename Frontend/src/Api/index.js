@@ -107,9 +107,10 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
-export const getCricketRankingAPIFunc = async (format, isWomen) => {
-  // console.log(isWomen,"isWomenisWomenisWomen")
-  let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}`;
+export const getCricketRankingAPIFunc = async (format, isWomen,category) => {
+  console.log(isWomen,"isWomenisWomenisWomen")
+  console.log(category,"categorycategorycategory")
+  let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}/${category}`;
   if (isWomen !== undefined && isWomen !== "") {
     url += `/${isWomen}`;
   }
