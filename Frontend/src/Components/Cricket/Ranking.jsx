@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   getCricketImageCBs,
   getCricketImageDB,
   getUploadImageCloudinary,
 } from "../../Features";
+import Badge from "react-bootstrap/Badge";
 
 const Ranking = () => {
   const location = useLocation();
@@ -22,34 +23,13 @@ const Ranking = () => {
     }
   }, [Data]);
 
-  // const fetchImages = async (rankings) => {
-  //   setLoadingImages(
-  //     rankings.reduce((acc, data) => {
-  //       const imageId = data.faceImageId || data.imageId;
-  //       acc[imageId] = true;
-  //       return acc;
-  //     }, {})
-  //   );
-
-  //   //     for (const data of rankings) {
-  //   //       await getImageUrl(imageId);
-  //   //     }
-  //   //   };
-  //   const imageFetchPromises = rankings.map((data) => {
-  //     const imageId = data.faceImageId || data.imageId;
-  //     return getImageUrl(imageId);
-  //   });
-
-  //   await Promise.all(imageFetchPromises);
-  // };
   const fetchImages = async (rankings) => {
-    setLoadingImages(
-      rankings.reduce((acc, data) => {
-        const imageId = data.faceImageId || data.imageId;
-        acc[imageId] = true;
-        return acc;
-      }, {})
-    );
+    const newLoadingImages = {};
+    rankings.forEach((data) => {
+      const imageId = data.faceImageId || data.imageId;
+      newLoadingImages[imageId] = true;
+    });
+    setLoadingImages(newLoadingImages);
 
     for (const data of rankings) {
       const imageId = data.faceImageId || data.imageId;
@@ -57,6 +37,7 @@ const Ranking = () => {
       await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
     }
   };
+
   const getImageUrl = async (imageId) => {
     if (!imageUrls[imageId]) {
       try {
@@ -77,7 +58,6 @@ const Ranking = () => {
               getUploadImageCloudinary(response.imageUrl, imageId)
             );
           }
-          await new Promise((resolve) => setTimeout(resolve, 500));
         }
       } catch (error) {
         console.error("Error fetching image URL:", error);
@@ -87,11 +67,45 @@ const Ranking = () => {
           [imageId]: false,
         }));
       }
+    } else {
+      setLoadingImages((prevState) => ({
+        ...prevState,
+        [imageId]: false,
+      }));
     }
   };
 
   return (
     <div>
+      <div className="mt-4">
+        <NavLink>
+          <Badge pill className="fs-6 me-5" bg="secondary">
+            Men
+          </Badge>
+        </NavLink>
+        <NavLink>
+          <Badge pill className="fs-6 me-3" bg="secondary">
+            Women
+          </Badge>
+        </NavLink>
+      </div>
+      <div className="mt-4 mb-3">
+        <NavLink>
+          <Badge pill className="fs-6 me-3" bg="secondary">
+            Test
+          </Badge>
+        </NavLink>
+        <NavLink>
+          <Badge pill className="fs-6 me-3" bg="secondary">
+            ODI
+          </Badge>
+        </NavLink>
+        <NavLink>
+          <Badge pill className="fs-6 me-3" bg="secondary">
+            T20
+          </Badge>
+        </NavLink>
+      </div>
       {rankingData.rank?.length > 0 ? (
         <div>
           {rankingData.rank.map((data, index) => {

@@ -158,7 +158,28 @@ function App() {
       setQuery("");
     }
   }, [location.pathname, navigate, query]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (
+  //       location.pathname.includes("/ranking") &&
+  //       rankingData.length <= 0
+  //     ) {
+  //       const response = await dispatch(
+  //         getCricketRanking("odi", "", "allrounders")
+  //       );
+  //       setRankingData(response);
+  //       navigate("cricket/ranking", {
+  //         state: { rankingsData: response },
+  //       });
+  //     } else {
+  //       navigate("cricket/ranking", {
+  //         state: { rankingsData: rankingData },
+  //       });
+  //     }
+  //   };
 
+  //   fetchData();
+  // }, [location.pathname, rankingData]);
   const handleSidebarClick = async (category) => {
     setQuery(category);
     navigate("/cricket");
@@ -180,7 +201,9 @@ function App() {
       } else if (category === "Rankings") {
         if (rankingData.length <= 0) {
           // const response = await dispatch(getCricketRanking("odi", "","teams"));
-          const response = await dispatch(getCricketRanking("odi", "","allrounders"));
+          const response = await dispatch(
+            getCricketRanking("odi", "", "allrounders")
+          );
           setRankingData(response);
           navigate(`cricket/ranking`, {
             state: { rankingsData: response },
