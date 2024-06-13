@@ -626,9 +626,10 @@ const getCricketRankings = asyncHandler(async (req, res) => {
 
     if (response) {
       const responseData = response.data;
-      responseData.format=format
-      responseData.IsWomen=isWomen
-      console.log(responseData,"responseDataresponseData")
+      responseData.format=format?format:""
+      responseData.IsWomen=isWomen?isWomen:""
+      responseData.category=category?category:""
+      // console.log(responseData,"responseDataresponseData")
       return res
         .status(200)
         .json(

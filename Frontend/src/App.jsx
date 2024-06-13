@@ -86,7 +86,7 @@ function App() {
     dispatch(getCricket()).then((response) => {
       const typeMatches = response.data.responseData.typeMatches;
       setTypeMatches(typeMatches);
-      console.log(response, "responseOFCRi");
+      // console.log(response, "responseOFCRi");
 
       // let LeaguesMatches = typeMatches.find(
       //   (match) => match.matchType == "League"
@@ -190,17 +190,17 @@ function App() {
         // setQuery("")
       }
     } else if (location.pathname.includes("/cricket")) {
-      console.log("Current pathname:", location.pathname);
+      // console.log("Current pathname:", location.pathname);
       // Conditioning To be Done
       // navigate('/cricket');
       // window.location.href="/cricket"
-      console.log(category);
+      // console.log(category);
 
       if (category === "All") {
         setCricketData(newCricketData);
       } else if (category === "Rankings") {
         if (rankingData.length <= 0) {
-          // const response = await dispatch(getCricketRanking("odi", "","teams"));
+          // const response = await dispatch(getCricketRanking("test", "","batsmen"));
           const response = await dispatch(
             getCricketRanking("odi", "", "allrounders")
           );
@@ -222,7 +222,7 @@ function App() {
           .filter((match) => match.seriesAdWrapper)
           .slice(0, 2); // It slices number of series to 2
 
-        console.log(IntlMatches, "IntlMatches");
+        // console.log(IntlMatches, "IntlMatches");
         let FilteredCricketData = [];
         IntlMatches.forEach((match) => {
           if (Array.isArray(match.seriesAdWrapper.matches)) {

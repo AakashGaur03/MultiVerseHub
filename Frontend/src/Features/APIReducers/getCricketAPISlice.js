@@ -69,7 +69,10 @@ export const getCricketImageCBs = (query) => async (dispatch) => {
 export const getCricketRanking = (format,isWomen,category) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
-    console.log("object")
+    console.log("object22")
+    console.log(format,"format")
+    console.log(isWomen,"isWomen")
+    console.log(category,"category")
     const response = await getCricketRankingAPIFunc(format,isWomen,category);
     if (response) {
       dispatch(getCricketSuccess(response));
