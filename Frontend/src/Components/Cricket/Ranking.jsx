@@ -11,7 +11,6 @@ import {
   getUploadImageCloudinary,
 } from "../../Features";
 import Badge from "react-bootstrap/Badge";
-import { Button } from "react-bootstrap";
 
 const Ranking = () => {
   const location = useLocation();
@@ -23,24 +22,42 @@ const Ranking = () => {
   const [selectedGender, setSelectedGender] = useState("men");
   const [selectedFormat, setSelectedFormat] = useState("test");
   const [selectedCategory, setSelectedCategory] = useState("batsmen");
+  const [cache, setCache] = useState({});
 
-  useEffect(() => {
-    if (Data) {
-      setRankingData(Data);
-      fetchImages(Data.rank);
-    }
-  }, [Data]);
+  // useEffect(() => {
+  //   if (Data) {
+  //     setRankingData(Data);
+  //     fetchImages(Data.rank);
+  //   }
+  // }, [Data]);
   useEffect(() => {
     if (selectedGender === "women" && selectedFormat === "test") {
       setSelectedFormat("odi");
+    } else {
+      const cachedData = getCachedData();
+      if (cachedData) {
+        setRankingData(cachedData);
+        fetchImages(cachedData.rank);
+      } else {
+        callRankingApi();
+      }
     }
   }, [selectedGender, selectedFormat, selectedCategory]);
 
-  useEffect(() => {
-    if (!(selectedGender === "women" && selectedFormat === "test")) {
-      callRankingApi();
-    }
-  }, [selectedFormat, selectedGender, selectedCategory]);
+  const getCachedData = () => {
+    const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
+    return cache[key];
+  };
+  const updateCache = (data) => {
+    const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
+    setCache((prevCache) => ({ ...prevCache, [key]: data }));
+  };
+
+  // useEffect(() => {
+  //   if (!(selectedGender === "women" && selectedFormat === "test")) {
+  //     callRankingApi();
+  //   }
+  // }, [selectedFormat, selectedGender, selectedCategory]);
 
   const fetchImages = async (rankings) => {
     const newLoadingImages = {};
@@ -95,20 +112,28 @@ const Ranking = () => {
   };
 
   const updateSelectedFormat = (format) => {
-    setSelectedFormat(format);
-    // callRankingApi();
+    if (selectedGender === "women" && format === "test") {
+      setSelectedFormat("odi");
+    } else {
+      setSelectedFormat(format);
+    }
   };
 
   const callRankingApi = async () => {
-    let response = await dispatch(
-      getCricketRanking(
-        selectedFormat,
-        selectedGender === "women" ? "1" : "",
-        selectedCategory
-      )
-    );
-    setRankingData(response);
-    fetchImages(response.rank);
+    try {
+      let response = await dispatch(
+        getCricketRanking(
+          selectedFormat,
+          selectedGender === "women" ? "1" : "",
+          selectedCategory
+        )
+      );
+      setRankingData(response);
+      updateCache(response);
+      fetchImages(response.rank);
+    } catch (error) {
+      console.error("Error fetching ranking data:", error);
+    }
   };
 
   return (
