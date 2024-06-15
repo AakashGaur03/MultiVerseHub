@@ -24,9 +24,11 @@ const Cricket = ({
       setQuery("");
       let datatoStrore = {};
       if (response) {
+        console.log(response.pointsTable.map(element => element),"JJJJ")
+        console.log(response.pointsTable)
         datatoStrore = {
           id,
-          data: response.pointsTable[0].pointsTableInfo,
+          data: response.pointsTable.map(element => element),
         };
       } else {
         datatoStrore = {
