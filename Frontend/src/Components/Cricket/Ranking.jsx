@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Table } from "react-bootstrap";
+
 import {
   getCricketImageCBs,
   getCricketImageDB,
@@ -52,12 +54,6 @@ const Ranking = () => {
     const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
     setCache((prevCache) => ({ ...prevCache, [key]: data }));
   };
-
-  // useEffect(() => {
-  //   if (!(selectedGender === "women" && selectedFormat === "test")) {
-  //     callRankingApi();
-  //   }
-  // }, [selectedFormat, selectedGender, selectedCategory]);
 
   const fetchImages = async (rankings) => {
     const newLoadingImages = {};
@@ -229,21 +225,34 @@ const Ranking = () => {
       </div>
       {rankingData?.rank?.length > 0 ? (
         <div>
-          {rankingData.rank.slice(0, 15).map((data, index) => {
-            const imageId = data.faceImageId || data.imageId;
-            return (
-              <div key={index} className="flex">
-                <div>{data.rank}</div>
-                <div>{data.rating}</div>
-                <div>{imageId}</div>
-                {loadingImages[imageId] ? (
-                  <div>Loading...</div>
-                ) : (
-                  <img src={imageUrls[imageId]} alt="" />
-                )}
-              </div>
-            );
-          })}
+          <Table className="table" borderless hover variant="dark">
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Points</th>
+                <th>Player</th>
+                <th>Ratings</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rankingData.rank.slice(0, 15).map((data, index) => {
+                const imageId = data.faceImageId || data.imageId;
+                return (
+                  <tr key={index} className="d-fle x">
+                    <td>{data.rank || "-"}</td>
+                    <td>{data.rating || "-"}</td>
+                    {loadingImages[imageId] ? (
+                      <td>Loading...</td>
+                    ) : (
+                      <td>
+                        <img src={imageUrls[imageId]} alt="" />
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
         </div>
       ) : (
         <div>No Data Available</div>

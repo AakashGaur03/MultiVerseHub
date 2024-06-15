@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,7 @@ const Cricket = ({
   return (
     <>
       <div className="flex overflow-y-auto">
-        {cricketData &&
+        {cricketData.length>0 ?
           cricketData.map((data, index) => (
             <div className="min-w-52 me-4" md={4} key={index}>
               <div>
@@ -104,7 +104,7 @@ const Cricket = ({
                 Table
               </NavLink>
             </div>
-          ))}
+          )):<div>No Data Available</div>}
       </div>
     </>
   );

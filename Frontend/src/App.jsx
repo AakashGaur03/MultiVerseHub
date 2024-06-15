@@ -218,13 +218,13 @@ function App() {
           (match) => match.matchType == category
         );
 
-        let IntlMatches = InterMatches.seriesMatches
+        let IntlMatches = InterMatches?.seriesMatches
           .filter((match) => match.seriesAdWrapper)
           .slice(0, 2); // It slices number of series to 2
 
         // console.log(IntlMatches, "IntlMatches");
         let FilteredCricketData = [];
-        IntlMatches.forEach((match) => {
+        IntlMatches?.forEach((match) => {
           if (Array.isArray(match.seriesAdWrapper.matches)) {
             FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
           }
