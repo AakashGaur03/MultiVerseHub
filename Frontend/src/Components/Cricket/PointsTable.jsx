@@ -80,11 +80,11 @@ const PointsTable = () => {
   return (
     <>
       {dataPoints.length > 0 ? (
-        <div>
+        <div className="w-100">
           {dataPoints.map((group, index) => (
             <div key={index} className="mb-4">
               <h4>{group.groupName}</h4>
-              <Table className="table" borderless hover variant="dark">
+              <Table borderless hover variant="dark">
                 <thead>
                   <tr>
                     <th>Teams</th>

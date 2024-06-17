@@ -182,7 +182,6 @@ function App() {
   // }, [location.pathname, rankingData]);
   const handleSidebarClick = async (category) => {
     setQuery(category);
-    navigate("/cricket");
     if (location.pathname.includes("/news")) {
       const response = await dispatch(getNews(category));
       if (response) {
@@ -190,6 +189,7 @@ function App() {
         // setQuery("")
       }
     } else if (location.pathname.includes("/cricket")) {
+      navigate("/cricket");
       // console.log("Current pathname:", location.pathname);
       // Conditioning To be Done
       // navigate('/cricket');

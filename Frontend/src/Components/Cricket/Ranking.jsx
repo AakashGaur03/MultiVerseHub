@@ -66,7 +66,7 @@ const Ranking = () => {
     for (const data of rankings) {
       const imageId = data.faceImageId || data.imageId;
       await getImageUrl(imageId);
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
+      // await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
     }
   };
 
@@ -133,7 +133,7 @@ const Ranking = () => {
   };
 
   return (
-    <div>
+    <div className="w-100">
       <div className="mt-4">
         <Badge
           pill
@@ -224,14 +224,15 @@ const Ranking = () => {
         </Badge>
       </div>
       {rankingData?.rank?.length > 0 ? (
-        <div>
-          <Table className="table" borderless hover variant="dark">
+          <Table responsive className="table" borderless hover variant="dark">
             <thead>
               <tr>
                 <th>Position</th>
+                {selectedCategory !== "teams" && <th>Player</th>}
+                {selectedCategory == "teams" && <th>Teams</th>}
+                <th>Info</th>
+                {selectedCategory == "teams" && <th>Ratings</th>}
                 <th>Points</th>
-                <th>Player</th>
-                <th>Ratings</th>
               </tr>
             </thead>
             <tbody>
@@ -240,7 +241,6 @@ const Ranking = () => {
                 return (
                   <tr key={index} className="d-fle x">
                     <td>{data.rank || "-"}</td>
-                    <td>{data.rating || "-"}</td>
                     {loadingImages[imageId] ? (
                       <td>Loading...</td>
                     ) : (
@@ -248,12 +248,26 @@ const Ranking = () => {
                         <img src={imageUrls[imageId]} alt="" />
                       </td>
                     )}
+                    <td>
+                      <>
+                        {data.name || "-"}
+                        {selectedCategory == "teams" && data.matches && (
+                          <div>Matches: {data.matches || "-"}</div>
+                        )}
+                        {selectedCategory !== "teams" && (
+                          <div>{data.country || "-"}</div>
+                        )}
+                      </>
+                    </td>
+                    {selectedCategory == "teams" && (
+                      <td>{data.rating || "-"}</td>
+                    )}
+                    <td>{data.points || "-"}</td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
-        </div>
       ) : (
         <div>No Data Available</div>
       )}
