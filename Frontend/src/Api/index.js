@@ -107,6 +107,15 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
+export const getCricketNewsCBAPIFunc = async () => {
+  // if (query === "") query = "recent";
+  // console.log(query, "ff");
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/cricketnewscb`
+  );
+  // console.log(response.data,"asasasasasasass")
+  return response.data.data.responseData;
+};
 export const getCricketRankingAPIFunc = async (format, isWomen,category) => {
   // console.log(isWomen,"isWomenisWomenisWomen")
   // console.log(category,"categorycategorycategory")

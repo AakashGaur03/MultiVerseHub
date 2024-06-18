@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricketPointsTableAPIFunc } from "../../Api";
+import { getCricketNewsCBs, getCricketPointsTable } from "../../Features";
 
 const Cricket = ({
   query,
@@ -19,7 +19,7 @@ const Cricket = ({
 
   const getPointsTable = async (id) => {
     try {
-      const response = await getCricketPointsTableAPIFunc(id);
+      const response = await dispatch(getCricketPointsTable(id));
       console.log(response, "1");
       setQuery("");
       let datatoStrore = {};
@@ -45,6 +45,21 @@ const Cricket = ({
       console.error(error);
     }
   };
+
+  const getCricketNews = async () =>{
+    const response= await dispatch(getCricketNewsCBs())
+    console.log(response,"HJ")
+    // let ValidNews = []
+    // response.storyList.forEach(element => {
+    //   if(element.story){
+    //     ValidNews.push(element)
+    //   }
+    // });
+      let ValidNews = response.storyList.filter(element => element.story);
+    console.log(ValidNews)
+  }
+
+  
 
   return (
     <>
@@ -108,6 +123,7 @@ const Cricket = ({
             </div>
           )):<div>No Data Available</div>}
       </div>
+      <button onClick={() => getCricketNews()}>GET NEWS</button>
     </>
   );
 };

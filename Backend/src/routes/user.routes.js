@@ -21,6 +21,7 @@ import {
   getCricketRankings,
   uploadImageCloudinary,
   getImageFromDB,
+  getCricketNewsCB,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -57,6 +58,7 @@ router
 
 router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
+router.route("/cricketnewscb").get(getCricketNewsCB);
 router.route("/:id/pointsTable").get(getCricketPointsTable);
 router.route("/uploadImagetoCloudinary").post(uploadImageCloudinary);
 router.route("/getImageFromDB").post(getImageFromDB);

@@ -605,6 +605,40 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 });
+const getCricketNewsCB = asyncHandler(async (req, res) => {
+  try {
+    const options = {
+      method: 'GET',
+      url: 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/index',
+      headers: {
+        'x-rapidapi-key': 'bb3721361emshddcfed580ee75dap16315bjsn1b92129b04d2',
+        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+
+    const response = await axios.request(options);
+
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Cricket News Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Cricket API Failed to fetch News"));
+    }
+  } catch (error) {
+    console.error("Error fetching News:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
 const getCricketRankings = asyncHandler(async (req, res) => {
   try {
     const { format, isWomen,category } = req.params;
@@ -937,6 +971,7 @@ export {
   getNews,
   getRecentCricket,
   getCricketPointsTable,
+  getCricketNewsCB,
   getCricketRankings,
   getWeathter,
   getWordOfTheDay,
