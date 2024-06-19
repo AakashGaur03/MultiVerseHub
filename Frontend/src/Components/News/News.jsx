@@ -3,6 +3,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Weather, WordOfTheDay, truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
+import formatDate from "../../GlobalComp/formatDate";
 
 const News = ({
   query,
@@ -13,16 +14,6 @@ const News = ({
   handleSubmitNews,
 }) => {
   const [financeNews, setFinanceNews] = useState([]);
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear() % 100;
-
-    return `${day}/${month}/${year}`;
-  }
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   useEffect(() => {
