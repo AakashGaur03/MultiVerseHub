@@ -123,3 +123,7 @@ input:-webkit-autofill:active {
 .table {
   --bs-table-bg: black;
 }
+
+/* .maxWidthContent {
+  max-width: calc(100vw - 15rem);
+} */

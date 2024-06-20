@@ -611,7 +611,7 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
       method: 'GET',
       url: 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/index',
       headers: {
-        'x-rapidapi-key': 'bb3721361emshddcfed580ee75dap16315bjsn1b92129b04d2',
+        'x-rapidapi-key': process.env.CRICKET_API_KEY,
         'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
       }
     };

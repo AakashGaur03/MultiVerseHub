@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricketNewsCBs, getCricketPointsTable } from "../../Features";
+import { getCricketImageCBs, getCricketNewsCBs, getCricketPointsTable } from "../../Features";
 import { Card, Col, Row } from "react-bootstrap";
 import truncateText from "../../GlobalComp/TruncateText";
 import formatDate from "../../GlobalComp/formatDate";
@@ -17,14 +17,14 @@ const Cricket = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [imageUrls, setImageUrls] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
-  const [imageUrl, setImageUrl] = useState("");
   const [validNews, setValidNews] = useState("");
 
   const getPointsTable = async (id) => {
     try {
       const response = await dispatch(getCricketPointsTable(id));
-      console.log(response, "1");
       setQuery("");
       let datatoStrore = {};
       if (response) {
@@ -60,19 +60,42 @@ const Cricket = ({
   const getCricketNews = async () => {
     const response = await dispatch(getCricketNewsCBs());
     console.log(response, "HJ");
-    // let ValidNews = []
-    // response.storyList.forEach(element => {
-    //   if(element.story){
-    //     ValidNews.push(element)
-    //   }
-    // });
+
     let temp = response.storyList.filter((element) => element.story);
     setValidNews(temp);
-    console.log(validNews,"validNews")
+    temp.forEach((news,index) => {
+      // if (news.story.imageId) {
+      //   fetchImage(news.story.imageId);
+      // }
+      if (news.story.imageId) {
+        setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
+      }
+    });
+    console.log(validNews, "validNews");
+  };
+
+  const fetchImage = async (imageId) => {
+    setLoadingImages((prev) => ({ ...prev, [imageId]: true }));
+    try {
+      const response = await dispatch(getCricketImageCBs(imageId));
+      if (response) {
+        setImageUrls((prevState) => ({
+          ...prevState,
+          [imageId]: response.imageUrl,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching image:", error);
+    } finally {
+      setLoadingImages((prevState) => ({
+        ...prevState,
+        [imageId]: false,
+      }));
+    }
   };
 
   return (
-    <>
+    <div className="overflow-y-auto">
       <div className="flex overflow-y-auto">
         {cricketData.length > 0 ? (
           cricketData.map((data, index) => (
@@ -137,51 +160,46 @@ const Cricket = ({
         )}
       </div>
       {/* <button onClick={() => getCricketNews()}>GET NEWS</button> */}
-<div>
-
-      {validNews.length > 0 ? (
-        <>
-          {validNews.slice(0, 9).map((news, index) => (
-            <Card
-              style={{}}
-              key={index}
-              className="my-8 ms-3 rounded-2xl border-0"
-            >
-              <Card.Body className="minHeightCard">
-                <Row>
-                  <Col md={4} className="d-flex align-items-center">
-                    {/* <Card.Img
+      <div>
+        {validNews.length > 0 ? (
+          <>
+            {validNews.slice(0, 9).map((news, index) => (
+              <Card
+                style={{}}
+                key={index}
+                className="my-8 ms-3 rounded-2xl border-0"
+              >
+                <Card.Body className="minHeightCard">
+                  <Row>
+                    <Col md={4} className="d-flex align-items-center">
+                      <Card.Img
                           variant="top"
                           alt="ImageNotFound.png"
                           className="cardImages"
-                          src={
-                            news.image_url && !news.image_url.includes("410")
-                              ? news.image_url
-                              : "/ImageNotFound.png"
-                          }
+                          src={imageUrls[news.story.imageId]}
                           onError={(e) => {
                             e.target.src = "/ImageNotFound.png";
                           }}
-                        /> */}
-                  </Col>
-                  <Col md={8} className="d-flex justify-center flex-col">
-                    <div>
-                      {/* <a href={news.link} target="_blank"> */}
-                      <Card.Title className="limit2Lines hover:text-amber-500">
-                        {news.story.hline
-                          ? truncateText(news.story.hline, 10)
-                          : "No Title Found"}
-                      </Card.Title>
-                      {/* </a> */}
-                      <Card.Text className="limit5Lines">
-                        {news.story.intro
-                          ? truncateText(news.story.intro, 60)
-                          : "No Description Found"}
-                      </Card.Text>
-                    </div>
-                    <div>
-                      <div className="d-flex justify-between mt-6">
-                        {/* <a href={news.source_url} target="_blank">
+                        />
+                    </Col>
+                    <Col md={8} className="d-flex justify-center flex-col">
+                      <div>
+                        {/* <a href={news.link} target="_blank"> */}
+                        <Card.Title className="limit2Lines hover:text-amber-500">
+                          {news.story.hline
+                            ? truncateText(news.story.hline, 10)
+                            : "No Title Found"}
+                        </Card.Title>
+                        {/* </a> */}
+                        <Card.Text className="limit5Lines">
+                          {news.story.intro
+                            ? truncateText(news.story.intro, 60)
+                            : "No Description Found"}
+                        </Card.Text>
+                      </div>
+                      <div>
+                        <div className="d-flex justify-between mt-6">
+                          {/* <a href={news.source_url} target="_blank">
                               <img
                                 variant="top"
                                 alt="LogoNotAvail.png"
@@ -201,21 +219,24 @@ const Cricket = ({
                                 }}
                               />
                             </a> */}
-                        <strong>Updated on : {formatDate(news.story.pubTime)}</strong>
+                          <strong>
+                            Updated on : {formatDate(news.story.pubTime)}
+                          </strong>
+                        </div>
                       </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          ))}
-        </>
-      ) : (
-        <div>No data Found</div>
-      )}
-</div>
-    </>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            ))}
+          </>
+        ) : (
+          <div>No data Found</div>
+        )}
+      </div>
+    </div>
   );
 };
 
 export default Cricket;
+
