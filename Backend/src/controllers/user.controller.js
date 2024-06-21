@@ -690,6 +690,7 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
     const options = {
       method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
+      params: {p: 'de', d: 'high'},
       headers: {
         "x-rapidapi-key": process.env.CRICKET_API_KEY,
         "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",

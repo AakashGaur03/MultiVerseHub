@@ -3,7 +3,11 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricketImageCBs, getCricketNewsCBs, getCricketPointsTable } from "../../Features";
+import {
+  getCricketImageCBs,
+  getCricketNewsCBs,
+  getCricketPointsTable,
+} from "../../Features";
 import { Card, Col, Row } from "react-bootstrap";
 import truncateText from "../../GlobalComp/TruncateText";
 import formatDate from "../../GlobalComp/formatDate";
@@ -63,7 +67,7 @@ const Cricket = ({
 
     let temp = response.storyList.filter((element) => element.story);
     setValidNews(temp);
-    temp.forEach((news,index) => {
+    temp.forEach((news, index) => {
       // if (news.story.imageId) {
       //   fetchImage(news.story.imageId);
       // }
@@ -93,6 +97,12 @@ const Cricket = ({
       }));
     }
   };
+  const generateRedirectLink = (id,headLine) =>{
+    let splitHLine = headLine.split(" ")
+    let joinedHLine = splitHLine.join('-')
+    let url = `https://www.cricbuzz.com/cricket-news/${id}/${joinedHLine}`
+    return url
+  }
 
   return (
     <div className="overflow-y-auto">
@@ -159,7 +169,6 @@ const Cricket = ({
           <div>No Data Available</div>
         )}
       </div>
-      {/* <button onClick={() => getCricketNews()}>GET NEWS</button> */}
       <div>
         {validNews.length > 0 ? (
           <>
@@ -173,24 +182,24 @@ const Cricket = ({
                   <Row>
                     <Col md={4} className="d-flex align-items-center">
                       <Card.Img
-                          variant="top"
-                          alt="ImageNotFound.png"
-                          className="cardImages"
-                          src={imageUrls[news.story.imageId]}
-                          onError={(e) => {
-                            e.target.src = "/ImageNotFound.png";
-                          }}
-                        />
+                        variant="top"
+                        alt="ImageNotFound.png"
+                        className="cardImages"
+                        src={imageUrls[news.story.imageId]}
+                        onError={(e) => {
+                          e.target.src = "/ImageNotFound.png";
+                        }}
+                      />
                     </Col>
                     <Col md={8} className="d-flex justify-center flex-col">
                       <div>
-                        {/* <a href={news.link} target="_blank"> */}
-                        <Card.Title className="limit2Lines hover:text-amber-500">
-                          {news.story.hline
-                            ? truncateText(news.story.hline, 10)
-                            : "No Title Found"}
-                        </Card.Title>
-                        {/* </a> */}
+                        <a href={generateRedirectLink(news.story.id,news.story.hline)} target="_blank">
+                          <Card.Title className="limit2Lines hover:text-amber-500">
+                            {news.story.hline
+                              ? truncateText(news.story.hline, 10)
+                              : "No Title Found"}
+                          </Card.Title>
+                        </a>
                         <Card.Text className="limit5Lines">
                           {news.story.intro
                             ? truncateText(news.story.intro, 60)
@@ -199,26 +208,16 @@ const Cricket = ({
                       </div>
                       <div>
                         <div className="d-flex justify-between mt-6">
-                          {/* <a href={news.source_url} target="_blank">
+                          {news.story.source=="Cricbuzz" &&<a href='https://www.cricbuzz.com/' target="_blank">
                               <img
+                              className="rounded-full"
                                 variant="top"
                                 alt="LogoNotAvail.png"
                                 height={30}
                                 width={30}
-                                src={
-                                  news.source_icon &&
-                                  !news.source_icon.includes("410")
-                                    ? news.source_icon
-                                    : "/LogoNotAvail.png"
-                                }
-                                onError={(e) => {
-                                  console.error("Error loading image:", e);
-                                  e.target.src = "/LogoNotAvail.png";
-                                  e.target.style.height = "50px";
-                                  e.target.style.width = "50px";
-                                }}
+                                src='/cricbuzzLogo.png'
                               />
-                            </a> */}
+                            </a>}
                           <strong>
                             Updated on : {formatDate(news.story.pubTime)}
                           </strong>
@@ -239,4 +238,3 @@ const Cricket = ({
 };
 
 export default Cricket;
-
