@@ -11,6 +11,7 @@ import {
 import { Card, Col, Row } from "react-bootstrap";
 import truncateText from "../../GlobalComp/TruncateText";
 import formatDate from "../../GlobalComp/formatDate";
+import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
 const Cricket = ({
   query,
@@ -72,31 +73,36 @@ const Cricket = ({
       //   fetchImage(news.story.imageId);
       // }
       if (news.story.imageId) {
-        setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
+        // setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
+        setTimeout(() => {
+          
+          getImageUrl(news.story.imageId,imageUrls,setImageUrls,setLoadingImages,dispatch)
+        }, 1000);
+
       }
     });
     console.log(validNews, "validNews");
   };
 
-  const fetchImage = async (imageId) => {
-    setLoadingImages((prev) => ({ ...prev, [imageId]: true }));
-    try {
-      const response = await dispatch(getCricketImageCBs(imageId));
-      if (response) {
-        setImageUrls((prevState) => ({
-          ...prevState,
-          [imageId]: response.imageUrl,
-        }));
-      }
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    } finally {
-      setLoadingImages((prevState) => ({
-        ...prevState,
-        [imageId]: false,
-      }));
-    }
-  };
+  // const fetchImage = async (imageId) => {
+  //   setLoadingImages((prev) => ({ ...prev, [imageId]: true }));
+  //   try {
+  //     const response = await dispatch(getCricketImageCBs(imageId));
+  //     if (response) {
+  //       setImageUrls((prevState) => ({
+  //         ...prevState,
+  //         [imageId]: response.imageUrl,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching image:", error);
+  //   } finally {
+  //     setLoadingImages((prevState) => ({
+  //       ...prevState,
+  //       [imageId]: false,
+  //     }));
+  //   }
+  // };
   const generateRedirectLink = (id,headLine) =>{
     let splitHLine = headLine.split(" ")
     let joinedHLine = splitHLine.join('-')
@@ -207,7 +213,7 @@ const Cricket = ({
                         </Card.Text>
                       </div>
                       <div>
-                        <div className="d-flex justify-between mt-6">
+                        <div className="d-flex justify-between mt-6 ml-8">
                           {news.story.source=="Cricbuzz" &&<a href='https://www.cricbuzz.com/' target="_blank">
                               <img
                               className="rounded-full"
@@ -218,7 +224,7 @@ const Cricket = ({
                                 src='/cricbuzzLogo.png'
                               />
                             </a>}
-                          <strong>
+                          <strong className="me-8">
                             Updated on : {formatDate(news.story.pubTime)}
                           </strong>
                         </div>

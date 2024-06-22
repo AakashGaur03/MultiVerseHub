@@ -38,7 +38,7 @@ Entertainment
 
 Netflix :https://rapidapi.com/Glavier/api/netflix54/						            100 / month
 
-https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						            500,000 / month
+https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						            500,000 / month Only Movies No Series
 
 https://rapidapi.com/rapihub-rapihub-default/api/imdb-top-100-movies/pricing			100 / month
 
