@@ -24,15 +24,32 @@ Games
 
 -> https://www.freetogame.com/crossout
 
+  {
+    "id": 540,
+    "title": "Overwatch 2",
+    "thumbnail": "https://www.freetogame.com/g/540/thumbnail.jpg",
+    "short_description": "A hero-focused first-person team shooter from Blizzard Entertainment.",
+    "game_url": "https://www.freetogame.com/open/overwatch-2",
+    "genre": "Shooter",
+    "platform": "PC (Windows)",
+    "publisher": "Activision Blizzard",
+    "developer": "Blizzard Entertainment",
+    "release_date": "2022-10-04",
+    "freetogame_profile_url": "https://www.freetogame.com/overwatch-2"
+  },
 
 -> https://www.freetogame.com/api-doc
+
+
 -> https://rapidapi.com/digiwalls/api/free-to-play-games-database
+// Same Free to Game Just through Rapid API
 
 
 -> https://www.postman.com/explore/gaming-apis
 
 -> https://docs.unity.com/
 
+-> https://api-docs.igdb.com/#getting-started
 
 Entertainment 
 
@@ -43,6 +60,11 @@ https://rapidapi.com/SAdrian/api/moviesdatabase/pricing						            500,000
 https://rapidapi.com/rapihub-rapihub-default/api/imdb-top-100-movies/pricing			100 / month
 
 https://rapidapi.com/elisbushaj2/api/movies-api14						                1,000 / month
+
+https://www.omdbapi.com/											1,000 daily limit
+API key added in env (If to be used in Future)
+
+https://www.themoviedb.org/movie (To Lookout)
 
 Weather : https://www.weatherapi.com/								                    1 Million / month
 
