@@ -12,6 +12,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import truncateText from "../../GlobalComp/TruncateText";
 import formatDate from "../../GlobalComp/formatDate";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
+import CustomCard from "../../GlobalComp/CustomCard";
 
 const Cricket = ({
   query,
@@ -75,10 +76,14 @@ const Cricket = ({
       if (news.story.imageId) {
         // setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
         setTimeout(() => {
-          
-          getImageUrl(news.story.imageId,imageUrls,setImageUrls,setLoadingImages,dispatch)
+          getImageUrl(
+            news.story.imageId,
+            imageUrls,
+            setImageUrls,
+            setLoadingImages,
+            dispatch
+          );
         }, 1000);
-
       }
     });
     console.log(validNews, "validNews");
@@ -103,12 +108,12 @@ const Cricket = ({
   //     }));
   //   }
   // };
-  const generateRedirectLink = (id,headLine) =>{
-    let splitHLine = headLine.split(" ")
-    let joinedHLine = splitHLine.join('-')
-    let url = `https://www.cricbuzz.com/cricket-news/${id}/${joinedHLine}`
-    return url
-  }
+  const generateRedirectLink = (id, headLine) => {
+    let splitHLine = headLine.split(" ");
+    let joinedHLine = splitHLine.join("-");
+    let url = `https://www.cricbuzz.com/cricket-news/${id}/${joinedHLine}`;
+    return url;
+  };
 
   return (
     <div className="overflow-y-auto">
@@ -179,60 +184,44 @@ const Cricket = ({
         {validNews.length > 0 ? (
           <>
             {validNews.slice(0, 9).map((news, index) => (
-              <Card
-                style={{}}
-                key={index}
-                className="my-8 ms-3 rounded-2xl border-0"
-              >
-                <Card.Body className="minHeightCard">
-                  <Row>
-                    <Col md={4} className="d-flex align-items-center">
-                      <Card.Img
-                        variant="top"
-                        alt="ImageNotFound.png"
-                        className="cardImages"
-                        src={imageUrls[news.story.imageId]}
-                        onError={(e) => {
-                          e.target.src = "/ImageNotFound.png";
-                        }}
-                      />
-                    </Col>
-                    <Col md={8} className="d-flex justify-center flex-col">
-                      <div>
-                        <a href={generateRedirectLink(news.story.id,news.story.hline)} target="_blank">
-                          <Card.Title className="limit2Lines hover:text-amber-500">
-                            {news.story.hline
-                              ? truncateText(news.story.hline, 10)
-                              : "No Title Found"}
-                          </Card.Title>
-                        </a>
-                        <Card.Text className="limit5Lines">
-                          {news.story.intro
-                            ? truncateText(news.story.intro, 60)
-                            : "No Description Found"}
-                        </Card.Text>
-                      </div>
-                      <div>
-                        <div className="d-flex justify-between mt-6 ml-8">
-                          {news.story.source=="Cricbuzz" &&<a href='https://www.cricbuzz.com/' target="_blank">
-                              <img
-                              className="rounded-full"
-                                variant="top"
-                                alt="LogoNotAvail.png"
-                                height={30}
-                                width={30}
-                                src='/cricbuzzLogo.png'
-                              />
-                            </a>}
-                          <strong className="me-8">
-                            Updated on : {formatDate(news.story.pubTime)}
-                          </strong>
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
+              <div key={index}>
+                <CustomCard
+                  index={index}
+                  imageUrls={imageUrls[news.story.imageId]}
+                  onError={(e) => {
+                    e.target.src = "/ImageNotFound.png";
+                  }}
+                  redirectLink={generateRedirectLink(
+                    news.story.id,
+                    news.story.hline
+                  )}
+                  newsStoryHLine={
+                    news.story.hline
+                      ? truncateText(news.story.hline, 10)
+                      : "No Title Found"
+                  }
+                  newsStoryIntro={
+                    news.story.intro
+                      ? truncateText(news.story.intro, 60)
+                      : "No Description Found"
+                  }
+                  newsStorySource={
+                    news.story.source == "Cricbuzz" && (
+                      <a href="https://www.cricbuzz.com/" target="_blank">
+                        <img
+                          className="rounded-full"
+                          variant="top"
+                          alt="LogoNotAvail.png"
+                          height={30}
+                          width={30}
+                          src="/cricbuzzLogo.png"
+                        />
+                      </a>
+                    )
+                  }
+                  updatedOn={formatDate(news.story.pubTime)}
+                />
+              </div>
             ))}
           </>
         ) : (

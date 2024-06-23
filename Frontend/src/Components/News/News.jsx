@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { Weather, WordOfTheDay, truncateText } from "../../index";
+import { CustomCard, Weather, WordOfTheDay, truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import formatDate from "../../GlobalComp/formatDate";
@@ -40,74 +40,53 @@ const News = ({
           {newsData.length > 0 ? (
             <>
               {newsData.slice(0, 9).map((news, index) => (
-                <Card
-                  style={{}}
-                  key={index}
-                  className="my-8 ms-3 rounded-2xl border-0"
-                >
-                  <Card.Body className="minHeightCard">
-                    <Row>
-                      <Col md={4} className="d-flex align-items-center">
-                        <Card.Img
+                <div key={index}>
+                  <CustomCard
+                    index={index}
+                    imageUrls={
+                      news.image_url && !news.image_url.includes("410")
+                        ? news.image_url
+                        : "/ImageNotFound.png"
+                    }
+                    onError={(e) => {
+                      e.target.src = "/ImageNotFound.png";
+                    }}
+                    redirectLink={news.link}
+                    newsStoryHLine={
+                      news.title
+                        ? truncateText(news.title, 10)
+                        : "No Title Found"
+                    }
+                    newsStoryIntro={
+                      news.description
+                        ? truncateText(news.description, 60)
+                        : "No Description Found"
+                    }
+                    newsStorySource={
+                      <a href={news.source_url} target="_blank">
+                        <img
                           variant="top"
-                          alt="ImageNotFound.png"
-                          className="cardImages"
+                          alt="LogoNotAvail.png"
+                          height={30}
+                          width={30}
                           src={
-                            news.image_url && !news.image_url.includes("410")
-                              ? news.image_url
-                              : "/ImageNotFound.png"
+                            news.source_icon &&
+                            !news.source_icon.includes("410")
+                              ? news.source_icon
+                              : "/LogoNotAvail.png"
                           }
                           onError={(e) => {
-                            e.target.src = "/ImageNotFound.png";
+                            console.error("Error loading image:", e);
+                            e.target.src = "/LogoNotAvail.png";
+                            e.target.style.height = "50px";
+                            e.target.style.width = "50px";
                           }}
                         />
-                      </Col>
-                      <Col md={8} className="d-flex justify-center flex-col">
-                        <div>
-                          <a href={news.link} target="_blank">
-                            <Card.Title className="limit2Lines hover:text-amber-500">
-                              {news.title
-                                ? truncateText(news.title, 10)
-                                : "No Title Found"}
-                            </Card.Title>
-                          </a>
-                          <Card.Text className="limit5Lines">
-                            {news.description
-                              ? truncateText(news.description, 60)
-                              : "No Description Found"}
-                          </Card.Text>
-                        </div>
-                        <div>
-                          <div className="d-flex justify-between mt-6">
-                            <a href={news.source_url} target="_blank">
-                              <img
-                                variant="top"
-                                alt="LogoNotAvail.png"
-                                height={30}
-                                width={30}
-                                src={
-                                  news.source_icon &&
-                                  !news.source_icon.includes("410")
-                                    ? news.source_icon
-                                    : "/LogoNotAvail.png"
-                                }
-                                onError={(e) => {
-                                  console.error("Error loading image:", e);
-                                  e.target.src = "/LogoNotAvail.png";
-                                  e.target.style.height = "50px";
-                                  e.target.style.width = "50px";
-                                }}
-                              />
-                            </a>
-                            <strong>
-                              Updated on : {formatDate(news.pubDate)}
-                            </strong>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
+                      </a>
+                    }
+                    updatedOn={formatDate(news.pubDate)}
+                  />
+                </div>
               ))}
             </>
           ) : (
