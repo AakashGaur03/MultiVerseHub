@@ -71,3 +71,8 @@ Weather : https://www.weatherapi.com/								                    1 Million / mon
 Dictionary : https://api.dictionaryapi.dev/api/v2/entries/en/<word>				        FREE
 
 Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				        50/Day
+
+
+
+For Live Cricket Matches 
+https://cricketdata.org/          100/Day

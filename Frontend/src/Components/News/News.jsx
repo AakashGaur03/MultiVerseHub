@@ -24,19 +24,10 @@ const News = ({
       setFinanceNews(response.data.data.responseData.results);
     });
   }, []);
-  const colmd4ref = useRef(null);
-  if (colmd4ref.current) {
-    // console.log(colmd4ref.current, "colmd4ref.current");
-    const height = colmd4ref.current.offsetHeight;
-    const colMd8Div = document.querySelector(".colMd8Div");
-    if (colMd8Div) {
-      colMd8Div.style.maxHeight = `${height}px`;
-    }
-  }
   return (
     <div>
       <Row>
-        <Col md={8} className="colMd8Div" style={{ overflowY: "auto" }}>
+        <Col md={8} className="colMd8Div">
           {newsData.length > 0 ? (
             <>
               {newsData.slice(0, 9).map((news, index) => (
@@ -94,7 +85,7 @@ const News = ({
           )}
         </Col>
         <Col md={4}>
-          <div className="colMd4Div" ref={colmd4ref}>
+          <div className="colMd4Div" style={{position:"sticky" , top:"0"}}>
             <Weather />
             <WordOfTheDay />
 
