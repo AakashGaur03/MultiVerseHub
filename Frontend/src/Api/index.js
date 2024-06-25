@@ -116,7 +116,7 @@ export const getCricketNewsCBAPIFunc = async () => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
-export const getCricketRankingAPIFunc = async (format, isWomen,category) => {
+export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
   // console.log(isWomen,"isWomenisWomenisWomen")
   // console.log(category,"categorycategorycategory")
   let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}/${category}`;
@@ -136,9 +136,9 @@ export const getCricketRankingAPIFunc = async (format, isWomen,category) => {
 //   console.log("Response from backend:", response.data);
 //   return response.data.data.responseData;
 // };
-export const getUploadImageCloudinaryFunc = async (imageUrl,faceImageID) => {
+export const getUploadImageCloudinaryFunc = async (imageUrl, faceImageID) => {
   // console.log("Request to backend with image URL:", imageUrl);
-  const payload = { imageUrl,faceImageID };
+  const payload = { imageUrl, faceImageID };
   try {
     const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, payload);
     // console.log("Response from backend:", response.data);

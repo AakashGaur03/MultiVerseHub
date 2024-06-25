@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCricketAPIFunc ,getCricketPointsTableAPIFunc,getCricketImageCBAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc,getImageDBFunc, getCricketNewsCBAPIFunc } from "../../Api";
+import { getCricketAPIFunc, getCricketPointsTableAPIFunc, getCricketImageCBAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc, getImageDBFunc, getCricketNewsCBAPIFunc } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
@@ -78,14 +78,14 @@ export const getCricketNewsCBs = () => async (dispatch) => {
     dispatch(getCricketFailure(error.message));
   }
 };
-export const getCricketRanking = (format,isWomen,category) => async (dispatch) => {
+export const getCricketRanking = (format, isWomen, category) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
     console.log("object22")
-    console.log(format,"format")
-    console.log(isWomen,"isWomen")
-    console.log(category,"category")
-    const response = await getCricketRankingAPIFunc(format,isWomen,category);
+    console.log(format, "format")
+    console.log(isWomen, "isWomen")
+    console.log(category, "category")
+    const response = await getCricketRankingAPIFunc(format, isWomen, category);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;
@@ -94,11 +94,11 @@ export const getCricketRanking = (format,isWomen,category) => async (dispatch) =
     dispatch(getCricketFailure(error.message));
   }
 };
-export const getUploadImageCloudinary = (imageUrl,faceImageID) => async (dispatch) => {
+export const getUploadImageCloudinary = (imageUrl, faceImageID) => async (dispatch) => {
   try {
     console.log("Dispatching upload image to Cloudinary action");
     dispatch(getCricketStart());
-    const response = await getUploadImageCloudinaryFunc(imageUrl,faceImageID);
+    const response = await getUploadImageCloudinaryFunc(imageUrl, faceImageID);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;

@@ -34,10 +34,7 @@ const Games = () => {
   return (
     <div className="min-h-screen">
       {arr.map((game) => (
-        <Card
-          key={game.id}
-          className="my-8 ms-3 rounded-2xl border-0"
-        >
+        <Card key={game.id} className="my-8 ms-3 rounded-2xl border-0">
           <Card.Body className="minHeightCard">
             <Row>
               <Col md={4} className="d-flex align-items-center">
@@ -50,7 +47,11 @@ const Games = () => {
               </Col>
               <Col md={8} className="d-flex justify-center flex-col">
                 <div>
-                  <a href={game.game_url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={game.game_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Card.Title className="limit2Lines hover:text-amber-500">
                       {game.title}
                     </Card.Title>

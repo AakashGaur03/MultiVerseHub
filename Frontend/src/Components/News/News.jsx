@@ -85,7 +85,7 @@ const News = ({
           )}
         </Col>
         <Col md={4}>
-          <div className="colMd4Div" style={{position:"sticky" , top:"0"}}>
+          <div className="colMd4Div" style={{ position: "sticky", top: "0" }}>
             <Weather />
             <WordOfTheDay />
 

@@ -67,7 +67,13 @@ const Ranking = () => {
     for (const data of rankings) {
       const imageId = data.faceImageId || data.imageId;
       // await getImageUrl(imageId);
-      await getImageUrl(imageId, imageUrls, setImageUrls, setLoadingImages, dispatch);
+      await getImageUrl(
+        imageId,
+        imageUrls,
+        setImageUrls,
+        setLoadingImages,
+        dispatch
+      );
       // await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
     }
   };
@@ -226,50 +232,48 @@ const Ranking = () => {
         </Badge>
       </div>
       {rankingData?.rank?.length > 0 ? (
-          <Table responsive className="table" borderless hover variant="dark">
-            <thead>
-              <tr>
-                <th>Position</th>
-                {selectedCategory !== "teams" && <th>Player</th>}
-                {selectedCategory == "teams" && <th>Teams</th>}
-                <th>Info</th>
-                {selectedCategory == "teams" && <th>Ratings</th>}
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rankingData.rank.slice(0, 15).map((data, index) => {
-                const imageId = data.faceImageId || data.imageId;
-                return (
-                  <tr key={index} className="d-fle x">
-                    <td>{data.rank || "-"}</td>
-                    {loadingImages[imageId] ? (
-                      <td>Loading...</td>
-                    ) : (
-                      <td>
-                        <img src={imageUrls[imageId]} alt="" />
-                      </td>
-                    )}
+        <Table responsive className="table" borderless hover variant="dark">
+          <thead>
+            <tr>
+              <th>Position</th>
+              {selectedCategory !== "teams" && <th>Player</th>}
+              {selectedCategory == "teams" && <th>Teams</th>}
+              <th>Info</th>
+              {selectedCategory == "teams" && <th>Ratings</th>}
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rankingData.rank.slice(0, 15).map((data, index) => {
+              const imageId = data.faceImageId || data.imageId;
+              return (
+                <tr key={index} className="d-fle x">
+                  <td>{data.rank || "-"}</td>
+                  {loadingImages[imageId] ? (
+                    <td>Loading...</td>
+                  ) : (
                     <td>
-                      <>
-                        {data.name || "-"}
-                        {selectedCategory == "teams" && data.matches && (
-                          <div>Matches: {data.matches || "-"}</div>
-                        )}
-                        {selectedCategory !== "teams" && (
-                          <div>{data.country || "-"}</div>
-                        )}
-                      </>
+                      <img src={imageUrls[imageId]} alt="" />
                     </td>
-                    {selectedCategory == "teams" && (
-                      <td>{data.rating || "-"}</td>
-                    )}
-                    <td>{data.points || "-"}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+                  )}
+                  <td>
+                    <>
+                      {data.name || "-"}
+                      {selectedCategory == "teams" && data.matches && (
+                        <div>Matches: {data.matches || "-"}</div>
+                      )}
+                      {selectedCategory !== "teams" && (
+                        <div>{data.country || "-"}</div>
+                      )}
+                    </>
+                  </td>
+                  {selectedCategory == "teams" && <td>{data.rating || "-"}</td>}
+                  <td>{data.points || "-"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       ) : (
         <div>No Data Available</div>
       )}

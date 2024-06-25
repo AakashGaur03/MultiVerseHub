@@ -75,7 +75,6 @@ const PointsTable = () => {
     }
   }, [TableData]);
 
-
   console.log(seriesId);
   return (
     <>
@@ -101,7 +100,8 @@ const PointsTable = () => {
                     <tr key={idx} className="d-fle x">
                       <td>
                         {data.teamName}
-                        {data.teamQualifyStatus && ` (${data.teamQualifyStatus})`}
+                        {data.teamQualifyStatus &&
+                          ` (${data.teamQualifyStatus})`}
                       </td>
                       <td>{data.matchesPlayed || 0}</td>
                       <td>{data.matchesWon || 0}</td>
