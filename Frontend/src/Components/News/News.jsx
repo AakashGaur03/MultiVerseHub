@@ -81,7 +81,7 @@ const News = ({
               ))}
             </>
           ) : (
-            <div>No data Found</div>
+            <div>No News data Found</div>
           )}
         </Col>
         <Col md={4}>
@@ -136,7 +136,7 @@ const News = ({
                   ))}
                 </>
               ) : (
-                <div>No data Found</div>
+                <div>No News data Found</div>
               )}
             </div>
           </div>

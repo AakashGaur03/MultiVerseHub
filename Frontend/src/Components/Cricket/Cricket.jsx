@@ -177,7 +177,7 @@ const Cricket = ({
             </div>
           ))
         ) : (
-          <div>No Data Available</div>
+          <div>No Cricket Data Available</div>
         )}
       </div>
       <div>
@@ -225,7 +225,7 @@ const Cricket = ({
             ))}
           </>
         ) : (
-          <div>No data Found</div>
+          <div>No Cricket News Found</div>
         )}
       </div>
     </div>

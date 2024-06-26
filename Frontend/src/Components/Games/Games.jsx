@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// const Games = () => {
-//   return (
-//     <div className='min-h-screen'>
-//       Games
-//     </div>
-//   )
-// }
-
-// export default Games
-
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
