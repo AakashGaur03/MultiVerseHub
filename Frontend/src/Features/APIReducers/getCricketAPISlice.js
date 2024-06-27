@@ -122,3 +122,7 @@ export const getCricketImageDB = (faceImageID) => async (dispatch) => {
 };
 
 export default getCricketAPISlice.reducer;
+
+
+// Need to Update want to make store for all independent data values
+// Need to work on state management 
