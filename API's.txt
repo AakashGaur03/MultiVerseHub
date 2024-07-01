@@ -64,6 +64,10 @@ https://rapidapi.com/elisbushaj2/api/movies-api14						                1,000 / m
 https://www.omdbapi.com/											1,000 daily limit
 API key added in env (If to be used in Future)
 
+
+https://developer.themoviedb.org/docs/getting-started        API KEY GENERATED SAVED IN ENV
+https://developer.themoviedb.org/reference/account-details
+
 https://www.themoviedb.org/movie (To Lookout)
 
 Weather : https://www.weatherapi.com/								                    1 Million / month
