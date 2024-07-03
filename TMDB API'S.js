@@ -1,6 +1,17 @@
+// MAX PAGE THAT CAN GO UPTO IS 500
+// It shows total_pages : 44927 but when enter number greater than 500 it comes in response
+// "Invalid page: Pages start at 1 and max at 500. They are expected to be an integer."
+
+
+
+
+// YOU CAN ACCESS TOP RATED ,POPULAR ,NOW PLAYING ,INFO ABOUT SINGLE MOVIE ,CREDITS, REVIEWS using axios method by changing url
+
+
 // Movies
 
-// const fetch = require('node-fetch');
+// const axios = require("axios");
+
 
 // const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
 // const options = {
@@ -12,14 +23,15 @@
 // };
 
 // fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error('error:' + err));
+// axios(url, options)
+// .then((response) => console.log(response.data))
+// .catch((error) => console.error("error:" + error));
 
 
 
-// GENERES MOVIES
-// const fetch = require('node-fetch');
+// // GENERES MOVIES
+// const axios = require("axios");
+
 
 // const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en';
 // const options = {
@@ -31,9 +43,9 @@
 // };
 
 // fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error('error:' + err));
+// axios(url, options)
+// .then((response) => console.log(response.data))
+// .catch((error) => console.error("error:" + error));
 
 
 
@@ -52,6 +64,7 @@
 
 
 // GET API
+// TOP RATED
 // https://api.themoviedb.org/3/movie/top_rated?api_key=(API_KEY)
 
 // POPULAR
@@ -70,7 +83,8 @@
 
 // TV
 
-// const fetch = require('node-fetch');
+// const axios = require("axios");
+
 
 // const url = 'https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc';
 // const options = {
@@ -82,15 +96,16 @@
 // };
 
 // fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error('error:' + err));
+// axios(url, options)
+// .then((response) => console.log(response.data))
+// .catch((error) => console.error("error:" + error));
 
 
 
 // GENERES TV
 
-// const fetch = require('node-fetch');
+// const axios = require("axios");
+
 
 // const url = 'https://api.themoviedb.org/3/genre/tv/list?language=en';
 // const options = {
@@ -102,9 +117,9 @@
 // };
 
 // fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error('error:' + err));
+// axios(url, options)
+// .then((response) => console.log(response.data))
+// .catch((error) => console.error("error:" + error));
 
 
 
