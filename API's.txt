@@ -80,3 +80,12 @@ Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				        50/
 
 For Live Cricket Matches 
 https://cricketdata.org/          100/Day
+
+
+
+FLOW OF API 
+
+---------BACKEND----------------  
+user.controller -> user.routes -> 
+------------------------------------FRONTEND------------------------------------------
+index.js(API) -> slice -> index.js(Features) -> File where to use import from Features
