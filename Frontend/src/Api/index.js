@@ -126,16 +126,6 @@ export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
   const response = await axios.get(url);
   return response.data.data.responseData;
 };
-// export const getUploadImageCloudinaryFunc = async (imageUrl) => {
-//   console.log("Request to backend with image URL:", imageUrl);
-//   // let url = ;
-//   payload = {
-//     imageUrl 
-//   };
-//   const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, imageUrl);
-//   console.log("Response from backend:", response.data);
-//   return response.data.data.responseData;
-// };
 export const getUploadImageCloudinaryFunc = async (imageUrl, faceImageID) => {
   // console.log("Request to backend with image URL:", imageUrl);
   const payload = { imageUrl, faceImageID };
@@ -182,5 +172,11 @@ export const getWordOfTheDayAPIFunc = async () => {
     `http://localhost:8000/api/v1/users/wordofthedayApi`
   );
   // console.log(response, "RESSSSSS");
+  return response.data.data.responseData;
+};
+export const getEntertainmentDataAPIFunc = async () => {
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/entertainmentApi`
+  );
   return response.data.data.responseData;
 };

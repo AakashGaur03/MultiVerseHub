@@ -641,7 +641,7 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
   try {
-    const { format, isWomen,category } = req.params;
+    const { format, isWomen, category } = req.params;
     // console.log(id,"getWordOfTheDayAPIFunc")
     const params = { formatType: format };
     if (isWomen !== undefined) {
@@ -660,9 +660,9 @@ const getCricketRankings = asyncHandler(async (req, res) => {
 
     if (response) {
       const responseData = response.data;
-      responseData.format=format?format:""
-      responseData.IsWomen=isWomen?isWomen:""
-      responseData.category=category?category:""
+      responseData.format = format ? format : ""
+      responseData.IsWomen = isWomen ? isWomen : ""
+      responseData.category = category ? category : ""
       // console.log(responseData,"responseDataresponseData")
       return res
         .status(200)
@@ -690,7 +690,7 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
     const options = {
       method: "GET",
       url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
-      params: {p: 'de', d: 'high'},
+      params: { p: 'de', d: 'high' },
       headers: {
         'Content-Type': 'application/json',
         "x-rapidapi-key": process.env.CRICKET_API_KEY,
@@ -892,70 +892,58 @@ const getImageFromDB = asyncHandler(async (req, res) => {
       .json(
         new ApiResponse(
           200,
-          { responseData:existedData },
+          { responseData: existedData },
           "Image Fetched from DB Successfully"
         )
       );
   }
   return res
-  .status(200)
-  .json(
-    new ApiResponse(
-      200,
-      {  },
-      "Image Not Found in DB "
-    )
-  );
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        {},
+        "Image Not Found in DB "
+      )
+    );
 
 });
 
-// const uploadImageCloudinary = asyncHandler(async (req, res) => {
-//   const { imageUrl, faceImageID } = req.body;
-//   console.log("Received image URL:", imageUrl);
-
-//   try {
-//     // Check if the image already exists in the database
-//     const existedData = await Image.findOne({ faceImageID });
-
-//     console.log(existedData,"existedDataexistedDataexistedData")
-//     if (existedData) {
-//       // Image already exists, return it
-//       return res.status(200).json(new ApiResponse(200, { responseData: existedData }, "Image fetched from database successfully"));
-//     } else {
-//       // Image doesn't exist, fetch from external source
-//       const externalImageUrl = `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${faceImageID}/i.jpg`;
-//       const image = await uploadOnCloudinary(externalImageUrl);
-
-//       if (image) {
-//         image.faceImageID = faceImageID;
-//         await saveDataInDatabase(image);
-//         return res.status(200).json(new ApiResponse(200, { responseData: image }, "Image fetched and uploaded to Cloudinary successfully"));
-//       } else {
-//         return res.status(400).json(new ApiError(400, "Failed to fetch and save image"));
-//       }
-//     }
-//   } catch (error) {
-//     console.error("Error processing image:", error);
-//     return res.status(500).json(new ApiError(500, "Internal Server Error"));
-//   }
-// });
-
-// const saveDataInDatabase = async (data) => {
-//   const { public_id, url, secure_url, format, width, height, resource_type, faceImageID } = data;
-
-//   const dataUpload = Image.create({
-//     id: public_id,
-//     url,
-//     secureUrl: secure_url,
-//     format,
-//     width,
-//     height,
-//     resourceType: resource_type,
-//     faceImageID
-//   });
-
-//   await dataUpload.save();
-// };
+const getEntertainmentData = asyncHandler(async (req, res) => {
+  const url =
+    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
+  const options = {
+    method: "GET",
+    url: url,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  try {
+    const response = await axios.request(options);
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Entertainment API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Entertainment API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Entertainment Data:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
 
 export {
   // allJokes,
@@ -980,4 +968,5 @@ export {
   getCricketImageCB,
   uploadImageCloudinary,
   getImageFromDB,
+  getEntertainmentData,
 };

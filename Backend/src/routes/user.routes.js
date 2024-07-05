@@ -22,6 +22,7 @@ import {
   uploadImageCloudinary,
   getImageFromDB,
   getCricketNewsCB,
+  getEntertainmentData,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -66,5 +67,6 @@ router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRanki
 router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
+router.route("/entertainmentApi").get(getEntertainmentData);
 
 export default router;
