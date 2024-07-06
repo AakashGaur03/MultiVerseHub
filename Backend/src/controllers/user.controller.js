@@ -911,7 +911,7 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 
 const getEntertainmentData = asyncHandler(async (req, res) => {
   const url =
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
+    "https://api.themoviedb.org/3/discover/tv?&page=2";
   const options = {
     method: "GET",
     url: url,
@@ -945,6 +945,56 @@ const getEntertainmentData = asyncHandler(async (req, res) => {
   }
 });
 
+// Particulars of Movie or TV
+const getEntertainmentDataParticulars = asyncHandler(async (req, res) => {
+  const { category, id, particular } = req.body;
+  // https://api.themoviedb.org/3/movie/786892
+  // https://api.themoviedb.org/3/movie/786892/credits
+  // https://api.themoviedb.org/3/movie/786892/reviews
+  let url = ""
+  if (particular) {
+
+    url =
+      `https://api.themoviedb.org/3/${category}/${id}/${particular}`;
+  } else {
+    url =
+      `https://api.themoviedb.org/3/${category}/${id}`;
+  }
+  const options = {
+    method: "GET",
+    url: url,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  try {
+    const response = await axios.request(options);
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Entertainment API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Entertainment API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Entertainment Data:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+});
+
+// Categories top_rated,popular,now_playing
+// Search
 export {
   // allJokes,
   registerUser,
@@ -969,4 +1019,5 @@ export {
   uploadImageCloudinary,
   getImageFromDB,
   getEntertainmentData,
+  getEntertainmentDataParticulars,
 };

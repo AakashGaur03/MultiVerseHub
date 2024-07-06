@@ -2,25 +2,31 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getEntertainmentData } from "../../Features";
+import { getEntertainmentData, getEntertainmentDataParticulars } from "../../Features";
 const Entertainment = () => {
   const [movieData, setMovieData] = useState([]);
   const dispatch = useDispatch();
-  const entertainmentData = useSelector((state)=>state.getEntertainmentData.entertainmentData)
+  const entertainmentData = useSelector(
+    (state) => state.getEntertainmentData.entertainmentData
+  );
   useEffect(() => {
-    dispatch(getEntertainmentData())
-     .then((response) => {
-        console.log(response,"@@")
-        console.log(entertainmentData,"@@1")
-      })
+    dispatch(getEntertainmentData()).then((response) => {});
+    let payload = {
+      category: "movie",
+      id: 786892,
+      particular: "credits",
+    };
+    dispatch(getEntertainmentDataParticulars(payload));
   }, [dispatch]);
-  useEffect(()=>{
-    console.log(entertainmentData,"GGGG")
-  },[entertainmentData])
+  useEffect(() => {
+    if (entertainmentData && entertainmentData.results) {
+      setMovieData(entertainmentData.results);
+    }
+  }, [entertainmentData]);
 
   return (
     <div>
-      {movieData.length > 0 ? (
+      {movieData?.length > 0 ? (
         movieData.map((data, index) => (
           <Card
             style={{ width: "18rem", maxHeight: "20rem" }}

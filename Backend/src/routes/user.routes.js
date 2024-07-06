@@ -23,6 +23,7 @@ import {
   getImageFromDB,
   getCricketNewsCB,
   getEntertainmentData,
+  getEntertainmentDataParticulars,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -68,5 +69,6 @@ router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
 router.route("/entertainmentApi").get(getEntertainmentData);
+router.route("/entertainmentParticularsApi").post(getEntertainmentDataParticulars);
 
 export default router;

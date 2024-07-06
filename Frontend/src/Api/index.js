@@ -180,3 +180,9 @@ export const getEntertainmentDataAPIFunc = async () => {
   );
   return response.data.data.responseData;
 };
+export const getEntertainmentDataParticularsAPIFunc = async (payload) => {
+  const response = await axios.post(
+    `http://localhost:8000/api/v1/users/entertainmentParticularsApi`,payload
+  );
+  return response.data.data.responseData;
+};

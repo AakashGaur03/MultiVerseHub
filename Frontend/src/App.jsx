@@ -83,74 +83,76 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    dispatch(getCricket()).then((response) => {
-      const typeMatches = response.data.responseData.typeMatches;
-      setTypeMatches(typeMatches);
-      // console.log(response, "responseOFCRi");
+    if (location.pathname.includes("/cricket")) {
+      dispatch(getCricket()).then((response) => {
+        const typeMatches = response.data.responseData.typeMatches;
+        setTypeMatches(typeMatches);
+        // console.log(response, "responseOFCRi");
 
-      // let LeaguesMatches = typeMatches.find(
-      //   (match) => match.matchType == "League"
-      // );
-      let InterMatches = typeMatches.find(
-        (match) => match.matchType == "International"
-      );
-      let WomenMatches = typeMatches.find(
-        (match) => match.matchType == "Women"
-      );
-      let LeagueMatches = typeMatches.find(
-        (match) => match.matchType == "League"
-      );
+        // let LeaguesMatches = typeMatches.find(
+        //   (match) => match.matchType == "League"
+        // );
+        let InterMatches = typeMatches.find(
+          (match) => match.matchType == "International"
+        );
+        let WomenMatches = typeMatches.find(
+          (match) => match.matchType == "Women"
+        );
+        let LeagueMatches = typeMatches.find(
+          (match) => match.matchType == "League"
+        );
 
-      // let IPLMatches = LeaguesMatches?.seriesMatches
-      //   .find((matchseries) =>
-      //     matchseries.seriesAdWrapper.seriesName.includes(
-      //       "Indian Premier League"
-      //     )
-      //   )
-      //   .seriesAdWrapper.matches?.slice(0, 3);
+        // let IPLMatches = LeaguesMatches?.seriesMatches
+        //   .find((matchseries) =>
+        //     matchseries.seriesAdWrapper.seriesName.includes(
+        //       "Indian Premier League"
+        //     )
+        //   )
+        //   .seriesAdWrapper.matches?.slice(0, 3);
 
-      let IntlMatches = InterMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+        let IntlMatches = InterMatches.seriesMatches
+          .filter((match) => match.seriesAdWrapper)
+          .slice(0, 2); // It slices number of series to 2
 
-      let LegMatches = LeagueMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+        let LegMatches = LeagueMatches.seriesMatches
+          .filter((match) => match.seriesAdWrapper)
+          .slice(0, 2); // It slices number of series to 2
 
-      let WomMatches = WomenMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
+        let WomMatches = WomenMatches.seriesMatches
+          .filter((match) => match.seriesAdWrapper)
+          .slice(0, 2); // It slices number of series to 2
 
-      // console.log(IntlMatches, "IntlMatches");
+        // console.log(IntlMatches, "IntlMatches");
 
-      let newCricketData2 = [];
+        let newCricketData2 = [];
 
-      // Adding IPL matches to newCricketData2
-      // if (Array.isArray(IPLMatches)) {
-      //   newCricketData2.push(...IPLMatches.slice(0, 3));
-      // }
+        // Adding IPL matches to newCricketData2
+        // if (Array.isArray(IPLMatches)) {
+        //   newCricketData2.push(...IPLMatches.slice(0, 3));
+        // }
 
-      // Adding International matches to newCricketData2
-      LegMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
+        // Adding International matches to newCricketData2
+        LegMatches.forEach((match) => {
+          if (Array.isArray(match.seriesAdWrapper.matches)) {
+            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          }
+        });
+        IntlMatches.forEach((match) => {
+          if (Array.isArray(match.seriesAdWrapper.matches)) {
+            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          }
+        });
+        WomMatches.forEach((match) => {
+          if (Array.isArray(match.seriesAdWrapper.matches)) {
+            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
+          }
+        });
+
+        // Update the state once with all the data
+        setCricketData(newCricketData2);
+        setNewCricketData(newCricketData2);
       });
-      IntlMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-      WomMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-
-      // Update the state once with all the data
-      setCricketData(newCricketData2);
-      setNewCricketData(newCricketData2);
-    });
+    }
   }, []);
   useEffect(() => {
     if (query && location.pathname.includes("/pointsTable")) {

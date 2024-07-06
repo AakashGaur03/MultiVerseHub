@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEntertainmentDataAPIFunc } from "../../Api";
+import { getEntertainmentDataAPIFunc, getEntertainmentDataParticularsAPIFunc } from "../../Api";
 
 const initialState = {
     state: "idle",
     error: null,
     entertainmentData: null,
+    entertainmentDataParticular: null,
 }
 
 const getEntertainmentDataPISlice = createSlice({
@@ -20,6 +21,11 @@ const getEntertainmentDataPISlice = createSlice({
             state.state = "success";
             state.error = null;
             state.entertainmentData = action.payload;
+        },
+        getEntertainmentDataParticluarSuccess(state, action) {
+            state.state = "success";
+            state.error = null;
+            state.entertainmentDataParticular = action.payload;
         },
         getEntertainmentDataFailure(state, action) {
             state.state = "error";
@@ -37,6 +43,19 @@ export const getEntertainmentData = () => async (dispatch) => {
         const response = await getEntertainmentDataAPIFunc();
         if (response) {
             dispatch(getEntertainmentDataSuccess(response));
+            return response;
+        }
+
+    } catch (error) {
+        dispatch(getEntertainmentDataFailure(error));
+    }
+}
+export const getEntertainmentDataParticulars = (payload) => async (dispatch) => {
+    try {
+        dispatch(getEntertainmentDataStart());
+        const response = await getEntertainmentDataParticularsAPIFunc(payload);
+        if (response) {
+            dispatch(getEntertainmentDataParticluarSuccess(response));
             return response;
         }
 
