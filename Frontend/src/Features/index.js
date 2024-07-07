@@ -27,7 +27,7 @@ import getCricketAPIReducer, {
   getUploadImageCloudinary,
   getCricketImageDB,
 } from "./APIReducers/getCricketAPISlice.js";
-import getEntertainmentReducer, { getEntertainmentData, getEntertainmentDataParticulars } from "./APIReducers/entertainmentSlice.js";
+import getEntertainmentReducer, { getEntertainmentData, getEntertainmentParticularsData,getEntertainmentTypeWiseData } from "./APIReducers/entertainmentSlice.js";
 
 export {
   registerReducer,
@@ -56,5 +56,6 @@ export {
   getCricketImageDB,
   getEntertainmentReducer,
   getEntertainmentData,
-  getEntertainmentDataParticulars,
+  getEntertainmentParticularsData,
+  getEntertainmentTypeWiseData,
 };

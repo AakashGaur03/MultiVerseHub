@@ -174,15 +174,21 @@ export const getWordOfTheDayAPIFunc = async () => {
   // console.log(response, "RESSSSSS");
   return response.data.data.responseData;
 };
-export const getEntertainmentDataAPIFunc = async () => {
-  const response = await axios.get(
-    `http://localhost:8000/api/v1/users/entertainmentApi`
+export const getEntertainmentDataAPIFunc = async (payload) => {
+  const response = await axios.post(
+    `http://localhost:8000/api/v1/users/entertainmentApi`, payload
   );
   return response.data.data.responseData;
 };
-export const getEntertainmentDataParticularsAPIFunc = async (payload) => {
+export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
   const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentParticularsApi`,payload
+    `http://localhost:8000/api/v1/users/entertainmentParticularsApi`, payload
+  );
+  return response.data.data.responseData;
+};
+export const getEntertainmentTypeWiseAPIFunc = async (payload) => {
+  const response = await axios.post(
+    `http://localhost:8000/api/v1/users/entertainmentTypeWiseApi`, payload
   );
   return response.data.data.responseData;
 };

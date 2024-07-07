@@ -23,7 +23,8 @@ import {
   getImageFromDB,
   getCricketNewsCB,
   getEntertainmentData,
-  getEntertainmentDataParticulars,
+  getEntertainmentParticularsData,
+  getEntertainmentTypeWiseData,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -68,7 +69,8 @@ router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRanki
 router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
-router.route("/entertainmentApi").get(getEntertainmentData);
-router.route("/entertainmentParticularsApi").post(getEntertainmentDataParticulars);
+router.route("/entertainmentApi").post(getEntertainmentData);
+router.route("/entertainmentParticularsApi").post(getEntertainmentParticularsData);
+router.route("/entertainmentTypeWiseApi").post(getEntertainmentTypeWiseData);
 
 export default router;

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEntertainmentDataAPIFunc, getEntertainmentDataParticularsAPIFunc } from "../../Api";
+import { getEntertainmentDataAPIFunc, getEntertainmentParticularsDataAPIFunc, getEntertainmentTypeWiseAPIFunc } from "../../Api";
 
 const initialState = {
     state: "idle",
     error: null,
     entertainmentData: null,
-    entertainmentDataParticular: null,
+    entertainmentParticularData: null,
+    entertainmentDataType: null,
 }
 
 const getEntertainmentDataPISlice = createSlice({
@@ -25,7 +26,12 @@ const getEntertainmentDataPISlice = createSlice({
         getEntertainmentDataParticluarSuccess(state, action) {
             state.state = "success";
             state.error = null;
-            state.entertainmentDataParticular = action.payload;
+            state.entertainmentParticularData = action.payload;
+        },
+        getEntertainmentTypeWiseDataSuccess(state, action) {
+            state.state = "success";
+            state.error = null;
+            state.entertainmentDataType = action.payload;
         },
         getEntertainmentDataFailure(state, action) {
             state.state = "error";
@@ -35,12 +41,12 @@ const getEntertainmentDataPISlice = createSlice({
     }
 })
 
-export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
+export const { getEntertainmentDataStart, getEntertainmentDataSuccess,getEntertainmentDataParticluarSuccess,getEntertainmentTypeWiseDataSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
 
-export const getEntertainmentData = () => async (dispatch) => {
+export const getEntertainmentData = (payload) => async (dispatch) => {
     try {
         dispatch(getEntertainmentDataStart());
-        const response = await getEntertainmentDataAPIFunc();
+        const response = await getEntertainmentDataAPIFunc(payload);
         if (response) {
             dispatch(getEntertainmentDataSuccess(response));
             return response;
@@ -50,12 +56,25 @@ export const getEntertainmentData = () => async (dispatch) => {
         dispatch(getEntertainmentDataFailure(error));
     }
 }
-export const getEntertainmentDataParticulars = (payload) => async (dispatch) => {
+export const getEntertainmentParticularsData = (payload) => async (dispatch) => {
     try {
         dispatch(getEntertainmentDataStart());
-        const response = await getEntertainmentDataParticularsAPIFunc(payload);
+        const response = await getEntertainmentParticularsDataAPIFunc(payload);
         if (response) {
             dispatch(getEntertainmentDataParticluarSuccess(response));
+            return response;
+        }
+
+    } catch (error) {
+        dispatch(getEntertainmentDataFailure(error));
+    }
+}
+export const getEntertainmentTypeWiseData = (payload) => async (dispatch) => {
+    try {
+        dispatch(getEntertainmentDataStart());
+        const response = await getEntertainmentTypeWiseAPIFunc(payload);
+        if (response) {
+            dispatch(getEntertainmentTypeWiseDataSuccess(response));
             return response;
         }
 

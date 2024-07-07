@@ -431,7 +431,7 @@ const sendOtponMail = asyncHandler(async (req, res) => {
       }
     });
   } catch (error) {
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while sending mail"));
   }
 });
 
@@ -488,7 +488,7 @@ const createNewPassword = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, {}, "Password Reset Successfully"));
   } catch (error) {
     console.error("Error resetting password:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while resetting password"));
   }
 });
 
@@ -518,7 +518,7 @@ const getNews = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching News:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching News"));
   }
 });
 
@@ -566,7 +566,7 @@ const getRecentCricket = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Cricket:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching cricket API"));
   }
 });
 const getCricketPointsTable = asyncHandler(async (req, res) => {
@@ -602,7 +602,7 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Points Table:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Points Table"));
   }
 });
 const getCricketNewsCB = asyncHandler(async (req, res) => {
@@ -636,7 +636,7 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching News:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket News"));
   }
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
@@ -680,7 +680,7 @@ const getCricketRankings = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Rankings:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Rankings"));
   }
 });
 const getCricketImageCB = asyncHandler(async (req, res) => {
@@ -729,11 +729,11 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
     } else {
       return res
         .status(400)
-        .json(new ApiError(400, "Cricket API Image  Failed to fetch Data"));
+        .json(new ApiError(400, "Cricket API Image Failed to fetch Data"));
     }
   } catch (error) {
     console.error("Error fetching Cricket Image:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Image"));
   }
 });
 
@@ -762,7 +762,7 @@ const getWeathter = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Weahter:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Weahter Data"));
   }
 });
 
@@ -796,7 +796,7 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Word Of The Day:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Word Of The Day"));
   }
 });
 
@@ -841,7 +841,7 @@ const uploadImageCloudinary = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error saving image to Cloudinary:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while uploading image"));
   }
 });
 
@@ -910,8 +910,9 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 });
 
 const getEntertainmentData = asyncHandler(async (req, res) => {
+  const { category, page } = req.body
   const url =
-    "https://api.themoviedb.org/3/discover/tv?&page=2";
+    `https://api.themoviedb.org/3/discover/${category}?&page=${page}`;
   const options = {
     method: "GET",
     url: url,
@@ -941,12 +942,12 @@ const getEntertainmentData = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Entertainment Data:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching data"));
   }
 });
 
 // Particulars of Movie or TV
-const getEntertainmentDataParticulars = asyncHandler(async (req, res) => {
+const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
   const { category, id, particular } = req.body;
   // https://api.themoviedb.org/3/movie/786892
   // https://api.themoviedb.org/3/movie/786892/credits
@@ -989,9 +990,48 @@ const getEntertainmentDataParticulars = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Entertainment Data:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching particulars data"));
   }
 });
+
+
+const getEntertainmentTypeWiseData = asyncHandler(async (req, res) => {
+  const { category, type } = req.body
+  const url = `https://api.themoviedb.org/3/${category}/${type}`
+
+  const options = {
+    method: "GET",
+    url: url,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  }
+
+  try {
+    const response = await axios.request(options);
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Entertainment Type Wise API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Entertainment API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Entertainment Type Data:", error);
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching type wise data"))
+  }
+})
 
 // Categories top_rated,popular,now_playing
 // Search
@@ -1019,5 +1059,6 @@ export {
   uploadImageCloudinary,
   getImageFromDB,
   getEntertainmentData,
-  getEntertainmentDataParticulars,
+  getEntertainmentParticularsData,
+  getEntertainmentTypeWiseData,
 };

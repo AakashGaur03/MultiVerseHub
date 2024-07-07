@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getEntertainmentData, getEntertainmentDataParticulars } from "../../Features";
+import { getEntertainmentData, getEntertainmentParticularsData, getEntertainmentTypeWiseData } from "../../Features";
 const Entertainment = () => {
   const [movieData, setMovieData] = useState([]);
   const dispatch = useDispatch();
@@ -10,13 +10,22 @@ const Entertainment = () => {
     (state) => state.getEntertainmentData.entertainmentData
   );
   useEffect(() => {
-    dispatch(getEntertainmentData()).then((response) => {});
+    let payload1 = {
+      category: "movie",
+      page:"22",
+    };
+    dispatch(getEntertainmentData(payload1)).then((response) => {});
     let payload = {
       category: "movie",
       id: 786892,
       particular: "credits",
     };
-    dispatch(getEntertainmentDataParticulars(payload));
+    dispatch(getEntertainmentParticularsData(payload));
+    let payload3 = {
+      category: "movie",
+      type: "now_playing",
+    };
+    dispatch(getEntertainmentTypeWiseData(payload3));
   }, [dispatch]);
   useEffect(() => {
     if (entertainmentData && entertainmentData.results) {
