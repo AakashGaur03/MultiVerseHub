@@ -83,7 +83,7 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname.includes("/cricket")) {
+    if (location.pathname.includes("cricket")) {
       dispatch(getCricket()).then((response) => {
         const typeMatches = response.data.responseData.typeMatches;
         setTypeMatches(typeMatches);

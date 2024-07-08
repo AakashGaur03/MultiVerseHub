@@ -948,22 +948,36 @@ const getEntertainmentData = asyncHandler(async (req, res) => {
 
 // Particulars of Movie or TV
 const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
-  const { category, id, particular } = req.body;
+  const { category, id } = req.body;
   // https://api.themoviedb.org/3/movie/786892
   // https://api.themoviedb.org/3/movie/786892/credits
   // https://api.themoviedb.org/3/movie/786892/reviews
-  let url = ""
-  if (particular) {
 
-    url =
-      `https://api.themoviedb.org/3/${category}/${id}/${particular}`;
-  } else {
-    url =
-      `https://api.themoviedb.org/3/${category}/${id}`;
-  }
-  const options = {
+
+  let url1 = `https://api.themoviedb.org/3/${category}/${id}`;
+  let url2 = `https://api.themoviedb.org/3/${category}/${id}/credits`;
+  let url3 = `https://api.themoviedb.org/3/${category}/${id}/reviews`;
+  const options1 = {
     method: "GET",
-    url: url,
+    url: url1,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options2 = {
+    method: "GET",
+    url: url2,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options3 = {
+    method: "GET",
+    url: url3,
     headers: {
       accept: "application/json",
       Authorization:
@@ -971,9 +985,17 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     },
   };
   try {
-    const response = await axios.request(options);
-    if (response) {
-      const responseData = response.data;
+    const response1 = await axios.request(options1);
+    const response2 = await axios.request(options2);
+    const response3 = await axios.request(options3);
+    console.log(response1)
+    console.log(response2)
+    console.log(response3)
+    if (response1 && response2 && response3) {
+      const responseData1 = response1.data;
+      const responseData2 = response2.data;
+      const responseData3 = response3.data;
+      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3 }
       return res
         .status(200)
         .json(

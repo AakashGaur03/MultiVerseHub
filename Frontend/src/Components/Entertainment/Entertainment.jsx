@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getEntertainmentData, getEntertainmentParticularsData, getEntertainmentTypeWiseData } from "../../Features";
+import {
+  getEntertainmentData,
+  getEntertainmentParticularsData,
+  getEntertainmentTypeWiseData,
+} from "../../Features";
 const Entertainment = () => {
   const [movieData, setMovieData] = useState([]);
   const dispatch = useDispatch();
@@ -12,21 +16,23 @@ const Entertainment = () => {
   useEffect(() => {
     let payload1 = {
       category: "movie",
-      page:"22",
+      page: "22",
     };
     dispatch(getEntertainmentData(payload1)).then((response) => {});
-    let payload = {
-      category: "movie",
-      id: 786892,
-      particular: "credits",
-    };
-    dispatch(getEntertainmentParticularsData(payload));
     let payload3 = {
       category: "movie",
       type: "now_playing",
     };
     dispatch(getEntertainmentTypeWiseData(payload3));
   }, [dispatch]);
+
+  const infoAboutItem = (id, type) => {
+    let payload = {
+      category: type,
+      id: id,
+    };
+    dispatch(getEntertainmentParticularsData(payload));
+  };
   useEffect(() => {
     if (entertainmentData && entertainmentData.results) {
       setMovieData(entertainmentData.results);
@@ -38,9 +44,10 @@ const Entertainment = () => {
       {movieData?.length > 0 ? (
         movieData.map((data, index) => (
           <Card
-            style={{ width: "18rem", maxHeight: "20rem" }}
+            style={{ width: "18rem" }}
             className="overflow-x-auto"
             key={data.id}
+            onClick={() => infoAboutItem(data.id, "movie")}
           >
             <Card.Img
               variant="top"
