@@ -909,7 +909,7 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 
 });
 
-const getEntertainmentData = asyncHandler(async (req, res) => {
+const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
   const { category, page } = req.body
   const url =
     `https://api.themoviedb.org/3/discover/${category}?&page=${page}`;
@@ -1080,7 +1080,7 @@ export {
   getCricketImageCB,
   uploadImageCloudinary,
   getImageFromDB,
-  getEntertainmentData,
+  getEntertainmentDataMovie,
   getEntertainmentParticularsData,
   getEntertainmentTypeWiseData,
 };

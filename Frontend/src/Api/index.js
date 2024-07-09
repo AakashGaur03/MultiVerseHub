@@ -174,9 +174,9 @@ export const getWordOfTheDayAPIFunc = async () => {
   // console.log(response, "RESSSSSS");
   return response.data.data.responseData;
 };
-export const getEntertainmentDataAPIFunc = async (payload) => {
+export const getEntertainmentDataMovieAPIFunc = async (payload) => {
   const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentApi`, payload
+    `http://localhost:8000/api/v1/users/entertainmentMovieApi`, payload
   );
   return response.data.data.responseData;
 };

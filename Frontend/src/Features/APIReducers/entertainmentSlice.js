@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEntertainmentDataAPIFunc, getEntertainmentParticularsDataAPIFunc, getEntertainmentTypeWiseAPIFunc } from "../../Api";
+import { getEntertainmentDataMovieAPIFunc, getEntertainmentParticularsDataAPIFunc, getEntertainmentTypeWiseAPIFunc } from "../../Api";
 
 const initialState = {
     state: "idle",
@@ -43,10 +43,10 @@ const getEntertainmentDataPISlice = createSlice({
 
 export const { getEntertainmentDataStart, getEntertainmentDataSuccess,getEntertainmentDataParticluarSuccess,getEntertainmentTypeWiseDataSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
 
-export const getEntertainmentData = (payload) => async (dispatch) => {
+export const getEntertainmentDataMovie = (payload) => async (dispatch) => {
     try {
         dispatch(getEntertainmentDataStart());
-        const response = await getEntertainmentDataAPIFunc(payload);
+        const response = await getEntertainmentDataMovieAPIFunc(payload);
         if (response) {
             dispatch(getEntertainmentDataSuccess(response));
             return response;

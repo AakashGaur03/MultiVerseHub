@@ -22,9 +22,9 @@ import {
   uploadImageCloudinary,
   getImageFromDB,
   getCricketNewsCB,
-  getEntertainmentData,
   getEntertainmentParticularsData,
   getEntertainmentTypeWiseData,
+  getEntertainmentDataMovie,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -69,7 +69,7 @@ router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRanki
 router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
-router.route("/entertainmentApi").post(getEntertainmentData);
+router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
 router.route("/entertainmentParticularsApi").post(getEntertainmentParticularsData);
 router.route("/entertainmentTypeWiseApi").post(getEntertainmentTypeWiseData);
 
