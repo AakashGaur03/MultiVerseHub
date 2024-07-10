@@ -186,9 +186,3 @@ export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
   );
   return response.data.data.responseData;
 };
-export const getEntertainmentTypeWiseAPIFunc = async (payload) => {
-  const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentTypeWiseApi`, payload
-  );
-  return response.data.data.responseData;
-};

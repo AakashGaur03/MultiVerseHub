@@ -910,12 +910,36 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 });
 
 const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
-  const { category, page } = req.body
-  const url =
-    `https://api.themoviedb.org/3/discover/${category}?&page=${page}`;
-  const options = {
+
+  const { topRatedPage, popularPage, nowPlayingPage } = req.body
+  // top_rated,popular,now_playing
+  const url1 =
+    `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`;
+  const url2 =
+    `https://api.themoviedb.org/3/movie/popular?&page=${popularPage}`;
+  const url3 =
+    `https://api.themoviedb.org/3/movie/now_playing?&page=${nowPlayingPage}`;
+  const options1 = {
     method: "GET",
-    url: url,
+    url: url1,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options2 = {
+    method: "GET",
+    url: url2,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options3 = {
+    method: "GET",
+    url: url3,
     headers: {
       accept: "application/json",
       Authorization:
@@ -923,9 +947,14 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     },
   };
   try {
-    const response = await axios.request(options);
-    if (response) {
-      const responseData = response.data;
+    const response1 = await axios.request(options1);
+    const response2 = await axios.request(options2);
+    const response3 = await axios.request(options3);
+    if (response1 && response2 && response3) {
+      const responseData1 = response1.data;
+      const responseData2 = response2.data;
+      const responseData3 = response3.data;
+      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3 }
       return res
         .status(200)
         .json(
@@ -1017,44 +1046,6 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
 });
 
 
-const getEntertainmentTypeWiseData = asyncHandler(async (req, res) => {
-  const { category, type } = req.body
-  const url = `https://api.themoviedb.org/3/${category}/${type}`
-
-  const options = {
-    method: "GET",
-    url: url,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
-    },
-  }
-
-  try {
-    const response = await axios.request(options);
-    if (response) {
-      const responseData = response.data;
-      return res
-        .status(200)
-        .json(
-          new ApiResponse(
-            200,
-            { responseData },
-            "Entertainment Type Wise API Fetched Successfully"
-          )
-        );
-    } else {
-      return res
-        .status(400)
-        .json(new ApiError(400, "Entertainment API failed to fetch Data"));
-    }
-  } catch (error) {
-    console.error("Error fetching Entertainment Type Data:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching type wise data"))
-  }
-})
-
 // Categories top_rated,popular,now_playing
 // Search
 export {
@@ -1082,5 +1073,4 @@ export {
   getImageFromDB,
   getEntertainmentDataMovie,
   getEntertainmentParticularsData,
-  getEntertainmentTypeWiseData,
 };

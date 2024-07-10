@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getEntertainmentDataMovie,
   getEntertainmentParticularsData,
-  getEntertainmentTypeWiseData,
 } from "../../Features";
 const Entertainment = () => {
   const [movieData, setMovieData] = useState([]);
@@ -15,15 +14,14 @@ const Entertainment = () => {
   );
   useEffect(() => {
     let payload1 = {
-      category: "movie",
-      page: "22",
+      // category: "movie",
+      // page: "22",
+      topRatedPage: "1",
+      popularPage: "1",
+      nowPlayingPage: "1",
     };
     dispatch(getEntertainmentDataMovie(payload1)).then((response) => {});
-    let payload3 = {
-      category: "movie",
-      type: "now_playing",
-    };
-    dispatch(getEntertainmentTypeWiseData(payload3));
+  
   }, [dispatch]);
 
   const infoAboutItem = (id, type) => {
@@ -34,8 +32,20 @@ const Entertainment = () => {
     dispatch(getEntertainmentParticularsData(payload));
   };
   useEffect(() => {
-    if (entertainmentData && entertainmentData.results) {
-      setMovieData(entertainmentData.results);
+    if (entertainmentData) {
+      console.log(entertainmentData,"entertainmentData")
+      const allMovies = [...entertainmentData.now_playing.results , ...entertainmentData.popular.results,...entertainmentData.top_rated.results]
+      const uniqueMovieId = new Set()
+      const uniqueMovies = allMovies.filter((movie)=>{
+        if(uniqueMovieId.has(movie.id)){
+          return false
+        }else{
+          uniqueMovieId.add(movie.id)
+          return true
+        }
+      })
+      setMovieData(uniqueMovies);
+      console.log(movieData,"MovieData")
     }
   }, [entertainmentData]);
 
