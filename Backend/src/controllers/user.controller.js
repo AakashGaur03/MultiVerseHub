@@ -911,7 +911,7 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 
 const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
 
-  const { topRatedPage, popularPage, nowPlayingPage } = req.body
+  const { topRatedPage, popularPage, nowPlayingPage, upcomingPage } = req.body
   // top_rated,popular,now_playing
   const url1 =
     `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`;
@@ -919,6 +919,8 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     `https://api.themoviedb.org/3/movie/popular?&page=${popularPage}`;
   const url3 =
     `https://api.themoviedb.org/3/movie/now_playing?&page=${nowPlayingPage}`;
+  const url4 =
+    `https://api.themoviedb.org/3/movie/upcoming?&page=${upcomingPage}`;
   const options1 = {
     method: "GET",
     url: url1,
@@ -946,15 +948,26 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
     },
   };
+  const options4 = {
+    method: "GET",
+    url: url4,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
   try {
     const response1 = await axios.request(options1);
     const response2 = await axios.request(options2);
     const response3 = await axios.request(options3);
-    if (response1 && response2 && response3) {
+    const response4 = await axios.request(options4);
+    if (response1 && response2 && response3 && response4) {
       const responseData1 = response1.data;
       const responseData2 = response2.data;
       const responseData3 = response3.data;
-      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3 }
+      const responseData4 = response4.data;
+      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3, upcoming: responseData4 }
       return res
         .status(200)
         .json(

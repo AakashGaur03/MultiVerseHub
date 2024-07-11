@@ -153,7 +153,7 @@ function App() {
         setNewCricketData(newCricketData2);
       });
     }
-  }, []);
+  }, [location.pathname , navigate]);
   useEffect(() => {
     if (query && location.pathname.includes("/pointsTable")) {
       navigate("/cricket");
