@@ -147,3 +147,40 @@
 
 // TV SEARCH
 // https://api.themoviedb.org/3/search/tv?api_key=(API_KEY)&query=H
+
+// Airing Today
+// https://api.themoviedb.org/3/tv/airing_today?language=en-US&page=1'
+
+
+// Images of Movies
+// https://api.themoviedb.org/3/movie/1022789/images
+
+// Video of Movies
+// https://api.themoviedb.org/3/movie/1022789/videos?language=en-US
+
+// Images of Person
+// https://api.themoviedb.org/3/person/person_id/images 
+
+// Search Person
+// https://api.themoviedb.org/3/search/person?include_adult=false&language=en-US&page=1
+
+
+// Images of TV Series
+// https://api.themoviedb.org/3/tv/series_id/images 
+
+// Video of TV Series
+// 'https://api.themoviedb.org/3/tv/series_id/videos?language=en-US' \
+
+
+// Images of TV Season
+// https://api.themoviedb.org/3/tv/series_id/season/season_number/images
+
+// Video of TV Season
+// https://api.themoviedb.org/3/tv/series_id/season/season_number/videos?language=en-US
+
+// Images of TV Episode
+// https://api.themoviedb.org/3/tv/series_id/season/season_number/episode/episode_number/images
+
+
+// Video of TV Episode
+// https://api.themoviedb.org/3/tv/series_id/season/season_number/episode/episode_number/videos?language=en-US
