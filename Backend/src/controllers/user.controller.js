@@ -987,6 +987,84 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Some Error occurred while fetching data"));
   }
 });
+const getEntertainmentDataTV = asyncHandler(async (req, res) => {
+
+  const { onTheAirPage,topRatedPage, popularPage, airingTodayPage } = req.body
+  // top_rated,popular,now_playing
+  const url1 =
+    `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPage}`;
+  const url2 =
+    `https://api.themoviedb.org/3/tv/popular?&page=${popularPage}`;
+  const url3 =
+    `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPage}`;
+  const url4 =
+    `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPage}`;
+  const options1 = {
+    method: "GET",
+    url: url1,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options2 = {
+    method: "GET",
+    url: url2,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options3 = {
+    method: "GET",
+    url: url3,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  const options4 = {
+    method: "GET",
+    url: url4,
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+    },
+  };
+  try {
+    const response1 = await axios.request(options1);
+    const response2 = await axios.request(options2);
+    const response3 = await axios.request(options3);
+    const response4 = await axios.request(options4);
+    if (response1 && response2 && response3 && response4) {
+      const responseData1 = response1.data;
+      const responseData2 = response2.data;
+      const responseData3 = response3.data;
+      const responseData4 = response4.data;
+      const responseData = { on_the_air: responseData1, popular: responseData2, top_rated: responseData3, airing_today: responseData4 }
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            "Entertainment API Fetched Successfully"
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Entertainment API failed to fetch Data"));
+    }
+  } catch (error) {
+    console.error("Error fetching Entertainment Data:", error);
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching data"));
+  }
+});
 
 // Particulars of Movie or TV
 const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
@@ -1085,5 +1163,6 @@ export {
   uploadImageCloudinary,
   getImageFromDB,
   getEntertainmentDataMovie,
+  getEntertainmentDataTV,
   getEntertainmentParticularsData,
 };
