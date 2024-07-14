@@ -138,31 +138,43 @@ const Entertainment = () => {
           )}
         </div>
       </div>
-      <div className="overflow-y-auto flex my-8 mx-4">
-        <div className="flex gap-8">
+      
+
+      {/* This is infinite Carousel Explore more otherwise need to make custom */}
+      <div className="container mx-auto my-8">
+        <Carousel indicators={false} interval={null}>
           {movieDataUpcoming?.length > 0 ? (
-            <Carousel >
-
-            {movieDataUpcoming.map((data, index) => (
-              <Carousel.Item
-                // style={{ width: "15rem" }}
-                className="overflow-x-auto rounded-3xl"
-                key={data.id}
-                onClick={() => infoAboutItem(data.id, "movie")}
-              >
-                <img
-                  variant="top"
-                  src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-                />
-              </Carousel.Item>
-            ))}
-            </Carousel>
-
+            Array.from(
+              { length: Math.ceil(movieDataUpcoming.length / 4) },
+              (_, index) => (
+                <Carousel.Item key={index}>
+                  <div className="row">
+                    {movieDataUpcoming
+                      .slice(index * 4, index * 4 + 4)
+                      .map((data) => (
+                        <div className="col-md-3 " key={data.id}>
+                          <div
+                            className="card rounded-3xl shadow-lg text-center"
+                            onClick={() => infoAboutItem(data.id, "movie")}
+                          >
+                            <img
+                              className="rounded-3xl mx-auto mb- 4"
+                              src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                              alt={data.title}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </Carousel.Item>
+              )
+            )
           ) : (
             <div>No Data to Show</div>
           )}
-        </div>
+        </Carousel>
       </div>
+
       <div className="container mx-auto my-8">
         <Carousel indicators={false}>
           <Carousel.Item>
