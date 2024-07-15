@@ -36,7 +36,7 @@ const getEntertainmentDataPISlice = createSlice({
         },
         getEntertainmentDataFailure(state, action) {
             state.state = "error";
-            state.error = action.payload;
+            state.error = action.payload.message;
             state.entertainmentData = null;
         },
     }

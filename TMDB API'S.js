@@ -158,29 +158,73 @@
 // Video of Movies
 // https://api.themoviedb.org/3/movie/1022789/videos?language=en-US
 
+
+
 // Images of Person
-// https://api.themoviedb.org/3/person/person_id/images 
+// https://api.themoviedb.org/3/person/person_id/images
 
 // Search Person
 // https://api.themoviedb.org/3/search/person?include_adult=false&language=en-US&page=1
 
 
 // Images of TV Series
-// https://api.themoviedb.org/3/tv/series_id/images 
+// https://api.themoviedb.org/3/tv/{series_id}/images
 
 // Video of TV Series
-// 'https://api.themoviedb.org/3/tv/series_id/videos?language=en-US' \
+// 'https://api.themoviedb.org/3/tv/{series_id}/videos?language=en-US' \
 
 
 // Images of TV Season
-// https://api.themoviedb.org/3/tv/series_id/season/season_number/images
+// https://api.themoviedb.org/3/tv/{series_id}/season/season_number/images
 
 // Video of TV Season
-// https://api.themoviedb.org/3/tv/series_id/season/season_number/videos?language=en-US
+// https://api.themoviedb.org/3/tv/{series_id}/season/season_number/videos?language=en-US
 
 // Images of TV Episode
-// https://api.themoviedb.org/3/tv/series_id/season/season_number/episode/episode_number/images
+// https://api.themoviedb.org/3/tv/{series_id}/season/season_number/episode/episode_number/images
 
 
 // Video of TV Episode
-// https://api.themoviedb.org/3/tv/series_id/season/season_number/episode/episode_number/videos?language=en-US
+// https://api.themoviedb.org/3/tv/{series_id}/season/season_number/episode/episode_number/videos?language=en-US
+
+
+
+
+
+
+
+// IN VIDEOS
+
+// Response
+// {
+//     id: "6674f0f9a4c73dd59071e2e2"
+//     iso_639_1: "en"
+//     iso_3166_1: "US"
+//     key: "eioXDOSx6rQ"
+//     name: "Best Movie of the Year"
+//     official: true
+//     published_at: "2024-06-19T17:40:40.000Z"
+//     site: "YouTube"
+//     size: 1080
+//     type: "Teaser"
+// }
+
+
+// is from response "key" eioXDOSx6rQ 
+
+// https://www.youtube.com/watch?v=eioXDOSx6rQ
+
+
+
+
+
+
+
+// IN IMAGES
+
+// file_path
+
+// /xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg
+
+// URLTO BE USED 
+// https://image.tmdb.org/t/p/w500/xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg

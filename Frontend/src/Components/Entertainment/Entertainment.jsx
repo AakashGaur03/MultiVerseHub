@@ -7,6 +7,7 @@ import {
   getEntertainmentDataTV,
   getEntertainmentParticularsData,
 } from "../../Features";
+import CarouselPractice from "../CarouselPractice";
 const Entertainment = () => {
   const [movieDataNowPlaying, setMovieDataNowPlaying] = useState([]);
   const [movieDataPopular, setMovieDataPopular] = useState([]);
@@ -47,7 +48,7 @@ const Entertainment = () => {
   };
   useEffect(() => {
     if (entertainmentData) {
-      // console.log(entertainmentData, "entertainmentData");
+      console.log(entertainmentData, "entertainmentData");
       const allMovies = [
         ...entertainmentData.now_playing.results,
         ...entertainmentData.popular.results,
@@ -62,7 +63,7 @@ const Entertainment = () => {
           return true;
         }
       });
-      setMovieDataNowPlaying(entertainmentData.now_playing.results);
+      setMovieDataNowPlaying(entertainmentData.now_playing);
       setMovieDataPopular(entertainmentData.popular.results);
       setMovieDataTopRated(entertainmentData.top_rated.results);
       setMovieDataUpcoming(entertainmentData.upcoming.results);
@@ -73,12 +74,25 @@ const Entertainment = () => {
     console.log(entertainmentDataTV);
   }, [entertainmentDataTV]);
 
+  const loadMoreMovies = (UpdatePage) => {
+    const data = movieDataNowPlaying
+    let payload1 = {
+      topRatedPage: "1",
+      popularPage: "1",
+      nowPlayingPage: UpdatePage+1,
+      upcomingPage: "1",
+    };
+    dispatch(getEntertainmentDataMovie(payload1))
+    setMovieDataNowPlaying(data)
+  };
+
   return (
     <div className="overflow-y-auto">
+      {/* movieDataNowPlaying */}
       <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
-          {movieDataNowPlaying?.length > 0 ? (
-            movieDataNowPlaying.map((data, index) => (
+          {movieDataNowPlaying?.results?.length > 0 ? (
+            movieDataNowPlaying.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
                 className="overflow-x-auto rounded-3xl"
@@ -94,9 +108,15 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
+          <div className="w-max flex items-center">
+            <Button variant="secondary" onClick={() => loadMoreMovies(movieDataNowPlaying.page)}>
+              Load More
+            </Button>
+          </div>
         </div>
       </div>
-      <div className="overflow-y-auto flex my-8 mx-4">
+      {/* movieDataPopular */}
+      {/* <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
           {movieDataPopular?.length > 0 ? (
             movieDataPopular.map((data, index) => (
@@ -116,8 +136,9 @@ const Entertainment = () => {
             <div>No Data to Show</div>
           )}
         </div>
-      </div>
-      <div className="overflow-y-auto flex my-8 mx-4">
+      </div> */}
+      {/* movieDataTopRated */}
+      {/* <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
           {movieDataTopRated?.length > 0 ? (
             movieDataTopRated.map((data, index) => (
@@ -137,110 +158,31 @@ const Entertainment = () => {
             <div>No Data to Show</div>
           )}
         </div>
-      </div>
-      
-
-      {/* This is infinite Carousel Explore more otherwise need to make custom */}
-      <div className="container mx-auto my-8">
-        <Carousel indicators={false} interval={null}>
+      </div> */}
+      {/* movieDataUpcoming */}
+      {/* <div className="overflow-y-auto flex my-8 mx-4">
+        <div className="flex gap-8">
           {movieDataUpcoming?.length > 0 ? (
-            Array.from(
-              { length: Math.ceil(movieDataUpcoming.length / 4) },
-              (_, index) => (
-                <Carousel.Item key={index}>
-                  <div className="row">
-                    {movieDataUpcoming
-                      .slice(index * 4, index * 4 + 4)
-                      .map((data) => (
-                        <div className="col-md-3 " key={data.id}>
-                          <div
-                            className="card rounded-3xl shadow-lg text-center"
-                            onClick={() => infoAboutItem(data.id, "movie")}
-                          >
-                            <img
-                              className="rounded-3xl mx-auto mb- 4"
-                              src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-                              alt={data.title}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </Carousel.Item>
-              )
-            )
+            movieDataUpcoming.map((data, index) => (
+              <Card
+                style={{ width: "15rem" }}
+                className="overflow-x-auto rounded-3xl"
+                key={data.id}
+                onClick={() => infoAboutItem(data.id, "movie")}
+              >
+                <Card.Img
+                  variant="top"
+                  src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                />
+              </Card>
+            ))
           ) : (
             <div>No Data to Show</div>
           )}
-        </Carousel>
-      </div>
+        </div>
+      </div> */}
 
-      <div className="container mx-auto my-8">
-        <Carousel indicators={false}>
-          <Carousel.Item>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="First slide"
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="Second slide"
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="Third slide"
-                  />
-                </div>
-              </div>
-            </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="Fourth slide"
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="Fifth slide"
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card bg-blue-500 p-4 rounded-lg shadow-lg text-center">
-                  <img
-                    className="rounded-full mx-auto mb-4"
-                    src="https://via.placeholder.com/100"
-                    alt="Sixth slide"
-                  />
-                </div>
-              </div>
-            </div>
-          </Carousel.Item>
-        </Carousel>
-      </div>
+      {/* <CarouselPractice /> */}
     </div>
   );
 };

@@ -927,7 +927,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options2 = {
@@ -936,7 +936,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options3 = {
@@ -945,7 +945,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options4 = {
@@ -954,7 +954,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
@@ -962,12 +962,21 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     const response2 = await axios.request(options2);
     const response3 = await axios.request(options3);
     const response4 = await axios.request(options4);
+    let responseData3; // Move declaration here
+
     if (response1 && response2 && response3 && response4) {
+      let updatedNowPlaying;
+      if (responseData3) {
+        updatedNowPlaying = {
+          ...response3.data,
+          results: [...responseData3.results, ...response3.data.results],
+        };
+      }
       const responseData1 = response1.data;
       const responseData2 = response2.data;
-      const responseData3 = response3.data;
+      responseData3 = response3.data;
       const responseData4 = response4.data;
-      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3, upcoming: responseData4 }
+      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: updatedNowPlaying?updatedNowPlaying:responseData3, upcoming: responseData4 }
       return res
         .status(200)
         .json(
@@ -1005,7 +1014,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options2 = {
@@ -1014,7 +1023,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options3 = {
@@ -1023,7 +1032,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options4 = {
@@ -1032,7 +1041,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
@@ -1083,7 +1092,7 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options2 = {
@@ -1092,7 +1101,7 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   const options3 = {
@@ -1101,7 +1110,7 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYWMyYzBjNzEzMTY5MzYwYmQyMDA2MjA4MGQ2YTJlOSIsIm5iZiI6MTcxOTkzNzE2NC4yNjU4OSwic3ViIjoiNjY3NDVkMGI3ZjJkOGEyMjViMjUwM2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.2T71LD0Pu5-U7JLeOUEFIYp_ukSH7e9_42Bcth5BdSE",
+        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
@@ -1166,3 +1175,8 @@ export {
   getEntertainmentDataTV,
   getEntertainmentParticularsData,
 };
+
+
+
+// Use for Refernce for Gallery Type Implementation in Multi Images per ID
+// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_tab_img_gallery
