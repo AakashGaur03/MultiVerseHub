@@ -49,20 +49,6 @@ const Entertainment = () => {
   useEffect(() => {
     if (entertainmentData) {
       console.log(entertainmentData, "entertainmentData");
-      const allMovies = [
-        ...entertainmentData.now_playing.results,
-        ...entertainmentData.popular.results,
-        ...entertainmentData.top_rated.results,
-      ];
-      const uniqueMovieId = new Set();
-      const uniqueMovies = allMovies.filter((movie) => {
-        if (uniqueMovieId.has(movie.id)) {
-          return false;
-        } else {
-          uniqueMovieId.add(movie.id);
-          return true;
-        }
-      });
       setMovieDataNowPlaying(entertainmentData.now_playing);
       setMovieDataPopular(entertainmentData.popular.results);
       setMovieDataTopRated(entertainmentData.top_rated.results);
@@ -75,15 +61,15 @@ const Entertainment = () => {
   }, [entertainmentDataTV]);
 
   const loadMoreMovies = (UpdatePage) => {
-    const data = movieDataNowPlaying
+    const data = movieDataNowPlaying;
     let payload1 = {
       topRatedPage: "1",
       popularPage: "1",
-      nowPlayingPage: UpdatePage+1,
+      nowPlayingPage: UpdatePage + 1,
       upcomingPage: "1",
     };
-    dispatch(getEntertainmentDataMovie(payload1))
-    setMovieDataNowPlaying(data)
+    dispatch(getEntertainmentDataMovie(payload1));
+    setMovieDataNowPlaying(data);
   };
 
   return (
@@ -109,7 +95,10 @@ const Entertainment = () => {
             <div>No Data to Show</div>
           )}
           <div className="w-max flex items-center">
-            <Button variant="secondary" onClick={() => loadMoreMovies(movieDataNowPlaying.page)}>
+            <Button
+              variant="secondary"
+              onClick={() => loadMoreMovies(movieDataNowPlaying.page)}
+            >
               Load More
             </Button>
           </div>

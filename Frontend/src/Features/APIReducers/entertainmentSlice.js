@@ -42,7 +42,7 @@ const getEntertainmentDataPISlice = createSlice({
     }
 })
 
-export const { getEntertainmentDataStart, getEntertainmentDataSuccess,getEntertainmentDataTVSuccess,getEntertainmentDataParticluarSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
+export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataTVSuccess, getEntertainmentDataParticluarSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
 
 export const getEntertainmentDataMovie = (payload) => async (dispatch) => {
     try {
