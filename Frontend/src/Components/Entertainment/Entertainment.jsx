@@ -50,9 +50,9 @@ const Entertainment = () => {
     if (entertainmentData) {
       console.log(entertainmentData, "entertainmentData");
       setMovieDataNowPlaying(entertainmentData.now_playing);
-      setMovieDataPopular(entertainmentData.popular.results);
-      setMovieDataTopRated(entertainmentData.top_rated.results);
-      setMovieDataUpcoming(entertainmentData.upcoming.results);
+      setMovieDataPopular(entertainmentData.popular);
+      setMovieDataTopRated(entertainmentData.top_rated);
+      setMovieDataUpcoming(entertainmentData.upcoming);
       // console.log(movieData, "MovieData");
     }
   }, [entertainmentData]);
@@ -60,14 +60,32 @@ const Entertainment = () => {
     console.log(entertainmentDataTV);
   }, [entertainmentDataTV]);
 
-  const loadMoreMovies = (UpdatePage) => {
+  const loadMoreMovies = (UpdatePage,movieType) => {
+
     const data = movieDataNowPlaying;
     let payload1 = {
       topRatedPage: "1",
       popularPage: "1",
-      nowPlayingPage: UpdatePage + 1,
+      nowPlayingPage: "1",
       upcomingPage: "1",
+      oldData: entertainmentData,
     };
+    switch (movieType) {
+      case "nowPlaying":
+        payload1.nowPlayingPage = UpdatePage + 1;
+        break;
+      case "popular":
+        payload1.popularPage = UpdatePage + 1;
+        break;
+      case "topRated":
+        payload1.topRatedPage = UpdatePage + 1;
+        break;
+      case "upcoming":
+        payload1.upcomingPage = UpdatePage + 1;
+        break;
+      default:
+        break;
+    }
     dispatch(getEntertainmentDataMovie(payload1));
     setMovieDataNowPlaying(data);
   };
@@ -97,7 +115,9 @@ const Entertainment = () => {
           <div className="w-max flex items-center">
             <Button
               variant="secondary"
-              onClick={() => loadMoreMovies(movieDataNowPlaying.page)}
+              onClick={() =>
+                loadMoreMovies(movieDataNowPlaying.page, "nowPlaying")
+              }
             >
               Load More
             </Button>
@@ -105,10 +125,10 @@ const Entertainment = () => {
         </div>
       </div>
       {/* movieDataPopular */}
-      {/* <div className="overflow-y-auto flex my-8 mx-4">
+      <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
-          {movieDataPopular?.length > 0 ? (
-            movieDataPopular.map((data, index) => (
+          {movieDataPopular?.results?.length > 0 ? (
+            movieDataPopular.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
                 className="overflow-x-auto rounded-3xl"
@@ -124,13 +144,21 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
+          <div className="w-max flex items-center">
+            <Button
+              variant="secondary"
+              onClick={() => loadMoreMovies(movieDataPopular.page, "popular")}
+            >
+              Load More
+            </Button>
+          </div>
         </div>
-      </div> */}
+      </div>
       {/* movieDataTopRated */}
-      {/* <div className="overflow-y-auto flex my-8 mx-4">
+      <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
-          {movieDataTopRated?.length > 0 ? (
-            movieDataTopRated.map((data, index) => (
+          {movieDataTopRated?.results?.length > 0 ? (
+            movieDataTopRated.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
                 className="overflow-x-auto rounded-3xl"
@@ -146,13 +174,21 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
+          <div className="w-max flex items-center">
+            <Button
+              variant="secondary"
+              onClick={() => loadMoreMovies(movieDataTopRated.page, "topRated")}
+            >
+              Load More
+            </Button>
+          </div>
         </div>
-      </div> */}
+      </div>
       {/* movieDataUpcoming */}
-      {/* <div className="overflow-y-auto flex my-8 mx-4">
+      <div className="overflow-y-auto flex my-8 mx-4">
         <div className="flex gap-8">
-          {movieDataUpcoming?.length > 0 ? (
-            movieDataUpcoming.map((data, index) => (
+          {movieDataUpcoming?.results?.length > 0 ? (
+            movieDataUpcoming.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
                 className="overflow-x-auto rounded-3xl"
@@ -168,8 +204,16 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
+          <div className="w-max flex items-center">
+            <Button
+              variant="secondary"
+              onClick={() => loadMoreMovies(movieDataUpcoming.page, "upcoming")}
+            >
+              Load More
+            </Button>
+          </div>
         </div>
-      </div> */}
+      </div>
 
       {/* <CarouselPractice /> */}
     </div>

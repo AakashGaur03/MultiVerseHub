@@ -911,7 +911,7 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 
 const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
 
-  const { topRatedPage, popularPage, nowPlayingPage, upcomingPage } = req.body
+  const { topRatedPage, popularPage, nowPlayingPage, upcomingPage, oldData } = req.body
   // top_rated,popular,now_playing
   const url1 =
     `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`;
@@ -962,13 +962,48 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     const response2 = await axios.request(options2);
     const response3 = await axios.request(options3);
     const response4 = await axios.request(options4);
-
+    let responseData = []
     if (response1 && response2 && response3 && response4) {
-      const responseData1 = response1.data;
-      const responseData2 = response2.data;
-      const responseData3 = response3.data;
-      const responseData4 = response4.data;
-      const responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3, upcoming: responseData4 }
+      if (oldData) {
+        const responseData1 = response1.data;
+        const responseData2 = response2.data;
+        const responseData3 = response3.data;
+        const responseData4 = response4.data;
+        responseData = {
+          top_rated: {
+            ...responseData1, results: [
+              ...oldData.top_rated.results,
+              ...responseData1.results
+            ]
+          },
+          popular: {
+            ...responseData2, results: [
+              ...oldData.popular.results,
+              ...responseData2.results
+            ]
+          },
+          now_playing: {
+            ...responseData3, results: [
+
+              ...oldData.now_playing.results,
+              ...responseData3.results
+            ]
+          },
+          upcoming: {
+            ...responseData4, results: [
+
+              ...oldData.upcoming.results,
+              ...responseData4.results
+            ]
+          },
+        }
+      } else {
+        const responseData1 = response1.data;
+        const responseData2 = response2.data;
+        const responseData3 = response3.data;
+        const responseData4 = response4.data;
+        responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3, upcoming: responseData4 }
+      }
       return res
         .status(200)
         .json(
