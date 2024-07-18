@@ -969,33 +969,58 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         const responseData2 = response2.data;
         const responseData3 = response3.data;
         const responseData4 = response4.data;
-        responseData = {
-          top_rated: {
+
+        let topRated
+        let nowPlaying
+        let upcoming
+        let popular
+
+        if (oldData.top_rated.page != topRatedPage) {
+          topRated = {
             ...responseData1, results: [
               ...oldData.top_rated.results,
               ...responseData1.results
             ]
-          },
-          popular: {
+          }
+        } else {
+          topRated = oldData.top_rated
+        }
+        if (oldData.popular.page != popularPage) {
+          popular = {
             ...responseData2, results: [
               ...oldData.popular.results,
               ...responseData2.results
             ]
-          },
-          now_playing: {
+          }
+        } else {
+          popular = oldData.popular
+        }
+        if (oldData.now_playing.page != nowPlayingPage) {
+          nowPlaying = {
             ...responseData3, results: [
-
               ...oldData.now_playing.results,
               ...responseData3.results
             ]
-          },
-          upcoming: {
+          }
+        } else {
+          nowPlaying = oldData.now_playing
+        }
+        if (oldData.upcoming.page != upcomingPage) {
+          upcoming = {
             ...responseData4, results: [
-
               ...oldData.upcoming.results,
               ...responseData4.results
             ]
-          },
+          }
+        } else {
+          upcoming = oldData.upcoming
+        }
+
+        responseData = {
+          top_rated: topRated,
+          popular: popular,
+          now_playing: nowPlaying,
+          upcoming: upcoming,
         }
       } else {
         const responseData1 = response1.data;

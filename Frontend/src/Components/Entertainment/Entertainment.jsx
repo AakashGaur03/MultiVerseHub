@@ -60,34 +60,41 @@ const Entertainment = () => {
     console.log(entertainmentDataTV);
   }, [entertainmentDataTV]);
 
-  const loadMoreMovies = (UpdatePage,movieType) => {
+  let topRatedPage = movieDataTopRated.page;
+  let popularPage = movieDataPopular.page;
+  let nowPlayingPage = movieDataNowPlaying.page;
+  let upcomingPage = movieDataUpcoming.page;
 
-    const data = movieDataNowPlaying;
+  const loadMoreMovies = (updatePage, movieType) => {
     let payload1 = {
-      topRatedPage: "1",
-      popularPage: "1",
-      nowPlayingPage: "1",
-      upcomingPage: "1",
+      topRatedPage,
+      popularPage,
+      nowPlayingPage,
+      upcomingPage,
       oldData: entertainmentData,
     };
+
     switch (movieType) {
       case "nowPlaying":
-        payload1.nowPlayingPage = UpdatePage + 1;
+        payload1.nowPlayingPage = updatePage + 1;
+        nowPlayingPage = updatePage + 1;
         break;
       case "popular":
-        payload1.popularPage = UpdatePage + 1;
+        payload1.popularPage = updatePage + 1;
+        popularPage = updatePage + 1;
         break;
       case "topRated":
-        payload1.topRatedPage = UpdatePage + 1;
+        payload1.topRatedPage = updatePage + 1;
+        topRatedPage = updatePage + 1;
         break;
       case "upcoming":
-        payload1.upcomingPage = UpdatePage + 1;
+        payload1.upcomingPage = updatePage + 1;
+        upcomingPage = updatePage + 1;
         break;
       default:
         break;
     }
     dispatch(getEntertainmentDataMovie(payload1));
-    setMovieDataNowPlaying(data);
   };
 
   return (
@@ -112,16 +119,19 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
-          <div className="w-max flex items-center">
-            <Button
-              variant="secondary"
-              onClick={() =>
-                loadMoreMovies(movieDataNowPlaying.page, "nowPlaying")
-              }
-            >
-              Load More
-            </Button>
-          </div>
+          {movieDataNowPlaying.page <
+            Math.min(movieDataNowPlaying.total_pages, 500) && (
+            <div className="w-max flex items-center">
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  loadMoreMovies(movieDataNowPlaying.page, "nowPlaying")
+                }
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {/* movieDataPopular */}
@@ -144,14 +154,17 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
-          <div className="w-max flex items-center">
-            <Button
-              variant="secondary"
-              onClick={() => loadMoreMovies(movieDataPopular.page, "popular")}
-            >
-              Load More
-            </Button>
-          </div>
+          {movieDataPopular.page <
+            Math.min(movieDataPopular.total_pages, 500) && (
+            <div className="w-max flex items-center">
+              <Button
+                variant="secondary"
+                onClick={() => loadMoreMovies(movieDataPopular.page, "popular")}
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {/* movieDataTopRated */}
@@ -174,14 +187,19 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
-          <div className="w-max flex items-center">
-            <Button
-              variant="secondary"
-              onClick={() => loadMoreMovies(movieDataTopRated.page, "topRated")}
-            >
-              Load More
-            </Button>
-          </div>
+          {movieDataTopRated.page <
+            Math.min(movieDataTopRated.total_pages, 500) && (
+            <div className="w-max flex items-center">
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  loadMoreMovies(movieDataTopRated.page, "topRated")
+                }
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {/* movieDataUpcoming */}
@@ -204,14 +222,19 @@ const Entertainment = () => {
           ) : (
             <div>No Data to Show</div>
           )}
-          <div className="w-max flex items-center">
-            <Button
-              variant="secondary"
-              onClick={() => loadMoreMovies(movieDataUpcoming.page, "upcoming")}
-            >
-              Load More
-            </Button>
-          </div>
+          {movieDataUpcoming.page <
+            Math.min(movieDataUpcoming.total_pages, 500) && (
+            <div className="w-max flex items-center">
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  loadMoreMovies(movieDataUpcoming.page, "upcoming")
+                }
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
