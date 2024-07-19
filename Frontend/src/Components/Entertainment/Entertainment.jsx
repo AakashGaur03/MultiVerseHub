@@ -48,11 +48,47 @@ const Entertainment = () => {
   };
   useEffect(() => {
     if (entertainmentData) {
+      const filterUniqueMovies = (movies) => {
+        const uniqueMovieId = new Set();
+        return movies.filter((movie) => {
+          if (uniqueMovieId.has(movie.id)) {
+            return false;
+          } else {
+            uniqueMovieId.add(movie.id);
+            return true;
+          }
+        });
+      };
+
+      const uniqueNowPlaying = filterUniqueMovies(
+        entertainmentData.now_playing.results
+      );
+      const uniquePopular = filterUniqueMovies(
+        entertainmentData.popular.results
+      );
+      const uniqueTopRated = filterUniqueMovies(
+        entertainmentData.top_rated.results
+      );
+      const uniqueUpcoming = filterUniqueMovies(
+        entertainmentData.upcoming.results
+      );
       console.log(entertainmentData, "entertainmentData");
-      setMovieDataNowPlaying(entertainmentData.now_playing);
-      setMovieDataPopular(entertainmentData.popular);
-      setMovieDataTopRated(entertainmentData.top_rated);
-      setMovieDataUpcoming(entertainmentData.upcoming);
+      setMovieDataNowPlaying({
+        ...entertainmentData.now_playing,
+        results: uniqueNowPlaying,
+      });
+      setMovieDataPopular({
+        ...entertainmentData.popular,
+        results: uniquePopular,
+      });
+      setMovieDataTopRated({
+        ...entertainmentData.top_rated,
+        results: uniqueTopRated,
+      });
+      setMovieDataUpcoming({
+        ...entertainmentData.upcoming,
+        results: uniqueUpcoming,
+      });
       // console.log(movieData, "MovieData");
     }
   }, [entertainmentData]);
@@ -100,18 +136,19 @@ const Entertainment = () => {
   return (
     <div className="overflow-y-auto">
       {/* movieDataNowPlaying */}
-      <div className="overflow-y-auto flex my-8 mx-4">
-        <div className="flex gap-8">
+      <div className="overflow-y-auto flex my-2 px-5">
+        <div className="flex gap-8 py-4">
           {movieDataNowPlaying?.results?.length > 0 ? (
             movieDataNowPlaying.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
-                className="overflow-x-auto rounded-3xl"
+                className="overflow-x-auto rounded-3xl activeClass"
                 key={data.id}
                 onClick={() => infoAboutItem(data.id, "movie")}
               >
                 <Card.Img
                   variant="top"
+                  className="h-100"
                   src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 />
               </Card>
@@ -135,18 +172,19 @@ const Entertainment = () => {
         </div>
       </div>
       {/* movieDataPopular */}
-      <div className="overflow-y-auto flex my-8 mx-4">
-        <div className="flex gap-8">
+      <div className="overflow-y-auto flex my-2 px-5">
+        <div className="flex gap-8 py-4">
           {movieDataPopular?.results?.length > 0 ? (
             movieDataPopular.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
-                className="overflow-x-auto rounded-3xl"
+                className="overflow-x-auto rounded-3xl activeClass"
                 key={data.id}
                 onClick={() => infoAboutItem(data.id, "movie")}
               >
                 <Card.Img
                   variant="top"
+                  className="h-100"
                   src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 />
               </Card>
@@ -168,18 +206,19 @@ const Entertainment = () => {
         </div>
       </div>
       {/* movieDataTopRated */}
-      <div className="overflow-y-auto flex my-8 mx-4">
-        <div className="flex gap-8">
+      <div className="overflow-y-auto flex my-2 px-5">
+        <div className="flex gap-8 py-4">
           {movieDataTopRated?.results?.length > 0 ? (
             movieDataTopRated.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
-                className="overflow-x-auto rounded-3xl"
+                className="overflow-x-auto rounded-3xl activeClass"
                 key={data.id}
                 onClick={() => infoAboutItem(data.id, "movie")}
               >
                 <Card.Img
                   variant="top"
+                  className="h-100"
                   src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 />
               </Card>
@@ -203,18 +242,19 @@ const Entertainment = () => {
         </div>
       </div>
       {/* movieDataUpcoming */}
-      <div className="overflow-y-auto flex my-8 mx-4">
-        <div className="flex gap-8">
+      <div className="overflow-y-auto flex my-2 px-5">
+        <div className="flex gap-8 py-4">
           {movieDataUpcoming?.results?.length > 0 ? (
             movieDataUpcoming.results.map((data, index) => (
               <Card
                 style={{ width: "15rem" }}
-                className="overflow-x-auto rounded-3xl"
+                className="overflow-x-auto rounded-3xl activeClass"
                 key={data.id}
                 onClick={() => infoAboutItem(data.id, "movie")}
               >
                 <Card.Img
                   variant="top"
+                  className="h-100"
                   src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 />
               </Card>
