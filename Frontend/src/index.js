@@ -13,6 +13,7 @@ import LocalSearch from "./Components/LocalSearch/LocalSearch.jsx";
 import Weather from "./Components/News/Weather.jsx";
 import WordOfTheDay from "./Components/News/WordOfTheDay.jsx";
 import CustomCard from "./GlobalComp/CustomCard.jsx";
+import ListMoviesTV from "./GlobalComp/ListMoviesTV.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -66,4 +67,5 @@ export {
   Weather,
   WordOfTheDay,
   CustomCard,
+  ListMoviesTV,
 };
