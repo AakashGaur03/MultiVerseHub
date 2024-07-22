@@ -1,12 +1,12 @@
 import { Button, Card } from "react-bootstrap";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 const ListMoviesTv = ({
   ListData,
   Heading,
   LoadMoreOption,
   LoadMoreContent,
+  InfoAboutItem,
 }) => {
   const getColor2 = (rating) => {
     if (rating > 8) {
@@ -30,20 +30,28 @@ const ListMoviesTv = ({
       return "red";
     }
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
   return (
     <div>
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
         {Heading}
       </div>
       <div className="overflow-y-auto flex my-2 px-5">
-        <div className="flex gap-8 py-4">
+        <div className="flex gap-8 pb-4 pt-10">
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data, index) => (
-              <div className="activeClass" key={data.id}>
+              <div className="activeClass relative" key={data.id}>
                 <Card
                   style={{ width: "15rem" }}
                   className="overflow-x-auto rounded-3xl "
-                  onClick={() => infoAboutItem(data.id, "movie")}
+                  onClick={() => InfoAboutItem(data.id, "movie")}
                 >
                   <Card.Img
                     variant="top"
@@ -51,7 +59,7 @@ const ListMoviesTv = ({
                     src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                   />
                 </Card>
-                {data.vote_average > 0 && (
+                {/* {data.vote_average > 0 && (
                   <div
                     className={`text-center mt-3 rounded-3xl bg-${getColor2(
                       data.vote_average.toFixed(1)
@@ -62,27 +70,33 @@ const ListMoviesTv = ({
                 )}
                 {!data.vote_average && (
                   <div className={`text-center mt-3`}>NR</div>
-                )}
+                )} */}
+                {/* <div className="flex justify-center mt-3 absolute -top-10" style={{left:"50%",transform:"translateX(-50%)"}}>  // To make rating on the top center */}
+                <div className="flex justify-center mt-3 ">
+                  <div className="w-10">
+                    <CircularProgressbar
+                      value={data.vote_average.toFixed(1) * 10}
+                      text={
+                        data.vote_average
+                          ? `${data.vote_average.toFixed(1) * 10}%`
+                          : `NR`
+                      }
+                      styles={buildStyles({
+                        pathColor: `${getColor(data.vote_average.toFixed(1))}`,
+                        textColor: "white",
+                        trailColor: "blue",
+                        backgroundColor: "red",
+                      })}
+                    />
+                  </div>
+                </div>
                 <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                   {data.title}
                 </div>
-                {/* <CircularProgressbar value={50} text={`${50}%`} /> */}
-                <div className="flex justify-center">
-                    <div className="w-10">
-                  <CircularProgressbar
-                    value={data.vote_average.toFixed(1)*10}
-                    text={`${data.vote_average.toFixed(1)*10}%`}
-                    styles={buildStyles({
-                      pathColor: `${getColor(
-                      data.vote_average.toFixed(1)
-                    )}`,
-                      textColor: "white",
-                      trailColor: "blue",
-                      backgroundColor: "red",
-                    })}
-                  />
-                    </div>
+                <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                  Release Date : {formatDate(data.release_date)}
                 </div>
+                {/* <CircularProgressbar value={50} text={`${50}%`} /> */}
               </div>
             ))
           ) : (

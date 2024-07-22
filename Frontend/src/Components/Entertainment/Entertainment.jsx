@@ -141,24 +141,28 @@ const Entertainment = () => {
         LoadMoreOption="nowPlaying"
         Heading="Now Playing"
         LoadMoreContent={loadMoreMovies}
+        InfoAboutItem={infoAboutItem}
       />
       <ListMoviesTV
         ListData={movieDataPopular}
         LoadMoreOption="popular"
         Heading="Popular"
         LoadMoreContent={loadMoreMovies}
+        InfoAboutItem={infoAboutItem}
       />
       <ListMoviesTV
         ListData={movieDataTopRated}
         LoadMoreOption="topRated"
         Heading="Top Rated"
         LoadMoreContent={loadMoreMovies}
+        InfoAboutItem={infoAboutItem}
       />
       <ListMoviesTV
         ListData={movieDataUpcoming}
         LoadMoreOption="upcoming"
         Heading="Upcoming"
         LoadMoreContent={loadMoreMovies}
+        InfoAboutItem={infoAboutItem}
       />
 
       {/* <CarouselPractice /> */}

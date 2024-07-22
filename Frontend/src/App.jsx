@@ -52,6 +52,11 @@ function App() {
         { title: "Women", path: "/Women" },
         { title: "Rankings", path: "/Rankings" },
       ];
+    } else if (location.pathname.includes("/entertainment")) {
+      return [
+        { title: "Movies", path: "/" },
+        { title: "TV", path: "/tv" },
+      ];
     } else if (location.pathname.includes("/games")) {
       return [
         { title: "Car", path: "/" },
@@ -59,7 +64,7 @@ function App() {
         { title: "Brain", path: "/Brain" },
         { title: "Truck", path: "/Truck" },
       ];
-    } else {
+    }else {
       return [];
     }
   };
