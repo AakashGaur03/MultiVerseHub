@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Mooli&display=swap");
 
-body {
+/* body {
   background-size: cover;
   font-family: "Mooli", sans-serif;
-}
+} */
 .myCard {
   min-height: 370px;
   font-weight: 900;

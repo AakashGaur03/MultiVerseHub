@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  theme: 'Light',
+  theme: 'dark',
+  textColor: 'text-white',
 };
 
 const themeSlice = createSlice({
@@ -9,7 +10,8 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     toggleTheme(state) {
-      state.theme = state.theme === 'Light' ? 'Dark' : 'Light';
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      state.textColor = state.theme =="light"?"text-black":"text-white";
     },
   },
 });

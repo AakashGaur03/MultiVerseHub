@@ -27,6 +27,7 @@ import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
 import { getCricket, getCricketRanking, getNews } from "./Features";
 import { useEffect, useState } from "react";
+import ThemeProvider from "./ThemeProvider";
 
 function App() {
   const location = useLocation();
@@ -64,7 +65,7 @@ function App() {
         { title: "Brain", path: "/Brain" },
         { title: "Truck", path: "/Truck" },
       ];
-    }else {
+    } else {
       return [];
     }
   };
@@ -158,7 +159,7 @@ function App() {
         setNewCricketData(newCricketData2);
       });
     }
-  }, [location.pathname , navigate]);
+  }, [location.pathname, navigate]);
   useEffect(() => {
     if (query && location.pathname.includes("/pointsTable")) {
       navigate("/cricket");
@@ -265,64 +266,66 @@ function App() {
   };
   return (
     <>
-      {/* <Router> */}
-      <NavbarComp />
-      <OptionContainer
-        query={query}
-        handleChange={handleChange}
-        handleSubmitNews={handleSubmitNews}
-      />
-      <Container fluid className="restOfComponets">
-        <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
-          {sidebarItemsActive && (
-            <Sidebar
-              items={sidebarItems}
-              handleItemClick={handleSidebarClick}
-            />
-          )}
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route
-              path="/news"
-              element={
-                <News
-                  query={query}
-                  setQuery={setQuery}
-                  newsData={newsData}
-                  setNewsData={setNewsData}
-                  handleChange={handleChange}
-                  handleSubmitNews={handleSubmitNews}
-                />
-              }
-            />
-            <Route path="/favorites" element={<Favorite />} />
-            <Route
-              path="/cricket"
-              element={
-                <Cricket
-                  query={query}
-                  setQuery={setQuery}
-                  cricketData={cricketData}
-                  setCricketData={setCricketData}
-                  handleChange={handleChange}
-                />
-              }
-            />
-            <Route
-              path="/cricket/:seriesId/pointsTable"
-              element={<PointsTable />}
-            />
-            <Route path="/cricket/ranking" element={<Ranking />} />
-            <Route path="/entertainment" element={<Entertainment />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<Registration />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
-        </div>
-      </Container>
-      {/* </Router> */}
+      <ThemeProvider>
+        {/* <Router> */}
+        <NavbarComp />
+        <OptionContainer
+          query={query}
+          handleChange={handleChange}
+          handleSubmitNews={handleSubmitNews}
+        />
+        <Container fluid className="restOfComponets">
+          <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
+            {sidebarItemsActive && (
+              <Sidebar
+                items={sidebarItems}
+                handleItemClick={handleSidebarClick}
+              />
+            )}
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route
+                path="/news"
+                element={
+                  <News
+                    query={query}
+                    setQuery={setQuery}
+                    newsData={newsData}
+                    setNewsData={setNewsData}
+                    handleChange={handleChange}
+                    handleSubmitNews={handleSubmitNews}
+                  />
+                }
+              />
+              <Route path="/favorites" element={<Favorite />} />
+              <Route
+                path="/cricket"
+                element={
+                  <Cricket
+                    query={query}
+                    setQuery={setQuery}
+                    cricketData={cricketData}
+                    setCricketData={setCricketData}
+                    handleChange={handleChange}
+                  />
+                }
+              />
+              <Route
+                path="/cricket/:seriesId/pointsTable"
+                element={<PointsTable />}
+              />
+              <Route path="/cricket/ranking" element={<Ranking />} />
+              <Route path="/entertainment" element={<Entertainment />} />
+              <Route path="/games" element={<Games />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+            </Routes>
+          </div>
+        </Container>
+        {/* </Router> */}
+      </ThemeProvider>
     </>
   );
 }
