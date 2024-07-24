@@ -25,7 +25,7 @@ import {
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
-import { getCricket, getCricketRanking, getNews } from "./Features";
+import { getCricket, getCricketRanking, getNews, updateSidebar } from "./Features";
 import { useEffect, useState } from "react";
 import ThemeProvider from "./ThemeProvider";
 
@@ -189,6 +189,8 @@ function App() {
   //   fetchData();
   // }, [location.pathname, rankingData]);
   const handleSidebarClick = async (category) => {
+    console.log(category);
+    dispatch(updateSidebar(category));
     setQuery(category);
     if (location.pathname.includes("/news")) {
       const response = await dispatch(getNews(category));
@@ -203,7 +205,6 @@ function App() {
       // navigate('/cricket');
       // window.location.href="/cricket"
       // console.log(category);
-
       if (category === "All") {
         setCricketData(newCricketData);
       } else if (category === "Rankings") {

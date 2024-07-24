@@ -8,6 +8,7 @@ import {
   forgotPasswordReducer,
   getCricketAPIReducer,
   getEntertainmentReducer,
+  sidebarRecuer,
 } from "../Features/index.js";
 
 export default configureStore({
@@ -20,6 +21,7 @@ export default configureStore({
     forgotPassword: forgotPasswordReducer,
     cricket: getCricketAPIReducer,
     getEntertainmentData: getEntertainmentReducer,
+    sidebar: sidebarRecuer,
 
     // other reducers...
   },
