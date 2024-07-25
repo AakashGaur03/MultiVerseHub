@@ -25,7 +25,7 @@ import {
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
-import { getCricket, getCricketRanking, getNews, updateSidebar } from "./Features";
+import { getCricket, getCricketRanking, updateSidebar } from "./Features";
 import { useEffect, useState } from "react";
 import ThemeProvider from "./ThemeProvider";
 
@@ -192,13 +192,7 @@ function App() {
     console.log(category);
     dispatch(updateSidebar(category));
     setQuery(category);
-    if (location.pathname.includes("/news")) {
-      const response = await dispatch(getNews(category));
-      if (response) {
-        setNewsData(response.data.data.responseData.results);
-        // setQuery("")
-      }
-    } else if (location.pathname.includes("/cricket")) {
+    if (location.pathname.includes("/cricket")) {
       navigate("/cricket");
       // console.log("Current pathname:", location.pathname);
       // Conditioning To be Done
@@ -250,21 +244,13 @@ function App() {
   };
   const dispatch = useDispatch();
 
-  const [newsData, setNewsData] = useState([]);
   const [cricketData, setCricketData] = useState([]);
   const [newCricketData, setNewCricketData] = useState([]);
 
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
-  const handleSubmitNews = async (e) => {
-    e.preventDefault();
 
-    const response = await dispatch(getNews(query));
-    if (response) {
-      setNewsData(response.data.data.responseData.results);
-    }
-  };
   return (
     <>
       <ThemeProvider>
@@ -273,7 +259,6 @@ function App() {
         <OptionContainer
           query={query}
           handleChange={handleChange}
-          handleSubmitNews={handleSubmitNews}
         />
         <Container fluid className="restOfComponets">
           <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
@@ -291,10 +276,7 @@ function App() {
                   <News
                     query={query}
                     setQuery={setQuery}
-                    newsData={newsData}
-                    setNewsData={setNewsData}
                     handleChange={handleChange}
-                    handleSubmitNews={handleSubmitNews}
                   />
                 }
               />

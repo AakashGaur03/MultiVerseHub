@@ -5,14 +5,38 @@ import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import formatDate from "../../GlobalComp/formatDate";
 
-const News = ({
-  query,
-  setQuery,
-  newsData,
-  setNewsData,
-  handleChange,
-  handleSubmitNews,
-}) => {
+const News = ({ query }) => {
+  const [newsData, setNewsData] = useState([]);
+
+  const activeSidebarItem = useSelector(
+    (state) => state.sidebar.currentSidebar
+  );
+  // const [sidebarItem, setSidebarItem] = useState("");
+  useEffect(() => {
+    // setSidebarItem(activeSidebarItem);
+    // console.log(sidebarItem,"setSidebarItem")
+    handleNewsUpdate();
+  }, [activeSidebarItem]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      const response = await dispatch(getNews(""));
+      if (response) {
+        setNewsData(response.data.data.responseData.results);
+        // setQuery("")
+      }
+    };
+    fetchNews();
+  }, []);
+
+  const handleNewsUpdate = async () => {
+    const response = await dispatch(getNews(activeSidebarItem));
+    if (response) {
+      setNewsData(response.data.data.responseData.results);
+      // setQuery("")
+    }
+  };
+
   const [financeNews, setFinanceNews] = useState([]);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
