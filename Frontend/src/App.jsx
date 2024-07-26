@@ -22,6 +22,7 @@ import {
   Sidebar,
   PointsTable,
   Ranking,
+  Particulars,
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
@@ -150,6 +151,7 @@ function App() {
               />
               <Route path="/cricket/ranking" element={<Ranking />} />
               <Route path="/entertainment" element={<Entertainment />} />
+              <Route path="/particulars" element={<Particulars />} />
               <Route path="/games" element={<Games />} />
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />

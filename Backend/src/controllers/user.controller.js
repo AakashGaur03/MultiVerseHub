@@ -1052,7 +1052,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
 
   const { onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, oldData } = req.body
   console.log("PHEREAGESS")
-  console.log(onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv,"PAGESS")
+  console.log(onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, "PAGESS")
   // top_rated,popular,now_playing
   const url1 =
     `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPageTv}`;
@@ -1104,7 +1104,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     const response3 = await axios.request(options3);
     const response4 = await axios.request(options4);
     if (response1 && response2 && response3 && response4) {
-let responseData = []
+      let responseData = []
       if (oldData) {
         const responseData1 = response1.data;
         const responseData2 = response2.data;

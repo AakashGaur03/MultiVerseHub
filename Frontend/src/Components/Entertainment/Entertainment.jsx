@@ -8,10 +8,12 @@ import {
   getEntertainmentParticularsData,
 } from "../../Features";
 import { ListMoviesTV } from "../..";
+import { useNavigate } from "react-router-dom";
 const Entertainment = () => {
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
+  const navigate = useNavigate()
   const [movieDataNowPlaying, setMovieDataNowPlaying] = useState([]);
   const [movieDataPopular, setMovieDataPopular] = useState([]);
   const [movieDataTopRated, setMovieDataTopRated] = useState([]);
@@ -56,6 +58,7 @@ const Entertainment = () => {
       id: id,
     };
     dispatch(getEntertainmentParticularsData(payload));
+    navigate("/particulars")
   };
   useEffect(() => {
     if (entertainmentData) {
@@ -234,6 +237,7 @@ const Entertainment = () => {
             Heading="Now Playing"
             LoadMoreContent={loadMoreMovies}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"movie"}
           />
           <ListMoviesTV
             ListData={movieDataPopular}
@@ -241,6 +245,7 @@ const Entertainment = () => {
             Heading="Popular"
             LoadMoreContent={loadMoreMovies}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"movie"}
           />
           <ListMoviesTV
             ListData={movieDataTopRated}
@@ -248,6 +253,7 @@ const Entertainment = () => {
             Heading="Top Rated"
             LoadMoreContent={loadMoreMovies}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"movie"}
           />
           <ListMoviesTV
             ListData={movieDataUpcoming}
@@ -255,6 +261,7 @@ const Entertainment = () => {
             Heading="Upcoming"
             LoadMoreContent={loadMoreMovies}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"movie"}
           />
         </>
       )}
@@ -267,6 +274,7 @@ const Entertainment = () => {
             Heading="On The Air"
             LoadMoreContent={loadMoreTv}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"tv"}
           />
           <ListMoviesTV
             ListData={tvDataPopular}
@@ -274,6 +282,7 @@ const Entertainment = () => {
             Heading="Popular"
             LoadMoreContent={loadMoreTv}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"tv"}
           />
           <ListMoviesTV
             ListData={tvDataTopRated}
@@ -281,6 +290,7 @@ const Entertainment = () => {
             Heading="Top Rated"
             LoadMoreContent={loadMoreTv}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"tv"}
           />
           <ListMoviesTV
             ListData={tvDataAiringToday}
@@ -288,6 +298,7 @@ const Entertainment = () => {
             Heading="Airing Today"
             LoadMoreContent={loadMoreTv}
             InfoAboutItem={infoAboutItem}
+            MovieOrTv={"tv"}
           />
         </>
       )}

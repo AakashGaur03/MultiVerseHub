@@ -7,6 +7,7 @@ const ListMoviesTv = ({
   LoadMoreOption,
   LoadMoreContent,
   InfoAboutItem,
+  MovieOrTv,
 }) => {
   const getColor2 = (rating) => {
     if (rating > 8) {
@@ -51,7 +52,7 @@ const ListMoviesTv = ({
                 <Card
                   style={{ width: "15rem" }}
                   className="overflow-x-auto rounded-3xl "
-                  onClick={() => InfoAboutItem(data.id, "movie")}
+                  onClick={() => InfoAboutItem(data.id, MovieOrTv)}
                 >
                   <Card.Img
                     variant="top"
