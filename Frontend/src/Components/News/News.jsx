@@ -11,29 +11,14 @@ const News = ({ query }) => {
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
-  // const [sidebarItem, setSidebarItem] = useState("");
   useEffect(() => {
-    // setSidebarItem(activeSidebarItem);
-    // console.log(sidebarItem,"setSidebarItem")
     handleNewsUpdate();
   }, [activeSidebarItem]);
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      const response = await dispatch(getNews(""));
-      if (response) {
-        setNewsData(response.data.data.responseData.results);
-        // setQuery("")
-      }
-    };
-    fetchNews();
-  }, []);
 
   const handleNewsUpdate = async () => {
     const response = await dispatch(getNews(activeSidebarItem));
     if (response) {
       setNewsData(response.data.data.responseData.results);
-      // setQuery("")
     }
   };
 
@@ -41,9 +26,6 @@ const News = ({ query }) => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getNews(query)).then((response) => {
-      setNewsData(response.data.data.responseData.results);
-    });
     dispatch(getNews("finance")).then((response) => {
       setFinanceNews(response.data.data.responseData.results);
     });

@@ -6,7 +6,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import {
   ForgotPassword,
   NavbarComp,
@@ -25,7 +25,7 @@ import {
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
-import { getCricket, getCricketRanking, updateSidebar } from "./Features";
+import { updateSidebar } from "./Features";
 import { useEffect, useState } from "react";
 import ThemeProvider from "./ThemeProvider";
 
@@ -71,8 +71,6 @@ function App() {
   };
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
-  const [typeMatches, setTypeMatches] = useState([]);
-  const [rankingData, setRankingData] = useState([]);
   useEffect(() => {
     if (
       ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
@@ -89,163 +87,21 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname.includes("cricket")) {
-      dispatch(getCricket()).then((response) => {
-        const typeMatches = response.data.responseData.typeMatches;
-        setTypeMatches(typeMatches);
-        // console.log(response, "responseOFCRi");
-
-        // let LeaguesMatches = typeMatches.find(
-        //   (match) => match.matchType == "League"
-        // );
-        let InterMatches = typeMatches.find(
-          (match) => match.matchType == "International"
-        );
-        let WomenMatches = typeMatches.find(
-          (match) => match.matchType == "Women"
-        );
-        let LeagueMatches = typeMatches.find(
-          (match) => match.matchType == "League"
-        );
-
-        // let IPLMatches = LeaguesMatches?.seriesMatches
-        //   .find((matchseries) =>
-        //     matchseries.seriesAdWrapper.seriesName.includes(
-        //       "Indian Premier League"
-        //     )
-        //   )
-        //   .seriesAdWrapper.matches?.slice(0, 3);
-
-        let IntlMatches = InterMatches.seriesMatches
-          .filter((match) => match.seriesAdWrapper)
-          .slice(0, 2); // It slices number of series to 2
-
-        let LegMatches = LeagueMatches.seriesMatches
-          .filter((match) => match.seriesAdWrapper)
-          .slice(0, 2); // It slices number of series to 2
-
-        let WomMatches = WomenMatches.seriesMatches
-          .filter((match) => match.seriesAdWrapper)
-          .slice(0, 2); // It slices number of series to 2
-
-        // console.log(IntlMatches, "IntlMatches");
-
-        let newCricketData2 = [];
-
-        // Adding IPL matches to newCricketData2
-        // if (Array.isArray(IPLMatches)) {
-        //   newCricketData2.push(...IPLMatches.slice(0, 3));
-        // }
-
-        // Adding International matches to newCricketData2
-        LegMatches.forEach((match) => {
-          if (Array.isArray(match.seriesAdWrapper.matches)) {
-            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-          }
-        });
-        IntlMatches.forEach((match) => {
-          if (Array.isArray(match.seriesAdWrapper.matches)) {
-            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-          }
-        });
-        WomMatches.forEach((match) => {
-          if (Array.isArray(match.seriesAdWrapper.matches)) {
-            newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-          }
-        });
-
-        // Update the state once with all the data
-        setCricketData(newCricketData2);
-        setNewCricketData(newCricketData2);
-      });
-    }
-  }, [location.pathname, navigate]);
-  useEffect(() => {
     if (query && location.pathname.includes("/pointsTable")) {
       navigate("/cricket");
       setQuery("");
     }
   }, [location.pathname, navigate, query]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (
-  //       location.pathname.includes("/ranking") &&
-  //       rankingData.length <= 0
-  //     ) {
-  //       const response = await dispatch(
-  //         getCricketRanking("odi", "", "allrounders")
-  //       );
-  //       setRankingData(response);
-  //       navigate("cricket/ranking", {
-  //         state: { rankingsData: response },
-  //       });
-  //     } else {
-  //       navigate("cricket/ranking", {
-  //         state: { rankingsData: rankingData },
-  //       });
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, [location.pathname, rankingData]);
   const handleSidebarClick = async (category) => {
     console.log(category);
     dispatch(updateSidebar(category));
     setQuery(category);
     if (location.pathname.includes("/cricket")) {
       navigate("/cricket");
-      // console.log("Current pathname:", location.pathname);
-      // Conditioning To be Done
-      // navigate('/cricket');
-      // window.location.href="/cricket"
-      // console.log(category);
-      if (category === "All") {
-        setCricketData(newCricketData);
-      } else if (category === "Rankings") {
-        if (rankingData.length <= 0) {
-          // const response = await dispatch(getCricketRanking("test", "","batsmen"));
-          const response = await dispatch(
-            getCricketRanking("odi", "", "allrounders")
-          );
-          setRankingData(response);
-          navigate(`cricket/ranking`, {
-            state: { rankingsData: response },
-          });
-        } else {
-          navigate(`cricket/ranking`, {
-            state: { rankingsData: rankingData },
-          });
-        }
-      } else {
-        let InterMatches = typeMatches.find(
-          (match) => match.matchType == category
-        );
-
-        let IntlMatches = InterMatches?.seriesMatches
-          .filter((match) => match.seriesAdWrapper)
-          .slice(0, 2); // It slices number of series to 2
-
-        // console.log(IntlMatches, "IntlMatches");
-        let FilteredCricketData = [];
-        IntlMatches?.forEach((match) => {
-          if (Array.isArray(match.seriesAdWrapper.matches)) {
-            FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
-          }
-          console.log(FilteredCricketData);
-        });
-        // const response = await dispatch(getCricket(category));
-        setCricketData(FilteredCricketData);
-        console.log("routing");
-        // navigate('/cricket');
-        console.log("routed");
-        // setQuery("")
-      }
     }
   };
   const dispatch = useDispatch();
-
-  const [cricketData, setCricketData] = useState([]);
-  const [newCricketData, setNewCricketData] = useState([]);
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -256,10 +112,7 @@ function App() {
       <ThemeProvider>
         {/* <Router> */}
         <NavbarComp />
-        <OptionContainer
-          query={query}
-          handleChange={handleChange}
-        />
+        <OptionContainer query={query} handleChange={handleChange} />
         <Container fluid className="restOfComponets">
           <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
             {sidebarItemsActive && (
@@ -287,8 +140,6 @@ function App() {
                   <Cricket
                     query={query}
                     setQuery={setQuery}
-                    cricketData={cricketData}
-                    setCricketData={setCricketData}
                     handleChange={handleChange}
                   />
                 }
