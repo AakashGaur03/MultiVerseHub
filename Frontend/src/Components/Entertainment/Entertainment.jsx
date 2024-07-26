@@ -7,13 +7,20 @@ import {
   getEntertainmentDataTV,
   getEntertainmentParticularsData,
 } from "../../Features";
-import CarouselPractice from "../CarouselPractice";
 import { ListMoviesTV } from "../..";
 const Entertainment = () => {
+  const activeSidebarItem = useSelector(
+    (state) => state.sidebar.currentSidebar
+  );
   const [movieDataNowPlaying, setMovieDataNowPlaying] = useState([]);
   const [movieDataPopular, setMovieDataPopular] = useState([]);
   const [movieDataTopRated, setMovieDataTopRated] = useState([]);
   const [movieDataUpcoming, setMovieDataUpcoming] = useState([]);
+  // onTheAirPage, topRatedPage, popularPage, airingTodayPage
+  const [tvDataOnTheAir, setTvDataOnTheAir] = useState([]);
+  const [tvDataPopular, setTvDataPopular] = useState([]);
+  const [tvDataTopRated, setTvDataTopRated] = useState([]);
+  const [tvDataAiringToday, setTvDataAiringToday] = useState([]);
   const dispatch = useDispatch();
   const entertainmentData = useSelector(
     (state) => state.getEntertainmentData.entertainmentData
@@ -30,15 +37,18 @@ const Entertainment = () => {
       nowPlayingPage: "1",
       upcomingPage: "1",
     };
-    dispatch(getEntertainmentDataMovie(payload1));
     let payload2 = {
-      onTheAirPage: "1",
-      topRatedPage: "1",
-      popularPage: "1",
-      airingTodayPage: "1",
+      onTheAirPageTv: "1",
+      topRatedPageTv: "1",
+      popularPageTv: "1",
+      airingTodayPageTv: "1",
     };
-    dispatch(getEntertainmentDataTV(payload2));
-  }, [dispatch]);
+    if (activeSidebarItem == "TV") {
+      dispatch(getEntertainmentDataTV(payload2));
+    } else {
+      dispatch(getEntertainmentDataMovie(payload1));
+    }
+  }, [dispatch, activeSidebarItem]);
 
   const infoAboutItem = (id, type) => {
     let payload = {
@@ -73,7 +83,6 @@ const Entertainment = () => {
       const uniqueUpcoming = filterUniqueMovies(
         entertainmentData.upcoming.results
       );
-      console.log(entertainmentData, "entertainmentData");
       setMovieDataNowPlaying({
         ...entertainmentData.now_playing,
         results: uniqueNowPlaying,
@@ -90,11 +99,51 @@ const Entertainment = () => {
         ...entertainmentData.upcoming,
         results: uniqueUpcoming,
       });
-      // console.log(movieData, "MovieData");
     }
   }, [entertainmentData]);
+
   useEffect(() => {
-    console.log(entertainmentDataTV);
+    if (entertainmentDataTV) {
+      const filterUniqueTv = (tv) => {
+        const uniqueTvId = new Set();
+        return tv.filter((tv) => {
+          if (uniqueTvId.has(tv.id)) {
+            return false;
+          } else {
+            uniqueTvId.add(tv.id);
+            return true;
+          }
+        });
+      };
+      const uniqueOnTheAir = filterUniqueTv(
+        entertainmentDataTV.on_the_air.results
+      );
+      const uniquePopularTv = filterUniqueTv(
+        entertainmentDataTV.popular.results
+      );
+      const uniqueTopRatedTv = filterUniqueTv(
+        entertainmentDataTV.top_rated.results
+      );
+      const uniqueAiringToday = filterUniqueTv(
+        entertainmentDataTV.airing_today.results
+      );
+      setTvDataOnTheAir({
+        ...entertainmentDataTV.on_the_air,
+        results: uniqueOnTheAir,
+      });
+      setTvDataPopular({
+        ...entertainmentDataTV.popular,
+        results: uniquePopularTv,
+      });
+      setTvDataTopRated({
+        ...entertainmentDataTV.top_rated,
+        results: uniqueTopRatedTv,
+      });
+      setTvDataAiringToday({
+        ...entertainmentDataTV.airing_today,
+        results: uniqueAiringToday,
+      });
+    }
   }, [entertainmentDataTV]);
 
   let topRatedPage = movieDataTopRated.page;
@@ -133,38 +182,115 @@ const Entertainment = () => {
     }
     dispatch(getEntertainmentDataMovie(payload1));
   };
+  let onTheAirPageTv = tvDataOnTheAir.page;
+  let topRatedPageTv = tvDataTopRated.page;
+  let popularPageTv = tvDataPopular.page;
+  let airingTodayPageTv = tvDataAiringToday.page;
+
+  const loadMoreTv = (updatePage, TvType) => {
+    console.log(updatePage,TvType);
+    let payload2 = {
+      onTheAirPageTv,
+      topRatedPageTv,
+      popularPageTv,
+      airingTodayPageTv,
+      oldData: entertainmentDataTV,
+    };
+    switch (TvType) {
+      case "onTheAirTv":
+        payload2.onTheAirPageTv = updatePage + 1;
+        onTheAirPageTv = updatePage + 1;
+        break;
+      case "topRatedTv":
+        payload2.topRatedPageTv = updatePage + 1;
+        topRatedPageTv = updatePage + 1;
+        console.log(payload2.topRatedPageTv,"payload2.topRatedPageTv")
+        console.log(topRatedPageTv,"topRatedPageTv")
+        break;
+      case "popularTv":
+        payload2.popularPageTv = updatePage + 1;
+        popularPageTv = updatePage + 1;
+        console.log(payload2.popularPageTv,"payload2.popularPageTv")
+        console.log(popularPageTv,"popularPageTv")
+        break;
+      case "airingTodayTv":
+        payload2.airingTodayPageTv = updatePage + 1;
+        airingTodayPageTv = updatePage + 1;
+        break;
+      default:
+        break;
+    }
+    dispatch(getEntertainmentDataTV(payload2));
+  };
 
   return (
     <div className="overflow-y-auto">
-      <ListMoviesTV
-        ListData={movieDataNowPlaying}
-        LoadMoreOption="nowPlaying"
-        Heading="Now Playing"
-        LoadMoreContent={loadMoreMovies}
-        InfoAboutItem={infoAboutItem}
-      />
-      <ListMoviesTV
-        ListData={movieDataPopular}
-        LoadMoreOption="popular"
-        Heading="Popular"
-        LoadMoreContent={loadMoreMovies}
-        InfoAboutItem={infoAboutItem}
-      />
-      <ListMoviesTV
-        ListData={movieDataTopRated}
-        LoadMoreOption="topRated"
-        Heading="Top Rated"
-        LoadMoreContent={loadMoreMovies}
-        InfoAboutItem={infoAboutItem}
-      />
-      <ListMoviesTV
-        ListData={movieDataUpcoming}
-        LoadMoreOption="upcoming"
-        Heading="Upcoming"
-        LoadMoreContent={loadMoreMovies}
-        InfoAboutItem={infoAboutItem}
-      />
-
+      {activeSidebarItem != "TV" && (
+        <>
+          {" "}
+          <ListMoviesTV
+            ListData={movieDataNowPlaying}
+            LoadMoreOption="nowPlaying"
+            Heading="Now Playing"
+            LoadMoreContent={loadMoreMovies}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={movieDataPopular}
+            LoadMoreOption="popular"
+            Heading="Popular"
+            LoadMoreContent={loadMoreMovies}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={movieDataTopRated}
+            LoadMoreOption="topRated"
+            Heading="Top Rated"
+            LoadMoreContent={loadMoreMovies}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={movieDataUpcoming}
+            LoadMoreOption="upcoming"
+            Heading="Upcoming"
+            LoadMoreContent={loadMoreMovies}
+            InfoAboutItem={infoAboutItem}
+          />
+        </>
+      )}
+      {activeSidebarItem == "TV" && (
+        <>
+          {" "}
+          <ListMoviesTV
+            ListData={tvDataOnTheAir}
+            LoadMoreOption="onTheAirTv"
+            Heading="On The Air"
+            LoadMoreContent={loadMoreTv}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={tvDataPopular}
+            LoadMoreOption="popularTv"
+            Heading="Popular"
+            LoadMoreContent={loadMoreTv}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={tvDataTopRated}
+            LoadMoreOption="topRatedTv"
+            Heading="Top Rated"
+            LoadMoreContent={loadMoreTv}
+            InfoAboutItem={infoAboutItem}
+          />
+          <ListMoviesTV
+            ListData={tvDataAiringToday}
+            LoadMoreOption="airingTodayTv"
+            Heading="Airing Today"
+            LoadMoreContent={loadMoreTv}
+            InfoAboutItem={infoAboutItem}
+          />
+        </>
+      )}
       {/* <CarouselPractice /> */}
     </div>
   );

@@ -1050,16 +1050,18 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
 });
 const getEntertainmentDataTV = asyncHandler(async (req, res) => {
 
-  const { onTheAirPage, topRatedPage, popularPage, airingTodayPage } = req.body
+  const { onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, oldData } = req.body
+  console.log("PHEREAGESS")
+  console.log(onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv,"PAGESS")
   // top_rated,popular,now_playing
   const url1 =
-    `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPage}`;
+    `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPageTv}`;
   const url2 =
-    `https://api.themoviedb.org/3/tv/popular?&page=${popularPage}`;
+    `https://api.themoviedb.org/3/tv/popular?&page=${popularPageTv}`;
   const url3 =
-    `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPage}`;
+    `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPageTv}`;
   const url4 =
-    `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPage}`;
+    `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPageTv}`;
   const options1 = {
     method: "GET",
     url: url1,
@@ -1102,11 +1104,74 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     const response3 = await axios.request(options3);
     const response4 = await axios.request(options4);
     if (response1 && response2 && response3 && response4) {
-      const responseData1 = response1.data;
-      const responseData2 = response2.data;
-      const responseData3 = response3.data;
-      const responseData4 = response4.data;
-      const responseData = { on_the_air: responseData1, popular: responseData2, top_rated: responseData3, airing_today: responseData4 }
+let responseData = []
+      if (oldData) {
+        const responseData1 = response1.data;
+        const responseData2 = response2.data;
+        const responseData3 = response3.data;
+        const responseData4 = response4.data;
+
+        let onTheAirTv
+        let airingTodayTv
+        let popularTv
+        let topRatedTv
+
+        if (oldData.on_the_air.page != onTheAirPageTv) {
+          onTheAirTv = {
+            ...responseData1, results: [
+              ...oldData.on_the_air.results,
+              ...responseData1.results
+            ]
+          }
+        } else {
+          onTheAirTv = oldData.on_the_air
+        }
+        if (oldData.popular.page != popularPageTv) {
+          popularTv = {
+            ...responseData2, results: [
+              ...oldData.popular.results,
+              ...responseData2.results
+            ]
+          }
+        } else {
+          popularTv = oldData.popular
+        }
+        if (oldData.top_rated.page != topRatedPageTv) {
+          topRatedTv = {
+            ...responseData3, results: [
+              ...oldData.top_rated.results,
+              ...responseData3.results
+            ]
+          }
+        } else {
+          topRatedTv = oldData.top_rated
+        }
+        if (oldData.airing_today.page != airingTodayPageTv) {
+          airingTodayTv = {
+            ...responseData4, results: [
+              ...oldData.airing_today.results,
+              ...responseData4.results
+            ]
+          }
+        } else {
+          airingTodayTv = oldData.airing_today
+        }
+
+        responseData = {
+          top_rated: topRatedTv,
+          popular: popularTv,
+          on_the_air: onTheAirTv,
+          airing_today: airingTodayTv,
+        }
+      }
+      else {
+
+        const responseData1 = response1.data;
+        const responseData2 = response2.data;
+        const responseData3 = response3.data;
+        const responseData4 = response4.data;
+        responseData = { on_the_air: responseData1, popular: responseData2, top_rated: responseData3, airing_today: responseData4 }
+      }
       return res
         .status(200)
         .json(
