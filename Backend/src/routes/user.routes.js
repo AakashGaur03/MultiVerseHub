@@ -71,6 +71,6 @@ router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
 router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
 router.route("/entertainmentTVApi").post(getEntertainmentDataTV);
-router.route("/entertainmentParticularsApi").post(getEntertainmentParticularsData);
+router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData);
 
 export default router;

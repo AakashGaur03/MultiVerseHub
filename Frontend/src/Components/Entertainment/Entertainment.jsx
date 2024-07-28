@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
-  getEntertainmentParticularsData,
 } from "../../Features";
 import { ListMoviesTV } from "../..";
 import { useNavigate } from "react-router-dom";
@@ -52,13 +51,8 @@ const Entertainment = () => {
     }
   }, [dispatch, activeSidebarItem]);
 
-  const infoAboutItem = (id, type) => {
-    let payload = {
-      category: type,
-      id: id,
-    };
-    dispatch(getEntertainmentParticularsData(payload));
-    navigate("/particulars")
+  const infoAboutItem = (id, category) => {
+    navigate(`/particulars/${category}/${id}`)
   };
   useEffect(() => {
     if (entertainmentData) {

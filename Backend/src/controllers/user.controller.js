@@ -1194,7 +1194,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
 
 // Particulars of Movie or TV
 const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
-  const { category, id } = req.body;
+  const { category, id } = req.params;
   // https://api.themoviedb.org/3/movie/786892
   // https://api.themoviedb.org/3/movie/786892/credits
   // https://api.themoviedb.org/3/movie/786892/reviews

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getEntertainmentParticularsData } from "../../Features";
 
 const Particulars = () => {
   const globalParticularData = useSelector(
@@ -7,6 +9,15 @@ const Particulars = () => {
   );
 
   const [particularData, setParticulatData] = useState(globalParticularData);
+  const { category, id } = useParams();
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    let payload = {
+      category: category,
+      id: id,
+    };
+    dispatch(getEntertainmentParticularsData(payload));
+  },[])
 
   useEffect(() => {
     setParticulatData(globalParticularData);

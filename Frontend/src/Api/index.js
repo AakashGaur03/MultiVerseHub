@@ -187,8 +187,7 @@ export const getEntertainmentDataTVAPIFunc = async (payload) => {
   return response.data.data.responseData;
 };
 export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
-  const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentParticularsApi`, payload
-  );
+  const response = await axios.get(
+    `http://localhost:8000/api/v1/users/entertainmentParticularsApi/${payload.category}/${payload.id}`);
   return response.data.data.responseData;
 };

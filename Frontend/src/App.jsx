@@ -151,7 +151,7 @@ function App() {
               />
               <Route path="/cricket/ranking" element={<Ranking />} />
               <Route path="/entertainment" element={<Entertainment />} />
-              <Route path="/particulars" element={<Particulars />} />
+              <Route path="/particulars/:category/:id" element={<Particulars />} />
               <Route path="/games" element={<Games />} />
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
