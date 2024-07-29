@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const API_URL = "http://localhost:8001"
+
 export const registerUserApi = async (userData) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/register",
+    `${API_URL}/api/v1/users/register`,
     userData
   );
 
@@ -11,7 +13,7 @@ export const registerUserApi = async (userData) => {
 
 export const loginUserApi = async (data) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/login",
+    `${API_URL}/api/v1/users/login`,
     data
   );
 
@@ -20,7 +22,7 @@ export const loginUserApi = async (data) => {
 
 export const logoutuserApi = async (accessToken) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/logout",
+    `${API_URL}/api/v1/users/logout`,
     {},
     {
       headers: {
@@ -34,7 +36,7 @@ export const logoutuserApi = async (accessToken) => {
 
 export const getCurrentUserStatusApi = async (accessToken) => {
   const response = await axios.get(
-    "http://localhost:8000/api/v1/users/current-user",
+    `${API_URL}/api/v1/users/current-user`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -48,7 +50,7 @@ export const getCurrentUserStatusApi = async (accessToken) => {
 // sendOTP
 export const sendOTPApi = async (emailId) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/send-otp-mail",
+    `${API_URL}/api/v1/users/send-otp-mail`,
     emailId
   );
 
@@ -57,7 +59,7 @@ export const sendOTPApi = async (emailId) => {
 // verifyOTP
 export const verifyOTPApi = async (otp) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/verifyOTP",
+    `${API_URL}/api/v1/users/verifyOTP`,
     otp
   );
 
@@ -66,7 +68,7 @@ export const verifyOTPApi = async (otp) => {
 // resetPassword
 export const resetPassordApi = async (data) => {
   const response = await axios.post(
-    "http://localhost:8000/api/v1/users/create-new-password",
+    `${API_URL}/api/v1/users/create-new-password`,
     data
   );
 
@@ -76,7 +78,7 @@ export const resetPassordApi = async (data) => {
 export const getNewsAPIFunc = async (query) => {
   if (query === "") query = "India";
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/newsApi?query=${query}`
+    `${API_URL}/api/v1/users/newsApi?query=${query}`
   );
 
   return response;
@@ -85,7 +87,7 @@ export const getNewsAPIFunc = async (query) => {
 // export const getCricketAPIFunc = async (query) => {
 //   if (query === "") query = "recent";
 //   const response = await axios.get(
-//     `http://localhost:8000/api/v1/users/cricketApi/${query}`
+//     `${API_URL}/api/v1/users/cricketApi/${query}`
 //   );
 //   return response
 // };
@@ -94,7 +96,7 @@ export const getCricketAPIFunc = async (query) => {
   if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/cricketApi`
+    `${API_URL}/api/v1/users/cricketApi`
   );
   return response.data;
 };
@@ -102,7 +104,7 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/${seriesId}/pointsTable`
+    `${API_URL}/api/v1/users/${seriesId}/pointsTable`
   );
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
@@ -111,7 +113,7 @@ export const getCricketNewsCBAPIFunc = async () => {
   // if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/cricketnewscb`
+    `${API_URL}/api/v1/users/cricketnewscb`
   );
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
@@ -119,7 +121,7 @@ export const getCricketNewsCBAPIFunc = async () => {
 export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
   // console.log(isWomen,"isWomenisWomenisWomen")
   // console.log(category,"categorycategorycategory")
-  let url = `http://localhost:8000/api/v1/users/cricketRankings/${format}/${category}`;
+  let url = `${API_URL}/api/v1/users/cricketRankings/${format}/${category}`;
   if (isWomen !== undefined && isWomen !== "") {
     url += `/${isWomen}`;
   }
@@ -130,7 +132,7 @@ export const getUploadImageCloudinaryFunc = async (imageUrl, faceImageID) => {
   // console.log("Request to backend with image URL:", imageUrl);
   const payload = { imageUrl, faceImageID };
   try {
-    const response = await axios.post(`http://localhost:8000/api/v1/users/uploadImagetoCloudinary`, payload);
+    const response = await axios.post(`${API_URL}/api/v1/users/uploadImagetoCloudinary`, payload);
     // console.log("Response from backend:", response.data);
     return response.data.data.responseData;
   } catch (error) {
@@ -142,7 +144,7 @@ export const getImageDBFunc = async (faceImageID) => {
   // console.log("Request to backend with image faceimageID:", faceImageID);
   const payload = { faceImageID };
   try {
-    const response = await axios.post(`http://localhost:8000/api/v1/users/getImageFromDB`, payload);
+    const response = await axios.post(`${API_URL}/api/v1/users/getImageFromDB`, payload);
     // console.log("Response from backend:", response.data);
     return response.data.data.responseData;
   } catch (error) {
@@ -153,7 +155,7 @@ export const getImageDBFunc = async (faceImageID) => {
 
 export const getCricketImageCBAPIFunc = async (query) => {
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/cricketImageApi?query=${query}`
+    `${API_URL}/api/v1/users/cricketImageApi?query=${query}`
   );
   // return response.data;
   // console.log(response.data,"asasasasasasass")
@@ -163,31 +165,31 @@ export const getCricketImageCBAPIFunc = async (query) => {
 export const getWeatherAPIFunc = async (city) => {
   if (city == "") city = "Delhi";
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/weatherApi?query=${city}`
+    `${API_URL}/api/v1/users/weatherApi?query=${city}`
   );
   return response.data.data.responseData;
 };
 export const getWordOfTheDayAPIFunc = async () => {
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/wordofthedayApi`
+    `${API_URL}/api/v1/users/wordofthedayApi`
   );
   // console.log(response, "RESSSSSS");
   return response.data.data.responseData;
 };
 export const getEntertainmentDataMovieAPIFunc = async (payload) => {
   const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentMovieApi`, payload
+    `${API_URL}/api/v1/users/entertainmentMovieApi`, payload
   );
   return response.data.data.responseData;
 };
 export const getEntertainmentDataTVAPIFunc = async (payload) => {
   const response = await axios.post(
-    `http://localhost:8000/api/v1/users/entertainmentTVApi`, payload
+    `${API_URL}/api/v1/users/entertainmentTVApi`, payload
   );
   return response.data.data.responseData;
 };
 export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
   const response = await axios.get(
-    `http://localhost:8000/api/v1/users/entertainmentParticularsApi/${payload.category}/${payload.id}`);
+    `${API_URL}/api/v1/users/entertainmentParticularsApi/${payload.category}/${payload.id}`);
   return response.data.data.responseData;
 };

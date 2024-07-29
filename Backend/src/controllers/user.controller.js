@@ -912,45 +912,15 @@ const getImageFromDB = asyncHandler(async (req, res) => {
 const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
 
   const { topRatedPage, popularPage, nowPlayingPage, upcomingPage, oldData } = req.body
-  // top_rated,popular,now_playing
-  const url1 =
-    `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`;
-  const url2 =
-    `https://api.themoviedb.org/3/movie/popular?&page=${popularPage}`;
-  const url3 =
-    `https://api.themoviedb.org/3/movie/now_playing?&page=${nowPlayingPage}`;
-  const url4 =
-    `https://api.themoviedb.org/3/movie/upcoming?&page=${upcomingPage}`;
-  const options1 = {
+  const urls = [
+    `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`,
+    `https://api.themoviedb.org/3/movie/popular?&page=${popularPage}`,
+    `https://api.themoviedb.org/3/movie/now_playing?&page=${nowPlayingPage}`,
+    `https://api.themoviedb.org/3/movie/upcoming?&page=${upcomingPage}`,
+  ]
+
+  const options = {
     method: "GET",
-    url: url1,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options2 = {
-    method: "GET",
-    url: url2,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options3 = {
-    method: "GET",
-    url: url3,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options4 = {
-    method: "GET",
-    url: url4,
     headers: {
       accept: "application/json",
       Authorization:
@@ -958,10 +928,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     },
   };
   try {
-    const response1 = await axios.request(options1);
-    const response2 = await axios.request(options2);
-    const response3 = await axios.request(options3);
-    const response4 = await axios.request(options4);
+    const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
     let responseData = []
     if (response1 && response2 && response3 && response4) {
       if (oldData) {
@@ -1051,47 +1018,14 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
 const getEntertainmentDataTV = asyncHandler(async (req, res) => {
 
   const { onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, oldData } = req.body
-  console.log("PHEREAGESS")
-  console.log(onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, "PAGESS")
-  // top_rated,popular,now_playing
-  const url1 =
-    `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPageTv}`;
-  const url2 =
-    `https://api.themoviedb.org/3/tv/popular?&page=${popularPageTv}`;
-  const url3 =
-    `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPageTv}`;
-  const url4 =
-    `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPageTv}`;
-  const options1 = {
+  const urls = [
+    `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPageTv}`,
+    `https://api.themoviedb.org/3/tv/popular?&page=${popularPageTv}`,
+    `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPageTv}`,
+    `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPageTv}`,
+  ]
+  const options = {
     method: "GET",
-    url: url1,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options2 = {
-    method: "GET",
-    url: url2,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options3 = {
-    method: "GET",
-    url: url3,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options4 = {
-    method: "GET",
-    url: url4,
     headers: {
       accept: "application/json",
       Authorization:
@@ -1099,10 +1033,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     },
   };
   try {
-    const response1 = await axios.request(options1);
-    const response2 = await axios.request(options2);
-    const response3 = await axios.request(options3);
-    const response4 = await axios.request(options4);
+    const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
     if (response1 && response2 && response3 && response4) {
       let responseData = []
       if (oldData) {
@@ -1195,35 +1126,19 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
 // Particulars of Movie or TV
 const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
   const { category, id } = req.params;
-  // https://api.themoviedb.org/3/movie/786892
-  // https://api.themoviedb.org/3/movie/786892/credits
-  // https://api.themoviedb.org/3/movie/786892/reviews
+  if (category === undefined) category = 'tv'
+  if (id === undefined) id = '4057'
 
+  let urls = [
+    `https://api.themoviedb.org/3/${category}/${id}`,
+    `https://api.themoviedb.org/3/${category}/${id}/credits`,
+    `https://api.themoviedb.org/3/${category}/${id}/reviews`,
+    `https://api.themoviedb.org/3/${category}/${id}/videos?language=en-US`,
+    `https://api.themoviedb.org/3/${category}/${id}/images`,
+  ]
 
-  let url1 = `https://api.themoviedb.org/3/${category}/${id}`;
-  let url2 = `https://api.themoviedb.org/3/${category}/${id}/credits`;
-  let url3 = `https://api.themoviedb.org/3/${category}/${id}/reviews`;
-  const options1 = {
+  const options = {
     method: "GET",
-    url: url1,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options2 = {
-    method: "GET",
-    url: url2,
-    headers: {
-      accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
-    },
-  };
-  const options3 = {
-    method: "GET",
-    url: url3,
     headers: {
       accept: "application/json",
       Authorization:
@@ -1231,17 +1146,15 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     },
   };
   try {
-    const response1 = await axios.request(options1);
-    const response2 = await axios.request(options2);
-    const response3 = await axios.request(options3);
-    console.log(response1)
-    console.log(response2)
-    console.log(response3)
-    if (response1 && response2 && response3) {
+
+    const [response1, response2, response3, response4, response5] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
+    if (response1 && response2 && response3 && response4 && response5) {
       const responseData1 = response1.data;
       const responseData2 = response2.data;
       const responseData3 = response3.data;
-      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3 }
+      const responseData4 = response4.data;
+      const responseData5 = response5.data;
+      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3, video: responseData4, images: responseData5 }
       return res
         .status(200)
         .json(
