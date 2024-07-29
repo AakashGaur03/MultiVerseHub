@@ -1,6 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-
+import { CustomCircularProgressRating } from "..";
 const ListMoviesTv = ({
   ListData,
   Heading,
@@ -60,6 +60,11 @@ const ListMoviesTv = ({
                     src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                   />
                 </Card>
+                <div className="flex justify-center mt-3 ">
+                  <CustomCircularProgressRating
+                    voteAverage={data.vote_average}
+                  />
+                </div>
                 {/* {data.vote_average > 0 && (
                   <div
                     className={`text-center mt-3 rounded-3xl bg-${getColor2(
@@ -73,7 +78,7 @@ const ListMoviesTv = ({
                   <div className={`text-center mt-3`}>NR</div>
                 )} */}
                 {/* <div className="flex justify-center mt-3 absolute -top-10" style={{left:"50%",transform:"translateX(-50%)"}}>  // To make rating on the top center */}
-                <div className="flex justify-center mt-3 ">
+                {/* <div className="flex justify-center mt-3 ">
                   <div className="w-10">
                     <CircularProgressbar
                       value={data.vote_average.toFixed(1) * 10}
@@ -90,7 +95,7 @@ const ListMoviesTv = ({
                       })}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                   {data.title}
                 </div>
@@ -103,7 +108,7 @@ const ListMoviesTv = ({
           ) : (
             <div>No Data to Show</div>
           )}
-          
+
           {ListData.page < Math.min(ListData.total_pages, 500) && (
             <div className="w-max flex items-center">
               <Button
