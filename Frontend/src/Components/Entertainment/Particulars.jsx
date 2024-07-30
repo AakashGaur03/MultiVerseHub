@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getEntertainmentParticularsData } from "../../Features";
 import { CustomCircularProgressRating } from "../..";
+import { Badge } from "react-bootstrap";
 
 const Particulars = () => {
   const globalParticularData = useSelector(
@@ -49,11 +50,22 @@ const Particulars = () => {
                 />
               </div>
             </div>
-            <div className="col-md-8">
-              <div>{particularData?.about?.original_title}</div>
+            <div className="col-md-8 flex flex-col justify-evenly">
+              <div>{particularData?.about?.original_title || particularData?.about?.original_name}</div>
+              <div>{particularData?.about?.release_date || particularData?.about?.first_air_date} {particularData?.about?.runtime}</div>
               <CustomCircularProgressRating
                 voteAverage={particularData?.about?.vote_average}
               />
+              <div>{particularData?.about?.tagline}</div>
+              <div>Overview</div>
+              <div>{particularData?.about?.overview}</div>
+              {/* <div className="flex"> */}
+                <div className="flex">
+                  {particularData?.about?.genres.map((genre) => (
+                    <div className="customBadge" key={genre.id}>{genre.name}</div>
+                  ))}
+                </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

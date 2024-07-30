@@ -147,3 +147,12 @@ input:-webkit-autofill:active {
 .activeClass:hover {
   transform: translate(0px, 5px) scale(1.07);
 }
+
+.customBadge{
+  text-align: center;
+    padding: .5rem 1rem;
+    border: 2px solid White;
+    border-radius: 1.25rem;
+    pointer-events: none;
+    margin-right: 10px;
+}
