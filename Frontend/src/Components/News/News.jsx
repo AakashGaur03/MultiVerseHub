@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { CustomCard, Weather, WordOfTheDay, truncateText } from "../../index";
 import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
-import formatDate from "../../GlobalComp/formatDate";
+import { formatDate } from "../../GlobalComp/formatDate";
 
 const News = ({ query }) => {
   const [newsData, setNewsData] = useState([]);

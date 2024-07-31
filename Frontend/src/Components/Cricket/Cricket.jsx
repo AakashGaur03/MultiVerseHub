@@ -11,7 +11,7 @@ import {
   getCricketRanking,
 } from "../../Features";
 import truncateText from "../../GlobalComp/TruncateText";
-import formatDate from "../../GlobalComp/formatDate";
+import { formatDate } from "../../GlobalComp/formatDate";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import CustomCard from "../../GlobalComp/CustomCard";
 
@@ -87,9 +87,7 @@ const Cricket = ({ setQuery }) => {
         .filter((match) => match.seriesAdWrapper)
         .slice(0, 2); // It slices number of series to 2
 
-
       let newCricketData2 = [];
-
 
       // Adding International matches to newCricketData2
       LegMatches.forEach((match) => {

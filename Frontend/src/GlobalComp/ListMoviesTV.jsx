@@ -1,6 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { CustomCircularProgressRating } from "..";
+import { formatDateinHumanredable } from "./formatDate";
 const ListMoviesTv = ({
   ListData,
   Heading,
@@ -31,14 +32,14 @@ const ListMoviesTv = ({
       return "red";
     }
   };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString("en-GB", {
+  //     day: "2-digit",
+  //     month: "long",
+  //     year: "numeric",
+  //   });
+  // };
   return (
     <div>
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
@@ -99,9 +100,17 @@ const ListMoviesTv = ({
                 <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                   {data.title}
                 </div>
-                <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                  Release Date : {formatDate(data.release_date)}
-                </div>
+                {data.release_date && (
+                  <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                    Release Date : {formatDateinHumanredable(data.release_date)}
+                  </div>
+                )}
+                {data.first_air_date && (
+                  <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                    Release Date :{" "}
+                    {formatDateinHumanredable(data.first_air_date)}
+                  </div>
+                )}
                 {/* <CircularProgressbar value={50} text={`${50}%`} /> */}
               </div>
             ))
