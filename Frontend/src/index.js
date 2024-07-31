@@ -15,7 +15,7 @@ import WordOfTheDay from "./Components/News/WordOfTheDay.jsx";
 import CustomCard from "./GlobalComp/CustomCard.jsx";
 import ListMoviesTV from "./GlobalComp/ListMoviesTV.jsx";
 import Particulars from "./Components/Entertainment/Particulars.jsx";
-
+import AboutSection from "./Components/Entertainment/AboutSection.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -74,4 +74,5 @@ export {
   ListMoviesTV,
   Particulars,
   CustomCircularProgressRating,
+  AboutSection,
 };
