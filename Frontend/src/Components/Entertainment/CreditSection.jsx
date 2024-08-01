@@ -15,7 +15,6 @@ const CreditSection = ({ creditsData }) => {
                 <Card
                   style={{ width: "15rem" }}
                   className="overflow-x-auto rounded-3xl "
-                  // onClick={() => InfoAboutItem(data.id, MovieOrTv)}
                 >
                   {data.profile_path ? (
                     <Card.Img
