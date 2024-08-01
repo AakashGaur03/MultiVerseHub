@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getEntertainmentParticularsData } from "../../Features";
-import { AboutSection, CustomCircularProgressRating } from "../..";
-import { Badge } from "react-bootstrap";
-import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
+import { AboutSection, CreditSection } from "../..";
 
 const Particulars = () => {
   const globalParticularData = useSelector(
@@ -14,14 +12,13 @@ const Particulars = () => {
   const [particularData, setParticulatData] = useState(globalParticularData);
 
   const [aboutData, setAboutData] = useState([]);
-  const [creditsDate, setCreditsData] = useState([]);
-  const [reviewsDate, setReviewsData] = useState([]);
-  const [videoDate, setVideoData] = useState([]);
-  const [imagesDate, setImagesData] = useState([]);
+  const [creditsData, setCreditsData] = useState([]);
+  const [reviewsData, setReviewsData] = useState([]);
+  const [videoData, setVideoData] = useState([]);
+  const [imagesData, setImagesData] = useState([]);
 
   const { category, id } = useParams();
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     let payload = {
@@ -35,11 +32,13 @@ const Particulars = () => {
     setParticulatData(globalParticularData);
     console.log(globalParticularData, "globalParticularData");
     setAboutData(globalParticularData?.about);
+    setCreditsData(globalParticularData?.credits);
     console.log(particularData);
   }, [globalParticularData]);
   return (
     <>
-    <AboutSection aboutData={aboutData} />
+      <AboutSection aboutData={aboutData} />
+      <CreditSection creditsData={creditsData}/>
     </>
   );
 };
