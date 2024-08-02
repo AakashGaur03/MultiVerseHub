@@ -15,7 +15,11 @@ const PictureSection = ({ imagesData, videoData }) => {
   return (
     <div className="my-5">
       <div className="flex mb-5">
-        <div className="mb-2 mt-3 ps-5 font-semibold text-2xl text-gray-300 text-center">
+        <div
+          className={`mb-2 mt-3 ps-5 font-semibold text-2xl text-gray-400 text-center ${
+            imageActive ? "text-white" : ""
+          }`}
+        >
           <span
             className="cursor-pointer"
             onClick={() => setActiveSection("image")}
@@ -23,7 +27,11 @@ const PictureSection = ({ imagesData, videoData }) => {
             Image(s)
           </span>
         </div>
-        <div className="mb-2 mt-3 ps-5 font-semibold text-2xl text-gray-300 text-center">
+        <div
+          className={`mb-2 mt-3 ps-5 font-semibold text-2xl text-gray-400 text-center ${
+            videoActive ? "text-white" : ""
+          }`}
+        >
           <span
             className="cursor-pointer"
             onClick={() => setActiveSection("video")}
@@ -51,19 +59,22 @@ const PictureSection = ({ imagesData, videoData }) => {
 
       <div className="flex gap-4 overflow-x-auto">
         {videoActive &&
-          (videoData?.results?.length > 0 ?
-          videoData?.results?.map((video, index) => (
-            <div key={index} className="flex-none w-96 h-56">
-              <iframe
-                allowFullScreen
-                width="100%"
-                height="100%"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                src={`https://www.youtube.com/embed/${video.key}`}
-                frameBorder="0"
-              ></iframe>
-            </div>
-          )) : <div className="ps-5">No Video To Show</div>)}
+          (videoData?.results?.length > 0 ? (
+            videoData?.results?.map((video, index) => (
+              <div key={index} className="flex-none w-96 h-56">
+                <iframe
+                  allowFullScreen
+                  width="100%"
+                  height="100%"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  src={`https://www.youtube.com/embed/${video.key}`}
+                  frameBorder="0"
+                ></iframe>
+              </div>
+            ))
+          ) : (
+            <div className="ps-5">No Video To Show</div>
+          ))}
       </div>
     </div>
   );
