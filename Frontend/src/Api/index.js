@@ -193,3 +193,10 @@ export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
     `${API_URL}/api/v1/users/entertainmentParticularsApi/${payload.category}/${payload.id}`);
   return response.data.data.responseData;
 };
+
+
+export const getGamesSectionDataAPIFunc = async () => {
+  const response = await axios.get(`${API_URL}/api/v1/games/getGames`)
+  return response.data.data.responseData;
+
+}

@@ -17,7 +17,8 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 import userRouter from "./routes/user.routes.js";
-
+import gameRouter from "./routes/games.routes.js";
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/games", gameRouter)
 
 export { app };

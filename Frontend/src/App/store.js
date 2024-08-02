@@ -9,6 +9,7 @@ import {
   getCricketAPIReducer,
   getEntertainmentReducer,
   sidebarRecuer,
+  getGamesAPIReducer,
 } from "../Features/index.js";
 
 export default configureStore({
@@ -22,6 +23,7 @@ export default configureStore({
     cricket: getCricketAPIReducer,
     getEntertainmentData: getEntertainmentReducer,
     sidebar: sidebarRecuer,
+    games: getGamesAPIReducer,
 
     // other reducers...
   },

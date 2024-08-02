@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { getGamesSectionData } from "../../Features";
 
 const Games = () => {
+  const dispatch = useDispatch();
   const arr = [
     {
       id: 521,
@@ -19,8 +22,16 @@ const Games = () => {
     },
   ];
 
+  useEffect(() => {
+    // callAPI();
+  }, []);
+  const callAPI = async () => {
+    const response = await dispatch(getGamesSectionData());
+    console.log(response);
+  };
   return (
     <div className="min-h-screen">
+      <button onClick={()=>callAPI()}>Click</button>
       {arr.map((game) => (
         <Card key={game.id} className="my-8 ms-3 rounded-2xl border-0">
           <Card.Body className="minHeightCard">
