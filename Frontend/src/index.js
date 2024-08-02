@@ -18,6 +18,7 @@ import Particulars from "./Components/Entertainment/Particulars.jsx";
 import AboutSection from "./Components/Entertainment/AboutSection.jsx";
 import CreditSection from "./Components/Entertainment/CreditSection.jsx";
 import ReviewSection from "./Components/Entertainment/ReviewSection.jsx";
+import PictureSection from "./Components/Entertainment/PictureSection.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -79,4 +80,5 @@ export {
   AboutSection,
   CreditSection,
   ReviewSection,
+  PictureSection,
 };

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getEntertainmentParticularsData } from "../../Features";
-import { AboutSection, CreditSection, ReviewSection } from "../..";
+import {
+  AboutSection,
+  CreditSection,
+  PictureSection,
+  ReviewSection,
+} from "../..";
 
 const Particulars = () => {
   const globalParticularData = useSelector(
@@ -34,6 +39,8 @@ const Particulars = () => {
     setAboutData(globalParticularData?.about);
     setCreditsData(globalParticularData?.credits);
     setReviewsData(globalParticularData?.reviews);
+    setVideoData(globalParticularData?.video);
+    setImagesData(globalParticularData?.images);
     console.log(particularData);
   }, [globalParticularData]);
   return (
@@ -41,6 +48,7 @@ const Particulars = () => {
       <AboutSection aboutData={aboutData} />
       <CreditSection creditsData={creditsData} />
       <ReviewSection reviewsData={reviewsData} />
+      <PictureSection imagesData={imagesData} videoData={videoData} />
     </>
   );
 };
