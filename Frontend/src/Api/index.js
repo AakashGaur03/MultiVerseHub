@@ -200,3 +200,8 @@ export const getGamesSectionDataAPIFunc = async () => {
   return response.data.data.responseData;
 
 }
+export const getGamesSectionDataCategoryWiseAPIFunc = async (payload) => {
+  const response = await axios.post(`${API_URL}/api/v1/games/getGamesCategoryWise`, payload)
+  return response.data.data.responseData;
+
+}

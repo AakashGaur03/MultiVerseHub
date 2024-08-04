@@ -20,7 +20,7 @@ import forgotPasswordReducer, {
 
 import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
 
-import getGamesAPIReducer, { getGamesSectionData } from './APIReducers/getGamesSlice.js'
+import getGamesAPIReducer, { getGamesSectionData,getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
 
 import getCricketAPIReducer, {
   getCricket,
@@ -66,4 +66,5 @@ export {
   updateSidebar,
   getGamesAPIReducer,
   getGamesSectionData,
+  getGamesSectionDataCategoryWise,
 };

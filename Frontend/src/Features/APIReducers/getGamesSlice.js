@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getGamesSectionDataAPIFunc } from "../../Api";
+import { getGamesSectionDataAPIFunc, getGamesSectionDataCategoryWiseAPIFunc } from "../../Api";
 
 const initialState = {
     status: "idle",
@@ -16,10 +16,15 @@ const getGamesSectionAPISlice = createSlice({
             state.error = null;
             state.gamesData = null;
         },
-        getGamesDataSuccess(state, action) {
+        getGamesDataAllSuccess(state, action) {
             state.status = "fetched";
             state.error = null;
             state.gamesData = action.payload;
+        },
+        getGamesDataCategoryWiseSuccess(state, action) {
+            state.status = "fetched";
+            state.error = null;
+            state.gamesDataCategoryWise = action.payload;
         },
         getGamesDataFailure(state, action) {
             state.status = "error";
@@ -29,14 +34,27 @@ const getGamesSectionAPISlice = createSlice({
     }
 })
 
-export const { getGamesDataStart, getGamesDataSuccess, getGamesDataFailure } = getGamesSectionAPISlice.actions;
+export const { getGamesDataStart, getGamesDataAllSuccess,getGamesDataCategoryWiseSuccess, getGamesDataFailure } = getGamesSectionAPISlice.actions;
 
 export const getGamesSectionData = () => async (dispatch) => {
     try {
         dispatch(getGamesDataStart());
         const response = await getGamesSectionDataAPIFunc();
         if (response) {
-            dispatch(getGamesDataSuccess(response));
+            dispatch(getGamesDataAllSuccess(response));
+            return response;
+        }
+
+    } catch (error) {
+        dispatch(getGamesDataFailure(error));
+    }
+}
+export const getGamesSectionDataCategoryWise = (payload) => async (dispatch) => {
+    try {
+        dispatch(getGamesDataStart());
+        const response = await getGamesSectionDataCategoryWiseAPIFunc(payload);
+        if (response) {
+            dispatch(getGamesDataCategoryWiseSuccess(response));
             return response;
         }
 
