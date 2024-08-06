@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getGamesSectionDataAPIFunc, getGamesSectionDataCategoryWiseAPIFunc } from "../../Api";
+// import { getGamesSectionDataAPIFunc, getGamesSectionDataCategoryWiseAPIFunc } from "../../Api";
+import { getGamesSectionDataCategoryWiseAPIFunc } from "../../Api";
 
 const initialState = {
     status: "idle",
@@ -16,11 +17,11 @@ const getGamesSectionAPISlice = createSlice({
             state.error = null;
             state.gamesData = null;
         },
-        getGamesDataAllSuccess(state, action) {
-            state.status = "fetched";
-            state.error = null;
-            state.gamesData = action.payload;
-        },
+        // getGamesDataAllSuccess(state, action) {
+        //     state.status = "fetched";
+        //     state.error = null;
+        //     state.gamesData = action.payload;
+        // },
         getGamesDataCategoryWiseSuccess(state, action) {
             state.status = "fetched";
             state.error = null;
@@ -34,21 +35,22 @@ const getGamesSectionAPISlice = createSlice({
     }
 })
 
-export const { getGamesDataStart, getGamesDataAllSuccess,getGamesDataCategoryWiseSuccess, getGamesDataFailure } = getGamesSectionAPISlice.actions;
+export const { getGamesDataStart, getGamesDataCategoryWiseSuccess, getGamesDataFailure } = getGamesSectionAPISlice.actions;
+// export const { getGamesDataStart, getGamesDataAllSuccess,getGamesDataCategoryWiseSuccess, getGamesDataFailure } = getGamesSectionAPISlice.actions;
 
-export const getGamesSectionData = () => async (dispatch) => {
-    try {
-        dispatch(getGamesDataStart());
-        const response = await getGamesSectionDataAPIFunc();
-        if (response) {
-            dispatch(getGamesDataAllSuccess(response));
-            return response;
-        }
+// export const getGamesSectionData = () => async (dispatch) => {
+//     try {
+//         dispatch(getGamesDataStart());
+//         const response = await getGamesSectionDataAPIFunc();
+//         if (response) {
+//             dispatch(getGamesDataAllSuccess(response));
+//             return response;
+//         }
 
-    } catch (error) {
-        dispatch(getGamesDataFailure(error));
-    }
-}
+//     } catch (error) {
+//         dispatch(getGamesDataFailure(error));
+//     }
+// }
 export const getGamesSectionDataCategoryWise = (payload) => async (dispatch) => {
     try {
         dispatch(getGamesDataStart());

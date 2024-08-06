@@ -195,11 +195,11 @@ export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
 };
 
 
-export const getGamesSectionDataAPIFunc = async () => {
-  const response = await axios.get(`${API_URL}/api/v1/games/getGames`)
-  return response.data.data.responseData;
+// export const getGamesSectionDataAPIFunc = async () => {
+//   const response = await axios.get(`${API_URL}/api/v1/games/getGames`)
+//   return response.data.data.responseData;
 
-}
+// }
 export const getGamesSectionDataCategoryWiseAPIFunc = async (payload) => {
   const response = await axios.post(`${API_URL}/api/v1/games/getGamesCategoryWise`, payload)
   return response.data.data.responseData;
