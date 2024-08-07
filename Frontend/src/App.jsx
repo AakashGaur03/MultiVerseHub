@@ -59,14 +59,16 @@ function App() {
         { title: "Movies", path: "/" },
         { title: "TV", path: "/tv" },
       ];
-    } else if (location.pathname.includes("/games")) {
-      return [
-        { title: "Car", path: "/" },
-        { title: "Bike", path: "/Bike" },
-        { title: "Brain", path: "/Brain" },
-        { title: "Truck", path: "/Truck" },
-      ];
-    } else {
+    }
+    //  else if (location.pathname.includes("/games")) {
+    //   return [
+    //     { title: "Car", path: "/" },
+    //     { title: "Bike", path: "/Bike" },
+    //     { title: "Brain", path: "/Brain" },
+    //     { title: "Truck", path: "/Truck" },
+    //   ];
+    // }
+     else {
       return [];
     }
   };
@@ -74,7 +76,8 @@ function App() {
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
   useEffect(() => {
     if (
-      ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
+      // ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
+      ["/cricket", "/entertainment", "/news"].some((path) =>
         location.pathname.includes(path)
       )
     ) {

@@ -68,13 +68,13 @@ const Games = () => {
             </Card>
           ))}
       </div> */}
-      <div className=" my-2 px-5">
+      <div className=" my-2 ">
         <div className="flex flex-wrap justify-center pb-4 pt-10">
           {allgames?.length > 0 ? (
             allgames.map((data, index) => (
               <div className="activeClass m-4  relative" key={data.id}>
                 <Card
-                  style={{ width: "15rem" }}
+                  style={{ width: "18rem" }}
                   className="overflow-x-auto rounded-3xl "
                 >
                   <Card.Img
