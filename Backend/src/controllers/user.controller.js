@@ -492,35 +492,35 @@ const createNewPassword = asyncHandler(async (req, res) => {
   }
 });
 
-const getNews = asyncHandler(async (req, res) => {
-  const { query } = req.query;
-  // console.log(query)
-  try {
-    const response = await axios.get(
-      `https://newsdata.io/api/1/news?apikey=${process.env.NEWS_API_KEY}&q=${query}`
-    );
-    if (response) {
-      // console.log(response)
-      const responseData = response.data;
-      return res
-        .status(200)
-        .json(
-          new ApiResponse(
-            200,
-            { responseData },
-            "NEWS API Fetched Successfully"
-          )
-        );
-    } else {
-      return res
-        .status(400)
-        .json(new ApiError(400, "NEWS API Failed to fetch Data"));
-    }
-  } catch (error) {
-    console.error("Error fetching News:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching News"));
-  }
-});
+// const getNews = asyncHandler(async (req, res) => {
+//   const { query } = req.query;
+//   // console.log(query)
+//   try {
+//     const response = await axios.get(
+//       `https://newsdata.io/api/1/news?apikey=${process.env.NEWS_API_KEY}&q=${query}`
+//     );
+//     if (response) {
+//       // console.log(response)
+//       const responseData = response.data;
+//       return res
+//         .status(200)
+//         .json(
+//           new ApiResponse(
+//             200,
+//             { responseData },
+//             "NEWS API Fetched Successfully"
+//           )
+//         );
+//     } else {
+//       return res
+//         .status(400)
+//         .json(new ApiError(400, "NEWS API Failed to fetch Data"));
+//     }
+//   } catch (error) {
+//     console.error("Error fetching News:", error);
+//     return res.status(500).json(new ApiError(500, "Some Error occurred while fetching News"));
+//   }
+// });
 
 // const axios = require('axios');
 
@@ -1191,7 +1191,6 @@ export {
   sendOtponMail,
   verifyOTP,
   createNewPassword,
-  getNews,
   getRecentCricket,
   getCricketPointsTable,
   getCricketNewsCB,

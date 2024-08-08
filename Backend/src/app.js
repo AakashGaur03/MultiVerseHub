@@ -18,7 +18,9 @@ app.use(cookieParser());
 
 import userRouter from "./routes/user.routes.js";
 import gameRouter from "./routes/games.routes.js";
+import newsRouter from "./routes/news.routes.js";
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/games", gameRouter)
+app.use("/api/v1/news", newsRouter)
 
 export { app };

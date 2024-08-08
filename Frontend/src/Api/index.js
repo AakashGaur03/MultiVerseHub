@@ -78,7 +78,7 @@ export const resetPassordApi = async (data) => {
 export const getNewsAPIFunc = async (query) => {
   if (query === "") query = "India";
   const response = await axios.get(
-    `${API_URL}/api/v1/users/newsApi?query=${query}`
+    `${API_URL}/api/v1/news/newsApi?query=${query}`
   );
 
   return response;

@@ -12,7 +12,6 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   verifyOTP,
-  getNews,
   getRecentCricket,
   getWeathter,
   getWordOfTheDay,
@@ -59,7 +58,6 @@ router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
-router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
 router.route("/cricketnewscb").get(getCricketNewsCB);
 router.route("/:id/pointsTable").get(getCricketPointsTable);

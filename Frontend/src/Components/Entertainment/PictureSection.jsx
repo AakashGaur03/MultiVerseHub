@@ -24,7 +24,7 @@ const PictureSection = ({ imagesData, videoData }) => {
             className="cursor-pointer"
             onClick={() => setActiveSection("image")}
           >
-            Image(s)
+            Image(s) ({imagesData?.backdrops?.length})
           </span>
         </div>
         <div
@@ -36,7 +36,7 @@ const PictureSection = ({ imagesData, videoData }) => {
             className="cursor-pointer"
             onClick={() => setActiveSection("video")}
           >
-            Video(s)
+            Video(s) ({videoData?.results?.length})
           </span>
         </div>
       </div>

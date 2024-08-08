@@ -31,9 +31,9 @@ const News = ({ query }) => {
     });
   }, []);
   return (
-    <div>
+    <div className="w-full">
       <Row>
-        <Col md={8} className="colMd8Div">
+        <Col md={8} style={{minWidth:"66.66666667%"}}>
           {newsData.length > 0 ? (
             <>
               {newsData.slice(0, 9).map((news, index) => (
