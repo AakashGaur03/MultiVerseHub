@@ -23,6 +23,7 @@ import {
   PointsTable,
   Ranking,
   Particulars,
+  ParticularGame,
 } from "./index";
 import Games from "./Components/Games/Games";
 import { useDispatch } from "react-redux";
@@ -156,6 +157,7 @@ function App() {
               <Route path="/entertainment" element={<Entertainment />} />
               <Route path="/particulars/:category/:id" element={<Particulars />} />
               <Route path="/games" element={<Games />} />
+              <Route path="/game/:id" element={<ParticularGame />} />
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/register" element={<Registration />} />

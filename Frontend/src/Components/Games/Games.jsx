@@ -4,24 +4,29 @@ import { useDispatch } from "react-redux";
 import {
   // getGamesSectionData,
   getGamesSectionDataCategoryWise,
+  getGamesParticularsData,
 } from "../../Features";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
+import { useNavigate } from "react-router-dom";
 
 const Games = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [allgames, setAllGames] = useState([]);
 
   useEffect(() => {
     callAPI();
   }, []);
   const callAPI = async () => {
-    // const response = await dispatch(getGamesSectionData());
     const payload = {
       category: "mmorpg",
     };
     const response = await dispatch(getGamesSectionDataCategoryWise(payload));
     console.log(response);
     setAllGames(response);
+  };
+  const particularGameCall = async (id) => {
+    navigate(`/game/${id}`)
   };
   return (
     <>
@@ -72,7 +77,11 @@ const Games = () => {
         <div className="flex flex-wrap justify-center pb-4 pt-10">
           {allgames?.length > 0 ? (
             allgames.map((data, index) => (
-              <div className="activeClass m-4  relative" key={data.id}>
+              <div
+                className="activeClass m-4 cursor-pointer relative"
+                key={data.id}
+                onClick={() => particularGameCall(data.id)}
+              >
                 <Card
                   style={{ width: "18rem" }}
                   className="overflow-x-auto rounded-3xl "
@@ -96,7 +105,6 @@ const Games = () => {
           ) : (
             <div>No Data to Show</div>
           )}
-
         </div>
       </div>
     </>

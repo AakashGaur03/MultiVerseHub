@@ -1,5 +1,5 @@
 function formatDate(dateString) {
-  console.log(dateString)
+  // console.log(dateString)
   let date;
   if (!isNaN(dateString)) {
     date = new Date(Number(dateString));
