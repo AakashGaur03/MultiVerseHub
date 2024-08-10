@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "https://multiversehub-backend.onrender.com"
+// const API_URL = "http://localhost:8001"
+
+ const API_URL = "https://multiversehub-backend.onrender.com"
 
 export const registerUserApi = async (userData) => {
   const response = await axios.post(
