@@ -20,6 +20,7 @@ import CreditSection from "./Components/Entertainment/CreditSection.jsx";
 import ReviewSection from "./Components/Entertainment/ReviewSection.jsx";
 import PictureSection from "./Components/Entertainment/PictureSection.jsx";
 import ParticularGame from "./Components/Games/ParticularGame.jsx";
+
 import {
   OtpForm,
   ForgotPassword,
@@ -42,6 +43,7 @@ import {
 } from "./Features/index.js";
 import truncateText from "./GlobalComp/TruncateText.js";
 import CustomCircularProgressRating from "./GlobalComp/CustomCircularProgressRating.jsx";
+import GameInfoComp from "./GlobalComp/GameInfoComp.jsx";
 
 export {
   OtpForm,
@@ -83,4 +85,5 @@ export {
   ReviewSection,
   PictureSection,
   ParticularGame,
+  GameInfoComp,
 };
