@@ -148,35 +148,14 @@ input:-webkit-autofill:active {
   transform: translate(0px, 5px) scale(1.07);
 }
 
-.customBadge {
+.customBadge{
   text-align: center;
-  padding: 0.5rem 1rem;
-  border: 2px solid White;
-  border-radius: 1.25rem;
-  pointer-events: none;
-  margin-right: 10px;
+    padding: .5rem 1rem;
+    border: 2px solid White;
+    border-radius: 1.25rem;
+    pointer-events: none;
+    margin-right: 10px;
 }
-.h358px {
+.h358px{
   height: 358px;
-}
-
-.shine-effect::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.5);
-  transform: skewX(-25deg);
-}
-
-.shine-effect:hover::before {
-  left: 125%;
-  transition: left 0.6s ease-in-out;
-}
-
-.shine-effect {
-  position: relative;
-  overflow: hidden;
 }
