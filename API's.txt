@@ -20,20 +20,36 @@ But no images
 
 Games 
 
--> https://www.freetogame.com/api-doc
-
--> https://www.freetogame.com/crossout
-
-
--> https://www.freetogame.com/api-doc
--> https://rapidapi.com/digiwalls/api/free-to-play-games-database
-
 
 -> https://www.postman.com/explore/gaming-apis
 
 -> https://docs.unity.com/
 
+-> https://api-docs.igdb.com/#getting-started
 
+
+
+
+
+------------------------------------------------------------------------
+
+GET https://www.freetogame.com/api/games
+GET https://www.freetogame.com/api/games?platform=pc
+pc, browser or all
+GET https://www.freetogame.com/api/games?category=shooter
+mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
+
+GET https://www.freetogame.com/api/games?sort-by=alphabetical
+release-date, popularity, alphabetical or relevance
+
+
+GET https://www.freetogame.com/api/games?platform=browser&category=mmorpg&sort-by=release-date
+
+GET https://www.freetogame.com/api/game?id=452
+
+
+
+------------------------------------------------------------------------
 Entertainment 
 
 Netflix :https://rapidapi.com/Glavier/api/netflix54/						            100 / month
@@ -44,8 +60,31 @@ https://rapidapi.com/rapihub-rapihub-default/api/imdb-top-100-movies/pricing			1
 
 https://rapidapi.com/elisbushaj2/api/movies-api14						                1,000 / month
 
+https://www.omdbapi.com/											1,000 daily limit
+API key added in env (If to be used in Future)
+
+
+https://developer.themoviedb.org/docs/getting-started        API KEY GENERATED SAVED IN ENV
+https://developer.themoviedb.org/reference/account-details
+
+https://www.themoviedb.org/movie (To Lookout)
+
 Weather : https://www.weatherapi.com/								                    1 Million / month
 
 Dictionary : https://api.dictionaryapi.dev/api/v2/entries/en/<word>				        FREE
 
 Word Of the Day : https://rapidapi.com/Edsonmark13/api/words-api5				        50/Day
+
+
+
+For Live Cricket Matches 
+https://cricketdata.org/          100/Day
+
+
+
+FLOW OF API 
+
+---------BACKEND----------------  
+user.controller -> user.routes -> 
+------------------------------------FRONTEND------------------------------------------
+index.js(API) -> index.js(Features) -> slice -> File where to use import from Features

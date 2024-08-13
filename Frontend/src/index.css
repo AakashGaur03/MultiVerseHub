@@ -2,10 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+background-blend-mode: multiply; */
+/* body {
   background-color: black !important;
   color: white !important;
+} */
+
+.darkColorBg {
+  background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(0, 0, 0, 0.25) 200%
+    );
+  background-blend-mode: multiply;
 }
+
 .backColor {
   padding: 50px;
   background-color: rgb(74, 66, 66);
@@ -127,3 +140,43 @@ input:-webkit-autofill:active {
 /* .maxWidthContent {
   max-width: calc(100vw - 15rem);
 } */
+.activeClass {
+  transition: transform 0.3s;
+}
+
+.activeClass:hover {
+  transform: translate(0px, 5px) scale(1.07);
+}
+
+.customBadge {
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border: 2px solid White;
+  border-radius: 1.25rem;
+  pointer-events: none;
+  margin-right: 10px;
+}
+.h358px {
+  height: 358px;
+}
+
+.shine-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: skewX(-25deg);
+}
+
+.shine-effect:hover::before {
+  left: 125%;
+  transition: left 0.6s ease-in-out;
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}

@@ -7,6 +7,9 @@ import {
   getCurrentStatusReducer,
   forgotPasswordReducer,
   getCricketAPIReducer,
+  getEntertainmentReducer,
+  sidebarRecuer,
+  getGamesAPIReducer,
 } from "../Features/index.js";
 
 export default configureStore({
@@ -17,7 +20,10 @@ export default configureStore({
     logout: logoutReducer,
     getCurrentStatus: getCurrentStatusReducer,
     forgotPassword: forgotPasswordReducer,
-    cricket:getCricketAPIReducer,
+    cricket: getCricketAPIReducer,
+    getEntertainmentData: getEntertainmentReducer,
+    sidebar: sidebarRecuer,
+    games: getGamesAPIReducer,
 
     // other reducers...
   },

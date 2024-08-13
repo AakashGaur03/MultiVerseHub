@@ -12,7 +12,6 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   verifyOTP,
-  getNews,
   getRecentCricket,
   getWeathter,
   getWordOfTheDay,
@@ -22,6 +21,9 @@ import {
   uploadImageCloudinary,
   getImageFromDB,
   getCricketNewsCB,
+  getEntertainmentParticularsData,
+  getEntertainmentDataMovie,
+  getEntertainmentDataTV,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -56,7 +58,6 @@ router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
-router.route("/newsApi").get(getNews);
 router.route("/cricketApi").get(getRecentCricket);
 router.route("/cricketnewscb").get(getCricketNewsCB);
 router.route("/:id/pointsTable").get(getCricketPointsTable);
@@ -66,5 +67,8 @@ router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRanki
 router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
+router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
+router.route("/entertainmentTVApi").post(getEntertainmentDataTV);
+router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData);
 
 export default router;

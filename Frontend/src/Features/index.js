@@ -6,6 +6,8 @@ import loginReducer, { loginUser } from "./auth/loginSlice.js";
 
 import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
+import sidebarRecuer, { updateSidebar } from "./Components/sidebarSlice.js"
+
 import getCurrentStatusReducer, {
   fetchCurrentStatusUser,
 } from "./auth/getCurrentStatusSlice.js";
@@ -18,6 +20,9 @@ import forgotPasswordReducer, {
 
 import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
 
+// import getGamesAPIReducer, { getGamesSectionData,getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
+import getGamesAPIReducer, { getGamesParticularsData, getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
+
 import getCricketAPIReducer, {
   getCricket,
   getCricketPointsTable,
@@ -27,12 +32,14 @@ import getCricketAPIReducer, {
   getUploadImageCloudinary,
   getCricketImageDB,
 } from "./APIReducers/getCricketAPISlice.js";
+import getEntertainmentReducer, { getEntertainmentDataMovie, getEntertainmentParticularsData, getEntertainmentDataTV } from "./APIReducers/entertainmentSlice.js";
 
 export {
   registerReducer,
   themeReducer,
   registerUser,
   toggleTheme,
+  sidebarRecuer,
   loginReducer,
   loginUser,
   logoutReducer,
@@ -53,4 +60,13 @@ export {
   getCricketRanking,
   getUploadImageCloudinary,
   getCricketImageDB,
+  getEntertainmentReducer,
+  getEntertainmentDataMovie,
+  getEntertainmentDataTV,
+  getEntertainmentParticularsData,
+  updateSidebar,
+  getGamesAPIReducer,
+  // getGamesSectionData,
+  getGamesSectionDataCategoryWise,
+  getGamesParticularsData,
 };
