@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Button } from "react-bootstrap";
+import ModalComponent from "./ModalComponent";
 
-const OtpForm = ({ length = 6,onOTPSubmit }) => {
+const OtpModal = ({
+  show,
+  handleClose,
+  handleNewPass,
+  length = 6,
+  onOTPSubmit,
+}) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
 
   const inputRefs = useRef([]);
@@ -16,6 +24,7 @@ const OtpForm = ({ length = 6,onOTPSubmit }) => {
   // };
 
   const handleChange = (index, e) => {
+    console.log("object");
     const value = e.target.value;
 
     if (isNaN(value)) return;
@@ -57,7 +66,7 @@ const OtpForm = ({ length = 6,onOTPSubmit }) => {
         setTimeout(() => {
           inputRefs.current[index - 1].setSelectionRange(1, 1);
         }, 0);
-      }else if(index === 0){
+      } else if (index === 0) {
         setTimeout(() => {
           inputRefs.current[index].setSelectionRange(1, 1);
         }, 0);
@@ -73,8 +82,14 @@ const OtpForm = ({ length = 6,onOTPSubmit }) => {
   };
 
   return (
-    <>
-      HELLO
+    <ModalComponent show={show} handleClose={handleClose} title="Enter OTP">
+      <form>
+        <div className="mb-3">
+          <label htmlFor="otp" className="form-label">
+            Enter OTP
+          </label>
+        </div>
+      </form>
       {otp.map((value, index) => (
         <input
           type="text"
@@ -88,8 +103,8 @@ const OtpForm = ({ length = 6,onOTPSubmit }) => {
           className="w-9 me-3 h-10 text-center text-black"
         />
       ))}
-    </>
+    </ModalComponent>
   );
 };
 
-export default OtpForm;
+export default OtpModal;

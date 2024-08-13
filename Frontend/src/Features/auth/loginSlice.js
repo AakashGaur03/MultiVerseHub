@@ -53,6 +53,7 @@ export const loginUser = (data) => async (dispatch) => {
     dispatch(setCurrentStatus(true));
 
     dispatch(loginSuccess(dispatchMessage));
+    return response;
   } catch (error) {
     console.log(error);
     let dispatchMessage = "";

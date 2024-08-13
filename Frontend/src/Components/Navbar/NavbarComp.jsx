@@ -3,6 +3,12 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentStatusUser, toggleTheme } from "../../index";
 import { useEffect, useState } from "react";
+import {
+  ForgotModal,
+  LoginModal,
+  NewPassModal,
+  OtpModal,
+} from "../UserControls";
 
 function NavbarComp() {
   const themeColor = useSelector((state) => state.theme.theme);
@@ -11,7 +17,9 @@ function NavbarComp() {
     (state) => state.getCurrentStatus.isUserLoggedIn
   );
   const dispatch = useDispatch();
-
+  const [showEmailInput, setShowEmailInput] = useState(true);
+  const [showOTPForm, setShowOTPForm] = useState(false);
+  const [showPasswordRest, setShowPasswordRest] = useState(false);
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
   };
@@ -22,6 +30,22 @@ function NavbarComp() {
     }
   }, [dispatch]);
 
+  const [showModal, setShowModal] = useState(null);
+
+  const handleClose = () => {
+    setShowModal(null);
+    setShowEmailInput(false);
+    setShowOTPForm(false);
+    setShowPasswordRest(false);
+  };
+  
+  const handleShow = (modal) => {
+    // Reset states before showing a modal to avoid conflicts
+    // setShowEmailInput(false);
+    // setShowOTPForm(false);
+    // setShowPasswordRest(false);
+    setShowModal(modal);
+  };
   return (
     <>
       {/* <Navbar expand="lg" className={`bg-body- tertiary bg-${themeColor}`} style={{backgroundColor:"black",color:"white"}}> */}
@@ -48,13 +72,17 @@ function NavbarComp() {
           </Navbar.Collapse>
           {!isLoggedIn && (
             <>
-              <NavLink to="/login">
-                <button className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}>
+              <NavLink onClick={() => handleShow("login")}>
+                <button
+                  className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+                >
                   Login
                 </button>
               </NavLink>
               <NavLink to="/register">
-                <button className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}>
+                <button
+                  className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+                >
                   Sign Up
                 </button>
               </NavLink>
@@ -63,7 +91,9 @@ function NavbarComp() {
           {isLoggedIn && (
             <>
               <NavLink to="/logout">
-                <button className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}>
+                <button
+                  className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+                >
                   Logout
                 </button>
               </NavLink>
@@ -83,6 +113,32 @@ function NavbarComp() {
           )}
         </Container>
       </Navbar>
+
+      <LoginModal
+        show={showModal === "login"}
+        handleClose={handleClose}
+        handleForgot={() => {
+          handleShow("forgot");
+          setShowEmailInput(true)
+        }}
+      />
+      <ForgotModal
+        show={showModal === "forgot"}
+        handleClose={handleClose}
+        handleOtp={() => handleShow("otp")}
+        showModal={showModal}
+        handleShow={handleShow}
+        showEmailInput={showEmailInput}
+        setShowEmailInput={setShowEmailInput}
+        showOTPForm={showOTPForm}
+        setShowOTPForm={setShowOTPForm}
+        showPasswordRest={showPasswordRest}
+        setShowPasswordRest={setShowPasswordRest}
+      />
+      {/* <NewPassModal
+        show={showModal === "newPass"}
+        handleClose={handleClose}
+      /> */}
       <div></div>
     </>
   );

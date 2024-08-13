@@ -180,3 +180,147 @@ input:-webkit-autofill:active {
   position: relative;
   overflow: hidden;
 }
+
+.shawdow_class {
+  box-shadow: 0px 0px 15px 5px #454568;
+}
+.bottomline {
+  margin: 8%;
+  width: 20%;
+  padding: 1px;
+  border: 1px solid white;
+  box-shadow: 0px 0px 16px #cecece;
+}
+
+.title-2 {
+  display: block;
+  margin-top: -0.5rem;
+  font-size: 2.1rem;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  -webkit-text-stroke: #fff 0.1rem;
+  letter-spacing: 0.2rem;
+  color: transparent;
+  position: relative;
+  text-shadow: 0px 0px 16px #cecece;
+}
+
+.title-2 span::before,
+.title-2 span::after {
+  content: "—";
+}
+
+.form {
+  background: linear-gradient(
+      14deg,
+      rgba(2, 0, 36, 0.8) 0%,
+      rgba(24, 24, 65, 0.7) 66%,
+      rgb(20, 76, 99) 100%
+    ),
+    radial-gradient(
+      circle,
+      rgba(2, 0, 36, 0.5) 0%,
+      rgba(32, 15, 53, 0.2) 65%,
+      rgba(14, 29, 28, 0.9) 100%
+    );
+  color: white;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#star1 {
+  position: absolute;
+  animation-delay: 2.2s;
+  animation: starmovement infinite 1.2s linear;
+}
+
+#star1::before {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, #0000);
+  rotate: 330deg;
+  box-shadow: 11px -1px 20px 1px white;
+}
+
+#star2 {
+  position: absolute;
+  animation-delay: 0.5s;
+  animation: starmovement infinite 2.2s linear;
+}
+#star2::before {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, #0000);
+  rotate: 330deg;
+  box-shadow: 11px -1px 20px 1px white;
+  top: 57px;
+}
+
+#star3 {
+  animation-delay: 1s;
+  position: absolute;
+  animation: starmovement infinite 2.8s linear;
+}
+
+#star3::before {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, #0000);
+  rotate: 330deg;
+  box-shadow: 11px -1px 20px 1px white;
+  top: 156px;
+}
+
+#star4 {
+  animation-delay: 0s;
+  position: absolute;
+  animation: starmovement infinite 1.5s linear;
+}
+
+#star4::before {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, #0000);
+  rotate: 330deg;
+  box-shadow: 11px -1px 20px 1px white;
+  top: -191px;
+}
+
+@keyframes starmovement {
+  0% {
+    top: 0%;
+    left: 100%;
+  }
+
+  100% {
+    top: 100%;
+    left: -100%;
+  }
+}
+
+.modal-content {
+  background-color: transparent;
+  border: 0;
+}
+
+.modal_button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
