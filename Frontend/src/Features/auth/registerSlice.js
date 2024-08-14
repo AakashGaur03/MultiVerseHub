@@ -40,6 +40,7 @@ export const registerUser = (userData) => async (dispatch) => {
     dispatchMessage =
     response?.data?.message || "User Registered SuccessFully ";
     dispatch(registrationSuccess(dispatchMessage));
+    return response.data
 
   } catch (error) {
     // dispatch(registrationFailure(message.message)); //  // Extract message message from the response

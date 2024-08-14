@@ -8,6 +8,7 @@ import {
   LoginModal,
   NewPassModal,
   OtpModal,
+  RegisrationModal,
 } from "../UserControls";
 
 function NavbarComp() {
@@ -79,7 +80,7 @@ function NavbarComp() {
                   Login
                 </button>
               </NavLink>
-              <NavLink to="/register">
+              <NavLink onClick={() => handleShow("register")}>
                 <button
                   className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
                 >
@@ -114,6 +115,11 @@ function NavbarComp() {
         </Container>
       </Navbar>
 
+      <RegisrationModal
+        show={showModal === "register"}
+        handleClose={handleClose}
+        handleShow={handleShow}
+      />
       <LoginModal
         show={showModal === "login"}
         handleClose={handleClose}
