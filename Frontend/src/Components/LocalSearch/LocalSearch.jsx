@@ -15,11 +15,12 @@ const LocalSearch = () => {
         await dispatch(getNews(searchQuery));
       } else if (location.pathname.includes("/entertainment")) {
         let category = "";
-        if (currentSidebar === "" || currentSidebar === "Movies") {
-          category = "movie";
-        } else {
+        if (currentSidebar === "TV") {
           category = "tv";
+        } else {
+          category = "movie";
         }
+        console.log(category);
         let payload = {
           category,
           searchQuery,
@@ -35,10 +36,10 @@ const LocalSearch = () => {
         await dispatch(getNews(searchQuery));
       } else if (location.pathname.includes("/entertainment")) {
         let category = "";
-        if (currentSidebar === "" || currentSidebar === "Movies") {
-          category = "movie";
-        } else {
+        if (currentSidebar === "TV") {
           category = "tv";
+        } else {
+          category = "movie";
         }
         let payload = {
           category,
