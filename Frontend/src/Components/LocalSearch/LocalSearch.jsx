@@ -1,11 +1,13 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const LocalSearch = ({ query, handleChange, handleSubmitNews }) => {
+const LocalSearch = ({ query, handleChange }) => {
+  const handleSubmitNews = (e) =>{
+    e.preventDefault()
+  }
   return (
     <div>
-      <Form onSubmit={handleSubmitNews} className="d-flex">
-        {/* <Form.Label htmlFor="searchQuery"></Form.Label> */}
+      {/* <Form onSubmit={handleSubmitNews} className="d-flex">
         <Form.Control
           type="text"
           placeholder="Search"
@@ -18,7 +20,7 @@ const LocalSearch = ({ query, handleChange, handleSubmitNews }) => {
         <button type="submit" className="btn btn-outline-primary">
           Submit
         </button>
-      </Form>
+      </Form> */}
     </div>
   );
 };

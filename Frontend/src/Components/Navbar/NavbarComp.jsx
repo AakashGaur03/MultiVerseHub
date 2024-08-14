@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   ForgotModal,
   LoginModal,
+  LogoutModal,
   NewPassModal,
   OtpModal,
   RegisrationModal,
@@ -39,7 +40,7 @@ function NavbarComp() {
     setShowOTPForm(false);
     setShowPasswordRest(false);
   };
-  
+
   const handleShow = (modal) => {
     // Reset states before showing a modal to avoid conflicts
     // setShowEmailInput(false);
@@ -62,14 +63,14 @@ function NavbarComp() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+            {/* <Nav className="me-auto">
               <Nav.Link className={textColor} href="#home">
                 Home
               </Nav.Link>
               <Nav.Link className={textColor} href="#link">
                 Link
               </Nav.Link>
-            </Nav>
+            </Nav> */}
           </Navbar.Collapse>
           {!isLoggedIn && (
             <>
@@ -91,7 +92,7 @@ function NavbarComp() {
           )}
           {isLoggedIn && (
             <>
-              <NavLink to="/logout">
+              <NavLink onClick={() => handleShow("logout")}>
                 <button
                   className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
                 >
@@ -125,8 +126,12 @@ function NavbarComp() {
         handleClose={handleClose}
         handleForgot={() => {
           handleShow("forgot");
-          setShowEmailInput(true)
+          setShowEmailInput(true);
         }}
+      />
+      <LogoutModal
+        show={showModal === "logout"}
+        handleClose={handleClose}
       />
       <ForgotModal
         show={showModal === "forgot"}
