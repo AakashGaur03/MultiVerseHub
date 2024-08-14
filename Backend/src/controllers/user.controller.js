@@ -941,6 +941,11 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         let nowPlaying
         let upcoming
         let popular
+        let searchResult
+
+        if (oldData.search_result) {
+          searchResult = oldData.search_result
+        }
 
         if (oldData.top_rated.page != topRatedPage) {
           topRated = {
@@ -984,6 +989,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         }
 
         responseData = {
+          search_result:searchResult,
           top_rated: topRated,
           popular: popular,
           now_playing: nowPlaying,
@@ -1046,6 +1052,11 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
         let airingTodayTv
         let popularTv
         let topRatedTv
+        let searchResult
+
+        if (oldData.search_result) {
+          searchResult = oldData.search_result
+        }
 
         if (oldData.on_the_air.page != onTheAirPageTv) {
           onTheAirTv = {
@@ -1089,6 +1100,7 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
         }
 
         responseData = {
+          search_result: searchResult,
           top_rated: topRatedTv,
           popular: popularTv,
           on_the_air: onTheAirTv,
@@ -1174,6 +1186,45 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     return res.status(500).json(new ApiError(500, "Some Error occurred while fetching particulars data"));
   }
 });
+const getEntertainmentSearch = asyncHandler(async (req, res) => {
+  const { category, searchQuery } = req.body;
+  if (category === undefined) category = 'tv'
+  if (searchQuery === undefined) searchQuery = ''
+
+  try {
+    const options = {
+      method: "GET",
+      url: `https://api.themoviedb.org/3/search/${category}?query=${searchQuery}`,
+      headers: {
+        accept: "application/json",
+        Authorization:
+          `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
+      },
+    };
+
+    const response = await axios.request(options);
+
+    if (response) {
+      const responseData = response.data;
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { responseData },
+            `Search ${category} Data Fetched Successfully`
+          )
+        );
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, `Search API Failed to fetch ${searchQuery}`));
+    }
+  } catch (error) {
+    console.error(`Error fetching ${searchQuery} :`, error);
+    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Search API"));
+  }
+});
 
 
 // Categories top_rated,popular,now_playing
@@ -1203,6 +1254,7 @@ export {
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
   getEntertainmentParticularsData,
+  getEntertainmentSearch,
 };
 
 

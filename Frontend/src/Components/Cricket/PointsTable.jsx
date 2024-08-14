@@ -79,7 +79,7 @@ const PointsTable = () => {
   return (
     <>
       {dataPoints.length > 0 ? (
-        <div className="w-100">
+        <div className="w-full pl-0 md:pl-11">
           {dataPoints.map((group, index) => (
             <div key={index} className="mb-4">
               <h4>{group.groupName}</h4>

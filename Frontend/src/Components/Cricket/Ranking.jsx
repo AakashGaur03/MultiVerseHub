@@ -141,7 +141,7 @@ const Ranking = () => {
   };
 
   return (
-    <div className="w-100">
+    <div className="w-full pl-0 md:pl-11">
       <div className="mt-4">
         <Badge
           pill
@@ -253,7 +253,7 @@ const Ranking = () => {
                     <td>Loading...</td>
                   ) : (
                     <td>
-                      <img src={imageUrls[imageId]} alt="" />
+                      <img style={{maxHeight:"68px", maxWidth:"90px"}} src={imageUrls[imageId]} alt="" />
                     </td>
                   )}
                   <td>

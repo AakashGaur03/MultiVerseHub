@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    currentSidebar: ""
+    currentSidebar: "",
+    toggleClicked: false,
 };
 
 const sidebarSlice = createSlice({
@@ -10,10 +11,13 @@ const sidebarSlice = createSlice({
     reducers: {
         updateSidebar(state, action) {
             state.currentSidebar = action.payload;
+        },
+        toggleClicked(state, action) {
+            state.toggleClicked = action.payload;
         }
     }
 })
 
-export const { updateSidebar } = sidebarSlice.actions
+export const { updateSidebar, toggleClicked } = sidebarSlice.actions
 
 export default sidebarSlice.reducer;

@@ -10,9 +10,10 @@ import {
   getEntertainmentReducer,
   sidebarRecuer,
   getGamesAPIReducer,
+  getNewsAPIReducer,
 } from "../Features/index.js";
 
-export default configureStore({
+const store =  configureStore({
   reducer: {
     register: registerReducer,
     theme: themeReducer,
@@ -24,7 +25,10 @@ export default configureStore({
     getEntertainmentData: getEntertainmentReducer,
     sidebar: sidebarRecuer,
     games: getGamesAPIReducer,
+    news: getNewsAPIReducer,
 
     // other reducers...
   },
 });
+
+export default store;

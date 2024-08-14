@@ -5,7 +5,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { LocalSearch } from "../../index";
 
-const OptionContainer = ({ query, handleChange, handleSubmitNews }) => {
+const OptionContainer = () => {
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -57,9 +57,6 @@ const OptionContainer = ({ query, handleChange, handleSubmitNews }) => {
                 </NavLink>
               </Nav.Item>
               <LocalSearch
-                query={query}
-                handleChange={handleChange}
-                handleSubmitNews={handleSubmitNews}
               />
             </Nav>
           </div>

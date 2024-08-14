@@ -8,7 +8,7 @@ import ForgotModal from "./Modal/ForgotModal.jsx";
 import LoginModal from "./Modal/LoginModal.jsx";
 import NewPassModal from "./Modal/NewPassModal.jsx";
 import RegisrationModal from "./Modal/RegisrationModal.jsx";
-
+import LogoutModal from "./Modal/LogoutModal.jsx";
 export {
-    OtpForm, ForgotPassword, Login, Logout, Registration, NewPassModal, OtpModal, ForgotModal, LoginModal,RegisrationModal
+    OtpForm, ForgotPassword, Login, Logout, Registration, NewPassModal, OtpModal, ForgotModal, LoginModal, RegisrationModal, LogoutModal
 };

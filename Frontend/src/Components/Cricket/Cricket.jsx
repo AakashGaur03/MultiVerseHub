@@ -188,8 +188,8 @@ const Cricket = ({ setQuery }) => {
   };
 
   return (
-    <div className="overflow-y-auto">
-      <div className="flex overflow-y-auto">
+    <div className="overflow-y-auto pl-0 md:pl-11 ">
+      <div className="flex overflow-y-auto ">
         {cricketData.length > 0 ? (
           cricketData.map((data, index) => (
             <div className="min-w-52 me-4" md={4} key={index}>

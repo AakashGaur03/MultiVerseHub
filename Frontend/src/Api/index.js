@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = "http://localhost:8001"
-
+// import store from './../App/store'
 const API_URL = "https://multiversehub-backend.onrender.com"
 
 export const registerUserApi = async (userData) => {
@@ -82,8 +82,8 @@ export const getNewsAPIFunc = async (query) => {
   const response = await axios.get(
     `${API_URL}/api/v1/news/newsApi?query=${query}`
   );
-
-  return response;
+  console.log(response, "GHGHGHGHGHGHGHHG")
+  return response.data;
 };
 
 // export const getCricketAPIFunc = async (query) => {
@@ -193,6 +193,12 @@ export const getEntertainmentDataTVAPIFunc = async (payload) => {
 export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
   const response = await axios.get(
     `${API_URL}/api/v1/users/entertainmentParticularsApi/${payload.category}/${payload.id}`);
+  return response.data.data.responseData;
+};
+export const entertainmentSearchAPIFUNC = async (payload) => {
+  // console.log('Current store state:', store.getState());
+  const response = await axios.post(
+    `${API_URL}/api/v1/users/entertainmentSearch`, payload);
   return response.data.data.responseData;
 };
 

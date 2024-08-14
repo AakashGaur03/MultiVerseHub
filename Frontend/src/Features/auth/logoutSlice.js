@@ -48,6 +48,7 @@ export const logoutUser = (accessToken) => async (dispatch) => {
 
     dispatch(logoutSuccess(dispatchMessage));
     localStorage.setItem("accessToken","")
+    return response.data
   } catch (error) {
     console.log(error);
     let dispatchMessage = "";

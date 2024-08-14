@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEntertainmentDataMovieAPIFunc, getEntertainmentDataTVAPIFunc, getEntertainmentParticularsDataAPIFunc } from "../../Api";
+import { entertainmentSearchAPIFUNC, getEntertainmentDataMovieAPIFunc, getEntertainmentDataTVAPIFunc, getEntertainmentParticularsDataAPIFunc } from "../../Api";
 
 const initialState = {
     state: "idle",
@@ -7,7 +7,7 @@ const initialState = {
     entertainmentData: null,
     entertainmentDataTV: null,
     entertainmentParticularData: null,
-    entertainmentDataType: null,
+    entertainmenSearchData: null,
 }
 
 const getEntertainmentDataPISlice = createSlice({
@@ -18,6 +18,13 @@ const getEntertainmentDataPISlice = createSlice({
             state.state = "loading";
             state.error = null;
             state.entertainmentData = null;
+            state.entertainmentDataTV = null;
+        },
+        getEntertainmentDataearchStart(state) {
+            state.state = "loading";
+            state.error = null;
+            // state.entertainmentData = null;
+            // state.entertainmentDataTV = null;
         },
         getEntertainmentDataSuccess(state, action) {
             state.state = "success";
@@ -29,6 +36,26 @@ const getEntertainmentDataPISlice = createSlice({
             state.error = null;
             state.entertainmentDataTV = action.payload;
         },
+        getEntertainmentDataSearchSuccessTV(state, action) {
+            state.state = "success";
+            state.error = null;
+            state.entertainmenSearchData = action.payload;
+            state.entertainmentDataTV = {
+                ...state.entertainmentDataTV,
+                search_result: action.payload,
+            };
+        },
+        getEntertainmentDataSearchSuccessMovie(state, action) {
+            state.state = "success";
+            state.error = null;
+            console.log(action)
+            console.log(state)
+            state.entertainmentData = {
+                ...state.entertainmentData,
+                search_result: action.payload,
+            };
+            state.entertainmenSearchData = action.payload;
+        },
         getEntertainmentDataParticluarSuccess(state, action) {
             state.state = "success";
             state.error = null;
@@ -39,10 +66,14 @@ const getEntertainmentDataPISlice = createSlice({
             state.error = action.payload.message;
             state.entertainmentData = null;
         },
+        updateEntertainmentDataToRemoveSearchResult(state) {
+            state.entertainmentData = { ...state.entertainmentData, search_result: undefined };
+            state.entertainmentDataTV = { ...state.entertainmentDataTV, search_result: undefined };
+        }
     }
 })
 
-export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataTVSuccess, getEntertainmentDataParticluarSuccess, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
+export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataearchStart, getEntertainmentDataTVSuccess, getEntertainmentDataParticluarSuccess, getEntertainmentDataSearchSuccessTV, getEntertainmentDataSearchSuccessMovie, updateEntertainmentDataToRemoveSearchResult, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
 
 export const getEntertainmentDataMovie = (payload) => async (dispatch) => {
     try {
@@ -76,6 +107,27 @@ export const getEntertainmentParticularsData = (payload) => async (dispatch) => 
         const response = await getEntertainmentParticularsDataAPIFunc(payload);
         if (response) {
             dispatch(getEntertainmentDataParticluarSuccess(response));
+            return response;
+        }
+
+    } catch (error) {
+        dispatch(getEntertainmentDataFailure(error));
+    }
+}
+export const getEntertainmentSearchData = (payload) => async (dispatch, getState) => {
+    try {
+        dispatch(getEntertainmentDataearchStart());
+        const response = await entertainmentSearchAPIFUNC(payload);
+        if (response) {
+            if (payload.searchQuery !== "") {
+                if (payload.category === 'tv') {
+                    dispatch(getEntertainmentDataSearchSuccessTV(response));
+                } else {
+                    dispatch(getEntertainmentDataSearchSuccessMovie(response));
+                }
+            } else {
+                dispatch(updateEntertainmentDataToRemoveSearchResult(response));
+            }
             return response;
         }
 

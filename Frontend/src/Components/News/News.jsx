@@ -5,11 +5,14 @@ import { getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../GlobalComp/formatDate";
 
-const News = ({ query }) => {
-  const [newsData, setNewsData] = useState([]);
+const News = () => {
+  // const [newsData, setNewsData] = useState([]);
 
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
+  );
+  const newsDataNew = useSelector(
+    (state) => state.news?.data?.data?.responseData?.results
   );
   useEffect(() => {
     handleNewsUpdate();
@@ -18,8 +21,10 @@ const News = ({ query }) => {
   const handleNewsUpdate = async () => {
     const response = await dispatch(getNews(activeSidebarItem));
     if (response) {
-      setNewsData(response.data.data.responseData.results);
+      // setNewsData(response.data.responseData.results);
     }
+    // console.log(newsData,"fg")
+    console.log(newsDataNew)
   };
 
   const [financeNews, setFinanceNews] = useState([]);
@@ -27,16 +32,16 @@ const News = ({ query }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getNews("finance")).then((response) => {
-      setFinanceNews(response.data.data.responseData.results);
+      setFinanceNews(response.data.responseData.results);
     });
   }, []);
   return (
-    <div className="w-full">
+    <div className="w-full pl-0 md:pl-11">
       <Row>
         <Col md={8} style={{minWidth:"66.66666667%"}}>
-          {newsData.length > 0 ? (
+          {newsDataNew?.length > 0 ? (
             <>
-              {newsData.slice(0, 9).map((news, index) => (
+              {newsDataNew?.slice(0, 9).map((news, index) => (
                 <div key={index}>
                   <CustomCard
                     index={index}

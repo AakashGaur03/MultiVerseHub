@@ -6,7 +6,7 @@ import loginReducer, { loginUser } from "./auth/loginSlice.js";
 
 import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
-import sidebarRecuer, { updateSidebar } from "./Components/sidebarSlice.js"
+import sidebarRecuer, { updateSidebar ,toggleClicked } from "./Components/sidebarSlice.js"
 
 import getCurrentStatusReducer, {
   fetchCurrentStatusUser,
@@ -32,8 +32,7 @@ import getCricketAPIReducer, {
   getUploadImageCloudinary,
   getCricketImageDB,
 } from "./APIReducers/getCricketAPISlice.js";
-import getEntertainmentReducer, { getEntertainmentDataMovie, getEntertainmentParticularsData, getEntertainmentDataTV } from "./APIReducers/entertainmentSlice.js";
-
+import getEntertainmentReducer, { getEntertainmentDataMovie, getEntertainmentParticularsData, getEntertainmentDataTV, getEntertainmentSearchData } from "./APIReducers/entertainmentSlice.js";
 export {
   registerReducer,
   themeReducer,
@@ -65,8 +64,10 @@ export {
   getEntertainmentDataTV,
   getEntertainmentParticularsData,
   updateSidebar,
+  toggleClicked,
   getGamesAPIReducer,
   // getGamesSectionData,
   getGamesSectionDataCategoryWise,
   getGamesParticularsData,
+  getEntertainmentSearchData,
 };

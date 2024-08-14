@@ -24,6 +24,7 @@ import {
   getEntertainmentParticularsData,
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
+  getEntertainmentSearch,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -69,6 +70,7 @@ router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
 router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
 router.route("/entertainmentTVApi").post(getEntertainmentDataTV);
-router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData);
+router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData); 
+router.route("/entertainmentSearch").post(getEntertainmentSearch); 
 
 export default router;

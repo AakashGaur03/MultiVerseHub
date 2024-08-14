@@ -30,49 +30,13 @@ import { useDispatch } from "react-redux";
 import { updateSidebar } from "./Features";
 import { useEffect, useState } from "react";
 import ThemeProvider from "./ThemeProvider";
+import { getSidebarItems } from "./GlobalComp/sidebarItem";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
-  const getSidebarItems = () => {
-    if (location.pathname.includes("/news")) {
-      return [
-        { title: "World", path: "/" },
-        { title: "Business", path: "/business" },
-        { title: "Sports", path: "/sports" },
-        { title: "Entertainment", path: "/entertainment" },
-        { title: "Education", path: "/education" },
-        { title: "Technology", path: "/technology" },
-      ];
-    } else if (location.pathname.includes("/cricket")) {
-      return [
-        { title: "All", path: "/" },
-        { title: "International", path: "/International" },
-        { title: "League", path: "/League" },
-        { title: "Domestic", path: "/Domestic" },
-        { title: "Women", path: "/Women" },
-        { title: "Rankings", path: "/Rankings" },
-      ];
-    } else if (location.pathname.includes("/entertainment")) {
-      return [
-        { title: "Movies", path: "/" },
-        { title: "TV", path: "/tv" },
-      ];
-    }
-    //  else if (location.pathname.includes("/games")) {
-    //   return [
-    //     { title: "Car", path: "/" },
-    //     { title: "Bike", path: "/Bike" },
-    //     { title: "Brain", path: "/Brain" },
-    //     { title: "Truck", path: "/Truck" },
-    //   ];
-    // }
-     else {
-      return [];
-    }
-  };
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
   useEffect(() => {
@@ -116,16 +80,19 @@ function App() {
     <>
       <ThemeProvider>
         {/* <Router> */}
-        <NavbarComp />
-        <OptionContainer query={query} handleChange={handleChange} />
+        <NavbarComp setQuery={setQuery}/>
+        <OptionContainer />
         <Container fluid className="restOfComponets">
           <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
+            <div className="d-lg-block d-none ">
             {sidebarItemsActive && (
               <Sidebar
                 items={sidebarItems}
                 handleItemClick={handleSidebarClick}
               />
             )}
+            </div>
+
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route

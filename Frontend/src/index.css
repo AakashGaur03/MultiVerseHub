@@ -44,18 +44,24 @@ body {
 }
 
 .posFixedAtTop {
-  z-index: 5;
+  z-index: 25;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
 }
 .posFixedAtTop + .restOfComponets {
-  padding-top: 50px;
+  /* padding-top: 50px; */
 }
 
+.sidebarColor {
+  background: linear-gradient(90deg, black, #616161);
+}
+
+.sidebarBoxShadow {
+  box-shadow: 20px 11px 20px 20px #292929;
+}
 .sidebarFixedSide {
-  position: fixed;
   display: flex;
   flex-direction: column;
   text-align: center;

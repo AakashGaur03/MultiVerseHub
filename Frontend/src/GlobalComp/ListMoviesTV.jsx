@@ -118,16 +118,17 @@ const ListMoviesTv = ({
             <div>No Data to Show</div>
           )}
 
-          {ListData.page < Math.min(ListData.total_pages, 500) && (
-            <div className="w-max flex items-center">
-              <Button
-                variant="secondary"
-                onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
-              >
-                Load More
-              </Button>
-            </div>
-          )}
+          {Heading !== "Search Results" &&
+            ListData.page < Math.min(ListData.total_pages, 500) && (
+              <div className="w-max flex items-center">
+                <Button
+                  variant="secondary"
+                  onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
+                >
+                  Load More
+                </Button>
+              </div>
+            )}
         </div>
       </div>
     </div>
