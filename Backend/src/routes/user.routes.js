@@ -12,15 +12,15 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   verifyOTP,
-  getRecentCricket,
   getWeathter,
   getWordOfTheDay,
-  getCricketImageCB,
-  getCricketPointsTable,
-  getCricketRankings,
+  // getRecentCricket,
+  // getCricketImageCB,
+  // getCricketPointsTable,
+  // getCricketRankings,
+  // getCricketNewsCB,
   uploadImageCloudinary,
   getImageFromDB,
-  getCricketNewsCB,
   getEntertainmentParticularsData,
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
@@ -59,18 +59,18 @@ router
   .route("/avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
-router.route("/cricketApi").get(getRecentCricket);
-router.route("/cricketnewscb").get(getCricketNewsCB);
-router.route("/:id/pointsTable").get(getCricketPointsTable);
+// router.route("/cricketApi").get(getRecentCricket);
+// router.route("/cricketnewscb").get(getCricketNewsCB);
+// router.route("/:id/pointsTable").get(getCricketPointsTable);
+// router.route("/cricketImageApi").get(getCricketImageCB);
+// router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRankings);
 router.route("/uploadImagetoCloudinary").post(uploadImageCloudinary);
 router.route("/getImageFromDB").post(getImageFromDB);
-router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRankings);
-router.route("/cricketImageApi").get(getCricketImageCB);
 router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
 router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
 router.route("/entertainmentTVApi").post(getEntertainmentDataTV);
-router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData); 
-router.route("/entertainmentSearch").post(getEntertainmentSearch); 
+router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData);
+router.route("/entertainmentSearch").post(getEntertainmentSearch);
 
 export default router;

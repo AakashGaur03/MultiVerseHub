@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const API_URL = "http://localhost:8001"
+const API_URL = "http://localhost:8001"
 // import store from './../App/store'
-const API_URL = "https://multiversehub-backend.onrender.com"
+// const API_URL = "https://multiversehub-backend.onrender.com"
 
 export const registerUserApi = async (userData) => {
   const response = await axios.post(
@@ -89,7 +89,7 @@ export const getNewsAPIFunc = async (query) => {
 // export const getCricketAPIFunc = async (query) => {
 //   if (query === "") query = "recent";
 //   const response = await axios.get(
-//     `${API_URL}/api/v1/users/cricketApi/${query}`
+//     `${API_URL}/api/v1/cricket/cricketApi/${query}`
 //   );
 //   return response
 // };
@@ -98,7 +98,7 @@ export const getCricketAPIFunc = async (query) => {
   if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `${API_URL}/api/v1/users/cricketApi`
+    `${API_URL}/api/v1/cricket/cricketApi`
   );
   return response.data;
 };
@@ -106,7 +106,7 @@ export const getCricketPointsTableAPIFunc = async (seriesId) => {
   // if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `${API_URL}/api/v1/users/${seriesId}/pointsTable`
+    `${API_URL}/api/v1/cricket/${seriesId}/pointsTable`
   );
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
@@ -115,7 +115,7 @@ export const getCricketNewsCBAPIFunc = async () => {
   // if (query === "") query = "recent";
   // console.log(query, "ff");
   const response = await axios.get(
-    `${API_URL}/api/v1/users/cricketnewscb`
+    `${API_URL}/api/v1/cricket/cricketnewscb`
   );
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
@@ -123,7 +123,7 @@ export const getCricketNewsCBAPIFunc = async () => {
 export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
   // console.log(isWomen,"isWomenisWomenisWomen")
   // console.log(category,"categorycategorycategory")
-  let url = `${API_URL}/api/v1/users/cricketRankings/${format}/${category}`;
+  let url = `${API_URL}/api/v1/cricket/cricketRankings/${format}/${category}`;
   if (isWomen !== undefined && isWomen !== "") {
     url += `/${isWomen}`;
   }
@@ -157,7 +157,7 @@ export const getImageDBFunc = async (faceImageID) => {
 
 export const getCricketImageCBAPIFunc = async (query) => {
   const response = await axios.get(
-    `${API_URL}/api/v1/users/cricketImageApi?query=${query}`
+    `${API_URL}/api/v1/cricket/cricketImageApi?query=${query}`
   );
   // return response.data;
   // console.log(response.data,"asasasasasasass")
