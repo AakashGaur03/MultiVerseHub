@@ -152,7 +152,7 @@ const Cricket = ({ setQuery }) => {
     };
 
     updateCricketData();
-  }, [activeSidebarItem]);
+  }, [activeSidebarItem, typeMatches]);
   useEffect(() => {
     getCricketNews();
   }, []);
