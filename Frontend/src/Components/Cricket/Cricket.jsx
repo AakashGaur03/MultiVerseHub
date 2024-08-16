@@ -192,7 +192,8 @@ const Cricket = ({ setQuery }) => {
   const generateRedirectLink = (id, headLine) => {
     let splitHLine = headLine.split(" ");
     let joinedHLine = splitHLine.join("-");
-    let url = `https://www.cricbuzz.com/cricket-news/${id}/${joinedHLine}`;
+    let finalUrl = joinedHLine.replace(",","")
+    let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
     return url;
   };
 
