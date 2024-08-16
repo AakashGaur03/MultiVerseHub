@@ -1,8 +1,6 @@
 import axios from "axios";
+import { API_URL } from "./URL";
 
-// const API_URL = "http://localhost:8001"
-// import store from './../App/store'
-const API_URL = "https://multiversehub-backend.onrender.com"
 
 export const registerUserApi = async (userData) => {
   const response = await axios.post(
@@ -130,6 +128,18 @@ export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
   const response = await axios.get(url);
   return response.data.data.responseData;
 };
+export const getCricketSearchPlayerAPIFunc = async (payload) => {
+  const response = await axios.post(
+    `${API_URL}/api/v1/cricket/searchPlayer`, payload
+  );
+  return response.data.data.responseData;
+};
+export const getCricketPlayerInfoAPIFunc = async (payload) => {
+  const response = await axios.post(
+    `${API_URL}/api/v1/cricket/playerInfo`, payload
+  );
+  return response.data.data.responseData;
+};
 export const getUploadImageCloudinaryFunc = async (imageUrl, faceImageID) => {
   // console.log("Request to backend with image URL:", imageUrl);
   const payload = { imageUrl, faceImageID };
@@ -196,7 +206,6 @@ export const getEntertainmentParticularsDataAPIFunc = async (payload) => {
   return response.data.data.responseData;
 };
 export const entertainmentSearchAPIFUNC = async (payload) => {
-  // console.log('Current store state:', store.getState());
   const response = await axios.post(
     `${API_URL}/api/v1/users/entertainmentSearch`, payload);
   return response.data.data.responseData;

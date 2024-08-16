@@ -87,4 +87,4 @@ FLOW OF API
 ---------BACKEND----------------  
 user.controller -> user.routes -> 
 ------------------------------------FRONTEND------------------------------------------
-index.js(API) -> index.js(Features) -> slice -> File where to use import from Features
+index.js(API) -> slice -> index.js(Features)  -> File where to use import from Features

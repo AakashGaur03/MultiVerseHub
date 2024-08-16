@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCricketAPIFunc, getCricketPointsTableAPIFunc, getCricketImageCBAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc, getImageDBFunc, getCricketNewsCBAPIFunc } from "../../Api";
+import { getCricketAPIFunc, getCricketPointsTableAPIFunc, getCricketImageCBAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc, getImageDBFunc, getCricketNewsCBAPIFunc, getCricketSearchPlayerAPIFunc, getCricketPlayerInfoAPIFunc } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
   data: null,
+  searchPlayer: null,
+  playerInfo: null,
 };
 const getCricketAPISlice = createSlice({
   name: "getCricketAPI",
@@ -13,6 +15,7 @@ const getCricketAPISlice = createSlice({
       state.status = "loading";
       state.error = null;
       state.data = null;
+      state.searchPlayer = null;
     },
     getCricketSuccess(state, action) {
       state.status = "News Fetched";
@@ -24,10 +27,20 @@ const getCricketAPISlice = createSlice({
       state.error = action.payload;
       state.data = null;
     },
+    getCricketSearchPlayerSuccess(state, action) {
+      state.status = "Player Info Fetched";
+      state.error = null;
+      state.searchPlayer = action.payload;
+    },
+    getCricketPlayerInfoSuccess(state, action) {
+      state.status = "Player Info Fetched";
+      state.error = null;
+      state.playerInfo = action.payload;
+    },
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -120,6 +133,32 @@ export const getCricketImageDB = (faceImageID) => async (dispatch) => {
     dispatch(getCricketFailure(error.message));
   }
 };
+export const getcricketSearchPlayer = (payload) => async (dispatch) => {
+  try {
+    dispatch(getCricketStart());
+    const response = await getCricketSearchPlayerAPIFunc(payload);
+    if (response) {
+      dispatch(getCricketSearchPlayerSuccess(response));
+      return response;
+    }
+
+  } catch (error) {
+    dispatch(getCricketFailure(error));
+  }
+}
+export const getcricketPlayerInfo = (payload) => async (dispatch) => {
+  try {
+    dispatch(getCricketStart());
+    const response = await getCricketPlayerInfoAPIFunc(payload);
+    if (response) {
+      dispatch(getCricketPlayerInfoSuccess(response));
+      return response;
+    }
+
+  } catch (error) {
+    dispatch(getCricketFailure(error));
+  }
+}
 
 export default getCricketAPISlice.reducer;
 

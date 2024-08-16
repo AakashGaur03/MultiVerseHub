@@ -208,6 +208,86 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Image"));
     }
 });
+const getCricketSearchPlayer = asyncHandler(async (req, res) => {
+    const { playeraName } = req.body;
+    try {
+        const options = {
+            method: 'GET',
+            url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/search',
+            params: { plrN: `${playeraName}` },
+            headers: {
+                'x-rapidapi-key': process.env.CRICKET_API_KEY,
+                'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+            }
+        };
+        const response = await axios.request(options);
+
+
+        if (response) {
+            const responseData = response.data;
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(
+                        200,
+                        { responseData },
+                        "Player's Info Fetched Successfully"
+                    )
+                );
+        } else {
+            return res
+                .status(400)
+                .json(new ApiError(400, "Player indo API Failed to fetch data"));
+        }
+    } catch (error) {
+        console.error("Error fetching Player info:", error);
+        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
+    }
+});
+const getCricketPlayerInfo = asyncHandler(async (req, res) => {
+    const { playerId } = req.body
+    const urls = [
+        `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/career`,
+        `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/bowling`,
+        `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/batting`,
+        `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}`,
+    ]
+
+    const options = {
+        method: "GET",
+        headers: {
+            'x-rapidapi-key': process.env.CRICKET_API_KEY,
+            'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+        }
+    };
+    try {
+        const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
+        let responseData = []
+        if (response1 && response2 && response3 && response4) {
+            const responseData1 = response1.data;
+            const responseData2 = response2.data;
+            const responseData3 = response3.data;
+            const responseData4 = response4.data;
+            responseData = { career: responseData1, bowling: responseData2, batting: responseData3, info: responseData4 }
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(
+                        200,
+                        { responseData },
+                        "Player Info API Fetched Successfully"
+                    )
+                );
+        } else {
+            return res
+                .status(400)
+                .json(new ApiError(400, "Player Info API failed to fetch Data"));
+        }
+    } catch (error) {
+        console.error("Error fetching Player info:", error);
+        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
+    }
+});
 
 
 export {
@@ -216,4 +296,6 @@ export {
     getCricketNewsCB,
     getCricketRankings,
     getCricketImageCB,
+    getCricketSearchPlayer,
+    getCricketPlayerInfo,
 }

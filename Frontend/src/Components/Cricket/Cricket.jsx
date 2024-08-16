@@ -7,6 +7,7 @@ import {
   getCricket,
   getCricketImageCBs,
   getCricketNewsCBs,
+  getcricketPlayerInfo,
   getCricketPointsTable,
   getCricketRanking,
 } from "../../Features";
@@ -60,6 +61,14 @@ const Cricket = ({ setQuery }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    let payload = {
+      playerId: 1413,
+    };
+    dispatch(getcricketPlayerInfo(payload));
+  }, []);
+
 
   useEffect(() => {
     dispatch(getCricket()).then((response) => {

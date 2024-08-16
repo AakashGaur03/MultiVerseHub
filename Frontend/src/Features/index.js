@@ -31,6 +31,8 @@ import getCricketAPIReducer, {
   getCricketRanking,
   getUploadImageCloudinary,
   getCricketImageDB,
+  getcricketSearchPlayer,
+  getcricketPlayerInfo,
 } from "./APIReducers/getCricketAPISlice.js";
 import getEntertainmentReducer, { getEntertainmentDataMovie, getEntertainmentParticularsData, getEntertainmentDataTV, getEntertainmentSearchData } from "./APIReducers/entertainmentSlice.js";
 export {
@@ -59,6 +61,8 @@ export {
   getCricketRanking,
   getUploadImageCloudinary,
   getCricketImageDB,
+  getcricketSearchPlayer,
+  getcricketPlayerInfo,
   getEntertainmentReducer,
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
