@@ -20,6 +20,9 @@ const Cricket = ({ setQuery }) => {
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
+
+  const matchData = useSelector((state) => state.cricket.matchData);
+
   const [typeMatches, setTypeMatches] = useState([]);
   const [cricketData, setCricketData] = useState([]);
   const [newCricketData, setNewCricketData] = useState([]);
@@ -66,60 +69,74 @@ const Cricket = ({ setQuery }) => {
     let payload = {
       playerId: 1413,
     };
-    dispatch(getcricketPlayerInfo(payload));
+    // dispatch(getcricketPlayerInfo(payload));
   }, []);
 
 
-  useEffect(() => {
-    dispatch(getCricket()).then((response) => {
-      const typeMatches = response.data.responseData.typeMatches;
-      setTypeMatches(typeMatches);
-      let InterMatches = typeMatches.find(
-        (match) => match.matchType == "International"
-      );
-      let WomenMatches = typeMatches.find(
-        (match) => match.matchType == "Women"
-      );
-      let LeagueMatches = typeMatches.find(
-        (match) => match.matchType == "League"
-      );
-
-      let IntlMatches = InterMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
-
-      let LegMatches = LeagueMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
-
-      let WomMatches = WomenMatches.seriesMatches
-        .filter((match) => match.seriesAdWrapper)
-        .slice(0, 2); // It slices number of series to 2
-
-      let newCricketData2 = [];
-
-      // Adding International matches to newCricketData2
-      LegMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-      IntlMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-      WomMatches.forEach((match) => {
-        if (Array.isArray(match.seriesAdWrapper.matches)) {
-          newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2)); // It slices mathces in series to 2
-        }
-      });
-
-      // Update the state once with all the data
+  const callThisFunc = () => {
+    let InterMatches = typeMatches?.find(
+      (match) => match.matchType === "International"
+    );
+    let WomenMatches = typeMatches?.find((match) => match.matchType === "Women");
+    let LeagueMatches = typeMatches?.find(
+      (match) => match.matchType === "League"
+    );
+  
+    let IntlMatches = InterMatches?.seriesMatches
+      .filter((match) => match.seriesAdWrapper)
+      .slice(0, 2);
+  
+    let LegMatches = LeagueMatches?.seriesMatches
+      .filter((match) => match.seriesAdWrapper)
+      .slice(0, 2);
+  
+    let WomMatches = WomenMatches?.seriesMatches
+      .filter((match) => match.seriesAdWrapper)
+      .slice(0, 2);
+  
+    let newCricketData2 = [];
+  
+    LegMatches?.forEach((match) => {
+      if (Array.isArray(match.seriesAdWrapper.matches)) {
+        newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2));
+      }
+    });
+    IntlMatches?.forEach((match) => {
+      if (Array.isArray(match.seriesAdWrapper.matches)) {
+        newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2));
+      }
+    });
+    WomMatches?.forEach((match) => {
+      if (Array.isArray(match.seriesAdWrapper.matches)) {
+        newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2));
+      }
+    });
+  
+    setTimeout(() => {
       setCricketData(newCricketData2);
       setNewCricketData(newCricketData2);
-    });
-  }, []);
+    }, 0);
+  };
+  
+
+  useEffect(() => {
+    if (matchData?.data?.responseData?.typeMatches?.length > 0) {
+      const thistypeMatches = matchData?.data?.responseData?.typeMatches;
+      setTypeMatches(thistypeMatches);
+    } else {
+      if (!matchData) {
+        dispatch(getCricket());
+      }
+    }
+  }, [matchData]);
+  
+  useEffect(() => {
+    if (typeMatches?.length > 0) {
+      callThisFunc();
+    }
+  }, [typeMatches]);
+  
+
   useEffect(() => {
     const updateCricketData = async () => {
       if (activeSidebarItem === "All") {
@@ -162,6 +179,7 @@ const Cricket = ({ setQuery }) => {
 
     updateCricketData();
   }, [activeSidebarItem, typeMatches]);
+
   useEffect(() => {
     getCricketNews();
   }, []);
@@ -192,7 +210,7 @@ const Cricket = ({ setQuery }) => {
   const generateRedirectLink = (id, headLine) => {
     let splitHLine = headLine.split(" ");
     let joinedHLine = splitHLine.join("-");
-    let finalUrl = joinedHLine.replace(",","")
+    let finalUrl = joinedHLine.replace(",", "");
     let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
     return url;
   };

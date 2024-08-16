@@ -4,6 +4,9 @@ const initialState = {
   status: "idle",
   error: null,
   data: null,
+  matchData: null,
+  newsData: null,
+  rankingData: null,
   searchPlayer: null,
   playerInfo: null,
 };
@@ -21,6 +24,11 @@ const getCricketAPISlice = createSlice({
       state.status = "News Fetched";
       state.error = null;
       state.data = action.payload;
+    },
+    getCricketMatchSuccess(state, action) {
+      state.status = "News Fetched";
+      state.error = null;
+      state.matchData = action.payload;
     },
     getCricketFailure(state, action) {
       state.status = "failed";
@@ -40,7 +48,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess ,getCricketMatchSuccess } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -48,7 +56,7 @@ export const getCricket = (query) => async (dispatch) => {
     dispatch(getCricketStart());
     const response = await getCricketAPIFunc(query);
     if (response) {
-      dispatch(getCricketSuccess(response));
+      dispatch(getCricketMatchSuccess(response));
       return response;
     }
   } catch (error) {
