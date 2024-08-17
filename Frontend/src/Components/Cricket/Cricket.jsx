@@ -142,19 +142,7 @@ const Cricket = ({ setQuery }) => {
       if (activeSidebarItem === "All") {
         setCricketData(newCricketData);
       } else if (activeSidebarItem === "Rankings") {
-        if (rankingData.length <= 0) {
-          const response = await dispatch(
-            getCricketRanking("odi", "", "allrounders")
-          );
-          setRankingData(response);
-          navigate(`ranking`, {
-            state: { rankingsData: response },
-          });
-        } else {
-          navigate(`ranking`, {
-            state: { rankingsData: rankingData },
-          });
-        }
+        navigate(`ranking`)
       } else {
         let InterMatches = typeMatches.find(
           (match) => match.matchType == activeSidebarItem

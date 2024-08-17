@@ -105,14 +105,15 @@ export const getCricketNewsCBs = () => async (dispatch) => {
     dispatch(getCricketFailure(error.message));
   }
 };
-export const getCricketRanking = (format, isWomen, category) => async (dispatch) => {
+export const getCricketRanking = (payload) => async (dispatch) => {
   try {
+    console.log(payload,"ffffffffffffffffffff")
     dispatch(getCricketStart());
-    console.log("object22")
-    console.log(format, "format")
-    console.log(isWomen, "isWomen")
-    console.log(category, "category")
-    const response = await getCricketRankingAPIFunc(format, isWomen, category);
+    // console.log("object22")
+    // console.log(format, "format")
+    // console.log(isWomen, "isWomen")
+    // console.log(category, "category")
+    const response = await getCricketRankingAPIFunc(payload);
     if (response) {
       dispatch(getCricketSuccess(response));
       return response;

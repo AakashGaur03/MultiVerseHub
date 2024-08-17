@@ -118,14 +118,8 @@ export const getCricketNewsCBAPIFunc = async () => {
   // console.log(response.data,"asasasasasasass")
   return response.data.data.responseData;
 };
-export const getCricketRankingAPIFunc = async (format, isWomen, category) => {
-  // console.log(isWomen,"isWomenisWomenisWomen")
-  // console.log(category,"categorycategorycategory")
-  let url = `${API_URL}/api/v1/cricket/cricketRankings/${format}/${category}`;
-  if (isWomen !== undefined && isWomen !== "") {
-    url += `/${isWomen}`;
-  }
-  const response = await axios.get(url);
+export const getCricketRankingAPIFunc = async (payload) => {
+  const response = await axios.post(`${API_URL}/api/v1/cricket/cricketRankings`, payload);
   return response.data.data.responseData;
 };
 export const getCricketSearchPlayerAPIFunc = async (payload) => {

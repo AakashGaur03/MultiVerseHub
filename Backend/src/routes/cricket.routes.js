@@ -10,7 +10,7 @@ router.route("/cricketApi").get(getRecentCricket);
 router.route("/cricketnewscb").get(getCricketNewsCB);
 router.route("/:id/pointsTable").get(getCricketPointsTable);
 router.route("/cricketImageApi").get(getCricketImageCB);
-router.route("/cricketRankings/:format/:category/:isWomen?").get(getCricketRankings);
+router.route("/cricketRankings").post(getCricketRankings);
 router.route("/searchPlayer").post(getCricketSearchPlayer);
 router.route("/playerInfo").post(getCricketPlayerInfo);
 

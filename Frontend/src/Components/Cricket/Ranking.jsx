@@ -77,44 +77,6 @@ const Ranking = () => {
       // await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
     }
   };
-
-  // const getImageUrl = async (imageId) => {
-  //   if (!imageUrls[imageId]) {
-  //     try {
-  //       const imageDB = await dispatch(getCricketImageDB(imageId));
-  //       if (imageDB) {
-  //         setImageUrls((prevState) => ({
-  //           ...prevState,
-  //           [imageId]: imageDB.secureUrl,
-  //         }));
-  //       } else {
-  //         const response = await dispatch(getCricketImageCBs(imageId));
-  //         if (response) {
-  //           setImageUrls((prevState) => ({
-  //             ...prevState,
-  //             [imageId]: response.imageUrl,
-  //           }));
-  //           await dispatch(
-  //             getUploadImageCloudinary(response.imageUrl, imageId)
-  //           );
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching image URL:", error);
-  //     } finally {
-  //       setLoadingImages((prevState) => ({
-  //         ...prevState,
-  //         [imageId]: false,
-  //       }));
-  //     }
-  //   } else {
-  //     setLoadingImages((prevState) => ({
-  //       ...prevState,
-  //       [imageId]: false,
-  //     }));
-  //   }
-  // };
-
   const updateSelectedFormat = (format) => {
     if (selectedGender === "women" && format === "test") {
       setSelectedFormat("odi");
@@ -125,12 +87,13 @@ const Ranking = () => {
 
   const callRankingApi = async () => {
     try {
+      let payload = {
+        format: selectedFormat,
+        category: selectedCategory,
+        isWomen: selectedGender === "women"? "1" : "",
+      }
       let response = await dispatch(
-        getCricketRanking(
-          selectedFormat,
-          selectedGender === "women" ? "1" : "",
-          selectedCategory
-        )
+        getCricketRanking(payload)
       );
       setRankingData(response);
       updateCache(response);

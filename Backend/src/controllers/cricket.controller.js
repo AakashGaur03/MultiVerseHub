@@ -113,12 +113,14 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
     try {
-        const { format, isWomen, category } = req.params;
+        const { format, isWomen, category } = req.body;
+        console.log("format :", format, "isWomen :", isWomen, "category :", category)
         // console.log(id,"getWordOfTheDayAPIFunc")
         const params = { formatType: format };
-        if (isWomen !== undefined) {
-            params.isWomen = isWomen === "1" ? "1" : "0";
+        if (isWomen == 1 ) {
+            params.isWomen = isWomen;
         }
+        console.log(params,"paramsparamsparams")
         const options = {
             method: "GET",
             url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/${category}`,
@@ -131,6 +133,7 @@ const getCricketRankings = asyncHandler(async (req, res) => {
         const response = await axios.request(options);
 
         if (response) {
+            console.log(response, "responseresponse")
             const responseData = response.data;
             responseData.format = format ? format : ""
             responseData.IsWomen = isWomen ? isWomen : ""
