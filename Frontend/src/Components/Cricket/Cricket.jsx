@@ -22,6 +22,7 @@ const Cricket = ({ setQuery }) => {
   );
 
   const matchData = useSelector((state) => state.cricket.matchData);
+  const newsData = useSelector((state) => state.cricket.newsData);
 
   const [typeMatches, setTypeMatches] = useState([]);
   const [cricketData, setCricketData] = useState([]);
@@ -32,7 +33,7 @@ const Cricket = ({ setQuery }) => {
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
-  const [validNews, setValidNews] = useState("");
+  const [validNews, setValidNews] = useState([]);
 
   const getPointsTable = async (id) => {
     try {
@@ -72,30 +73,31 @@ const Cricket = ({ setQuery }) => {
     // dispatch(getcricketPlayerInfo(payload));
   }, []);
 
-
   const callThisFunc = () => {
     let InterMatches = typeMatches?.find(
       (match) => match.matchType === "International"
     );
-    let WomenMatches = typeMatches?.find((match) => match.matchType === "Women");
+    let WomenMatches = typeMatches?.find(
+      (match) => match.matchType === "Women"
+    );
     let LeagueMatches = typeMatches?.find(
       (match) => match.matchType === "League"
     );
-  
+
     let IntlMatches = InterMatches?.seriesMatches
       .filter((match) => match.seriesAdWrapper)
       .slice(0, 2);
-  
+
     let LegMatches = LeagueMatches?.seriesMatches
       .filter((match) => match.seriesAdWrapper)
       .slice(0, 2);
-  
+
     let WomMatches = WomenMatches?.seriesMatches
       .filter((match) => match.seriesAdWrapper)
       .slice(0, 2);
-  
+
     let newCricketData2 = [];
-  
+
     LegMatches?.forEach((match) => {
       if (Array.isArray(match.seriesAdWrapper.matches)) {
         newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2));
@@ -111,13 +113,12 @@ const Cricket = ({ setQuery }) => {
         newCricketData2.push(...match.seriesAdWrapper.matches.slice(0, 2));
       }
     });
-  
+
     setTimeout(() => {
       setCricketData(newCricketData2);
       setNewCricketData(newCricketData2);
     }, 0);
   };
-  
 
   useEffect(() => {
     if (matchData?.data?.responseData?.typeMatches?.length > 0) {
@@ -129,13 +130,12 @@ const Cricket = ({ setQuery }) => {
       }
     }
   }, [matchData]);
-  
+
   useEffect(() => {
     if (typeMatches?.length > 0) {
       callThisFunc();
     }
   }, [typeMatches]);
-  
 
   useEffect(() => {
     const updateCricketData = async () => {
@@ -181,16 +181,24 @@ const Cricket = ({ setQuery }) => {
   }, [activeSidebarItem, typeMatches]);
 
   useEffect(() => {
+    if (newsData?.storyList.length > 0) {
+      let temp = newsData.storyList.filter((element) => element.story);
+      setValidNews(temp);
+      getCricketNews();
+    } else {
+      if (!newsData) {
+        dispatch(getCricketNewsCBs());
+      }
+    }
+  }, [newsData]);
+
+  useEffect(() => {
     getCricketNews();
   }, []);
 
   const getCricketNews = async () => {
-    const response = await dispatch(getCricketNewsCBs());
-    console.log(response, "HJ");
 
-    let temp = response.storyList.filter((element) => element.story);
-    setValidNews(temp);
-    temp.forEach((news, index) => {
+    validNews?.forEach((news, index) => {
       if (news.story.imageId) {
         // setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
         setTimeout(() => {

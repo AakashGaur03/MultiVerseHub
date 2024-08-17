@@ -30,6 +30,11 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.matchData = action.payload;
     },
+    getCricketNewsSuccess(state, action) {
+      state.status = "News Fetched";
+      state.error = null;
+      state.newsData = action.payload;
+    },
     getCricketFailure(state, action) {
       state.status = "failed";
       state.error = action.payload;
@@ -48,7 +53,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess ,getCricketMatchSuccess } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess ,getCricketMatchSuccess,getCricketNewsSuccess } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -92,7 +97,8 @@ export const getCricketNewsCBs = () => async (dispatch) => {
     dispatch(getCricketStart());
     const response = await getCricketNewsCBAPIFunc();
     if (response) {
-      dispatch(getCricketSuccess(response));
+      console.log(response,"RESPKINSKSK")
+      dispatch(getCricketNewsSuccess(response));
       return response;
     }
   } catch (error) {
