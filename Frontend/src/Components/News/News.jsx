@@ -19,12 +19,7 @@ const News = () => {
   }, [activeSidebarItem]);
 
   const handleNewsUpdate = async () => {
-    const response = await dispatch(getNews(activeSidebarItem));
-    if (response) {
-      // setNewsData(response.data.responseData.results);
-    }
-    // console.log(newsData,"fg")
-    console.log(newsDataNew)
+    await dispatch(getNews(activeSidebarItem));
   };
 
   const [financeNews, setFinanceNews] = useState([]);

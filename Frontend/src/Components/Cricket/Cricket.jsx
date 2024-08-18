@@ -142,7 +142,7 @@ const Cricket = ({ setQuery }) => {
       if (activeSidebarItem === "All") {
         setCricketData(newCricketData);
       } else if (activeSidebarItem === "Rankings") {
-        navigate(`ranking`)
+        navigate(`ranking`);
       } else {
         let InterMatches = typeMatches.find(
           (match) => match.matchType == activeSidebarItem
@@ -175,7 +175,9 @@ const Cricket = ({ setQuery }) => {
       getCricketNews();
     } else {
       if (!newsData) {
-        dispatch(getCricketNewsCBs());
+        setTimeout(() => {
+          dispatch(getCricketNewsCBs());
+        }, 500);
       }
     }
   }, [newsData]);
@@ -185,7 +187,6 @@ const Cricket = ({ setQuery }) => {
   }, []);
 
   const getCricketNews = async () => {
-
     validNews?.forEach((news, index) => {
       if (news.story.imageId) {
         // setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
@@ -200,7 +201,6 @@ const Cricket = ({ setQuery }) => {
         }, 1000);
       }
     });
-    console.log(validNews, "validNews");
   };
 
   const generateRedirectLink = (id, headLine) => {
