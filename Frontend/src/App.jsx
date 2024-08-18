@@ -54,7 +54,6 @@ function App() {
 
   useEffect(() => {
     if (location.pathname.includes("ranking")) {
-      console.log("heheheheh");
       hasIncludedRanking.current = true;
     }
 
@@ -77,7 +76,6 @@ function App() {
   }, [location.pathname, navigate, query]);
 
   const handleSidebarClick = async (category) => {
-    console.log(category);
     dispatch(updateSidebar(category));
     setQuery(category);
     if (location.pathname.includes("/cricket")) {

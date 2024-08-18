@@ -44,14 +44,12 @@ function NavbarComp({ setQuery }) {
   useEffect(() => {
     const items = getSidebarItems();
     setSidebarItems(items);
-    console.log(getSidebarItems());
     isToggleVisible();
   }, [location.pathname]);
 
   const [toggleBtnVisible, setToggleBtnVisible] = useState(false);
 
   const isToggleVisible = () => {
-    console.log("object");
     if (window.innerWidth > 992 || getSidebarItems().length === 0) {
       setToggleBtnVisible(false);
     } else {
@@ -96,7 +94,6 @@ function NavbarComp({ setQuery }) {
     dispatch(toggleClicked(false));
   };
   const handleSidebarClick = async (category) => {
-    console.log(category);
     dispatch(updateSidebar(category));
     setQuery(category);
     if (location.pathname.includes("/cricket")) {

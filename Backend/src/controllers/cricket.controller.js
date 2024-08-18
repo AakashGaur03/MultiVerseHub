@@ -113,14 +113,31 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
     try {
-        const { format, isWomen, category } = req.body;
-        console.log("format :", format, "isWomen :", isWomen, "category :", category)
-        // console.log(id,"getWordOfTheDayAPIFunc")
+        const { format, isWomen, category, prevData } = req.body;
+        const responseName = `${format}${isWomen}${category}`
+
+        if (prevData && prevData[responseName]) {
+            const structuredResponse = {
+                responseData: {
+                    ...prevData,
+                }
+            };
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(
+                        200,
+                        structuredResponse,
+                        "Ranking API Fetched Successfully As Data Exists"
+                    )
+                );
+        }
+
         const params = { formatType: format };
-        if (isWomen == 1 ) {
+        if (isWomen == 1) {
             params.isWomen = isWomen;
         }
-        console.log(params,"paramsparamsparams")
+
         const options = {
             method: "GET",
             url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/${category}`,
@@ -133,18 +150,25 @@ const getCricketRankings = asyncHandler(async (req, res) => {
         const response = await axios.request(options);
 
         if (response) {
-            console.log(response, "responseresponse")
-            const responseData = response.data;
-            responseData.format = format ? format : ""
-            responseData.IsWomen = isWomen ? isWomen : ""
-            responseData.category = category ? category : ""
-            // console.log(responseData,"responseDataresponseData")
+            const responseData = {
+                ...response.data,
+                format: format || "",
+                IsWomen: isWomen || "",
+                category: category || ""
+            };
+            const structuredResponse = {
+                responseData: {
+                    ...prevData,
+                    [responseName]: responseData
+
+                }
+            };
             return res
                 .status(200)
                 .json(
                     new ApiResponse(
                         200,
-                        { responseData },
+                        structuredResponse,
                         "Ranking API Fetched Successfully"
                     )
                 );

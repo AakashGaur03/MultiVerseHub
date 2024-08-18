@@ -36,7 +36,6 @@ const ForgotModal = ({
     const response = await dispatch(sendOTPMail({ email }));
     // console.log(otpToken, "otpToken");
     if (response) {
-      console.log("object");
       setShowOTPForm(true);
       setShowEmailInput(false);
       setOTPToken(response.data.data.otpToken, "AA");

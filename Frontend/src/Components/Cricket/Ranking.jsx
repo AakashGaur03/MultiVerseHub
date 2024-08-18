@@ -2,7 +2,7 @@
 // test|odi|t20 (if isWomen parameter is 1, there will be no odi)
 // isWomen (optional) Set to 1 to get rankings for women
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
@@ -16,10 +16,12 @@ import Badge from "react-bootstrap/Badge";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
 const Ranking = () => {
+  const storeRankingData = useSelector((state) => state.cricket.rankingData);
   const location = useLocation();
   const Data = location.state?.rankingsData;
   const dispatch = useDispatch();
   const [rankingData, setRankingData] = useState([]);
+  const [rankindDataType, setRankindDataType] = useState("");
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const [selectedGender, setSelectedGender] = useState("men");
@@ -34,17 +36,17 @@ const Ranking = () => {
   //   }
   // }, [Data]);
   useEffect(() => {
-    if (selectedGender === "women" && selectedFormat === "test") {
-      setSelectedFormat("odi");
-    } else {
-      const cachedData = getCachedData();
-      if (cachedData) {
-        setRankingData(cachedData);
-        fetchImages(cachedData.rank);
-      } else {
-        callRankingApi();
-      }
-    }
+    // if (selectedGender === "women" && selectedFormat === "test") {
+    //   setSelectedFormat("odi");
+    // } else {
+    //   const cachedData = getCachedData();
+    //   if (cachedData) {
+    //     setRankingData(cachedData);
+    //     fetchImages(cachedData.rank);
+    //   } else {
+    callRankingApi();
+    // }
+    // }
   }, [selectedGender, selectedFormat, selectedCategory]);
 
   const getCachedData = () => {
@@ -58,23 +60,25 @@ const Ranking = () => {
 
   const fetchImages = async (rankings) => {
     const newLoadingImages = {};
-    rankings.forEach((data) => {
+    rankings?.forEach((data) => {
       const imageId = data.faceImageId || data.imageId;
       newLoadingImages[imageId] = true;
     });
     setLoadingImages(newLoadingImages);
 
-    for (const data of rankings) {
-      const imageId = data.faceImageId || data.imageId;
-      // await getImageUrl(imageId);
-      await getImageUrl(
-        imageId,
-        imageUrls,
-        setImageUrls,
-        setLoadingImages,
-        dispatch
-      );
-      // await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
+    if (rankings) {
+      for (const data of rankings) {
+        const imageId = data.faceImageId || data.imageId;
+        // await getImageUrl(imageId);
+        await getImageUrl(
+          imageId,
+          imageUrls,
+          setImageUrls,
+          setLoadingImages,
+          dispatch
+        );
+        // await new Promise((resolve) => setTimeout(resolve, 500)); // Adding 500ms delay between each fetch
+      }
     }
   };
   const updateSelectedFormat = (format) => {
@@ -87,21 +91,28 @@ const Ranking = () => {
 
   const callRankingApi = async () => {
     try {
+      let format = selectedFormat;
+      let category = selectedCategory;
+      let isWomen = selectedGender === "women" ? "1" : "";
       let payload = {
         format: selectedFormat,
         category: selectedCategory,
-        isWomen: selectedGender === "women"? "1" : "",
-      }
-      let response = await dispatch(
-        getCricketRanking(payload)
-      );
-      setRankingData(response);
-      updateCache(response);
-      fetchImages(response.rank);
+        isWomen: selectedGender === "women" ? "1" : "",
+        prevData: storeRankingData,
+      };
+      let name = `${format}${isWomen}${category}`;
+      setRankindDataType(name);
+      await dispatch(getCricketRanking(payload));
     } catch (error) {
       console.error("Error fetching ranking data:", error);
     }
   };
+
+  useEffect(() => {
+    setRankingData(storeRankingData?.[rankindDataType]);
+    updateCache(storeRankingData?.[rankindDataType]);
+    fetchImages(storeRankingData?.[rankindDataType]?.rank);
+  }, [storeRankingData]);
 
   return (
     <div className="w-full pl-0 md:pl-11">
@@ -216,7 +227,11 @@ const Ranking = () => {
                     <td>Loading...</td>
                   ) : (
                     <td>
-                      <img style={{maxHeight:"68px", maxWidth:"90px"}} src={imageUrls[imageId]} alt="" />
+                      <img
+                        style={{ maxHeight: "68px", maxWidth: "90px" }}
+                        src={imageUrls[imageId]}
+                        alt=""
+                      />
                     </td>
                   )}
                   <td>

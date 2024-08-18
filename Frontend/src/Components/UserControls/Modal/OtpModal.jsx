@@ -24,7 +24,6 @@ const OtpModal = ({
   // };
 
   const handleChange = (index, e) => {
-    console.log("object");
     const value = e.target.value;
 
     if (isNaN(value)) return;

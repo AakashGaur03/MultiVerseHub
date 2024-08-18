@@ -25,9 +25,6 @@ const getNews = asyncHandler(async (req, res) => {
             if (response.status !== 429) {
                 break
             }
-            if (response.status === 429) {
-                console.log("HEHEHEHEHHEHEHE")
-            }
         } catch (error) {
             if (error.response && error.response.status === 429) {
                 console.warn(`API key ${i + 1} rate limited, switching to next key...`);

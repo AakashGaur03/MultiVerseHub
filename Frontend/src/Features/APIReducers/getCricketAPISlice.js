@@ -45,6 +45,11 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.searchPlayer = action.payload;
     },
+    getCricketRankingDataSuccess(state, action) {
+      state.status = "Ranking Data Fetched";
+      state.error = null;
+      state.rankingData = action.payload;
+    },
     getCricketPlayerInfoSuccess(state, action) {
       state.status = "Player Info Fetched";
       state.error = null;
@@ -53,7 +58,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess,getCricketPlayerInfoSuccess ,getCricketMatchSuccess,getCricketNewsSuccess } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -97,7 +102,6 @@ export const getCricketNewsCBs = () => async (dispatch) => {
     dispatch(getCricketStart());
     const response = await getCricketNewsCBAPIFunc();
     if (response) {
-      console.log(response,"RESPKINSKSK")
       dispatch(getCricketNewsSuccess(response));
       return response;
     }
@@ -107,15 +111,10 @@ export const getCricketNewsCBs = () => async (dispatch) => {
 };
 export const getCricketRanking = (payload) => async (dispatch) => {
   try {
-    console.log(payload,"ffffffffffffffffffff")
     dispatch(getCricketStart());
-    // console.log("object22")
-    // console.log(format, "format")
-    // console.log(isWomen, "isWomen")
-    // console.log(category, "category")
     const response = await getCricketRankingAPIFunc(payload);
     if (response) {
-      dispatch(getCricketSuccess(response));
+      dispatch(getCricketRankingDataSuccess(response));
       return response;
     }
   } catch (error) {
