@@ -1,0 +1,65 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getImageUrl } from "../../GlobalComp/getImageFunc";
+
+const LocalSearchDialogBox = ({ searchPlayersData }) => {
+  const [imageUrls, setImageUrls] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const playersToFetch = searchPlayersData?.player?.slice(0, 5) || [];
+    if (playersToFetch?.length) {
+      playersToFetch?.forEach((player) => {
+        if (!imageUrls[player.faceImageId]) {
+          // Check if image URL is not already fetched
+          setLoadingImages((prevState) => ({
+            ...prevState,
+            [player.faceImageId]: true,
+          }));
+
+          getImageUrl(
+            player.faceImageId,
+            imageUrls,
+            setImageUrls,
+            setLoadingImages,
+            dispatch
+          );
+        }
+      });
+    }
+  }, [searchPlayersData, imageUrls, dispatch]);
+
+  return (
+    <div className="sidebarColor max-h-60 overflow-x-auto searchDialodLocalSearch absolute scrollbar-thin">
+      <div className="mb-2 mt-3 uppercase text-center">
+        Total results for {searchPlayersData?.category} :{" "}
+        {searchPlayersData?.player?.length ?? 0}
+      </div>
+      <div className="flex flex-col gap-y-5">
+        {searchPlayersData?.player?.map((player,index) => (
+          <div key={player.id} className="flex">
+            <div>
+              <img
+                src={
+                  index < 5
+                    ? imageUrls[player.faceImageId] ||
+                      "../../../public/ImageNotFound.png"
+                    : "../../../public/ImageNotFound.png"
+                }
+                alt={player.name}
+                style={{ width: "50px", height: "50px" }}
+              />
+            </div>
+            <div className="ms-3">
+              <div>{player.name}</div>
+              <div>{player.teamName}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default LocalSearchDialogBox;

@@ -18,7 +18,7 @@ const getCricketAPISlice = createSlice({
       state.status = "loading";
       state.error = null;
       state.data = null;
-      state.searchPlayer = null;
+      // state.searchPlayer = null;
     },
     getCricketSuccess(state, action) {
       state.status = "News Fetched";

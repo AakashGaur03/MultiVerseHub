@@ -19,8 +19,8 @@ const Sidebar = ({ items, handleItemClick }) => {
           className={`min-w-52 bg-slate-30 h-full z-20 relative sidebarColor`}
         >
           <ul
-            className={`sidebarFixedSide bg-s late-300 min-w-52 sidebarColor h-full sidebarBoxShadow ${
-              isToggleClicked ? "" : "fixed"
+            className={`sidebarFixedSide bg-s late-300 min-w-52 sidebarColor h-full ${
+              isToggleClicked ? "sidebarBoxShadow" : "fixed"
             }`}
           >
             {items.map((item, index) => (

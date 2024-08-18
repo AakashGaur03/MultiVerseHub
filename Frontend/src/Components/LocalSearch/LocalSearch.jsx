@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getcricketSearchPlayer, getEntertainmentSearchData, getNews } from "../../Features";
+import {
+  getcricketSearchPlayer,
+  getEntertainmentSearchData,
+  getNews,
+} from "../../Features";
+import LocalSearchDialogBox from "./LocalSearchDialogBox";
 
 const LocalSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [prevSearchQuery, setPrevSearchQuery] = useState("");
   const dispatch = useDispatch();
   const currentSidebar = useSelector((state) => state.sidebar.currentSidebar);
+  const searchPlayersData = useSelector((state) => state.cricket.searchPlayer);
 
   const callSearch = async () => {
     if (location.pathname.includes("/news")) {
@@ -55,6 +61,7 @@ const LocalSearch = () => {
     <div>
       <Form className="d-flex">
         <Form.Control
+          className="min-w-36"
           type="search"
           placeholder="Search"
           onChange={handleChange}
@@ -67,6 +74,9 @@ const LocalSearch = () => {
           Submit
         </button> */}
       </Form>
+      {searchPlayersData && (
+        <LocalSearchDialogBox searchPlayersData={searchPlayersData} />
+      )}
     </div>
   );
 };
