@@ -45,6 +45,11 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.searchPlayer = action.payload;
     },
+    getCricketSearchPlayerEmpty(state, action) {
+      state.status = "Player Info emptied Successfully";
+      state.error = null;
+      state.searchPlayer = null;
+    },
     getCricketRankingDataSuccess(state, action) {
       state.status = "Ranking Data Fetched";
       state.error = null;
@@ -58,7 +63,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess,getCricketSearchPlayerEmpty } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -150,10 +155,14 @@ export const getCricketImageDB = (faceImageID) => async (dispatch) => {
 export const getcricketSearchPlayer = (payload) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
-    const response = await getCricketSearchPlayerAPIFunc(payload);
-    if (response) {
-      dispatch(getCricketSearchPlayerSuccess(response));
-      return response;
+    if(payload.playeraName===""){
+      dispatch(getCricketSearchPlayerEmpty());
+    }else{
+      const response = await getCricketSearchPlayerAPIFunc(payload);
+      if (response) {
+        dispatch(getCricketSearchPlayerSuccess(response));
+        return response;
+      }
     }
 
   } catch (error) {
