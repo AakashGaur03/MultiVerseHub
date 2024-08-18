@@ -989,7 +989,7 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         }
 
         responseData = {
-          search_result:searchResult,
+          search_result: searchResult,
           top_rated: topRated,
           popular: popular,
           now_playing: nowPlaying,
@@ -1147,6 +1147,7 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     `https://api.themoviedb.org/3/${category}/${id}/reviews`,
     `https://api.themoviedb.org/3/${category}/${id}/videos?language=en-US`,
     `https://api.themoviedb.org/3/${category}/${id}/images`,
+    `https://api.themoviedb.org/3/${category}/${id}/recommendations`,
   ]
 
   const options = {
@@ -1159,14 +1160,15 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
   };
   try {
 
-    const [response1, response2, response3, response4, response5] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
-    if (response1 && response2 && response3 && response4 && response5) {
+    const [response1, response2, response3, response4, response5, response6] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
+    if (response1 && response2 && response3 && response4 && response5, response6) {
       const responseData1 = response1.data;
       const responseData2 = response2.data;
       const responseData3 = response3.data;
       const responseData4 = response4.data;
       const responseData5 = response5.data;
-      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3, video: responseData4, images: responseData5 }
+      const responseData6 = response6.data;
+      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3, video: responseData4, images: responseData5, recommendations: responseData6 }
       return res
         .status(200)
         .json(

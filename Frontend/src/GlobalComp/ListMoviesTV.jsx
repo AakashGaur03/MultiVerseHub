@@ -2,6 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { CustomCircularProgressRating } from "..";
 import { formatDateinHumanredable } from "./formatDate";
+import { useEffect, useRef } from "react";
 const ListMoviesTv = ({
   ListData,
   Heading,
@@ -10,6 +11,13 @@ const ListMoviesTv = ({
   InfoAboutItem,
   MovieOrTv,
 }) => {
+  const listContainerRef = useRef(null); // Create a ref for the container
+  useEffect(() => {
+    // Reset the scroll position to the start (left) whenever ListData changes
+    if (listContainerRef.current) {
+      listContainerRef.current.scrollLeft = 0;
+    }
+  }, [ListData]);
   const getColor2 = (rating) => {
     if (rating > 8) {
       return "green-600";
@@ -45,7 +53,7 @@ const ListMoviesTv = ({
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
         {Heading}
       </div>
-      <div className="overflow-y-auto flex my-2 px-5">
+      <div className="overflow-y-auto flex my-2 px-5" ref={listContainerRef}>
         <div className="flex gap-8 pb-4 pt-10">
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data, index) => (
@@ -118,17 +126,20 @@ const ListMoviesTv = ({
             <div>No Data to Show</div>
           )}
 
-          {Heading !== "Search Results" &&
-            ListData.page < Math.min(ListData.total_pages, 500) && (
-              <div className="w-max flex items-center">
-                <Button
-                  variant="secondary"
-                  onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
-                >
-                  Load More
-                </Button>
-              </div>
-            )}
+          {Heading !== "Search Results" ||
+            (Heading !== "Recommendations" &&
+              ListData.page < Math.min(ListData.total_pages, 500) && (
+                <div className="w-max flex items-center">
+                  <Button
+                    variant="secondary"
+                    onClick={() =>
+                      LoadMoreContent(ListData.page, LoadMoreOption)
+                    }
+                  >
+                    Load More
+                  </Button>
+                </div>
+              ))}
         </div>
       </div>
     </div>
