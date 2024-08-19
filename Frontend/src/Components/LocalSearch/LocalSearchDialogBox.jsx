@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
+import { getcricketPlayerInfo } from "../../Features";
+import { useNavigate } from "react-router-dom";
 
 const LocalSearchDialogBox = ({ searchPlayersData }) => {
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const playersToFetch = searchPlayersData?.player?.slice(0, 5) || [];
@@ -30,6 +33,14 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
     }
   }, [searchPlayersData, imageUrls, dispatch]);
 
+  const callParticularPlayer = (playerId) => {
+    navigate(`/cricket/playerInfo/${playerId}`)
+    let payload = {
+      playerId,
+    };
+    // dispatch(getcricketPlayerInfo(payload));
+  };
+
   return (
     <div className="sidebarColor max-h-60 overflow-x-auto searchDialodLocalSearch absolute scrollbar-thin">
       <div className="mb-2 mt-3 uppercase text-center">
@@ -37,15 +48,19 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
         {searchPlayersData?.player?.length ?? 0}
       </div>
       <div className="flex flex-col gap-y-5">
-        {searchPlayersData?.player?.map((player,index) => (
-          <div key={player.id} className="flex">
+        {searchPlayersData?.player?.map((player, index) => (
+          <div
+            key={player.id}
+            className="flex cursor-pointer"
+            onClick={() => callParticularPlayer(player.id)}
+          >
             <div>
               <img
                 src={
                   index < 5
                     ? imageUrls[player.faceImageId] ||
-                      "../../../public/ImageNotFound.png"
-                    : "../../../public/ImageNotFound.png"
+                      "/ImageNotFound.png"
+                    : "/ImageNotFound.png"
                 }
                 alt={player.name}
                 style={{ width: "50px", height: "50px" }}

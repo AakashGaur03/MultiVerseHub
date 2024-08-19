@@ -39,15 +39,26 @@ function App() {
 
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
+  // useEffect(() => {
+  //   if (
+  //     // ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
+  //     ["/cricket", "/entertainment", "/news"].some((path) =>
+  //       location.pathname.includes(path)
+  //     )
+  //   ) {
+  //     if (location.pathname === "/cricket/playerInfo/:id") {
+  //       setSidebarItemsActive(false);
+  //     }
+  //     setSidebarItemsActive(true);
+  //   } else setSidebarItemsActive(false);
+  // }, [location.pathname]);
   useEffect(() => {
-    if (
-      // ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
-      ["/cricket", "/entertainment", "/news"].some((path) =>
-        location.pathname.includes(path)
-      )
-    ) {
-      setSidebarItemsActive(true);
-    } else setSidebarItemsActive(false);
+    const path = location.pathname;
+    const basePaths = ["/cricket", "/entertainment", "/news"];
+    const isBasePath = basePaths.some((basePath) => path.startsWith(basePath));
+    const isExcluded = path.includes("/playerInfo");
+
+    setSidebarItemsActive(isBasePath && !isExcluded);
   }, [location.pathname]);
 
   const hasIncludedRanking = useRef(false);

@@ -36,6 +36,7 @@ const Cricket = ({ setQuery }) => {
   const [validNews, setValidNews] = useState([]);
 
   const getPointsTable = async (id) => {
+    setQuery("")
     setTimeout(() => {
       navigate(`${id}/pointsTable`);
     }, 0);
