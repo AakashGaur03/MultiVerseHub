@@ -50,9 +50,9 @@ body {
   left: 0;
   width: 100%;
 }
-.posFixedAtTop + .restOfComponets {
-  /* padding-top: 50px; */
-}
+/* .posFixedAtTop + .restOfComponets {
+  padding-top: 50px;
+} */
 
 .sidebarColor {
   background: linear-gradient(90deg, black, #616161);
@@ -78,6 +78,7 @@ body {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   max-height: 3.6em; /* 2 lines * line-height */
 }
@@ -86,6 +87,7 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+  line-clamp: 5;
 }
 .minHeightCard {
   /* min-height: 300px; */

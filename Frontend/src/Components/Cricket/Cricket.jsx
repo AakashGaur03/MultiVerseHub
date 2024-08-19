@@ -36,42 +36,10 @@ const Cricket = ({ setQuery }) => {
   const [validNews, setValidNews] = useState([]);
 
   const getPointsTable = async (id) => {
-    try {
-      const response = await dispatch(getCricketPointsTable(id));
-      setQuery("");
-      let datatoStrore = {};
-      if (response) {
-        console.log(
-          response.pointsTable.map((element) => element),
-          "JJJJ"
-        );
-        console.log(response.pointsTable);
-        datatoStrore = {
-          id,
-          data: response.pointsTable.map((element) => element),
-        };
-      } else {
-        datatoStrore = {
-          id: -1,
-          data: [],
-        };
-      }
-      setpointstable(datatoStrore);
-
-      navigate(`${id}/pointsTable`, {
-        state: { pointsTableData: datatoStrore },
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    setTimeout(() => {
+      navigate(`${id}/pointsTable`);
+    }, 0);
   };
-
-  useEffect(() => {
-    let payload = {
-      playerId: 1413,
-    };
-    // dispatch(getcricketPlayerInfo(payload));
-  }, []);
 
   const callThisFunc = () => {
     let InterMatches = typeMatches?.find(
