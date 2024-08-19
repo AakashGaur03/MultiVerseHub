@@ -173,10 +173,18 @@ const Cricket = ({ setQuery }) => {
   };
 
   const generateRedirectLink = (id, headLine) => {
-    let splitHLine = headLine.split(" ");
-    let joinedHLine = splitHLine.join("-");
-    let removeExtracomma = joinedHLine.replace(",", "");
-    let finalUrl = removeExtracomma.replace(/-+/g, "-");
+    // let splitHLine = headLine.split(" ");
+    // let joinedHLine = splitHLine.join("-");
+    // let removeExtracomma = joinedHLine.replace(",", "");
+    // let removeExtracomma2 = removeExtracomma.replace("'", "");
+    // let finalUrl = removeExtracomma2.replace(/-+/g, "-");
+    let finalUrl = headLine
+    .replace(/'/g,'')         // Remove single quotes
+    .replace(/,/g,'')         // Remove double quotes
+    .toLowerCase()
+    .replace(/\s+/g,'-')      // Replace spaces with hyphens
+    .replace(/-+/g,'-')       // Replace multiple hyphens with a single hyphen
+
     let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
     return url;
   };
