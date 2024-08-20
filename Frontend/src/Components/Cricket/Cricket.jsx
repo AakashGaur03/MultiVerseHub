@@ -141,7 +141,6 @@ const Cricket = ({ setQuery }) => {
     if (newsData?.storyList.length > 0) {
       let temp = newsData.storyList.filter((element) => element.story);
       setValidNews(temp);
-      // getCricketNews();
     } else {
       if (!newsData) {
         setTimeout(() => {
@@ -152,8 +151,10 @@ const Cricket = ({ setQuery }) => {
   }, [newsData]);
 
   useEffect(() => {
-    getCricketNews();
-  }, [newsData]);
+    if (validNews.length > 0) {
+      getCricketNews();
+    }
+  }, [validNews]);
 
   const getCricketNews = async () => {
     validNews?.forEach((news, index) => {
