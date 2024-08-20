@@ -8,7 +8,7 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const playersToFetch = searchPlayersData?.player?.slice(0, 5) || [];
@@ -34,7 +34,7 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
   }, [searchPlayersData, imageUrls, dispatch]);
 
   const callParticularPlayer = (playerId) => {
-    navigate(`/cricket/playerInfo/${playerId}`)
+    navigate(`/cricket/playerInfo/${playerId}`);
     let payload = {
       playerId,
     };
@@ -55,16 +55,19 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
             onClick={() => callParticularPlayer(player.id)}
           >
             <div>
-              <img
-                src={
-                  index < 5
-                    ? imageUrls[player.faceImageId] ||
-                      "/ImageNotFound.png"
-                    : "/ImageNotFound.png"
-                }
-                alt={player.name}
-                style={{ width: "50px", height: "50px" }}
-              />
+              {loadingImages[player.faceImageId] ? (
+                <div>Loading...</div>
+              ) : (
+                <img
+                  src={
+                    index < 5
+                      ? imageUrls[player.faceImageId] || "/ImageNotFound.png"
+                      : "/ImageNotFound.png"
+                  }
+                  alt={player.name}
+                  style={{ width: "50px", height: "50px" }}
+                />
+              )}
             </div>
             <div className="ms-3">
               <div>{player.name}</div>

@@ -20,7 +20,7 @@ import CreditSection from "./Components/Entertainment/CreditSection.jsx";
 import ReviewSection from "./Components/Entertainment/ReviewSection.jsx";
 import PictureSection from "./Components/Entertainment/PictureSection.jsx";
 import ParticularGame from "./Components/Games/ParticularGame.jsx";
-
+import PlayerInfo from "./Components/Cricket/PlayerInfo.jsx";
 import {
   OtpForm,
   ForgotPassword,
@@ -86,4 +86,5 @@ export {
   PictureSection,
   ParticularGame,
   GameInfoComp,
+  PlayerInfo,
 };

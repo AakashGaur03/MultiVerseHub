@@ -79,7 +79,7 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
             };
 
             response = await axios.request(options);
-            
+
             if (response.status === 200) {
                 break; // Successfully fetched data, exit loop
             } else if (response.status === 429) {
@@ -210,7 +210,7 @@ const getCricketRankings = asyncHandler(async (req, res) => {
             };
 
             response = await axios.request(options);
-            
+
             if (response.status === 200) {
                 break; // Successfully fetched data, exit loop
             } else if (response.status === 429) {
@@ -261,7 +261,7 @@ const getCricketRankings = asyncHandler(async (req, res) => {
 const getCricketImageCB = asyncHandler(async (req, res) => {
     const { query } = req.query;
     let response;
-    
+
     for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
         try {
             const options = {
@@ -277,7 +277,7 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
             };
 
             response = await axios.request(options);
-            
+
             if (response.status === 200) {
                 break; // Successfully fetched data, exit loop
             } else if (response.status === 429) {
@@ -375,13 +375,13 @@ const getCricketSearchPlayer = asyncHandler(async (req, res) => {
 });
 
 const getCricketPlayerInfo = asyncHandler(async (req, res) => {
-    const { playerId } = req.body
+    const { playerId } = req.body;
     const urls = [
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/career`,
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/bowling`,
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/batting`,
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}`,
-    ]
+    ];
 
     const options = {
         method: "GET",
@@ -389,23 +389,31 @@ const getCricketPlayerInfo = asyncHandler(async (req, res) => {
             'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
         }
     };
+
     for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
         try {
+            // Assign the current API key to the options
             options.headers['x-rapidapi-key'] = CRICKET_API_KEYS[i];
-            const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
-            let responseData = []
+
+            // Make all requests concurrently using Promise.all
+            const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })));
+
+            // Check if all responses are successful
             if (response1 && response2 && response3 && response4) {
-                const responseData1 = response1.data;
-                const responseData2 = response2.data;
-                const responseData3 = response3.data;
-                const responseData4 = response4.data;
-                responseData = { career: responseData1, bowling: responseData2, batting: responseData3, info: responseData4 }
+                const responseData = {
+                    career: response1.data,
+                    bowling: response2.data,
+                    batting: response3.data,
+                    info: response4.data
+                };
+
+                // Send successful response with aggregated data
                 return res
                     .status(200)
                     .json(
                         new ApiResponse(
                             200,
-                            { responseData },
+                            responseData,
                             "Player Info API Fetched Successfully"
                         )
                     );
@@ -416,14 +424,17 @@ const getCricketPlayerInfo = asyncHandler(async (req, res) => {
             if (error.response && error.response.status === 429) {
                 console.warn(`API key ${i + 1} rate limited, switching to next key Player Info...`);
             } else {
-                console.error("Error fetching Player info:", error);
-                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
+                console.error("Error fetching Player info:", error.message);
+                // If it's an error unrelated to rate limits, break the loop and return an error response
+                return res.status(500).json(new ApiError(500, "Error occurred while fetching Player Info"));
             }
         }
     }
-    return res.status(400).json(new ApiError(400, "Player Info API failed to fetch Data after all keys"));
 
+    // If all API keys fail, return a 400 response
+    return res.status(400).json(new ApiError(400, "Player Info API failed to fetch Data after all keys"));
 });
+
 
 
 export {
