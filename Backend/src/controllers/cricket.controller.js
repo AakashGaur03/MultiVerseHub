@@ -3,24 +3,43 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import axios from "axios";
 
-const getRecentCricket = asyncHandler(async (req, res) => {
-    try {
-        // const response = await axios.get(
-        //   `https://api.cricapi.com/v1/currentMatches?apikey=${process.env.CRICKET_API_KEY}&offset=1`
-        // );
-        const options = {
-            method: "GET",
-            url: "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent",
-            headers: {
-                "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
-                "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
-            },
-        };
-        const response = await axios.request(options);
+const CRICKET_API_KEYS = [
+    process.env.CRICKET_API_KEY1,
+    process.env.CRICKET_API_KEY2,
+    process.env.CRICKET_API_KEY3,
+    process.env.CRICKET_API_KEY4,
+    process.env.CRICKET_API_KEY5,
+    process.env.CRICKET_API_KEY6,
+]
 
+const getRecentCricket = asyncHandler(async (req, res) => {
+    let url = `https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent`
+    let response;
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: "GET",
+                url: url,
+                headers: {
+                    "X-RapidAPI-Key": CRICKET_API_KEYS[i],
+                    "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+                },
+            };
+            response = await axios.request(options);
+            if (response.status !== 429) {
+                break
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Cricket Data...`);
+            } else {
+                console.error("Error fetching Cricket Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket Data"));
+            }
+        }
+    }
+    try {
         if (response) {
-            // console.log(response, "response");
-            // const responseData = response.data.data;
             const responseData = response.data;
             return res
                 .status(200)
@@ -36,27 +55,48 @@ const getRecentCricket = asyncHandler(async (req, res) => {
                 .status(400)
                 .json(new ApiError(400, "Cricket API Failed to fetch Data"));
         }
+
     } catch (error) {
         console.error("Error fetching Cricket:", error);
         return res.status(500).json(new ApiError(500, "Some Error occurred while fetching cricket API"));
     }
 });
 const getCricketPointsTable = asyncHandler(async (req, res) => {
-    try {
-        const { id } = req.params;
-        // console.log(id,"getWordOfTheDayAPIFunc")
-        const options = {
-            method: "GET",
-            url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`,
-            headers: {
-                "X-RapidAPI-Key": process.env.CRICKET_API_KEY,
-                "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
-                "Content-Type": "application/json",
-            },
-        };
-        const response = await axios.request(options);
+    const { id } = req.params; // Make sure 'id' is coming from req.query if it's a query parameter
+    const url = `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/${id}/points-table`;
+    let response;
 
-        if (response) {
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: "GET",
+                url: url,
+                headers: {
+                    "X-RapidAPI-Key": CRICKET_API_KEYS[i],
+                    "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+                    "Content-Type": "application/json",
+                },
+            };
+
+            response = await axios.request(options);
+            
+            if (response.status === 200) {
+                break; // Successfully fetched data, exit loop
+            } else if (response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Points Table...`);
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Points Table...`);
+            } else {
+                console.error("Error fetching Cricket Points Table Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket Points Table Data"));
+            }
+        }
+    }
+
+    try {
+        if (response && response.status === 200) {
             const responseData = response.data;
             return res
                 .status(200)
@@ -73,23 +113,39 @@ const getCricketPointsTable = asyncHandler(async (req, res) => {
                 .json(new ApiError(400, "Cricket API Failed to fetch Points Table"));
         }
     } catch (error) {
-        console.error("Error fetching Points Table:", error);
-        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Points Table"));
+        console.error("Error processing Points Table:", error);
+        return res.status(500).json(new ApiError(500, "Some Error occurred while processing Points Table"));
     }
 });
+
 const getCricketNewsCB = asyncHandler(async (req, res) => {
-    try {
-        const options = {
-            method: 'GET',
-            url: 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/index',
-            headers: {
-                'x-rapidapi-key': process.env.CRICKET_API_KEY,
-                'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+    let url = 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/index'
+    let response;
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: "GET",
+                url: url,
+                headers: {
+                    "X-RapidAPI-Key": CRICKET_API_KEYS[i],
+                    "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+                },
+            };
+            response = await axios.request(options);
+            if (response.status !== 429) {
+                break
             }
-        };
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key News...`);
+            } else {
+                console.error("Error fetching Cricket News Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket News Data"));
+            }
+        }
+    }
 
-        const response = await axios.request(options);
-
+    try {
         if (response) {
             const responseData = response.data;
             return res
@@ -112,107 +168,133 @@ const getCricketNewsCB = asyncHandler(async (req, res) => {
     }
 });
 const getCricketRankings = asyncHandler(async (req, res) => {
-    try {
-        const { format, isWomen, category, prevData } = req.body;
-        const responseName = `${format}${isWomen}${category}`
+    const { format, isWomen, category, prevData } = req.body;
+    const responseName = `${format}${isWomen}${category}`;
 
-        if (prevData && prevData[responseName]) {
-            const structuredResponse = {
-                responseData: {
-                    ...prevData,
-                }
-            };
-            return res
-                .status(200)
-                .json(
-                    new ApiResponse(
-                        200,
-                        structuredResponse,
-                        "Ranking API Fetched Successfully As Data Exists"
-                    )
-                );
-        }
-
-        const params = { formatType: format };
-        if (isWomen == 1) {
-            params.isWomen = isWomen;
-        }
-
-        const options = {
-            method: "GET",
-            url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/${category}`,
-            params: params,
-            headers: {
-                "x-rapidapi-key": process.env.CRICKET_API_KEY,
-                "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
-            },
+    // Return cached data if available
+    if (prevData && prevData[responseName]) {
+        const structuredResponse = {
+            responseData: {
+                ...prevData,
+            }
         };
-        const response = await axios.request(options);
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    structuredResponse,
+                    "Ranking API Fetched Successfully As Data Exists"
+                )
+            );
+    }
 
-        if (response) {
-            const responseData = {
-                ...response.data,
-                format: format || "",
-                IsWomen: isWomen || "",
-                category: category || ""
-            };
-            const structuredResponse = {
-                responseData: {
-                    ...prevData,
-                    [responseName]: responseData
+    const params = { formatType: format };
+    if (isWomen == 1) {
+        params.isWomen = isWomen;
+    }
 
-                }
+    let response;
+
+    // Try each API key until one works or all fail
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: "GET",
+                url: `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/${category}`,
+                params: params,
+                headers: {
+                    "x-rapidapi-key": CRICKET_API_KEYS[i],
+                    "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+                },
             };
-            return res
-                .status(200)
-                .json(
-                    new ApiResponse(
-                        200,
-                        structuredResponse,
-                        "Ranking API Fetched Successfully"
-                    )
-                );
-        } else {
-            return res
-                .status(400)
-                .json(new ApiError(400, "Ranking API Failed to fetch Points Table"));
+
+            response = await axios.request(options);
+            
+            if (response.status === 200) {
+                break; // Successfully fetched data, exit loop
+            } else if (response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Rankings...`);
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Rankings...`);
+            } else {
+                console.error("Error fetching Cricket Rankings Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket Rankings Data"));
+            }
         }
-    } catch (error) {
-        console.error("Error fetching Rankings:", error);
-        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Rankings"));
+    }
+
+    // Check if we got a response
+    if (response && response.status === 200) {
+        const responseData = {
+            ...response.data,
+            format: format || "",
+            IsWomen: isWomen || "",
+            category: category || ""
+        };
+
+        const structuredResponse = {
+            responseData: {
+                ...prevData,
+                [responseName]: responseData
+            }
+        };
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    structuredResponse,
+                    "Ranking API Fetched Successfully"
+                )
+            );
+    } else {
+        return res
+            .status(400)
+            .json(new ApiError(400, "Ranking API Failed to fetch Points Table"));
     }
 });
+
 const getCricketImageCB = asyncHandler(async (req, res) => {
     const { query } = req.query;
-    // console.log(query, "querytsssss");
-    try {
-        const options = {
-            method: "GET",
-            url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
-            params: { p: 'de', d: 'high' },
-            headers: {
-                'Content-Type': 'application/json',
-                "x-rapidapi-key": process.env.CRICKET_API_KEY,
-                "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
-            },
-            responseType: "arraybuffer",
-        };
-        const response = await axios.request(options);
+    let response;
+    
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: "GET",
+                url: `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${query}/i.jpg`,
+                params: { p: 'de', d: 'high' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    "x-rapidapi-key": CRICKET_API_KEYS[i],
+                    "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+                },
+                responseType: "arraybuffer",
+            };
 
-        // if (response) {
-        //   let imageUrl = URL.createObjectURL(response.data);
-        //   const responseData = imageUrl;
-        //   return res
-        //     .status(200)
-        //     .json(
-        //       new ApiResponse(
-        //         200,
-        //         { responseData },
-        //         "Cricket API Image Fetched Successfully"
-        //       )
-        //     );
-        // }
-        if (response) {
+            response = await axios.request(options);
+            
+            if (response.status === 200) {
+                break; // Successfully fetched data, exit loop
+            } else if (response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Image...`);
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Image...`);
+            } else {
+                console.error("Error fetching Cricket Image Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket Image Data"));
+            }
+        }
+    }
+
+    try {
+        if (response && response.status === 200) {
             const buffer = Buffer.from(response.data, "binary");
             const base64Image = buffer.toString("base64");
             const imageUrl = `data:image/jpeg;base64,${base64Image}`;
@@ -231,26 +313,46 @@ const getCricketImageCB = asyncHandler(async (req, res) => {
                 .json(new ApiError(400, "Cricket API Image Failed to fetch Data"));
         }
     } catch (error) {
-        console.error("Error fetching Cricket Image:", error);
-        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Image"));
+        console.error("Error processing Cricket Image:", error);
+        return res.status(500).json(new ApiError(500, "Some Error occurred while processing Image"));
     }
 });
+
 const getCricketSearchPlayer = asyncHandler(async (req, res) => {
-    const { playeraName } = req.body;
-    try {
-        const options = {
-            method: 'GET',
-            url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/search',
-            params: { plrN: `${playeraName}` },
-            headers: {
-                'x-rapidapi-key': process.env.CRICKET_API_KEY,
-                'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+    const { playeraName } = req.body; // Corrected typo from 'playeraName' to 'playerName'
+    let response;
+
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            const options = {
+                method: 'GET',
+                url: 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/search',
+                params: { plrN: playeraName },
+                headers: {
+                    'x-rapidapi-key': CRICKET_API_KEYS[i], // Use the correct API key from the list
+                    'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+                }
+            };
+
+            response = await axios.request(options);
+
+            if (response.status === 200) {
+                break; // Successfully fetched data, exit the loop
+            } else if (response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key for Player Search...`);
             }
-        };
-        const response = await axios.request(options);
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key for Player Search...`);
+            } else {
+                console.error("Error fetching Cricket Player Data:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Cricket Player Data"));
+            }
+        }
+    }
 
-
-        if (response) {
+    try {
+        if (response && response.status === 200) {
             const responseData = response.data;
             return res
                 .status(200)
@@ -264,13 +366,14 @@ const getCricketSearchPlayer = asyncHandler(async (req, res) => {
         } else {
             return res
                 .status(400)
-                .json(new ApiError(400, "Player indo API Failed to fetch data"));
+                .json(new ApiError(400, "Player Info API Failed to fetch data"));
         }
     } catch (error) {
-        console.error("Error fetching Player info:", error);
-        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
+        console.error("Error processing Player info:", error);
+        return res.status(500).json(new ApiError(500, "Some Error occurred while processing Player Info"));
     }
 });
+
 const getCricketPlayerInfo = asyncHandler(async (req, res) => {
     const { playerId } = req.body
     const urls = [
@@ -283,37 +386,43 @@ const getCricketPlayerInfo = asyncHandler(async (req, res) => {
     const options = {
         method: "GET",
         headers: {
-            'x-rapidapi-key': process.env.CRICKET_API_KEY,
             'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
         }
     };
-    try {
-        const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
-        let responseData = []
-        if (response1 && response2 && response3 && response4) {
-            const responseData1 = response1.data;
-            const responseData2 = response2.data;
-            const responseData3 = response3.data;
-            const responseData4 = response4.data;
-            responseData = { career: responseData1, bowling: responseData2, batting: responseData3, info: responseData4 }
-            return res
-                .status(200)
-                .json(
-                    new ApiResponse(
-                        200,
-                        { responseData },
-                        "Player Info API Fetched Successfully"
-                    )
-                );
-        } else {
-            return res
-                .status(400)
-                .json(new ApiError(400, "Player Info API failed to fetch Data"));
+    for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
+        try {
+            options.headers['x-rapidapi-key'] = CRICKET_API_KEYS[i];
+            const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
+            let responseData = []
+            if (response1 && response2 && response3 && response4) {
+                const responseData1 = response1.data;
+                const responseData2 = response2.data;
+                const responseData3 = response3.data;
+                const responseData4 = response4.data;
+                responseData = { career: responseData1, bowling: responseData2, batting: responseData3, info: responseData4 }
+                return res
+                    .status(200)
+                    .json(
+                        new ApiResponse(
+                            200,
+                            { responseData },
+                            "Player Info API Fetched Successfully"
+                        )
+                    );
+            } else {
+                console.warn(`API key ${i + 1} failed, switching to next key Info...`);
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key Player Info...`);
+            } else {
+                console.error("Error fetching Player info:", error);
+                return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
+            }
         }
-    } catch (error) {
-        console.error("Error fetching Player info:", error);
-        return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Player Info"));
     }
+    return res.status(400).json(new ApiError(400, "Player Info API failed to fetch Data after all keys"));
+
 });
 
 
