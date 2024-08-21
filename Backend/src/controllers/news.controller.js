@@ -10,6 +10,7 @@ const NEWS_API_KEYS = [
     process.env.NEWS_API_KEY4,
     process.env.NEWS_API_KEY5,
     process.env.NEWS_API_KEY6,
+    process.env.NEWS_API_KEY7,
 ]
 
 

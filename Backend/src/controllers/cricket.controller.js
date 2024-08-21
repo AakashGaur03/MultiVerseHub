@@ -10,6 +10,7 @@ const CRICKET_API_KEYS = [
     process.env.CRICKET_API_KEY4,
     process.env.CRICKET_API_KEY5,
     process.env.CRICKET_API_KEY6,
+    process.env.CRICKET_API_KEY7,
 ]
 
 const getRecentCricket = asyncHandler(async (req, res) => {
