@@ -128,7 +128,7 @@ const News = () => {
                           >
                             <div>
                               <a href={news.link} target="_blank">
-                                <Card.Body className="limit2Lines hover:text-amber-500">
+                                <Card.Body className="limit2Lines hover:text-amber-500 p-0">
                                   {news.title
                                     ? truncateText(news.title, 10)
                                     : "No Title Found"}

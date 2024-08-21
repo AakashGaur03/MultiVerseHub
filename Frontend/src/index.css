@@ -50,9 +50,9 @@ body {
   left: 0;
   width: 100%;
 }
-/* .posFixedAtTop + .restOfComponets {
+.posFixedAtTop + .restOfComponets {
   padding-top: 50px;
-} */
+}
 
 .sidebarColor {
   background: linear-gradient(90deg, black, #616161);

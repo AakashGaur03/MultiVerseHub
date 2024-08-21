@@ -71,10 +71,7 @@ const Weather = () => {
   return (
     <>
       <div className="d-flex justify-content-center flex-col align-items-center mt-5">
-        <div
-          className="d-flex relative"
-          style={{ maxWidth: "18rem", minWidth: "18rem" }}
-        >
+        <div className="d-flex relative w-full">
           <input
             className="form-control weatherInput"
             type="search"
