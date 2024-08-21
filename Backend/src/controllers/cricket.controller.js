@@ -409,54 +409,44 @@ const getCricketPlayerInfo = asyncHandler(async (req, res) => {
 
     for (let i = 0; i < CRICKET_API_KEYS.length; i++) {
         try {
-            // Assign the current API key to the options
             options.headers['x-rapidapi-key'] = CRICKET_API_KEYS[i];
 
-            // Make all requests concurrently using Promise.all
-            const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })));
+            const responseData = {};
+            
+            for (let j = 0; j < urls.length; j++) {
+                if (j > 0) await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const response = await axios.request({ ...options, url: urls[j] });
 
-            // Check if all responses are successful
-            if (response1 && response2 && response3 && response4) {
-                const responseData = {
-                    career: response1.data,
-                    bowling: response2.data,
-                    batting: response3.data,
-                    info: response4.data
-                };
+                if (response) {
+                    if (j === 0) responseData.career = response.data;
+                    if (j === 1) responseData.bowling = response.data;
+                    if (j === 2) responseData.batting = response.data;
+                    if (j === 3) responseData.info = response.data;
+                }
+            }
 
-                const structuredResponse = {
-                    responseData: {
-                        ...prevData,
-                        [playerId]: responseData
-                    }
-                };
-
-                // Send successful response with aggregated data
-                return res
-                    .status(200)
-                    .json(
-                        new ApiResponse(
-                            200,
-                            structuredResponse,
-                            "Player Info API Fetched Successfully"
-                        )
-                    );
-            } else {
-                console.warn(`API key ${i + 1} failed, switching to next key Info...`);
+            if (Object.keys(responseData).length === urls.length) {
+                return res.status(200).json(
+                    new ApiResponse(
+                        200,
+                        { responseData: { ...prevData, [playerId]: responseData } },
+                        "Player Info API Fetched Successfully"
+                    )
+                );
             }
         } catch (error) {
-            if (error.response && error.response.status === 429) {
-                console.warn(`API key ${i + 1} rate limited, switching to next key Player Info...`);
+            if (error.response?.status === 429) {
+                console.warn(`API key ${i + 1} rate limited, switching to next key...`);
             } else {
                 console.error("Error fetching Player info:", error.message);
-                // If it's an error unrelated to rate limits, break the loop and return an error response
                 return res.status(500).json(new ApiError(500, "Error occurred while fetching Player Info"));
             }
         }
     }
 
-    // If all API keys fail, return a 400 response
-    return res.status(400).json(new ApiError(400, "Player Info API failed to fetch Data after all keys"));
+    return res.status(400).json(new ApiError(400, "Player Info API failed to fetch Data Some Issue Arrived"));
+
 });
 
 

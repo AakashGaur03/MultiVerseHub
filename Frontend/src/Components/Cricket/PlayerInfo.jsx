@@ -41,55 +41,7 @@ const PlayerInfo = () => {
 
   return (
     <>
-      {/* <Table borderless hover variant="dark">
-        <thead>
-          <tr>
-            {playerData?.batting?.headers?.map((header, index) => (
-              <th key={index} className="p-2 border-b text-left">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {playerData?.batting?.values?.map((row, rowIndex) => (
-            <tr key={rowIndex} className="border-b">
-              {row.values.map((value, colIndex) => (
-                <td key={colIndex} className="p-2 border-b text-left">
-                  {value}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </Table> */}
-      {/* <table className="min-w-full border-collapse border"> */}
-      {/* <Table borderless hover variant="dark"responsive >
-      <thead>
-        <tr>
-          <th className="p-2 border-b text-left">Format</th>
-          {currentPlayerInfo?.batting?.values?.map((row, index) => (
-            <th key={index} className="p-2 border-b text-left">
-              {row.values[0]}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {currentPlayerInfo?.batting?.headers?.slice(1).map((header, headerIndex) => (
-          <tr key={headerIndex} className="border-b">
-            <td className="p-2 border-b text-left">{header}</td>
-            {currentPlayerInfo?.batting?.values?.map((row, colIndex) => (
-              <td key={colIndex} className="p-2 border-b text-left">
-                {row.values[headerIndex + 1]}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </Table> */}
-
-      <Row className="my-4">
+      <Row className="my-3">
         <Col lg={3}>
           {/* <div className="sticky top-20"> */}
           <div className="">
@@ -102,6 +54,7 @@ const PlayerInfo = () => {
                     imageUrls[playerData?.info?.faceImageId] ||
                     "/ImageNotFound.png"
                   }
+                  className="max-w-64"
                   alt={playerData?.info?.name || "Player Image"}
                 />
               )}
@@ -114,59 +67,6 @@ const PlayerInfo = () => {
                 {playerData?.info?.intlTeam && playerData?.info?.intlTeam}
               </div>
             </div>
-            {/* <div>
-              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">
-                Personal Information
-              </div>
-              <div className="">
-                {playerData?.info?.DoB && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Born :</div>
-                    <div>{playerData?.info?.DoB}</div>
-                  </div>
-                )}
-              </div>
-              <div className="">
-                {playerData?.info?.birthPlace && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Birth Place :</div>
-                    <div>{playerData?.info?.birthPlace}</div>
-                  </div>
-                )}
-              </div>
-              <div className="">
-                {playerData?.info?.height && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Height : </div>
-                    <div>{playerData?.info?.height}</div>
-                  </div>
-                )}
-              </div>
-              <div className="">
-                {playerData?.info?.role && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Role : </div>
-                    <div>{playerData?.info?.role}</div>
-                  </div>
-                )}
-              </div>
-              <div className="">
-                {playerData?.info?.bat && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Batting Style : </div>
-                    <div>{playerData?.info?.bat}</div>
-                  </div>
-                )}
-              </div>
-              <div className="">
-                {playerData?.info?.bowl && (
-                  <div className="flex justify-between flex-wrap">
-                    <div>Bowling Style : </div>
-                    <div>{playerData?.info?.bowl}</div>
-                  </div>
-                )}
-              </div>
-            </div> */}
             <div>
               <div className="mt-4 text-center uppercase font-semibold  text-gray-300">
                 Personal Information
@@ -221,46 +121,55 @@ const PlayerInfo = () => {
                   <thead>
                     <tr>
                       <th className="text-center"></th>
-                      <th className="text-center">Test</th>
-                      <th className="text-center">ODI</th>
-                      <th className="text-center">T20</th>
+                      <th className="text-center">Test(Best)</th>
+                      <th className="text-center">ODI(Best)</th>
+                      <th className="text-center">T20(Best)</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td className="text-center">All Rounder</td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.all?.testRank ?? "-"}
+                        {playerData?.info?.rankings?.all?.testRank ?? "-"}(
+                        {playerData?.info?.rankings?.all?.testBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.all?.odiRank ?? "-"}
+                        {playerData?.info?.rankings?.all?.odiRank ?? "-"}(
+                        {playerData?.info?.rankings?.all?.odiBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.all?.t20Rank ?? "-"}
+                        {playerData?.info?.rankings?.all?.t20Rank ?? "-"}(
+                        {playerData?.info?.rankings?.all?.t20BestRank ?? "-"})
                       </td>
                     </tr>
                     <tr>
                       <td className="text-center">Batting</td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bat?.testRank ?? "-"}
+                        {playerData?.info?.rankings?.bat?.testRank ?? "-"}(
+                        {playerData?.info?.rankings?.bat?.testBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bat?.odiRank ?? "-"}
+                        {playerData?.info?.rankings?.bat?.odiRank ?? "-"}(
+                        {playerData?.info?.rankings?.bat?.odiBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bat?.t20Rank ?? "-"}
+                        {playerData?.info?.rankings?.bat?.t20Rank ?? "-"}(
+                        {playerData?.info?.rankings?.bat?.t20BestRank ?? "-"})
                       </td>
                     </tr>
                     <tr>
                       <td className="text-center">Bowling</td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bowl?.testRank ?? "-"}
+                        {playerData?.info?.rankings?.bowl?.testRank ?? "-"}(
+                        {playerData?.info?.rankings?.bowl?.testBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bowl?.odiRank ?? "-"}
+                        {playerData?.info?.rankings?.bowl?.odiRank ?? "-"}(
+                        {playerData?.info?.rankings?.bowl?.odiBestRank ?? "-"})
                       </td>
                       <td className="text-center">
-                        {playerData?.info?.rankings?.bowl?.t20Rank ?? "-"}
+                        {playerData?.info?.rankings?.bowl?.t20Rank ?? "-"}(
+                        {playerData?.info?.rankings?.bowl?.t20BestRank ?? "-"})
                       </td>
                     </tr>
                   </tbody>
@@ -276,7 +185,7 @@ const PlayerInfo = () => {
           </div>
         </Col>
         <Col lg={9}>
-          <div className="text-center uppercase font-semibold text-2xl text-gray-300 ">
+          <div className="mb-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
             Batting Career Summary
           </div>
           <Table borderless hover variant="dark" responsive>
@@ -309,7 +218,7 @@ const PlayerInfo = () => {
                 ))}
             </tbody>
           </Table>
-          <div className="mt-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
+          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
             Bowling Career Summary
           </div>
           <Table borderless hover variant="dark" responsive>
@@ -342,42 +251,48 @@ const PlayerInfo = () => {
                 ))}
             </tbody>
           </Table>
-          <div className="mt-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
+          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
             Career Information
           </div>
-          <div className="lh-lg">
-            {playerData?.career?.values.map((value, index) => (
-              <div key={index}>
-                {value.debut && (
-                  <div>
-                    <strong>{value.name.toUpperCase()} Debut :</strong>
-                    {value.debut}
-                  </div>
-                )}
-                {value.lastPlayed && (
-                  <div>
-                    <strong>Last {value.name.toUpperCase()} :</strong>
-                    {value.lastPlayed}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <Table borderless hover variant="dark" responsive>
+            <tbody>
+              {playerData?.career?.values.map((value, index) => (
+                <React.Fragment key={index}>
+                  {value.debut && (
+                    <tr>
+                      <td>
+                        <strong>{value.name.toUpperCase()} Debut</strong>
+                      </td>
+                      <td>{value.debut}</td>
+                    </tr>
+                  )}
+                  {value.lastPlayed && (
+                    <tr>
+                      <td>
+                        <strong>Last {value.name.toUpperCase()}</strong>
+                      </td>
+                      <td>{value.lastPlayed}</td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </Table>
           {/* <div>{playerData?.info?.bio}</div> */}
-          <div className="mt-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
-            Player Bio
-          </div>
-          {/* <div
-            className="mt-3 text-gray-300"
-            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-          ></div> */}
         </Col>
       </Row>
-<iframe srcDoc={playerData?.info?.bio} className="text-white w-100">
+      <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
+        Player Bio
+      </div>
+      <div
+        className="mt-3"
+        style={{ color: "wheat" }}
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+      ></div>
+      {/* <iframe srcDoc={playerData?.info?.bio} className="text-white w-100">
 
           
-</iframe>
-
+</iframe> */}
     </>
   );
 };

@@ -4,7 +4,7 @@ import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import { getcricketPlayerInfo } from "../../Features";
 import { useNavigate } from "react-router-dom";
 
-const LocalSearchDialogBox = ({ searchPlayersData }) => {
+const LocalSearchDialogBox = ({ searchPlayersData,setSearchLocalQuery }) => {
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const dispatch = useDispatch();
@@ -35,6 +35,9 @@ const LocalSearchDialogBox = ({ searchPlayersData }) => {
 
   const callParticularPlayer = (playerId) => {
     navigate(`/cricket/playerInfo/${playerId}`);
+    setSearchLocalQuery("")
+    window.scrollTo(0, 0);
+
     let payload = {
       playerId,
     };

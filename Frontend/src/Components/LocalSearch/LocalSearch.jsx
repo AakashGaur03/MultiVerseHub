@@ -9,15 +9,15 @@ import {
 import LocalSearchDialogBox from "./LocalSearchDialogBox";
 
 const LocalSearch = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [prevSearchQuery, setPrevSearchQuery] = useState("");
+  const [searchLocalQuery, setSearchLocalQuery] = useState("");
+  const [prevSearchLocalQuery, setPrevSearchLocalQuery] = useState("");
   const dispatch = useDispatch();
   const currentSidebar = useSelector((state) => state.sidebar.currentSidebar);
   const searchPlayersData = useSelector((state) => state.cricket.searchPlayer);
 
   const callSearch = async () => {
     if (location.pathname.includes("/news")) {
-      await dispatch(getNews(searchQuery));
+      await dispatch(getNews(searchLocalQuery));
     } else if (location.pathname.includes("/entertainment")) {
       let category = "";
       if (currentSidebar === "TV") {
@@ -27,24 +27,24 @@ const LocalSearch = () => {
       }
       let payload = {
         category,
-        searchQuery,
+        searchLocalQuery,
       };
       await dispatch(getEntertainmentSearchData(payload));
     } else if (location.pathname.includes("/cricket")) {
       let payload = {
-        playeraName: searchQuery,
+        playeraName: searchLocalQuery,
       };
       dispatch(getcricketSearchPlayer(payload));
     }
   };
 
   const handleLocalSearch = async () => {
-    if (searchQuery.trim() === "" && prevSearchQuery.trim() !== "") {
+    if (searchLocalQuery.trim() === "" && prevSearchLocalQuery.trim() !== "") {
       callSearch();
-    } else if (searchQuery.trim() !== "") {
+    } else if (searchLocalQuery.trim() !== "") {
       callSearch();
     }
-    setPrevSearchQuery(searchQuery);
+    setPrevSearchLocalQuery(searchLocalQuery);
   };
 
   useEffect(() => {
@@ -52,10 +52,10 @@ const LocalSearch = () => {
       handleLocalSearch();
     }, 1000);
     return () => clearTimeout(timeout);
-  }, [searchQuery]);
+  }, [searchLocalQuery]);
 
   const handleChange = (e) => {
-    setSearchQuery(e.target.value);
+    setSearchLocalQuery(e.target.value);
   };
   return (
     <div>
@@ -65,8 +65,8 @@ const LocalSearch = () => {
           type="search"
           placeholder="Search"
           onChange={handleChange}
-          value={searchQuery}
-          id="searchQuery"
+          value={searchLocalQuery}
+          id="searchLocalQuery"
           data-id="qyuery"
         />
 
@@ -75,7 +75,10 @@ const LocalSearch = () => {
         </button> */}
       </Form>
       {searchPlayersData && (
-        <LocalSearchDialogBox searchPlayersData={searchPlayersData} />
+        <LocalSearchDialogBox
+          searchPlayersData={searchPlayersData}
+          setSearchLocalQuery={setSearchLocalQuery}
+        />
       )}
     </div>
   );
