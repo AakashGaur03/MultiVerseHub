@@ -375,7 +375,23 @@ const getCricketSearchPlayer = asyncHandler(async (req, res) => {
 });
 
 const getCricketPlayerInfo = asyncHandler(async (req, res) => {
-    const { playerId } = req.body;
+    const { playerId ,prevData } = req.body;
+    if (prevData && prevData[playerId]) {
+        const structuredResponse = {
+            responseData: {
+                ...prevData,
+            }
+        };
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    structuredResponse,
+                    "Player Info API Fetched Successfully As Data Exists"
+                )
+            );
+    }
     const urls = [
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/career`,
         `https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/${playerId}/bowling`,
@@ -407,13 +423,20 @@ const getCricketPlayerInfo = asyncHandler(async (req, res) => {
                     info: response4.data
                 };
 
+                const structuredResponse = {
+                    responseData: {
+                        ...prevData,
+                        [playerId]: responseData
+                    }
+                };
+
                 // Send successful response with aggregated data
                 return res
                     .status(200)
                     .json(
                         new ApiResponse(
                             200,
-                            responseData,
+                            structuredResponse,
                             "Player Info API Fetched Successfully"
                         )
                     );
