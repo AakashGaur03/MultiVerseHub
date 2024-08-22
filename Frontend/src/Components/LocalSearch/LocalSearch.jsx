@@ -7,14 +7,36 @@ import {
   getNews,
 } from "../../Features";
 import LocalSearchDialogBox from "./LocalSearchDialogBox";
+import { useLocation } from "react-router-dom";
 
 const LocalSearch = () => {
   const [searchLocalQuery, setSearchLocalQuery] = useState("");
   const [prevSearchLocalQuery, setPrevSearchLocalQuery] = useState("");
+  const [searchPlaceHolder, setSearchPlaceHolder] = useState("Search");
   const dispatch = useDispatch();
+  const location = useLocation();
   const currentSidebar = useSelector((state) => state.sidebar.currentSidebar);
   const searchPlayersData = useSelector((state) => state.cricket.searchPlayer);
 
+  useEffect(() => {
+    if (location.pathname.includes("/news")) {
+      setSearchPlaceHolder("Search News");
+    } else if (location.pathname.includes("/entertainment")) {
+      if (currentSidebar === "TV") {
+        setSearchPlaceHolder("");
+        setSearchPlaceHolder("Search TV");
+      } else {
+        setSearchPlaceHolder("");
+        setSearchPlaceHolder("Search Movies");
+      }
+    } else if (location.pathname.includes("/cricket")) {
+      setSearchPlaceHolder("");
+      setSearchPlaceHolder("Search Player");
+    } else {
+      setSearchPlaceHolder("");
+      setSearchPlaceHolder("Search");
+    }
+  }, [location.pathname, currentSidebar]);
   const callSearch = async () => {
     if (location.pathname.includes("/news")) {
       await dispatch(getNews(searchLocalQuery));
@@ -52,7 +74,7 @@ const LocalSearch = () => {
       handleLocalSearch();
     }, 1000);
     return () => clearTimeout(timeout);
-  }, [searchLocalQuery]);
+  }, [searchLocalQuery, location.pathname]);
 
   const handleChange = (e) => {
     setSearchLocalQuery(e.target.value);
@@ -63,7 +85,7 @@ const LocalSearch = () => {
         <Form.Control
           className="min-w-36"
           type="search"
-          placeholder="Search"
+          placeholder={searchPlaceHolder}
           onChange={handleChange}
           value={searchLocalQuery}
           id="searchLocalQuery"

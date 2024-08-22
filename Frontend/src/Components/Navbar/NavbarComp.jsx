@@ -137,15 +137,13 @@ function NavbarComp({ setQuery }) {
             </>
           )}
           {isLoggedIn && (
-            <>
-              <NavLink>
-                <button
-                  onClick={() => handleShow("logout")}
-                  className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
-                >
-                  Logout
-                </button>
-              </NavLink>
+            <div className="flex align-items-center">
+              <button
+                onClick={() => handleShow("logout")}
+                className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+              >
+                Logout
+              </button>
               <Form className="togglePosition d-flex" name="togglePosition">
                 <Form.Label htmlFor="toggleThemeBtn"></Form.Label>
                 <Form.Check
@@ -158,7 +156,7 @@ function NavbarComp({ setQuery }) {
                   className={textColor}
                 />
               </Form>
-            </>
+            </div>
           )}
           {toggleBtnVisible && (
             <svg

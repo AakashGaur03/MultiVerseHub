@@ -376,3 +376,11 @@ input:-webkit-autofill:active {
   bottom: 0;
   width: 5px;
 }
+.favSaction {
+  height: calc(100vh - 118px);
+  background: #474747;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

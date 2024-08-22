@@ -71,17 +71,17 @@ const Weather = () => {
   return (
     <>
       <div className="d-flex justify-content-center flex-col align-items-center mt-5">
-        <div className="d-flex relative w-full">
+        <div className="d-flex relative w-4/5">
           <input
             className="form-control weatherInput"
             type="search"
-            placeholder="Search"
+            placeholder="Search Weather"
             id="searchInput"
             aria-label="Search"
             value={searchWeather}
             onChange={handleChange}
           />
-          <button className="btn absolute right-8 top-1" onClick={handleSearch}>
+          <button className="btn absolute right-2 top-1" onClick={handleSearch}>
             {/* BLACK */}
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@ const Weather = () => {
             </svg>
           </button>
         </div>
-        <Card className="myCard" style={{ maxWidth: "18rem", backgroundImage }}>
+        <Card className="myCard mt-3" style={{ maxWidth: "18rem", backgroundImage }}>
           <Card.Body className={getCardBodyClassName(condition.text)}>
             <div className="text-center">
               <img

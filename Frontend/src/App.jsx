@@ -40,6 +40,7 @@ function App() {
 
   const [sidebarItems, setSidebarItems] = useState(getSidebarItems());
   const [sidebarItemsActive, setSidebarItemsActive] = useState(false);
+  const prevLocationRef = useRef(location.pathname);
   // useEffect(() => {
   //   if (
   //     // ["/cricket", "/entertainment", "/news", "/games"].some((path) =>
@@ -99,6 +100,44 @@ function App() {
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
+  const isMainSectionChange = (currentPath, prevPath) => {
+    // Define main sections
+    const mainSections = [
+      "/news",
+      "/entertainment",
+      "/cricket",
+      "/games",
+      "/favorites",
+    ];
+
+    // Check if current and previous paths are main sections
+    const isCurrentMain = mainSections.some((section) =>
+      currentPath.startsWith(section)
+    );
+    const isPrevMain = mainSections.some((section) =>
+      prevPath.startsWith(section)
+    );
+
+    // Return true if changing between main sections
+    return (
+      isCurrentMain &&
+      isPrevMain &&
+      currentPath.split("/")[1] !== prevPath.split("/")[1]
+    );
+  };
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const prevPath = prevLocationRef.current;
+
+    // Check if navigating between main sections
+    if (isMainSectionChange(currentPath, prevPath)) {
+      dispatch(updateSidebar(""));
+    }
+
+    // Update the previous path
+    prevLocationRef.current = currentPath;
+  }, [location.pathname, dispatch]);
 
   return (
     <>
@@ -145,7 +184,10 @@ function App() {
                 element={<PointsTable />}
               />
               <Route path="/cricket/ranking" element={<Ranking />} />
-              <Route path="/cricket/playerInfo/:playerId" element={<PlayerInfo />} />
+              <Route
+                path="/cricket/playerInfo/:playerId"
+                element={<PlayerInfo />}
+              />
               <Route path="/entertainment" element={<Entertainment />} />
               <Route
                 path="/particulars/:category/:id"
