@@ -37,11 +37,6 @@ const LocalSearchDialogBox = ({ searchPlayersData,setSearchLocalQuery }) => {
     navigate(`/cricket/playerInfo/${playerId}`);
     setSearchLocalQuery("")
     window.scrollTo(0, 0);
-
-    let payload = {
-      playerId,
-    };
-    // dispatch(getcricketPlayerInfo(payload));
   };
 
   return (

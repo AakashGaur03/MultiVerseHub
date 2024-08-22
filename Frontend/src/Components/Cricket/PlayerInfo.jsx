@@ -256,7 +256,7 @@ const PlayerInfo = () => {
           </div>
           <Table borderless hover variant="dark" responsive>
             <tbody>
-              {playerData?.career?.values.map((value, index) => (
+              {playerData?.career?.values?.map((value, index) => (
                 <React.Fragment key={index}>
                   {value.debut && (
                     <tr>

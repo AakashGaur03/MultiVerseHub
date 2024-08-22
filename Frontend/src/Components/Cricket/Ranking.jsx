@@ -3,7 +3,7 @@
 // isWomen (optional) Set to 1 to get rankings for women
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
 import {
@@ -28,6 +28,7 @@ const Ranking = () => {
   const [selectedFormat, setSelectedFormat] = useState("test");
   const [selectedCategory, setSelectedCategory] = useState("batsmen");
   const [cache, setCache] = useState({});
+  const navigate = useNavigate()
 
   // useEffect(() => {
   //   if (Data) {
@@ -113,6 +114,14 @@ const Ranking = () => {
     updateCache(storeRankingData?.[rankindDataType]);
     fetchImages(storeRankingData?.[rankindDataType]?.rank);
   }, [storeRankingData]);
+
+  const callParticularPlayer = (playerId) => {
+    console.log("wdsddssdsd")
+    if(selectedCategory != "teams"){
+      navigate(`/cricket/playerInfo/${playerId}`);
+      window.scrollTo(0, 0);
+    }
+  };
 
   return (
     <div className="w-full pl-0 md:pl-11">
@@ -221,7 +230,7 @@ const Ranking = () => {
             {rankingData.rank.slice(0, 15).map((data, index) => {
               const imageId = data.faceImageId || data.imageId;
               return (
-                <tr key={index} className="d-fle x">
+                <tr key={index} className="d-fle x" onClick={() => callParticularPlayer(data.id)}>
                   <td>{data.rank || "-"}</td>
                   {loadingImages[imageId] ? (
                     <td>Loading...</td>
