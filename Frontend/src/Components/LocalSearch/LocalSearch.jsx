@@ -49,7 +49,7 @@ const LocalSearch = () => {
       }
       let payload = {
         category,
-        searchLocalQuery,
+        searchQuery: searchLocalQuery,
       };
       await dispatch(getEntertainmentSearchData(payload));
     } else if (location.pathname.includes("/cricket")) {

@@ -1189,7 +1189,7 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
   }
 });
 const getEntertainmentSearch = asyncHandler(async (req, res) => {
-  const { category, searchQuery } = req.body;
+  let { category, searchQuery } = req.body;
   if (category === undefined) category = 'tv'
   if (searchQuery === undefined) searchQuery = ''
 

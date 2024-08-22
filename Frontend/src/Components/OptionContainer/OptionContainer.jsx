@@ -2,11 +2,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { LocalSearch } from "../../index";
 
 const OptionContainer = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const [showLocalSearch, setShowLocalSearch] = useState(true);
+  const location = useLocation();
+
   useEffect(() => {
     const handleScroll = () => {
       const optionContainerHeight =
@@ -24,7 +27,20 @@ const OptionContainer = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   });
-
+  useEffect(() => {
+    getShowLocalSearch();
+  }, [location.pathname]);
+  const getShowLocalSearch = () => {
+    if (
+      location.pathname.includes("/news") ||
+      location.pathname.includes("/entertainment") ||
+      location.pathname.includes("/cricket")
+    ) {
+      setShowLocalSearch(true);
+    } else {
+      setShowLocalSearch(false);
+    }
+  };
   return (
     <div className={`${isSticky ? " posFixedAtTop" : "posNormal"}`}>
       <Container fluid>
@@ -56,8 +72,7 @@ const OptionContainer = () => {
                   Games
                 </NavLink>
               </Nav.Item>
-              <LocalSearch
-              />
+              {showLocalSearch && <LocalSearch />}
             </Nav>
           </div>
         </Navbar>

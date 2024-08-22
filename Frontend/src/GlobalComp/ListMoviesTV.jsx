@@ -2,7 +2,8 @@ import { Button, Card } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { CustomCircularProgressRating } from "..";
 import { formatDateinHumanredable } from "./formatDate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 const ListMoviesTv = ({
   ListData,
   Heading,
@@ -11,6 +12,13 @@ const ListMoviesTv = ({
   InfoAboutItem,
   MovieOrTv,
 }) => {
+  const loaderTrue = useSelector(
+    (state) => state.getEntertainmentData.state === "loading"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   const listContainerRef = useRef(null); // Create a ref for the container
   useEffect(() => {
     // Reset the scroll position to the start (left) whenever ListData changes
@@ -53,7 +61,10 @@ const ListMoviesTv = ({
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
         {Heading}
       </div>
-      <div className="overflow-y-auto flex my-2 px-5" ref={listContainerRef}>
+      <div
+        className="overflow-y-auto flex my-2 px-5 justify-center"
+        ref={listContainerRef}
+      >
         <div className="flex gap-8 pb-4 pt-10">
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data, index) => (
@@ -122,11 +133,13 @@ const ListMoviesTv = ({
                 {/* <CircularProgressbar value={50} text={`${50}%`} /> */}
               </div>
             ))
+          ) : isLoading ? (
+            <div className="loader"></div>
           ) : (
             <div>No Data to Show</div>
           )}
 
-          {Heading !== "Search Results" ||
+          {Heading !== "Search Results" &&
             (Heading !== "Recommendations" &&
               ListData.page < Math.min(ListData.total_pages, 500) && (
                 <div className="w-max flex items-center">

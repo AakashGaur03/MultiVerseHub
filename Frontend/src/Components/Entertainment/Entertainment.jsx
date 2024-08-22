@@ -237,7 +237,7 @@ const Entertainment = () => {
   };
 
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto w-full">
       {activeSidebarItem != "TV" && (
         <>
           {" "}
