@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import { getcricketPlayerInfo } from "../../Features";
 import { useNavigate } from "react-router-dom";
 
-const LocalSearchDialogBox = ({ searchPlayersData,setSearchLocalQuery }) => {
+const LocalSearchDialogBox = ({ searchPlayersData, setSearchLocalQuery }) => {
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     const playersToFetch = searchPlayersData?.player?.slice(0, 5) || [];
@@ -35,12 +36,26 @@ const LocalSearchDialogBox = ({ searchPlayersData,setSearchLocalQuery }) => {
 
   const callParticularPlayer = (playerId) => {
     navigate(`/cricket/playerInfo/${playerId}`);
-    setSearchLocalQuery("")
+    setSearchLocalQuery("");
     window.scrollTo(0, 0);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dialogRef.current && !dialogRef.current.contains(event.target)) {
+        setSearchLocalQuery("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
   return (
-    <div className="sidebarColor max-h-60 overflow-x-auto searchDialodLocalSearch absolute scrollbar-thin">
+    <div
+      className="sidebarColor max-h-60 overflow-x-auto searchDialodLocalSearch absolute scrollbar-thin"
+      ref={dialogRef}
+    >
       <div className="mb-2 mt-3 uppercase text-center">
         Total results for {searchPlayersData?.category} :{" "}
         {searchPlayersData?.player?.length ?? 0}
