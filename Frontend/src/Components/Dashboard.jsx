@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const getCurrentState = useSelector((state) => state.getCurrentStatus.state);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(
+    localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
+  );
 
   useEffect(() => {
-    if (getCurrentState==null) {
+    if (getCurrentState == null) {
       setTimer(0);
-    }else{
-      setTimer(20)
+    } else {
+      setTimer(localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50));
     }
   }, [getCurrentState]);
 
@@ -18,6 +20,7 @@ const Dashboard = () => {
       if (timer === 0) {
         clearInterval(intervalId);
       } else {
+        localStorage.setItem("timerVal", timer);
         setTimer((prevTimer) => prevTimer - 1);
       }
     }, 1000);
