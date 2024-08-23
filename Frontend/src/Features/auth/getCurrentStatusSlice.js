@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUserStatusApi } from "../../Api";
 
+const storedVal = localStorage.getItem("isUserLoggedIn") === "true" ? true : false
 const initialState = {
-  isUserLoggedIn: localStorage.getItem("isUserLoggedIn") || null,
+  isUserLoggedIn: storedVal || null,
   state: null,
 };
 

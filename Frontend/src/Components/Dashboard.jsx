@@ -3,29 +3,55 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const getCurrentState = useSelector((state) => state.getCurrentStatus.state);
-  const [timer, setTimer] = useState(
-    localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
-  );
+  // const [timer, setTimer] = useState(
+  //   localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
+  // );
+  const [timer, setTimer] = useState(() => {
+    const savedTimer = localStorage.getItem("timerVal");
+    return savedTimer !== null ? parseInt(savedTimer, 10) : 50;
+  });
 
   useEffect(() => {
     if (getCurrentState == null) {
       setTimer(0);
+      setTimer(localStorage.setItem("timerVal", 0));
     } else {
-      setTimer(localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50));
+      // setTimer(
+      //   localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
+      // );
+      const savedTimer = localStorage.getItem("timerVal");
+      setTimer(savedTimer !== null ? parseInt(savedTimer, 10) : 50);
     }
   }, [getCurrentState]);
 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (timer === 0) {
+  //       localStorage.setItem("timerVal", 0);
+  //       clearInterval(intervalId);
+  //     } else {
+  //       localStorage.setItem("timerVal", timer);
+  //       setTimer((prevTimer) => prevTimer - 1);
+  //     }
+  //   }, 1000);
+  //   return () => clearInterval(intervalId);
+  // }, [timer]);
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (timer === 0) {
-        clearInterval(intervalId);
-      } else {
-        localStorage.setItem("timerVal", timer);
-        setTimer((prevTimer) => prevTimer - 1);
-      }
+      setTimer((prevTimer) => {
+        if (prevTimer <= 1 || !prevTimer) {
+          localStorage.setItem("timerVal", 0);
+          clearInterval(intervalId);
+          return 0; // giving to setTimer
+        }
+        const newTimer = prevTimer - 1;
+        localStorage.setItem("timerVal", newTimer);
+        return newTimer; // giving to setTimer
+      });
     }, 1000);
+
     return () => clearInterval(intervalId);
-  }, [timer]);
+  }, []);
   return (
     <>
       <div>
