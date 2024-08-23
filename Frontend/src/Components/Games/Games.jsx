@@ -45,6 +45,7 @@ const Games = () => {
 
   const particularGameCall = async (id) => {
     navigate(`/game/${id}`);
+    window.scroll(0,0)
   };
   const updatePlatform = (e) => {
     setPlatform(e.target.value);

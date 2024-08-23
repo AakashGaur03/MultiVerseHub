@@ -8,6 +8,7 @@ const initialState = {
     gamesData: null,
     gamesDataCategoryWise: null,
     gamesDataParticular: null,
+    gamesDataParticularState: null,
 }
 
 const getGamesSectionAPISlice = createSlice({
@@ -20,6 +21,14 @@ const getGamesSectionAPISlice = createSlice({
             state.gamesData = null;
             state.gamesDataCategoryWise = null;
         },
+        getGamesDataStartParticular(state) {
+            state.error = null;
+            state.gamesData = null;
+            state.gamesDataParticularState = "loading";
+            state.gamesDataParticular = null;
+
+
+        },
         // getGamesDataAllSuccess(state, action) {
         //     state.status = "fetched";
         //     state.error = null;
@@ -31,19 +40,25 @@ const getGamesSectionAPISlice = createSlice({
             state.gamesDataCategoryWise = action.payload;
         },
         getGameParticularDataSuccess(state, action) {
-            state.status = "fetched";
             state.error = null;
+            state.gamesDataParticularState = "fetched";
             state.gamesDataParticular = action.payload;
         },
         getGamesDataFailure(state, action) {
             state.status = "error";
             state.error = action.payload;
             state.gamesData = null;
+        },
+        getGamesDataParticularFailure(state, action) {
+            state.gamesDataParticularState = "error";
+            state.error = action.payload;
+            state.gamesData = null;
+            state.gamesDataParticular = null;
         }
     }
 })
 
-export const { getGamesDataStart, getGamesDataCategoryWiseSuccess, getGamesDataFailure, getGameParticularDataSuccess } = getGamesSectionAPISlice.actions;
+export const { getGamesDataStart, getGamesDataCategoryWiseSuccess, getGamesDataFailure, getGameParticularDataSuccess, getGamesDataStartParticular, getGamesDataParticularFailure } = getGamesSectionAPISlice.actions;
 export const getGamesSectionDataCategoryWise = (payload) => async (dispatch) => {
     try {
         dispatch(getGamesDataStart());
@@ -59,7 +74,7 @@ export const getGamesSectionDataCategoryWise = (payload) => async (dispatch) => 
 }
 export const getGamesParticularsData = (gameId) => async (dispatch) => {
     try {
-        dispatch(getGamesDataStart());
+        dispatch(getGamesDataStartParticular());
         const response = await getGameparticularsAPIFunc(gameId);
         if (response) {
             dispatch(getGameParticularDataSuccess(response));
@@ -67,7 +82,7 @@ export const getGamesParticularsData = (gameId) => async (dispatch) => {
         }
 
     } catch (error) {
-        dispatch(getGamesDataFailure(error));
+        dispatch(getGamesDataParticularFailure(error));
     }
 }
 

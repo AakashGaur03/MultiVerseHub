@@ -10,6 +10,14 @@ const ParticularGame = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [gameData, setGameData] = useState([]);
+  const loaderTrue = useSelector(
+    (state) => state.games.gamesDataParticularState === "loading"
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   const particularGameData = useSelector(
     (state) => state.games.gamesDataParticular
   );
@@ -23,7 +31,7 @@ const ParticularGame = () => {
 
   return (
     <>
-      {gameData && (
+      {gameData ? (
         <div className="container-md">
           <div
             style={{ background: "linear-gradient(45deg, black, transparent)" }}
@@ -206,6 +214,12 @@ const ParticularGame = () => {
             </div>
           </section>
         </div>
+      ) : isLoading ? (
+        <div className="w-full flex justify-center hscreen align-items-center">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <div>No Data to Show</div>
       )}
     </>
   );
