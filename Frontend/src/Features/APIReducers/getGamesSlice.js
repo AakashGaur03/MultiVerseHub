@@ -18,6 +18,7 @@ const getGamesSectionAPISlice = createSlice({
             state.status = "loading";
             state.error = null;
             state.gamesData = null;
+            state.gamesDataCategoryWise = null;
         },
         // getGamesDataAllSuccess(state, action) {
         //     state.status = "fetched";

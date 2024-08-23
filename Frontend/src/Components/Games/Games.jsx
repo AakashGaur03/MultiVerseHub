@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   // getGamesSectionData,
   getGamesSectionDataCategoryWise,
@@ -16,7 +16,14 @@ const Games = () => {
   const [platform, setPlatform] = useState("all");
   const [category, setcategory] = useState("mmorpg");
   const [sortBy, setSortBy] = useState("relevance");
-
+  const loaderTrue = useSelector((state) => state.games.status === "loading");
+  const allGameState = useSelector(
+    (state) => state.games.gamesDataCategoryWise
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   useEffect(() => {
     callAPI();
   }, [platform, category, sortBy]);
@@ -28,9 +35,14 @@ const Games = () => {
     };
     // category="strategy",sortBy="release-date",platform="all"
     const response = await dispatch(getGamesSectionDataCategoryWise(payload));
-    console.log(response);
-    setAllGames(response);
+    // console.log(response);
+    // setAllGames(response);
   };
+
+  useEffect(() => {
+    setAllGames(allGameState);
+  }, [allGameState]);
+
   const particularGameCall = async (id) => {
     navigate(`/game/${id}`);
   };
@@ -169,6 +181,10 @@ const Games = () => {
                 )}
               </div>
             ))
+          ) : isLoading ? (
+            <div className="w-full flex justify-center">
+              <div className="loader"></div>
+            </div>
           ) : (
             <div>No Data to Show</div>
           )}
