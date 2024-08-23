@@ -3,6 +3,7 @@ import { getCurrentUserStatusApi } from "../../Api";
 
 const initialState = {
   isUserLoggedIn: localStorage.getItem("isUserLoggedIn") || null,
+  state: null,
 };
 
 const getCurrentStatusSlice = createSlice({
@@ -11,15 +12,20 @@ const getCurrentStatusSlice = createSlice({
   reducers: {
     setCurrentStatus(state, action) {
       state.isUserLoggedIn = action.payload;
-      localStorage.setItem("isUserLoggedIn",action.payload)
+      state.state = null;
+      localStorage.setItem("isUserLoggedIn", action.payload)
+    },
+    setCurrentStatusState(state, action) {
+      state.state = "loading";
     },
   },
 });
 
-export const { setCurrentStatus } = getCurrentStatusSlice.actions;
+export const { setCurrentStatus, setCurrentStatusState } = getCurrentStatusSlice.actions;
 
 export const fetchCurrentStatusUser = () => async (dispatch) => {
   try {
+    dispatch(setCurrentStatusState());
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       const response = await getCurrentUserStatusApi(accessToken);

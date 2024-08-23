@@ -36,9 +36,9 @@ function NavbarComp({ setQuery }) {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    // if (isLoggedIn) {
       dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
-    }
+    // }
   }, [dispatch]);
 
   useEffect(() => {
@@ -111,8 +111,10 @@ function NavbarComp({ setQuery }) {
         }`}
       >
         <Container>
-          <Navbar.Brand className={textColor} href="#home">
+          <Navbar.Brand className={textColor}>
+          <NavLink to={"/"}>
             MultiverseHubb
+          </NavLink>
           </Navbar.Brand>
           {!isLoggedIn && (
             <>
