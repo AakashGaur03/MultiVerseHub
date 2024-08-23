@@ -20,7 +20,10 @@ const Dashboard = () => {
       //   localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
       // );
       const savedTimer = localStorage.getItem("timerVal");
-      setTimer(savedTimer !== null ? parseInt(savedTimer, 10) : 50);
+      let updateTimer =
+        savedTimer !== null && savedTimer != 0 ? parseInt(savedTimer, 10) : 50;
+      setTimer(updateTimer);
+      localStorage.setItem("timerVal", updateTimer);
     }
   }, [getCurrentState]);
 
@@ -40,12 +43,16 @@ const Dashboard = () => {
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer <= 1 || !prevTimer) {
-          localStorage.setItem("timerVal", 0);
+          // localStorage.setItem("timerVal", 0);
           clearInterval(intervalId);
           return 0; // giving to setTimer
         }
         const newTimer = prevTimer - 1;
-        localStorage.setItem("timerVal", newTimer);
+        if (newTimer) {
+          localStorage.setItem("timerVal", newTimer);
+        } else {
+          localStorage.setItem("timerVal", 50);
+        }
         return newTimer; // giving to setTimer
       });
     }, 1000);
