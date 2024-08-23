@@ -61,11 +61,8 @@ const ListMoviesTv = ({
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
         {Heading}
       </div>
-      <div
-        className="overflow-y-auto flex my-2 px-5 justify-center"
-        ref={listContainerRef}
-      >
-        <div className="flex gap-8 pb-4 pt-10">
+      <div className="overflow-y-auto flex my-2 px-5" ref={listContainerRef}>
+        <div className="flex gap-8 pb-4 pt-10 w-full">
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data, index) => (
               <div className="activeClass relative" key={data.id}>
@@ -134,25 +131,25 @@ const ListMoviesTv = ({
               </div>
             ))
           ) : isLoading ? (
-            <div className="loader"></div>
+            <div className="w-full flex justify-center">
+              <div className="loader"></div>
+            </div>
           ) : (
             <div>No Data to Show</div>
           )}
 
           {Heading !== "Search Results" &&
-            (Heading !== "Recommendations" &&
-              ListData.page < Math.min(ListData.total_pages, 500) && (
-                <div className="w-max flex items-center">
-                  <Button
-                    variant="secondary"
-                    onClick={() =>
-                      LoadMoreContent(ListData.page, LoadMoreOption)
-                    }
-                  >
-                    Load More
-                  </Button>
-                </div>
-              ))}
+            Heading !== "Recommendations" &&
+            ListData.page < Math.min(ListData.total_pages, 500) && (
+              <div className="w-max flex items-center">
+                <Button
+                  variant="secondary"
+                  onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
+                >
+                  Load More
+                </Button>
+              </div>
+            )}
         </div>
       </div>
     </div>

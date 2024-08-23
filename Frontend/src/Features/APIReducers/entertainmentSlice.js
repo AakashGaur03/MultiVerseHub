@@ -3,6 +3,7 @@ import { entertainmentSearchAPIFUNC, getEntertainmentDataMovieAPIFunc, getEntert
 
 const initialState = {
     state: "idle",
+    searchState: "idle",
     error: null,
     entertainmentData: null,
     entertainmentDataTV: null,
@@ -21,7 +22,7 @@ const getEntertainmentDataPISlice = createSlice({
             state.entertainmentDataTV = null;
         },
         getEntertainmentDataearchStart(state) {
-            state.state = "loading";
+            state.searchState = "loading";
             state.error = null;
             // state.entertainmentData = null;
             // state.entertainmentDataTV = null;
@@ -37,7 +38,7 @@ const getEntertainmentDataPISlice = createSlice({
             state.entertainmentDataTV = action.payload;
         },
         getEntertainmentDataSearchSuccessTV(state, action) {
-            state.state = "success";
+            state.searchState = "success";
             state.error = null;
             state.entertainmenSearchData = action.payload;
             state.entertainmentDataTV = {
@@ -46,7 +47,7 @@ const getEntertainmentDataPISlice = createSlice({
             };
         },
         getEntertainmentDataSearchSuccessMovie(state, action) {
-            state.state = "success";
+            state.searchState = "success";
             state.error = null;
             console.log(action)
             console.log(state)
@@ -67,6 +68,7 @@ const getEntertainmentDataPISlice = createSlice({
             state.entertainmentData = null;
         },
         updateEntertainmentDataToRemoveSearchResult(state) {
+            state.searchState = "success";
             state.entertainmentData = { ...state.entertainmentData, search_result: undefined };
             state.entertainmentDataTV = { ...state.entertainmentDataTV, search_result: undefined };
         }

@@ -31,6 +31,13 @@ const Entertainment = () => {
   const entertainmentDataTV = useSelector(
     (state) => state.getEntertainmentData.entertainmentDataTV
   );
+  const loaderTrue = useSelector(
+    (state) => state.getEntertainmentData.searchState === "loading"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   useEffect(() => {
     let payload1 = {
       // category: "movie",
@@ -241,15 +248,21 @@ const Entertainment = () => {
       {activeSidebarItem != "TV" && (
         <>
           {" "}
-          {movieDataSearch?.results && (
-            <ListMoviesTV
-              ListData={movieDataSearch}
-              LoadMoreOption="nowPlaying"
-              Heading="Search Results"
-              LoadMoreContent={loadMoreMovies}
-              InfoAboutItem={infoAboutItem}
-              MovieOrTv={"movie"}
-            />
+          {isLoading ? (
+            <div className="flex justify-center my-5">
+              <div className="loader"></div>
+            </div>
+          ) : (
+            movieDataSearch?.results && (
+              <ListMoviesTV
+                ListData={movieDataSearch}
+                LoadMoreOption="nowPlaying"
+                Heading="Search Results"
+                LoadMoreContent={loadMoreMovies}
+                InfoAboutItem={infoAboutItem}
+                MovieOrTv={"movie"}
+              />
+            )
           )}
           <ListMoviesTV
             ListData={movieDataNowPlaying}
@@ -288,15 +301,21 @@ const Entertainment = () => {
       {activeSidebarItem == "TV" && (
         <>
           {" "}
-          {tvDataSearch?.results && (
-            <ListMoviesTV
-              ListData={tvDataSearch}
-              LoadMoreOption="nowPlaying"
-              Heading="Search Results"
-              LoadMoreContent={loadMoreMovies}
-              InfoAboutItem={infoAboutItem}
-              MovieOrTv={"movie"}
-            />
+          {isLoading ? (
+            <div className="flex justify-center my-5">
+              <div className="loader"></div>
+            </div>
+          ) : (
+            tvDataSearch?.results && (
+              <ListMoviesTV
+                ListData={tvDataSearch}
+                LoadMoreOption="nowPlaying"
+                Heading="Search Results"
+                LoadMoreContent={loadMoreMovies}
+                InfoAboutItem={infoAboutItem}
+                MovieOrTv={"movie"}
+              />
+            )
           )}
           <ListMoviesTV
             ListData={tvDataOnTheAir}
