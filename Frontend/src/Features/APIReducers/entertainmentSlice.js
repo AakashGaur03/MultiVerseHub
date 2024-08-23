@@ -4,6 +4,7 @@ import { entertainmentSearchAPIFUNC, getEntertainmentDataMovieAPIFunc, getEntert
 const initialState = {
     state: "idle",
     searchState: "idle",
+    searchStateParticular: "idle",
     error: null,
     entertainmentData: null,
     entertainmentDataTV: null,
@@ -57,10 +58,23 @@ const getEntertainmentDataPISlice = createSlice({
             };
             state.entertainmenSearchData = action.payload;
         },
+        getEntertainmentParticularDataStart(state, action) {
+            state.state = "success";
+            state.error = null;
+            state.entertainmentParticularData = null;
+            state.searchStateParticular = "loading";
+        },
         getEntertainmentDataParticluarSuccess(state, action) {
             state.state = "success";
             state.error = null;
             state.entertainmentParticularData = action.payload;
+            state.searchStateParticular = null;
+        },
+        getEntertainmentParticularDataFailure(state, action) {
+            state.state = "error";
+            state.error = action.payload.message;
+            state.entertainmentParticularData = null;
+            state.searchStateParticular = null;
         },
         getEntertainmentDataFailure(state, action) {
             state.state = "error";
@@ -75,7 +89,7 @@ const getEntertainmentDataPISlice = createSlice({
     }
 })
 
-export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataearchStart, getEntertainmentDataTVSuccess, getEntertainmentDataParticluarSuccess, getEntertainmentDataSearchSuccessTV, getEntertainmentDataSearchSuccessMovie, updateEntertainmentDataToRemoveSearchResult, getEntertainmentDataFailure } = getEntertainmentDataPISlice.actions;
+export const { getEntertainmentDataStart, getEntertainmentDataSuccess, getEntertainmentDataearchStart, getEntertainmentDataTVSuccess, getEntertainmentDataParticluarSuccess, getEntertainmentDataSearchSuccessTV, getEntertainmentDataSearchSuccessMovie, updateEntertainmentDataToRemoveSearchResult, getEntertainmentDataFailure, getEntertainmentParticularDataStart, getEntertainmentParticularDataFailure } = getEntertainmentDataPISlice.actions;
 
 export const getEntertainmentDataMovie = (payload) => async (dispatch) => {
     try {
@@ -105,7 +119,7 @@ export const getEntertainmentDataTV = (payload) => async (dispatch) => {
 }
 export const getEntertainmentParticularsData = (payload) => async (dispatch) => {
     try {
-        dispatch(getEntertainmentDataStart());
+        dispatch(getEntertainmentParticularDataStart());
         const response = await getEntertainmentParticularsDataAPIFunc(payload);
         if (response) {
             dispatch(getEntertainmentDataParticluarSuccess(response));
@@ -113,7 +127,7 @@ export const getEntertainmentParticularsData = (payload) => async (dispatch) => 
         }
 
     } catch (error) {
-        dispatch(getEntertainmentDataFailure(error));
+        dispatch(getEntertainmentParticularDataFailure(error));
     }
 }
 export const getEntertainmentSearchData = (payload) => async (dispatch, getState) => {

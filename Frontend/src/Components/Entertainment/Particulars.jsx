@@ -11,13 +11,21 @@ import {
 import ListMoviesTv from "../../GlobalComp/ListMoviesTV";
 
 const Particulars = () => {
+  const navigate = useNavigate();
   const globalParticularData = useSelector(
     (state) => state.getEntertainmentData.entertainmentParticularData
   );
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
-  const navigate = useNavigate()
+  const loaderTrue = useSelector(
+    (state) => state.getEntertainmentData.searchStateParticular === "loading"
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   const [particularData, setParticulatData] = useState(globalParticularData);
 
   const [aboutData, setAboutData] = useState([]);
@@ -55,16 +63,26 @@ const Particulars = () => {
   };
   return (
     <>
-      <AboutSection aboutData={aboutData} />
-      <CreditSection creditsData={creditsData} />
-      <ReviewSection reviewsData={reviewsData} />
-      <PictureSection imagesData={imagesData} videoData={videoData} />
-      <ListMoviesTv
-        ListData={recommendationData}
-        Heading="Recommendations"
-        InfoAboutItem={infoAboutItem}
-        MovieOrTv={activeSidebarItem === "TV" ? "tv" : "movie"}
-      />
+      {globalParticularData ? (
+        <div>
+          <AboutSection aboutData={aboutData} />
+          <CreditSection creditsData={creditsData} />
+          <ReviewSection reviewsData={reviewsData} />
+          <PictureSection imagesData={imagesData} videoData={videoData} />
+          <ListMoviesTv
+            ListData={recommendationData}
+            Heading="Recommendations"
+            InfoAboutItem={infoAboutItem}
+            MovieOrTv={activeSidebarItem === "TV" ? "tv" : "movie"}
+          />
+        </div>
+      ) : isLoading ? (
+        <div className="w-full flex justify-center hscreen align-items-center">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <div>No Data to Show</div>
+      )}
     </>
   );
 };
