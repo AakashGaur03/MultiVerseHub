@@ -6,6 +6,7 @@ const Dashboard = () => {
   // const [timer, setTimer] = useState(
   //   localStorage.getItem("timerVal") || localStorage.setItem("timerVal", 50)
   // );
+  const [extraTime, setExtraTime] = useState(false);
   const [timer, setTimer] = useState(() => {
     const savedTimer = localStorage.getItem("timerVal");
     return savedTimer !== null ? parseInt(savedTimer, 10) : 50;
@@ -42,7 +43,14 @@ const Dashboard = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
+        if (getCurrentState !== null && prevTimer <= 1) {
+          setExtraTime(true);
+          const resetTimer = 50;
+          localStorage.setItem("timerVal", resetTimer);
+          return resetTimer;
+        }
         if (prevTimer <= 1 || !prevTimer) {
+          setExtraTime(false);
           // localStorage.setItem("timerVal", 0);
           clearInterval(intervalId);
           return 0; // giving to setTimer
@@ -58,7 +66,7 @@ const Dashboard = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [getCurrentState]);
   return (
     <>
       <div>
@@ -70,6 +78,11 @@ const Dashboard = () => {
       )}
       {!timer > 0 && (
         <div>Thanks for your patience you can now Enjoy our services</div>
+      )}
+      {extraTime && (
+        <div>
+          We are extremely Sorry it took over 50 sec we are looking into it.
+        </div>
       )}
     </>
   );
