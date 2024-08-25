@@ -6,6 +6,7 @@ const initialState = {
   data: null,
   matchData: null,
   newsData: null,
+  newsStatus: null,
   rankingData: null,
   searchPlayer: null,
   playerInfo: null,
@@ -30,10 +31,21 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.matchData = action.payload;
     },
+    getCricketNewsStart(state) {
+      state.newsStatus = "loading";
+      state.error = null;
+      state.newsData = null;
+      // state.searchPlayer = null;
+    },
     getCricketNewsSuccess(state, action) {
-      state.status = "News Fetched";
+      state.newsStatus = "News Fetched";
       state.error = null;
       state.newsData = action.payload;
+    },
+    getCricketNewsFailure(state, action) {
+      state.newsStatus = "failed";
+      state.error = action.payload;
+      state.newsData = null;
     },
     getCricketFailure(state, action) {
       state.status = "failed";
@@ -63,7 +75,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess,getCricketSearchPlayerEmpty } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -104,14 +116,18 @@ export const getCricketImageCBs = (query) => async (dispatch) => {
 };
 export const getCricketNewsCBs = () => async (dispatch) => {
   try {
-    dispatch(getCricketStart());
-    const response = await getCricketNewsCBAPIFunc();
-    if (response) {
-      dispatch(getCricketNewsSuccess(response));
-      return response;
-    }
+    let response;
+    dispatch(getCricketNewsStart());
+    // Added Settimehot here to show loader without delay   : Remove from here with caution
+    setTimeout(async () => {
+      response = await getCricketNewsCBAPIFunc();
+      if (response) {
+        dispatch(getCricketNewsSuccess(response));
+        return response;
+      }
+    }, 500);
   } catch (error) {
-    dispatch(getCricketFailure(error.message));
+    dispatch(getCricketNewsFailure(error.message));
   }
 };
 export const getCricketRanking = (payload) => async (dispatch) => {
@@ -155,9 +171,9 @@ export const getCricketImageDB = (faceImageID) => async (dispatch) => {
 export const getcricketSearchPlayer = (payload) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
-    if(payload.playeraName===""){
+    if (payload.playeraName === "") {
       dispatch(getCricketSearchPlayerEmpty());
-    }else{
+    } else {
       const response = await getCricketSearchPlayerAPIFunc(payload);
       if (response) {
         dispatch(getCricketSearchPlayerSuccess(response));

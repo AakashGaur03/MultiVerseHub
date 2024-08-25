@@ -20,7 +20,14 @@ const Cricket = ({ setQuery }) => {
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
+  const loaderNewsTrue = useSelector(
+    (state) => state.cricket.newsStatus === "loading"
+  );
 
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderNewsTrue);
+  }, [loaderNewsTrue]);
   const matchData = useSelector((state) => state.cricket.matchData);
   const newsData = useSelector((state) => state.cricket.newsData);
 
@@ -36,7 +43,7 @@ const Cricket = ({ setQuery }) => {
   const [validNews, setValidNews] = useState([]);
 
   const getPointsTable = async (id) => {
-    setQuery("")
+    setQuery("");
     setTimeout(() => {
       navigate(`${id}/pointsTable`);
     }, 0);
@@ -143,9 +150,9 @@ const Cricket = ({ setQuery }) => {
       setValidNews(temp);
     } else {
       if (!newsData) {
-        setTimeout(() => {
+        // setTimeout(() => {
           dispatch(getCricketNewsCBs());
-        }, 500);
+        // }, 500);
       }
     }
   }, [newsData]);
@@ -180,11 +187,11 @@ const Cricket = ({ setQuery }) => {
     // let removeExtracomma2 = removeExtracomma.replace("'", "");
     // let finalUrl = removeExtracomma2.replace(/-+/g, "-");
     let finalUrl = headLine
-    .replace(/'/g,'')         // Remove single quotes
-    .replace(/,/g,'')         // Remove double quotes
-    .toLowerCase()
-    .replace(/\s+/g,'-')      // Replace spaces with hyphens
-    .replace(/-+/g,'-')       // Replace multiple hyphens with a single hyphen
+      .replace(/'/g, "") // Remove single quotes
+      .replace(/,/g, "") // Remove double quotes
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-"); // Replace multiple hyphens with a single hyphen
 
     let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
     return url;
@@ -299,6 +306,10 @@ const Cricket = ({ setQuery }) => {
               </div>
             ))}
           </>
+        ) : isLoading ? (
+          <div className="w-full flex justify-center hscreen align-items-center">
+            <div className="loader"></div>
+          </div>
         ) : (
           <div>No Cricket News Found</div>
         )}
