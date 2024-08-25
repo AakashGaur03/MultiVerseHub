@@ -4,6 +4,7 @@ const initialState = {
   status: "idle",
   error: null,
   data: null,
+  matchStatus: null,
   matchData: null,
   newsData: null,
   newsStatus: null,
@@ -26,10 +27,20 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.data = action.payload;
     },
-    getCricketMatchSuccess(state, action) {
-      state.status = "News Fetched";
+    getCricketMatchStart(state, action) {
+      state.matchStatus = "loading";
       state.error = null;
       state.matchData = action.payload;
+    },
+    getCricketMatchSuccess(state, action) {
+      state.matchStatus = "News Fetched";
+      state.error = null;
+      state.matchData = action.payload;
+    },
+    getCricketMatchFailure(state, action) {
+      state.matchStatus = "failed";
+      state.error = action.payload;
+      state.matchData = null;
     },
     getCricketNewsStart(state) {
       state.newsStatus = "loading";
@@ -75,19 +86,19 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure, getCricketMatchFailure, getCricketMatchStart } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
   try {
-    dispatch(getCricketStart());
+    dispatch(getCricketMatchStart());
     const response = await getCricketAPIFunc(query);
     if (response) {
       dispatch(getCricketMatchSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(getCricketFailure(error.message));
+    dispatch(getCricketMatchFailure(error.message));
   }
 };
 export const getCricketPointsTable = (query) => async (dispatch) => {

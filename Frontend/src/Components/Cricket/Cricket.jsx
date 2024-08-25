@@ -20,17 +20,19 @@ const Cricket = ({ setQuery }) => {
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
+  const loaderMatchTrue = useSelector(
+    (state) => state.cricket.matchStatus === "loading"
+  );
+
   const loaderNewsTrue = useSelector(
     (state) => state.cricket.newsStatus === "loading"
   );
 
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    setIsLoading(loaderNewsTrue);
-  }, [loaderNewsTrue]);
   const matchData = useSelector((state) => state.cricket.matchData);
   const newsData = useSelector((state) => state.cricket.newsData);
 
+  const [isLoadingNews, setIsLoadingNews] = useState(false);
+  const [isLoadingMatch, setIsLoadingMatch] = useState(false);
   const [typeMatches, setTypeMatches] = useState([]);
   const [cricketData, setCricketData] = useState([]);
   const [newCricketData, setNewCricketData] = useState([]);
@@ -41,6 +43,13 @@ const Cricket = ({ setQuery }) => {
   const [loadingImages, setLoadingImages] = useState({});
   const [pointstable, setpointstable] = useState({ id: null, data: [] });
   const [validNews, setValidNews] = useState([]);
+
+  useEffect(() => {
+    setIsLoadingNews(loaderNewsTrue);
+  }, [loaderNewsTrue]);
+  useEffect(() => {
+    setIsLoadingMatch(loaderMatchTrue);
+  }, [loaderMatchTrue]);
 
   const getPointsTable = async (id) => {
     setQuery("");
@@ -151,7 +160,7 @@ const Cricket = ({ setQuery }) => {
     } else {
       if (!newsData) {
         // setTimeout(() => {
-          dispatch(getCricketNewsCBs());
+        dispatch(getCricketNewsCBs());
         // }, 500);
       }
     }
@@ -198,7 +207,7 @@ const Cricket = ({ setQuery }) => {
   };
 
   return (
-    <div className="overflow-y-auto pl-0 md:pl-11 ">
+    <div className="overflow-y-auto pl-0 md:pl-11 w-full">
       <div className="flex overflow-y-auto ">
         {cricketData.length > 0 ? (
           cricketData.map((data, index) => (
@@ -258,8 +267,12 @@ const Cricket = ({ setQuery }) => {
               </NavLink>
             </div>
           ))
+        ) : isLoadingMatch ? (
+          <div className="w-full flex justify-center align-items-center mt-5">
+            <div className="loader"></div>
+          </div>
         ) : (
-          <div>No Cricket Data Available</div>
+          <div>No Cricket Match Data Found</div>
         )}
       </div>
       <div>
@@ -306,7 +319,7 @@ const Cricket = ({ setQuery }) => {
               </div>
             ))}
           </>
-        ) : isLoading ? (
+        ) : isLoadingNews ? (
           <div className="w-full flex justify-center hscreen align-items-center">
             <div className="loader"></div>
           </div>
