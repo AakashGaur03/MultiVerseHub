@@ -28,7 +28,7 @@ const Ranking = () => {
   const [selectedFormat, setSelectedFormat] = useState("test");
   const [selectedCategory, setSelectedCategory] = useState("batsmen");
   const [cache, setCache] = useState({});
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   if (Data) {
@@ -116,8 +116,8 @@ const Ranking = () => {
   }, [storeRankingData]);
 
   const callParticularPlayer = (playerId) => {
-    console.log("wdsddssdsd")
-    if(selectedCategory != "teams"){
+    console.log("wdsddssdsd");
+    if (selectedCategory != "teams") {
       navigate(`/cricket/playerInfo/${playerId}`);
       window.scrollTo(0, 0);
     }
@@ -230,7 +230,11 @@ const Ranking = () => {
             {rankingData.rank.slice(0, 15).map((data, index) => {
               const imageId = data.faceImageId || data.imageId;
               return (
-                <tr key={index} className="d-fle x" onClick={() => callParticularPlayer(data.id)}>
+                <tr
+                  key={index}
+                  className="d-fle x"
+                  onClick={() => callParticularPlayer(data.id)}
+                >
                   <td>{data.rank || "-"}</td>
                   {loadingImages[imageId] ? (
                     <td>Loading...</td>

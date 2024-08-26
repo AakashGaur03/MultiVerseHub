@@ -27,7 +27,6 @@ const PointsTable = () => {
     callPointsTable();
   }, [seriesId]);
 
-
   console.log(seriesId);
   return (
     <>
