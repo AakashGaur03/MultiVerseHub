@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
-const ImageWithLoader = ({
-  src,
-  width,
-  alt,
-  failedImage,
-}) => {
+const ImageWithLoader = ({ src, width, alt, failedImage }) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [imageLoading, setImageLoading] = useState(true);
 
@@ -17,18 +12,17 @@ const ImageWithLoader = ({
     setImageLoading(false);
   };
   return (
-    <div className="relative" style={{ width: width }}>
+    <div className="" style={{ width: width }}>
       {imageLoading && (
-        <div className="w-full flex justify-center">
-          <div
-            className="loader"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          ></div>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <div className="loader"></div>
         </div>
       )}
 

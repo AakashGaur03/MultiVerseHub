@@ -4,6 +4,7 @@ import { CustomCircularProgressRating } from "..";
 import { formatDateinHumanredable } from "./formatDate";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import ImageWithLoader from "./ImageWithLoader";
 const ListMoviesTv = ({
   ListData,
   Heading,
@@ -67,14 +68,16 @@ const ListMoviesTv = ({
             ListData.results.map((data, index) => (
               <div className="activeClass relative" key={data.id}>
                 <Card
-                  style={{ width: "15rem" }}
+                  style={{ width: "15rem",minHeight:"357px" }}
                   className="overflow-x-auto rounded-3xl "
                   onClick={() => InfoAboutItem(data.id, MovieOrTv)}
                 >
-                  <Card.Img
+                  <ImageWithLoader
                     variant="top"
                     className="h-100"
                     src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                    alt="Movie Thumbnail"
+                    failedImage="/ImageNotFoundVertical.png"
                   />
                 </Card>
                 <div className="flex justify-center mt-3 ">
