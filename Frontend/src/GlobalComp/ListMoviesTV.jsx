@@ -141,7 +141,10 @@ const ListMoviesTv = ({
           {Heading !== "Search Results" &&
             Heading !== "Recommendations" &&
             ListData.page < Math.min(ListData.total_pages, 500) && (
-              <div className="w-max flex items-center">
+              <div
+                className="w-max flex items-center"
+                style={{ minWidth: "105px" }}
+              >
                 <Button
                   variant="secondary"
                   onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
