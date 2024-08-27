@@ -5,6 +5,7 @@ import { getGamesParticularsData } from "../../Features";
 import { Col, Row } from "react-bootstrap";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import GameInfoComp from "../../GlobalComp/GameInfoComp";
+import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 
 const ParticularGame = () => {
   const { id } = useParams();
@@ -167,11 +168,11 @@ const ParticularGame = () => {
                 (gameData?.screenshots?.length > 0 ? (
                   gameData?.screenshots?.map((image, index) => (
                     <div key={index} className="flex-none">
-                      <img
+                      <ImageWithLoader
                         src={`${image.image}`}
                         width={560}
-                        className=""
-                        alt=""
+                        alt="Game screenshot"
+                        failedImage ="/ImageNotFound.png"
                       />
                     </div>
                   ))
