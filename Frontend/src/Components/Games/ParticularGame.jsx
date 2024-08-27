@@ -42,7 +42,15 @@ const ParticularGame = () => {
               <div className="col-md-4 flex justify-center ">
                 <div className="">
                   <div className="sticky top-24">
-                    <img className="" src={gameData.thumbnail} alt="" />
+                    <Card style={{ width: "auto", minHeight: "200px" }}>
+                      <ImageWithLoader
+                        src={gameData.thumbnail}
+                        // width={560}
+                        alt="Game Thumbnail"
+                        failedImage="/ImageNotFound.png"
+                      />
+                    </Card>
+                    {/* <img className="" src={gameData.thumbnail} alt="" /> */}
                     <div className="flex flex-wrap justify-around mt-4">
                       <a
                         className="shine-effect text-white bg-gradient-to-r from-blue-900 via-blue-950 to-blue-950 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-950 dark:focus:ring-blue-950 shadow-lg shadow-blue-950 dark:shadow-lg dark:shadow-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
@@ -168,7 +176,7 @@ const ParticularGame = () => {
                 (gameData?.screenshots?.length > 0 ? (
                   gameData?.screenshots?.map((image, index) => (
                     <div key={index} className="flex-none relative  ">
-                      <Card style={{ width: "auto", maxHeight: "357px" }}>
+                      <Card style={{ width: "auto", minHeight: "200px" }}>
                         <ImageWithLoader
                           src={`${image.image}`}
                           width={560}

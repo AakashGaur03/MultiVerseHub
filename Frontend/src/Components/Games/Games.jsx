@@ -8,6 +8,7 @@ import {
 } from "../../Features";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import { useNavigate } from "react-router-dom";
+import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 
 const Games = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Games = () => {
 
   const particularGameCall = async (id) => {
     navigate(`/game/${id}`);
-    window.scroll(0,0)
+    window.scroll(0, 0);
   };
   const updatePlatform = (e) => {
     setPlatform(e.target.value);
@@ -163,13 +164,18 @@ const Games = () => {
                 onClick={() => particularGameCall(data.id)}
               >
                 <Card
-                  style={{ width: "18rem" }}
+                  style={{ width: "18rem" ,minHeight:"150px"}}
                   className="overflow-x-auto rounded-3xl "
                 >
-                  <Card.Img
+                  {/* <Card.Img
                     variant="top"
                     className="h-100"
                     src={`${data.thumbnail}`}
+                  /> */}
+                  <ImageWithLoader
+                    src={`${data.thumbnail}`}
+                    alt="Game Thumbnail"
+                    failedImage="/ImageNotFound.png"
                   />
                 </Card>
                 <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
