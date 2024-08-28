@@ -1,6 +1,8 @@
 import React from "react";
 import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgressRating";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
+import { Card } from "react-bootstrap";
+import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 
 const AboutSection = ({ aboutData }) => {
   function giveTimeInHours(minutes) {
@@ -26,12 +28,21 @@ const AboutSection = ({ aboutData }) => {
         {/* Here Add for Image Title Percentage Overview */}
         <div className="row">
           <div className="col-md-4 flex justify-center">
-            <div className="flex items-center">
-              <img
+            <div className="flex items-center relative">
+              {/* <img
                 className=""
                 style={{ height: "80%" }}
-                src={`	https://media.themoviedb.org/t/p/w300_and_h450_bestv2${aboutData?.poster_path}`}
+                src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${aboutData?.poster_path}`}
                 alt=""
+              /> */}
+
+              <ImageWithLoader
+                style={{ height: "100%" }}
+                heightDiv="80%"
+                heightImg="100%"
+                src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${aboutData?.poster_path}`}
+                alt={`${aboutData?.original_title} Image`}
+                failedImage="/ImageNotFoundVertical.png"
               />
             </div>
           </div>
@@ -74,10 +85,18 @@ const AboutSection = ({ aboutData }) => {
                 voteAverage={aboutData?.vote_average}
               />
             </div>
-            <div className="italic text-gray-300">{aboutData?.tagline ? aboutData?.tagline : "Tagline Not Available"}</div>
+            <div className="italic text-gray-300">
+              {aboutData?.tagline
+                ? aboutData?.tagline
+                : "Tagline Not Available"}
+            </div>
             <div>
               <div className="mb-3">Overview</div>
-              <div className="leading-6 px-6">{aboutData?.overview ? aboutData?.overview : "Overview not Available" }</div>
+              <div className="leading-6 px-6">
+                {aboutData?.overview
+                  ? aboutData?.overview
+                  : "Overview not Available"}
+              </div>
             </div>
             {/* <div className="flex"> */}
             <div className="flex flex-wrap gap-2">

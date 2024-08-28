@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 
 const CreditSection = ({ creditsData }) => {
   return (
@@ -16,7 +17,7 @@ const CreditSection = ({ creditsData }) => {
                   style={{ width: "15rem" }}
                   className="overflow-x-auto rounded-3xl "
                 >
-                  {data.profile_path ? (
+                  {/* {data.profile_path ? (
                     <Card.Img
                       variant="top"
                       className="h-100"
@@ -30,7 +31,12 @@ const CreditSection = ({ creditsData }) => {
                       alt="Cast Image"
                       src={`/ImageNotFoundVertical.png`}
                     />
-                  )}
+                  )} */}
+                  <ImageWithLoader
+                    src={`https://image.tmdb.org/t/p/w500${data.profile_path}`}
+                    alt={`${data.name} Image`}
+                    failedImage="/ImageNotFoundVertical.png"
+                  />
                 </Card>
                 <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                   {data.name}

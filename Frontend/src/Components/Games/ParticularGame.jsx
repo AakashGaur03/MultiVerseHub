@@ -45,7 +45,6 @@ const ParticularGame = () => {
                     <Card style={{ width: "auto", minHeight: "200px" }}>
                       <ImageWithLoader
                         src={gameData.thumbnail}
-                        // width={560}
                         alt="Game Thumbnail"
                         failedImage="/ImageNotFound.png"
                       />

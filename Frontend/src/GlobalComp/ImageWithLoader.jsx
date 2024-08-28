@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const ImageWithLoader = ({ src, width, alt, failedImage }) => {
+const ImageWithLoader = ({
+  src,
+  width,
+  heightDiv,
+  heightImg = "auto",
+  alt,
+  failedImage,
+}) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [imageLoading, setImageLoading] = useState(true);
-
+  useEffect(() => {
+    setImageSrc(src);
+  }, [src]);
   const handleImageLoad = () => {
     setImageLoading(false);
   };
@@ -12,7 +21,7 @@ const ImageWithLoader = ({ src, width, alt, failedImage }) => {
     setImageLoading(false);
   };
   return (
-    <div className="" style={{ width: width }}>
+    <div className="" style={{ width: width, height: heightDiv }}>
       {imageLoading && (
         <div
           style={{
@@ -35,7 +44,7 @@ const ImageWithLoader = ({ src, width, alt, failedImage }) => {
         onError={handleImageError}
         style={{
           width: "100%",
-          height: "auto",
+          height: heightImg,
         }}
       />
     </div>
