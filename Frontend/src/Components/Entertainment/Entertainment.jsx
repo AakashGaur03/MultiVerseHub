@@ -178,6 +178,7 @@ const Entertainment = () => {
       nowPlayingPage,
       upcomingPage,
       oldData: entertainmentData,
+      loadMore: true,
     };
 
     switch (movieType) {
@@ -215,6 +216,7 @@ const Entertainment = () => {
       popularPageTv,
       airingTodayPageTv,
       oldData: entertainmentDataTV,
+      loadMore: true,
     };
     switch (TvType) {
       case "onTheAirTv":

@@ -20,13 +20,13 @@ const ListMoviesTv = ({
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
-  const listContainerRef = useRef(null); // Create a ref for the container
-  useEffect(() => {
-    // Reset the scroll position to the start (left) whenever ListData changes
-    if (listContainerRef.current) {
-      listContainerRef.current.scrollLeft = 0;
-    }
-  }, [ListData]);
+  // const listContainerRef = useRef(null); // Create a ref for the container
+  // useEffect(() => {
+  //   // Reset the scroll position to the start (left) whenever ListData changes
+  //   if (listContainerRef.current) {
+  //     listContainerRef.current.scrollLeft = 0;
+  //   }
+  // }, [ListData]);
   const getColor2 = (rating) => {
     if (rating > 8) {
       return "green-600";
@@ -62,7 +62,8 @@ const ListMoviesTv = ({
       <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
         {Heading}
       </div>
-      <div className="overflow-y-auto flex my-2 px-5" ref={listContainerRef}>
+      {/* <div className="overflow-y-auto flex my-2 px-5" ref={listContainerRef}> */}
+      <div className="overflow-y-auto flex my-2 px-5">
         <div className="flex gap-8 pb-4 pt-10 w-full">
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data, index) => (
