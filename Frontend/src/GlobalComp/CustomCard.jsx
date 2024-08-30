@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
+import ImageWithLoader from "./ImageWithLoader";
 
 const CustomCard = (props) => {
   return (
@@ -12,13 +13,19 @@ const CustomCard = (props) => {
       >
         <Card.Body className="minHeightCard">
           <Row>
-            <Col md={4} className="d-flex align-items-center">
-              <Card.Img
+            <Col md={4} className="d-flex align-items-center relative">
+              {/* <Card.Img
                 variant="top"
                 alt="ImageNotFound.png"
                 className="cardImages"
                 src={props.imageUrls}
                 onError={props.onError}
+              /> */}
+              <ImageWithLoader
+                src={props.imageUrls}
+                width={560}
+                alt={`${props.alt} screenshot`}
+                failedImage="/ImageNotFound.png"
               />
             </Col>
             <Col md={8} className="d-flex justify-center flex-col">

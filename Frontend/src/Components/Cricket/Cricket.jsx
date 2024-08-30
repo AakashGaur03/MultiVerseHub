@@ -281,6 +281,7 @@ const Cricket = ({ setQuery }) => {
             {validNews.slice(0, 9).map((news, index) => (
               <div key={index}>
                 <CustomCard
+                  alt={"Cricket"}
                   index={index}
                   imageUrls={imageUrls[news.story.imageId]}
                   onError={(e) => {

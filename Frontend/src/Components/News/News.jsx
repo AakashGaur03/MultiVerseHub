@@ -33,12 +33,13 @@ const News = () => {
   return (
     <div className="w-full pl-0 md:pl-11">
       <Row>
-        <Col md={8} style={{minWidth:"66.66666667%"}}>
+        <Col md={8} style={{ minWidth: "66.66666667%" }}>
           {newsDataNew?.length > 0 ? (
             <>
               {newsDataNew?.slice(0, 9).map((news, index) => (
                 <div key={index}>
                   <CustomCard
+                    alt={"News"}
                     index={index}
                     imageUrls={
                       news.image_url && !news.image_url.includes("410")
