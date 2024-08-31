@@ -80,7 +80,7 @@ export const getNewsAPIFunc = async (query) => {
   const response = await axios.get(
     `${API_URL}/api/v1/news/newsApi?query=${query}`
   );
-  console.log(response, "GHGHGHGHGHGHGHHG")
+  // console.log(response, "GHGHGHGHGHGHGHHG")
   return response.data;
 };
 

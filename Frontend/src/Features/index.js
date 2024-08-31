@@ -18,7 +18,7 @@ import forgotPasswordReducer, {
   createNewPassword,
 } from "./auth/forgotPasswordSlice.js";
 
-import getNewsAPIReducer, { getNews } from "./APIReducers/getNewsAPISlice.js";
+import getNewsAPIReducer, { getNews,getFinanceNews } from "./APIReducers/getNewsAPISlice.js";
 
 // import getGamesAPIReducer, { getGamesSectionData,getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
 import getGamesAPIReducer, { getGamesParticularsData, getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
@@ -53,6 +53,7 @@ export {
   createNewPassword,
   getNewsAPIReducer,
   getNews,
+  getFinanceNews,
   getCricketAPIReducer,
   getCricket,
   getCricketPointsTable,

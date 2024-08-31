@@ -19,6 +19,11 @@ const LocalSearch = () => {
   const searchPlayersData = useSelector((state) => state.cricket.searchPlayer);
 
   useEffect(() => {
+    setSearchLocalQuery("");
+    setPrevSearchLocalQuery("");
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (location.pathname.includes("/news")) {
       setSearchPlaceHolder("Search News");
     } else if (location.pathname.includes("/entertainment")) {

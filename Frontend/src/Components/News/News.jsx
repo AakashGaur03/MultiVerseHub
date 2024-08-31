@@ -1,18 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { CustomCard, Weather, WordOfTheDay, truncateText } from "../../index";
-import { getNews } from "../../Features";
+import { getFinanceNews, getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../GlobalComp/formatDate";
 
 const News = () => {
   // const [newsData, setNewsData] = useState([]);
+  const loaderTrueNews = useSelector((state) => state.news.status === "loading");
+  const [isLoadingNews, setIsLoadingNews] = useState(false);
+  useEffect(() => {
+    setIsLoadingNews(loaderTrueNews);
+  }, [loaderTrueNews]);
+
+  const loaderTrueFinance = useSelector(
+    (state) => state.news.financeStatus === "loading"
+  );
+  const [isLoadingFinance, setIsLoadingFinance] = useState(false);
+  useEffect(() => {
+    setIsLoadingFinance(loaderTrueFinance);
+  }, [loaderTrueFinance]);
 
   const activeSidebarItem = useSelector(
     (state) => state.sidebar.currentSidebar
   );
   const newsDataNew = useSelector(
     (state) => state.news?.data?.data?.responseData?.results
+  );
+  const financenewsDataNew = useSelector(
+    (state) => state.news?.financeData?.data?.responseData?.results
   );
   useEffect(() => {
     handleNewsUpdate();
@@ -22,13 +38,14 @@ const News = () => {
     await dispatch(getNews(activeSidebarItem));
   };
 
-  const [financeNews, setFinanceNews] = useState([]);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
+  const callFinanceNewsApi = async () => {
+    console.log("Is it CAlling");
+    await dispatch(getFinanceNews("finance"));
+  };
   useEffect(() => {
-    dispatch(getNews("finance")).then((response) => {
-      setFinanceNews(response.data.responseData.results);
-    });
+    callFinanceNewsApi();
   }, []);
   return (
     <div className="w-full pl-0 md:pl-11">
@@ -87,6 +104,10 @@ const News = () => {
                 </div>
               ))}
             </>
+          ) : isLoadingNews ? (
+            <div className="w-full flex justify-center hscreen align-items-center">
+              <div className="loader"></div>
+            </div>
           ) : (
             <div>No News data Found</div>
           )}
@@ -97,9 +118,9 @@ const News = () => {
             <WordOfTheDay />
 
             <div>
-              {financeNews.length > 0 ? (
+              {financenewsDataNew?.length > 0 ? (
                 <>
-                  {financeNews.slice(0, 6).map((news, index) => (
+                  {financenewsDataNew?.slice(0, 6).map((news, index) => (
                     <Card
                       style={{}}
                       key={index}
@@ -142,7 +163,11 @@ const News = () => {
                     </Card>
                   ))}
                 </>
-              ) : (
+              ) : isLoadingFinance ? (
+                <div className="w-full flex justify-center hscreen align-items-center">
+                  <div className="loader"></div>
+                </div>
+              )  : (
                 <div>No News data Found</div>
               )}
             </div>
