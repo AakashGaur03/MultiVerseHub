@@ -11,9 +11,10 @@ import {
   sidebarRecuer,
   getGamesAPIReducer,
   getNewsAPIReducer,
+  weatherReducer,
 } from "../Features/index.js";
 
-const store =  configureStore({
+const store = configureStore({
   reducer: {
     register: registerReducer,
     theme: themeReducer,
@@ -26,6 +27,7 @@ const store =  configureStore({
     sidebar: sidebarRecuer,
     games: getGamesAPIReducer,
     news: getNewsAPIReducer,
+    weather: weatherReducer,
 
     // other reducers...
   },

@@ -6,7 +6,10 @@ import loginReducer, { loginUser } from "./auth/loginSlice.js";
 
 import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
-import sidebarRecuer, { updateSidebar ,toggleClicked } from "./Components/sidebarSlice.js"
+import sidebarRecuer, {
+  updateSidebar,
+  toggleClicked,
+} from "./Components/sidebarSlice.js";
 
 import getCurrentStatusReducer, {
   fetchCurrentStatusUser,
@@ -18,10 +21,18 @@ import forgotPasswordReducer, {
   createNewPassword,
 } from "./auth/forgotPasswordSlice.js";
 
-import getNewsAPIReducer, { getNews,getFinanceNews } from "./APIReducers/getNewsAPISlice.js";
+import weatherReducer, { getWeather } from "./APIReducers/weatherAPISlice.js";
+
+import getNewsAPIReducer, {
+  getNews,
+  getFinanceNews,
+} from "./APIReducers/getNewsAPISlice.js";
 
 // import getGamesAPIReducer, { getGamesSectionData,getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
-import getGamesAPIReducer, { getGamesParticularsData, getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
+import getGamesAPIReducer, {
+  getGamesParticularsData,
+  getGamesSectionDataCategoryWise,
+} from "./APIReducers/getGamesSlice.js";
 
 import getCricketAPIReducer, {
   getCricket,
@@ -34,7 +45,12 @@ import getCricketAPIReducer, {
   getcricketSearchPlayer,
   getcricketPlayerInfo,
 } from "./APIReducers/getCricketAPISlice.js";
-import getEntertainmentReducer, { getEntertainmentDataMovie, getEntertainmentParticularsData, getEntertainmentDataTV, getEntertainmentSearchData } from "./APIReducers/entertainmentSlice.js";
+import getEntertainmentReducer, {
+  getEntertainmentDataMovie,
+  getEntertainmentParticularsData,
+  getEntertainmentDataTV,
+  getEntertainmentSearchData,
+} from "./APIReducers/entertainmentSlice.js";
 export {
   registerReducer,
   themeReducer,
@@ -44,6 +60,8 @@ export {
   loginReducer,
   loginUser,
   logoutReducer,
+  weatherReducer,
+  getWeather,
   logoutUser,
   getCurrentStatusReducer,
   fetchCurrentStatusUser,

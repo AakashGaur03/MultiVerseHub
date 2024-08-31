@@ -1,58 +1,100 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import "./weather.css";
 import { getWeatherAPIFunc } from "../../Api";
+import debounce from "../../GlobalComp/debounce";
+import { useDispatch, useSelector } from "react-redux";
+import { getWeather } from "../../Features";
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
+  const stateWeatherData = useSelector((state) => state.weather.data);
   const [searchWeatherState, setSearchWeatherState] = useState(false);
   const [city, setCity] = useState("New Delhi");
   const [searchWeather, setSearchWeather] = useState("");
+  const dispatch = useDispatch();
+  const loaderTrue = useSelector(
+    (state) => state.weather.weatherStatus === "loading"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
+
+  // Debounce function for setting the city
+  const debouncedSetCity = useCallback(
+    debounce((newCity) => {
+      setCity(newCity);
+    }, 500),
+    []
+  );
+
+  // Handle input change
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setSearchWeather(newValue);
+    debouncedSetCity(newValue);
+  };
 
   useEffect(() => {
+    if (stateWeatherData) {
+      setWeatherData(stateWeatherData);
+      // Update individual state variables
+      setLocation(stateWeatherData.location || {});
+      setCondition(stateWeatherData.current?.condition || {});
+      setTemp_c(stateWeatherData.current?.temp_c || null);
+      setFeelsLike_c(stateWeatherData.current?.feelslike_c || null);
+      setGust_kph(stateWeatherData.current?.gust_kph || null);
+      setHumidity(stateWeatherData.current?.humidity || null);
+      setWind_dir(stateWeatherData.current?.wind_dir || null);
+      setPressure_in(stateWeatherData.current?.pressure_in || null);
+    }
+  }, [stateWeatherData]);
+
+  // Fetch weather data when the city changes
+  useEffect(() => {
+    if(city==="") setCity("New Delhi")
     const fetchWeatherData = async () => {
       setSearchWeatherState(true);
       try {
-        const response = await getWeatherAPIFunc(city);
-        if (response) {
-          setWeatherData(response);
-          setSearchWeatherState(false);
-        }
+        await dispatch(getWeather(city));
       } catch (error) {
+        console.error(error);
       } finally {
         setSearchWeatherState(false);
       }
     };
 
-    fetchWeatherData();
+    if (city) {
+      fetchWeatherData();
+    }
   }, [city]);
+  // if (!weatherData && searchWeatherState) {
+  //   return <div>Loading...</div>;
+  // } else if (!weatherData) {
+  //   return <div>Oopsie Weahter Data Not Found...</div>;
+  // }
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setCity(searchWeather);
-  };
-  const handleChange = (e) => {
-    setSearchWeather(e.target.value);
-  };
-
-  if (!weatherData && searchWeatherState) {
-    return <div>Loading...</div>;
-  } else if (!weatherData) {
-    return <div>Oopsie Weahter Data Not Found...</div>;
-  }
-
-  const {
-    location,
-    current: {
-      condition,
-      temp_c,
-      feelslike_c,
-      gust_kph,
-      humidity,
-      wind_dir,
-      pressure_in,
-    },
-  } = weatherData;
+  const [location, setLocation] = useState({});
+  const [condition, setCondition] = useState({});
+  const [temp_c, setTemp_c] = useState(null);
+  const [feelslike_c, setFeelsLike_c] = useState(null);
+  const [gust_kph, setGust_kph] = useState(null);
+  const [humidity, setHumidity] = useState(null);
+  const [wind_dir, setWind_dir] = useState(null);
+  const [pressure_in, setPressure_in] = useState(null);
+  // const {
+  //     location,
+  //     current: {
+  //       condition,
+  //       temp_c,
+  //       feelslike_c,
+  //       gust_kph,
+  //       humidity,
+  //       wind_dir,
+  //       pressure_in,
+  //     },
+  //   } = weatherData;
 
   const backgroundImage = getBackgroundImage(condition.text);
   const getCardBodyClassName = (conditionText) => {
@@ -81,100 +123,90 @@ const Weather = () => {
             value={searchWeather}
             onChange={handleChange}
           />
-          <button className="btn absolute right-2 top-1" onClick={handleSearch}>
-            {/* BLACK */}
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              width="15"
-              height="15"
-            >
-              <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-            </svg> */}
-
-            {/* WHITE */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512 "
-              width="15"
-              height="15"
-            >
-              <path
-                fill="#ffffff"
-                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-              />
-            </svg>
-          </button>
         </div>
-        <Card className="myCard mt-3" style={{ maxWidth: "18rem", backgroundImage }}>
-          <Card.Body className={getCardBodyClassName(condition.text)}>
-            <div className="text-center">
-              <img
-                src={condition.icon}
-                className="iconwidth card-img-top"
-                alt="..."
-              />
-            </div>
-            <Card.Title className="text-center textrotate mt-4">
-              {location.name.toUpperCase()}
-            </Card.Title>
-            <Card.Title className="text-center textrotate mt-4">
-              {condition.text.toUpperCase()}
-            </Card.Title>
-            <Row className="mt-4 frontSide">
-              <Col md={6}>
-                <div
-                  className="text-center"
-                  id="cityTemp"
-                >{`CURRENT TEMP : ${temp_c}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center"
-                  id="cityFeelsLike"
-                >{`FEELS LIKE : ${feelslike_c}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center mt-4"
-                  id="cityWindSpeed"
-                >{`WIND SPEED : ${gust_kph}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center mt-4"
-                  id="cityHumidity"
-                >{`HUMIDITY : ${humidity}`}</div>
-              </Col>
-            </Row>
-            <Row className="mt-4 backSide">
-              <Col md={6}>
-                <div
-                  className="text-center textrotate"
-                  id="cityWindDirection"
-                >{`WIND DIRECTION : ${wind_dir}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center textrotate"
-                  id="cityAtmosphericPressure"
-                >{`AIR PRESSURE : ${pressure_in}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center textrotate mt-4"
-                  id="cityLatitude"
-                >{`LATITUDE : ${location.lat}`}</div>
-              </Col>
-              <Col md={6}>
-                <div
-                  className="text-center textrotate mt-4"
-                  id="cityLongitude"
-                >{`LONGITUDE : ${location.lon}`}</div>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+        {weatherData?.location ? (
+          <Card
+            className="myCard mt-3"
+            style={{ maxWidth: "18rem", backgroundImage }}
+          >
+            <Card.Body className={getCardBodyClassName(condition.text)}>
+              <div className="text-center">
+                <img
+                  src={condition.icon}
+                  className="iconwidth card-img-top"
+                  alt="..."
+                />
+              </div>
+              <Card.Title className="text-center textrotate mt-4">
+                {location?.name?.toUpperCase()}
+              </Card.Title>
+              <Card.Title className="text-center textrotate mt-4">
+                {condition?.text?.toUpperCase()}
+              </Card.Title>
+              <Row className="mt-4 frontSide">
+                <Col md={6}>
+                  <div
+                    className="text-center"
+                    id="cityTemp"
+                  >{`CURRENT TEMP : ${temp_c}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center"
+                    id="cityFeelsLike"
+                  >{`FEELS LIKE : ${feelslike_c}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center mt-4"
+                    id="cityWindSpeed"
+                  >{`WIND SPEED : ${gust_kph}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center mt-4"
+                    id="cityHumidity"
+                  >{`HUMIDITY : ${humidity}`}</div>
+                </Col>
+              </Row>
+              <Row className="mt-4 backSide">
+                <Col md={6}>
+                  <div
+                    className="text-center textrotate"
+                    id="cityWindDirection"
+                  >{`WIND DIRECTION : ${wind_dir}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center textrotate"
+                    id="cityAtmosphericPressure"
+                  >{`AIR PRESSURE : ${pressure_in}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center textrotate mt-4"
+                    id="cityLatitude"
+                  >{`LATITUDE : ${location.lat}`}</div>
+                </Col>
+                <Col md={6}>
+                  <div
+                    className="text-center textrotate mt-4"
+                    id="cityLongitude"
+                  >{`LONGITUDE : ${location.lon}`}</div>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        ) : isLoading ? (
+          <div className="w-full flex justify-center mt-4">
+            <div className="loader"></div>
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center min-h-40">
+            <div>No Data for "{city}"</div>
+            <div>Try something else </div>
+          </div>
+        )}
       </div>
     </>
   );

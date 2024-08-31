@@ -13,18 +13,19 @@ import {
 } from "../UserControls";
 import { toggleClicked, updateSidebar } from "../../Features";
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
+import debounce from "../../GlobalComp/debounce";
 
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+// function debounce(func, wait) {
+//   let timeout;
+//   return function (...args) {
+//     const later = () => {
+//       clearTimeout(timeout);
+//       func(...args);
+//     };
+//     clearTimeout(timeout);
+//     timeout = setTimeout(later, wait);
+//   };
+// }
 function NavbarComp({ setQuery }) {
   const themeColor = useSelector((state) => state.theme.theme);
   const textColor = useSelector((state) => state.theme.textColor);
