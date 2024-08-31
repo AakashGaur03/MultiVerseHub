@@ -14,6 +14,17 @@ import {
 import { toggleClicked, updateSidebar } from "../../Features";
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
 
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 function NavbarComp({ setQuery }) {
   const themeColor = useSelector((state) => state.theme.theme);
   const textColor = useSelector((state) => state.theme.textColor);
@@ -68,20 +79,16 @@ function NavbarComp({ setQuery }) {
       setToggleBtnVisible(true);
     }
   };
-  useEffect(() => {
-    isToggleVisible();
-    window.addEventListener("resize", isToggleVisible);
-    return () => window.removeEventListener("resize", isToggleVisible);
-  }, []);
 
-  const handleResize = () => {
+  const handleResize = debounce(() => {
     if (window.innerWidth > 992) {
       dispatch(toggleClicked(false));
     } else {
     }
-  };
+    isToggleVisible(); // Ensure isToggleVisible runs on every resize
+  }, 200);
+
   useEffect(() => {
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
