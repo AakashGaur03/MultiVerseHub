@@ -17,6 +17,13 @@ import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
 const Ranking = () => {
   const storeRankingData = useSelector((state) => state.cricket.rankingData);
+  const loaderTrue = useSelector(
+    (state) => state.cricket.rankingStatus === "loading"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   const location = useLocation();
   const Data = location.state?.rankingsData;
   const dispatch = useDispatch();
@@ -45,6 +52,7 @@ const Ranking = () => {
     //     setRankingData(cachedData);
     //     fetchImages(cachedData.rank);
     //   } else {
+    updateSelectedFormat(selectedFormat);
     callRankingApi();
     // }
     // }
@@ -88,6 +96,7 @@ const Ranking = () => {
     } else {
       setSelectedFormat(format);
     }
+    console.log(selectedFormat, "selectedFormat");
   };
 
   const callRankingApi = async () => {
@@ -102,8 +111,10 @@ const Ranking = () => {
         prevData: storeRankingData,
       };
       let name = `${format}${isWomen}${category}`;
-      setRankindDataType(name);
-      await dispatch(getCricketRanking(payload));
+      if (!(selectedFormat == "test" && selectedGender == "women")) {
+        setRankindDataType(name);
+        await dispatch(getCricketRanking(payload));
+      }
     } catch (error) {
       console.error("Error fetching ranking data:", error);
     }
@@ -214,7 +225,11 @@ const Ranking = () => {
           Teams
         </Badge>
       </div>
-      {rankingData?.rank?.length > 0 ? (
+      {isLoading ? (
+        <div className="w-full flex justify-center mt-5">
+          <div className="loader"></div>
+        </div>
+      ) : rankingData?.rank?.length > 0 ? (
         <Table responsive className="table" borderless hover variant="dark">
           <thead>
             <tr>

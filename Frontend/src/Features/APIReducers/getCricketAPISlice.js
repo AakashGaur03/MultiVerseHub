@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCricketAPIFunc, getCricketPointsTableAPIFunc, getCricketImageCBAPIFunc, getCricketRankingAPIFunc, getUploadImageCloudinaryFunc, getImageDBFunc, getCricketNewsCBAPIFunc, getCricketSearchPlayerAPIFunc, getCricketPlayerInfoAPIFunc } from "../../Api";
+import {
+  getCricketAPIFunc,
+  getCricketPointsTableAPIFunc,
+  getCricketImageCBAPIFunc,
+  getCricketRankingAPIFunc,
+  getUploadImageCloudinaryFunc,
+  getImageDBFunc,
+  getCricketNewsCBAPIFunc,
+  getCricketSearchPlayerAPIFunc,
+  getCricketPlayerInfoAPIFunc,
+} from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
@@ -11,6 +21,7 @@ const initialState = {
   newsData: null,
   newsStatus: null,
   rankingData: null,
+  rankingStatus: null,
   searchPlayer: null,
   playerInfo: null,
 };
@@ -29,7 +40,7 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.pointsTableData = null;
     },
-    getCricketPointsTableSuccess(state,action) {
+    getCricketPointsTableSuccess(state, action) {
       state.pointsTableStatus = "Fetched";
       state.error = null;
       state.pointsTableData = action.payload;
@@ -91,10 +102,19 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.searchPlayer = null;
     },
+    getCricketRankingStart(state) {
+      state.rankingStatus = "loading";
+      state.error = null;
+    },
     getCricketRankingDataSuccess(state, action) {
-      state.status = "Ranking Data Fetched";
+      state.rankingStatus = "Ranking Data Fetched";
       state.error = null;
       state.rankingData = action.payload;
+    },
+    getCricketRankingFailure(state) {
+      state.rankingStatus = "Failed";
+      state.error = null;
+      state.rankingData = null;
     },
     getCricketPlayerInfoSuccess(state, action) {
       state.status = "Player Info Fetched";
@@ -104,8 +124,26 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure, getCricketMatchFailure, getCricketMatchStart,getCricketPointsTableStart,getCricketPointsTableSuccess,getCricketPointsTableFailure } =
-  getCricketAPISlice.actions;
+export const {
+  getCricketStart,
+  getCricketSuccess,
+  getCricketFailure,
+  getCricketSearchPlayerSuccess,
+  getCricketPlayerInfoSuccess,
+  getCricketRankingStart,
+  getCricketRankingDataSuccess,
+  getCricketRankingFailure,
+  getCricketMatchSuccess,
+  getCricketNewsSuccess,
+  getCricketSearchPlayerEmpty,
+  getCricketNewsStart,
+  getCricketNewsFailure,
+  getCricketMatchFailure,
+  getCricketMatchStart,
+  getCricketPointsTableStart,
+  getCricketPointsTableSuccess,
+  getCricketPointsTableFailure,
+} = getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
   try {
@@ -161,29 +199,33 @@ export const getCricketNewsCBs = () => async (dispatch) => {
 };
 export const getCricketRanking = (payload) => async (dispatch) => {
   try {
-    dispatch(getCricketStart());
+    dispatch(getCricketRankingStart());
     const response = await getCricketRankingAPIFunc(payload);
     if (response) {
       dispatch(getCricketRankingDataSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(getCricketFailure(error.message));
+    dispatch(getCricketRankingFailure(error.message));
   }
 };
-export const getUploadImageCloudinary = (imageUrl, faceImageID) => async (dispatch) => {
-  try {
-    console.log("Dispatching upload image to Cloudinary action");
-    dispatch(getCricketStart());
-    const response = await getUploadImageCloudinaryFunc(imageUrl, faceImageID);
-    if (response) {
-      dispatch(getCricketSuccess(response));
-      return response;
+export const getUploadImageCloudinary =
+  (imageUrl, faceImageID) => async (dispatch) => {
+    try {
+      console.log("Dispatching upload image to Cloudinary action");
+      dispatch(getCricketStart());
+      const response = await getUploadImageCloudinaryFunc(
+        imageUrl,
+        faceImageID
+      );
+      if (response) {
+        dispatch(getCricketSuccess(response));
+        return response;
+      }
+    } catch (error) {
+      dispatch(getCricketFailure(error.message));
     }
-  } catch (error) {
-    dispatch(getCricketFailure(error.message));
-  }
-};
+  };
 export const getCricketImageDB = (faceImageID) => async (dispatch) => {
   try {
     console.log("Dispatching get image from DB");
@@ -209,11 +251,10 @@ export const getcricketSearchPlayer = (payload) => async (dispatch) => {
         return response;
       }
     }
-
   } catch (error) {
     dispatch(getCricketFailure(error));
   }
-}
+};
 export const getcricketPlayerInfo = (payload) => async (dispatch) => {
   try {
     dispatch(getCricketStart());
@@ -222,14 +263,12 @@ export const getcricketPlayerInfo = (payload) => async (dispatch) => {
       dispatch(getCricketPlayerInfoSuccess(response));
       return response;
     }
-
   } catch (error) {
     dispatch(getCricketFailure(error));
   }
-}
+};
 
 export default getCricketAPISlice.reducer;
 
-
 // Need to Update want to make store for all independent data values
-// Need to work on state management 
+// Need to work on state management
