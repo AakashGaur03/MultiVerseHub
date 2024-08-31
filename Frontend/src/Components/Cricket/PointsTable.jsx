@@ -2,22 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useParams, useLocation } from "react-router-dom";
 import { getCricketPointsTable } from "../../Features";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const PointsTable = () => {
   const dispatch = useDispatch();
+  const pointsTableData = useSelector((state) => state.cricket.pointsTableData);
+  const loaderTrue = useSelector(
+    (state) => state.cricket.pointsTableStatus === "loading"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(loaderTrue);
+  }, [loaderTrue]);
   const [dataPoints, setDataPoints] = useState([]);
   const { seriesId } = useParams();
 
+  useEffect(() => {
+    const dataToStore = pointsTableData?.pointsTable || [];
+    setDataPoints(dataToStore);
+  }, [pointsTableData]);
+
   const callPointsTable = async () => {
     try {
-      const response = await dispatch(getCricketPointsTable(seriesId));
-      if (response) {
-        const dataToStore = response.pointsTable || [];
-        setDataPoints(dataToStore);
-      } else {
-        setDataPoints([]);
-      }
+      await dispatch(getCricketPointsTable(seriesId));
     } catch (error) {
       console.error(error);
     }
@@ -68,8 +75,12 @@ const PointsTable = () => {
             </div>
           ))}
         </div>
+      ) : isLoading ? (
+        <div className="w-full flex justify-center">
+          <div className="loader"></div>
+        </div>
       ) : (
-        <div>No Data Available</div>
+        <div>No Data to Show</div>
       )}
     </>
   );

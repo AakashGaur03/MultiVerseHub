@@ -5,6 +5,8 @@ const initialState = {
   error: null,
   data: null,
   matchStatus: null,
+  pointsTableStatus: null,
+  pointsTableData: null,
   matchData: null,
   newsData: null,
   newsStatus: null,
@@ -20,6 +22,22 @@ const getCricketAPISlice = createSlice({
       state.status = "loading";
       state.error = null;
       state.data = null;
+      // state.searchPlayer = null;
+    },
+    getCricketPointsTableStart(state) {
+      state.pointsTableStatus = "loading";
+      state.error = null;
+      state.pointsTableData = null;
+    },
+    getCricketPointsTableSuccess(state,action) {
+      state.pointsTableStatus = "Fetched";
+      state.error = null;
+      state.pointsTableData = action.payload;
+    },
+    getCricketPointsTableFailure(state) {
+      state.pointsTableStatus = "Failed";
+      state.error = "Error occurred";
+      state.pointsTableData = null;
       // state.searchPlayer = null;
     },
     getCricketSuccess(state, action) {
@@ -86,7 +104,7 @@ const getCricketAPISlice = createSlice({
   },
 });
 
-export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure, getCricketMatchFailure, getCricketMatchStart } =
+export const { getCricketStart, getCricketSuccess, getCricketFailure, getCricketSearchPlayerSuccess, getCricketPlayerInfoSuccess, getCricketRankingDataSuccess, getCricketMatchSuccess, getCricketNewsSuccess, getCricketSearchPlayerEmpty, getCricketNewsStart, getCricketNewsFailure, getCricketMatchFailure, getCricketMatchStart,getCricketPointsTableStart,getCricketPointsTableSuccess,getCricketPointsTableFailure } =
   getCricketAPISlice.actions;
 
 export const getCricket = (query) => async (dispatch) => {
@@ -103,14 +121,14 @@ export const getCricket = (query) => async (dispatch) => {
 };
 export const getCricketPointsTable = (query) => async (dispatch) => {
   try {
-    dispatch(getCricketStart());
+    dispatch(getCricketPointsTableStart());
     const response = await getCricketPointsTableAPIFunc(query);
     if (response) {
-      dispatch(getCricketSuccess(response));
+      dispatch(getCricketPointsTableSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(getCricketFailure(error.message));
+    dispatch(getCricketPointsTableFailure(error.message));
   }
 };
 export const getCricketImageCBs = (query) => async (dispatch) => {
