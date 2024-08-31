@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
+import IFrameWithLoader from "../../GlobalComp/IFrameWithLoader";
 const PictureSection = ({ imagesData, videoData }) => {
   const [imageActive, setImageActive] = useState(true);
   const [videoActive, setVideoActive] = useState(false);
@@ -44,11 +45,21 @@ const PictureSection = ({ imagesData, videoData }) => {
         {imageActive &&
           (imagesData?.backdrops?.length > 0 ? (
             imagesData?.backdrops?.map((image, index) => (
-              <div key={index} className="flex-none">
-                <img
+              <div
+                key={index}
+                className="flex-none h-auto
+              min-h-72 min-w-72 relative"
+              >
+                {/* <img
                   src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
                   className=""
                   alt=""
+                /> */}
+                <ImageWithLoader
+                  style={{ height: "100%" }}
+                  src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
+                  alt={`Backdrop Images`}
+                  failedImage="/ImageNotFoundVertical.png"
                 />
               </div>
             ))
@@ -61,15 +72,21 @@ const PictureSection = ({ imagesData, videoData }) => {
         {videoActive &&
           (videoData?.results?.length > 0 ? (
             videoData?.results?.map((video, index) => (
-              <div key={index} className="flex-none w-96 h-56">
-                <iframe
+              <div key={index} className="flex-none w-96 h-56 relative">
+                {/* <iframe
                   allowFullScreen
                   width="100%"
                   height="100%"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   src={`https://www.youtube.com/embed/${video.key}`}
-                  frameBorder="0"
-                ></iframe>
+                ></iframe> */}
+                <IFrameWithLoader
+                  allowFullScreen
+                  width="100%"
+                  height="100%"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  src={`https://www.youtube.com/embed/${video.key}`}
+                />
               </div>
             ))
           ) : (

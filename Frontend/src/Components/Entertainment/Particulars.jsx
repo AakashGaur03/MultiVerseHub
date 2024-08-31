@@ -49,14 +49,14 @@ const Particulars = () => {
 
   useEffect(() => {
     setParticulatData(globalParticularData);
-    console.log(globalParticularData, "globalParticularData");
+    // console.log(globalParticularData, "globalParticularData");
     setAboutData(globalParticularData?.about);
     setCreditsData(globalParticularData?.credits);
     setReviewsData(globalParticularData?.reviews);
     setVideoData(globalParticularData?.video);
     setImagesData(globalParticularData?.images);
     setRecommendationData(globalParticularData?.recommendations);
-    console.log(particularData);
+    // console.log(particularData);
   }, [globalParticularData]);
   const infoAboutItem = (id, category) => {
     navigate(`/particulars/${category}/${id}`);
