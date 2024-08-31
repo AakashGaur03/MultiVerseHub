@@ -31,13 +31,25 @@ function NavbarComp({ setQuery }) {
 
   const [showSidebar, setShowSidebar] = useState(isToggleClicked);
 
+  const [showModal, setShowModal] = useState(null);
+
+  const handleClose = () => {
+    setShowModal(null);
+    setShowEmailInput(false);
+    setShowOTPForm(false);
+    setShowPasswordRest(false);
+  };
+
+  const handleShow = (modal) => {
+    setShowModal(modal);
+  };
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
   };
 
   useEffect(() => {
     // if (isLoggedIn) {
-      dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
+    dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
     // }
   }, [dispatch]);
 
@@ -61,18 +73,7 @@ function NavbarComp({ setQuery }) {
     window.addEventListener("resize", isToggleVisible);
     return () => window.removeEventListener("resize", isToggleVisible);
   }, []);
-  const [showModal, setShowModal] = useState(null);
 
-  const handleClose = () => {
-    setShowModal(null);
-    setShowEmailInput(false);
-    setShowOTPForm(false);
-    setShowPasswordRest(false);
-  };
-
-  const handleShow = (modal) => {
-    setShowModal(modal);
-  };
   const handleResize = () => {
     if (window.innerWidth > 992) {
       dispatch(toggleClicked(false));
@@ -112,9 +113,7 @@ function NavbarComp({ setQuery }) {
       >
         <Container>
           <Navbar.Brand className={textColor}>
-          <NavLink to={"/"}>
-            MultiverseHubb
-          </NavLink>
+            <NavLink to={"/"}>MultiverseHubb</NavLink>
           </Navbar.Brand>
           {!isLoggedIn && (
             <>
