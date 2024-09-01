@@ -23,32 +23,39 @@ const logoutSlice = createSlice({
       state.loading = false;
       state.logoutMessage = action.payload;
     },
+    updateLogoutMessage(state, action) {
+      state.logoutMessage = action.payload;
+    },
   },
 });
 
-export const { logoutStart, logoutSuccess, logoutFailure } =
-  logoutSlice.actions;
+export const {
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
+  updateLogoutMessage,
+} = logoutSlice.actions;
 
 export const logoutUser = (accessToken) => async (dispatch) => {
   try {
     dispatch(logoutStart());
 
-    if(!accessToken) {
+    if (!accessToken) {
       accessToken = localStorage.getItem("accessToken");
     }
 
-    const response = await logoutuserApi(accessToken)
+    const response = await logoutuserApi(accessToken);
 
     // console.log(response);
 
     let dispatchMessage = "";
     dispatchMessage =
       response?.data?.message || "User Logged Out SuccessFully ";
-      dispatch(setCurrentStatus(false));
+    dispatch(setCurrentStatus(false));
 
     dispatch(logoutSuccess(dispatchMessage));
-    localStorage.setItem("accessToken","")
-    return response.data
+    localStorage.setItem("accessToken", "");
+    return response.data;
   } catch (error) {
     console.log(error);
     let dispatchMessage = "";

@@ -18,7 +18,13 @@ import loginReducer, {
   loginMessageUpdate,
 } from "./auth/loginSlice.js";
 
-import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
+import logoutReducer, {
+  logoutUser,
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
+  updateLogoutMessage,
+} from "./auth/logoutSlice.js";
 
 import sidebarRecuer, {
   updateSidebar,
@@ -85,6 +91,10 @@ export {
   registrationFailure,
   updateUserRegistered,
   UpdateRegisterMessage,
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
+  updateLogoutMessage,
   getWeather,
   logoutUser,
   getCurrentStatusReducer,

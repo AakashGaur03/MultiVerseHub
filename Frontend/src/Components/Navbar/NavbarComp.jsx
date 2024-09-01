@@ -11,7 +11,14 @@ import {
   OtpModal,
   RegisrationModal,
 } from "../UserControls";
-import { loginMessageUpdate, toggleClicked, UpdateRegisterMessage, updateSidebar, updateUserRegistered } from "../../Features";
+import {
+  loginMessageUpdate,
+  toggleClicked,
+  updateLogoutMessage,
+  UpdateRegisterMessage,
+  updateSidebar,
+  updateUserRegistered,
+} from "../../Features";
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
 import debounce from "../../GlobalComp/debounce";
 
@@ -52,6 +59,7 @@ function NavbarComp({ setQuery }) {
     setShowPasswordRest(false);
     dispatch(loginMessageUpdate(""));
     dispatch(UpdateRegisterMessage(""));
+    dispatch(updateLogoutMessage(""));
     dispatch(updateUserRegistered(false));
   };
 
