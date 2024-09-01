@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
+import { useSelector } from "react-redux";
 
 const OtpModal = ({
   show,
@@ -10,6 +11,9 @@ const OtpModal = ({
   onOTPSubmit,
 }) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
+  const status = useSelector((state) => state.forgotPassword.status);
+  const message = useSelector((state) => state.forgotPassword.message);
+  const error = useSelector((state) => state.forgotPassword.error);
 
   const inputRefs = useRef([]);
 
@@ -82,6 +86,11 @@ const OtpModal = ({
 
   return (
     <ModalComponent show={show} handleClose={handleClose} title="Enter OTP">
+      {message && !error ? (
+        <div className="text-green-600 text-center">{message}</div>
+      ) : (
+        <div className="text-red-600 text-center">{message}</div>
+      )}
       <form>
         <div className="mb-3">
           <label htmlFor="otp" className="form-label">

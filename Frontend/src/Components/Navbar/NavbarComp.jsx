@@ -14,6 +14,7 @@ import {
 import {
   loginMessageUpdate,
   toggleClicked,
+  updateErrorAndMessage,
   updateLogoutMessage,
   UpdateRegisterMessage,
   updateSidebar,
@@ -60,6 +61,7 @@ function NavbarComp({ setQuery }) {
     dispatch(loginMessageUpdate(""));
     dispatch(UpdateRegisterMessage(""));
     dispatch(updateLogoutMessage(""));
+    dispatch(updateErrorAndMessage({ error: false, message: "" }));
     dispatch(updateUserRegistered(false));
   };
 

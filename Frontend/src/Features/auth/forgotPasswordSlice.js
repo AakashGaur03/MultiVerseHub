@@ -4,6 +4,7 @@ import { resetPassordApi, sendOTPApi, verifyOTPApi } from "../../Api";
 const initialState = {
   status: "idle",
   error: null,
+  message: null,
 };
 
 const forgotPassowrdSlice = createSlice({
@@ -13,46 +14,59 @@ const forgotPassowrdSlice = createSlice({
     sendOTPMailStart(state) {
       state.status = "loading";
       state.error = null;
+      state.message = null;
     },
 
-    sendOTPMailSuccess(state) {
+    sendOTPMailSuccess(state, action) {
       state.status = "OTPsent";
-      state.error = null;
+      state.error = false;
+      state.message = action.payload;
     },
 
     sendOTPMailFailure(state, action) {
       state.status = "failed";
-      state.error = action.payload;
+      state.error = true;
+      state.message = action.payload;
     },
 
     verifyOTPStart(state) {
       state.status = "loading";
       state.error = null;
+      state.message = null;
     },
 
-    verifyOTPSuccess(state) {
+    verifyOTPSuccess(state, action) {
       state.status = "OTPverified";
-      state.error = null;
+      state.error = false;
+      state.message = action.payload;
     },
 
     verifyOTPFailure(state, action) {
       state.status = "failed";
-      state.error = action.payload;
+      state.error = true;
+      state.message = action.payload;
     },
 
     resetPasswordStart(state) {
       state.status = "loading";
       state.error = null;
+      state.message = null;
     },
 
-    resetPasswordSuccess(state) {
+    resetPasswordSuccess(state, action) {
       state.status = "idle";
-      state.error = null;
+      state.error = false;
+      state.message = action.payload;
     },
 
     resetPasswordFailure(state, action) {
       state.status = "failed";
-      state.error = action.payload;
+      state.error = true;
+      state.message = action.payload;
+    },
+    updateErrorAndMessage(state, action) {
+      state.error = action.payload.error;
+      state.message = action.payload.message;
     },
   },
 });
@@ -67,6 +81,7 @@ export const {
   resetPasswordStart,
   resetPasswordSuccess,
   resetPasswordFailure,
+  updateErrorAndMessage,
 } = forgotPassowrdSlice.actions;
 
 export const sendOTPMail = (email) => async (dispatch) => {
@@ -74,12 +89,17 @@ export const sendOTPMail = (email) => async (dispatch) => {
     dispatch(sendOTPMailStart());
     const response = await sendOTPApi(email);
     if (response) {
-    //   console.log(response);
-      dispatch(sendOTPMailSuccess(response.data));
-      return response
+      console.log(response.data);
+      dispatch(sendOTPMailSuccess(response.data.message));
+      return response;
     }
   } catch (error) {
-    dispatch(sendOTPMailFailure(error.message));
+    console.log(error);
+    let dispatchMessage = "";
+    dispatchMessage =
+      error.response?.data?.message ||
+      "Unknown Error Ocuured While Sending OTP";
+    dispatch(sendOTPMailFailure(dispatchMessage));
   }
 };
 
@@ -89,11 +109,16 @@ export const verifyOTP = (otp) => async (dispatch) => {
     const response = await verifyOTPApi(otp);
     if (response) {
       // console.log(response);
-      dispatch(verifyOTPSuccess());
-      return response
+      dispatch(verifyOTPSuccess(response.data.message));
+      return response;
     }
   } catch (error) {
-    dispatch(verifyOTPFailure(error.message));
+    // dispatch(verifyOTPFailure(error.message));
+    let dispatchMessage = "";
+    dispatchMessage =
+      error.response?.data?.message ||
+      "Unknown Error Ocuured While Verifying OTP";
+    dispatch(sendOTPMailFailure(dispatchMessage));
   }
 };
 
@@ -101,13 +126,19 @@ export const createNewPassword = (data) => async (dispatch) => {
   try {
     dispatch(resetPasswordStart());
     const response = await resetPassordApi(data);
+    console.log(response, "dfdf11");
     if (response) {
-      // console.log(response);
-      dispatch(resetPasswordSuccess());
-      return response
+      console.log(response, "dfdf");
+      dispatch(resetPasswordSuccess(response.data.message));
+      return response;
     }
   } catch (error) {
-    dispatch(resetPasswordFailure(error.message));
+    // dispatch(resetPasswordFailure(error.message));
+    let dispatchMessage = "";
+    dispatchMessage =
+      error.response?.data?.message ||
+      "Unknown Error Ocuured While Reseting Password";
+    dispatch(resetPasswordFailure(dispatchMessage));
   }
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewPassword, sendOTPMail, verifyOTP } from "../../../Features";
+import { createNewPassword, sendOTPMail, updateErrorAndMessage, verifyOTP } from "../../../Features";
 import OtpModal from "./OtpModal";
 import NewPassModal from "./NewPassModal";
 
@@ -28,6 +28,7 @@ const ForgotModal = ({
   const [userId, setUserId] = useState("");
 
   const status = useSelector((state) => state.forgotPassword.status);
+  const message = useSelector((state) => state.forgotPassword.message);
   const error = useSelector((state) => state.forgotPassword.error);
 
   const handleEmailSubmit = async (e) => {
@@ -38,6 +39,7 @@ const ForgotModal = ({
     if (response) {
       setShowOTPForm(true);
       setShowEmailInput(false);
+      setEmail("");
       setOTPToken(response.data.data.otpToken, "AA");
       setUserId(response.data.data.userId, "AA");
       handleOtp();
@@ -63,8 +65,8 @@ const ForgotModal = ({
       handleShow("newPass");
     }
   };
-  const handleSetPassword = async (e) => {
-    e.preventDefault();
+  const handleSetPassword = async (e = null) => {
+    if (e) e.preventDefault();
     console.log(userId, "aaaa");
     const response = await dispatch(
       createNewPassword({
@@ -73,28 +75,38 @@ const ForgotModal = ({
         confirmPassword: confPassword,
       })
     );
+    console.log(response);
     if (response) {
-      // console.log("sdsds");
+      console.log("sdsds");
       setShowOTPForm(false);
       setShowPasswordRest(false);
+      dispatch(updateErrorAndMessage({error:false,message:""}));
       // handleLogin()
       handleShow("login");
     }
   };
-
+  const handleModalClose = () => {
+    setEmail("");
+    handleClose();
+  };
   return (
     <>
       {showEmailInput && (
         <ModalComponent
           show={show}
-          handleClose={handleClose}
+          handleClose={handleModalClose}
           title="Reset Password"
         >
-          <Form>
+          {message && !error ? (
+            <div className="text-green-600 text-center">{message}</div>
+          ) : (
+            <div className="text-red-600 text-center">{message}</div>
+          )}
+          <Form onSubmit={handleEmailSubmit}>
             <div className="mb-3">
               <Form.Label>Enter Email </Form.Label>
               <Form.Control
-                type="text"
+                type="email"
                 value={email}
                 onChange={handleMailChange}
                 required
@@ -106,8 +118,8 @@ const ForgotModal = ({
               </Button> */}
               <Button
                 type="submit"
-                onClick={handleEmailSubmit}
                 className="bg-orange-300"
+                disabled={status === "loading"}
               >
                 Next
               </Button>
@@ -129,8 +141,10 @@ const ForgotModal = ({
           show={showModal === "newPass"}
           handleClose={handleClose}
           handleSetPassword={handleSetPassword}
-          password = {password}
-          confPassword = {confPassword}
+          setPassword={setPassword}
+          setConfPassword={setConfPassword}
+          password={password}
+          confPassword={confPassword}
           handlePassChange={handlePassChange}
           handleConfPassChange={handleConfPassChange}
         />
