@@ -11,7 +11,7 @@ import {
   OtpModal,
   RegisrationModal,
 } from "../UserControls";
-import { loginMessageUpdate, toggleClicked, updateSidebar } from "../../Features";
+import { loginMessageUpdate, toggleClicked, UpdateRegisterMessage, updateSidebar, updateUserRegistered } from "../../Features";
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
 import debounce from "../../GlobalComp/debounce";
 
@@ -51,6 +51,8 @@ function NavbarComp({ setQuery }) {
     setShowOTPForm(false);
     setShowPasswordRest(false);
     dispatch(loginMessageUpdate(""));
+    dispatch(UpdateRegisterMessage(""));
+    dispatch(updateUserRegistered(false));
   };
 
   const handleShow = (modal) => {

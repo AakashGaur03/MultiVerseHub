@@ -69,6 +69,13 @@ const RegisrationModal = ({ show, handleClose, handleShow }) => {
       const res = await dispatch(registerUser(formDataToSend));
       console.log(res);
       if (res.statusCode == 200) {
+        setFormData({
+          username: "",
+          fullName: "",
+          password: "",
+          email: "",
+          avatar: null,
+        });
         // handleShow("login");
       }
       // await dispatch(registerUser(formData));

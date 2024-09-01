@@ -29,6 +29,9 @@ const registerSlice = createSlice({
     updateUserRegistered(state, action) {
       state.userRegistered = action.payload;
     },
+    UpdateRegisterMessage(state, action) {
+      state.message = action.payload;
+    },
   },
 });
 
@@ -37,6 +40,7 @@ export const {
   registrationSuccess,
   registrationFailure,
   updateUserRegistered,
+  UpdateRegisterMessage,
 } = registerSlice.actions;
 
 export const registerUser = (userData) => async (dispatch) => {

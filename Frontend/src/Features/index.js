@@ -4,6 +4,7 @@ import registerReducer, {
   registrationSuccess,
   registrationFailure,
   updateUserRegistered,
+  UpdateRegisterMessage,
 } from "./auth/registerSlice.js";
 
 import themeReducer, { toggleTheme } from "./theme/themeSlice.js";
@@ -83,6 +84,7 @@ export {
   registrationSuccess,
   registrationFailure,
   updateUserRegistered,
+  UpdateRegisterMessage,
   getWeather,
   logoutUser,
   getCurrentStatusReducer,
