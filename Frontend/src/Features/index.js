@@ -1,4 +1,10 @@
-import registerReducer, { registerUser } from "./auth/registerSlice.js";
+import registerReducer, {
+  registerUser,
+  registrationStart,
+  registrationSuccess,
+  registrationFailure,
+  updateUserRegistered,
+} from "./auth/registerSlice.js";
 
 import themeReducer, { toggleTheme } from "./theme/themeSlice.js";
 
@@ -73,6 +79,10 @@ export {
   loginFailure,
   storeAccessToken,
   loginMessageUpdate,
+  registrationStart,
+  registrationSuccess,
+  registrationFailure,
+  updateUserRegistered,
   getWeather,
   logoutUser,
   getCurrentStatusReducer,
