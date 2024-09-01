@@ -27,14 +27,22 @@ const loginSlice = createSlice({
       state.message = action.payload;
       state.currentState = "logout";
     },
+    loginMessageUpdate(state, action) {
+      state.message = action.payload;
+    },
     storeAccessToken(state, action) {
       state.accessToken = action.payload;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, storeAccessToken } =
-  loginSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  storeAccessToken,
+  loginMessageUpdate,
+} = loginSlice.actions;
 
 export const loginUser = (data) => async (dispatch) => {
   try {
@@ -60,6 +68,7 @@ export const loginUser = (data) => async (dispatch) => {
     dispatchMessage =
       error.response?.data?.message ||
       "Unknown Error Ocuured While logging In user";
+    console.log(dispatchMessage, "dispatchMessage");
     dispatch(loginFailure(dispatchMessage));
   }
 };

@@ -2,7 +2,14 @@ import registerReducer, { registerUser } from "./auth/registerSlice.js";
 
 import themeReducer, { toggleTheme } from "./theme/themeSlice.js";
 
-import loginReducer, { loginUser } from "./auth/loginSlice.js";
+import loginReducer, {
+  loginUser,
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  storeAccessToken,
+  loginMessageUpdate,
+} from "./auth/loginSlice.js";
 
 import logoutReducer, { logoutUser } from "./auth/logoutSlice.js";
 
@@ -61,6 +68,11 @@ export {
   loginUser,
   logoutReducer,
   weatherReducer,
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  storeAccessToken,
+  loginMessageUpdate,
   getWeather,
   logoutUser,
   getCurrentStatusReducer,

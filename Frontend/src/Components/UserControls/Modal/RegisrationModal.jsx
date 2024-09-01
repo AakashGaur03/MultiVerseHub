@@ -75,6 +75,7 @@ const RegisrationModal = ({ show, handleClose,handleShow }) => {
             value={formData.username}
             data-id="username"
             id="registerUsername"
+            required
           />
 
           <Form.Label htmlFor="registerFullName">Full name</Form.Label>
@@ -84,6 +85,7 @@ const RegisrationModal = ({ show, handleClose,handleShow }) => {
             value={formData.fullName}
             data-id="fullName"
             id="registerFullName"
+            required
           />
 
           <Form.Label htmlFor="registerPassword">Password</Form.Label>
@@ -93,6 +95,8 @@ const RegisrationModal = ({ show, handleClose,handleShow }) => {
             value={formData.password}
             data-id="password"
             id="registerPassword"
+            required
+            minLength={6}
           />
 
           <Form.Label htmlFor="registerEmail">email</Form.Label>
@@ -102,6 +106,7 @@ const RegisrationModal = ({ show, handleClose,handleShow }) => {
             value={formData.email}
             data-id="email"
             id="registerEmail"
+            required
           />
           <Form.Label htmlFor="avatar">avatar</Form.Label>
           <input
