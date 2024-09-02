@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      requied: true,
+      required: true,
       unique: true,
       lowercase: true,
       index: true,
@@ -14,14 +14,14 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      requied: true,
+      required: true,
       unique: true,
       trim: true,
       lowercase: true,
     },
     fullName: {
       type: String,
-      requied: true,
+      required: true,
     },
     avatar: {
       type: String,
@@ -32,6 +32,10 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
+    },
+    favSection: {
+      type: Schema.Types.ObjectId,
+      ref: "FavSection",
     },
   },
   { timestamps: true }
