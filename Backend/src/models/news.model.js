@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const newsSchema = new Schema(
   {
-    id: {
+    newsId: {
       type: String,
       required: true,
       unique: true,

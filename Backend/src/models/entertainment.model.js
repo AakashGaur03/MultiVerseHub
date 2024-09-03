@@ -2,11 +2,15 @@ import mongoose, { Schema } from "mongoose";
 
 const entertainmentSchema = new Schema(
   {
-    id: {
+    entertainmentId: {
       type: String,
       required: true,
       unique: true,
       index: true,
+    },
+    entertainmentType: {
+      type: String,
+      required: true,
     },
     imageUrl: {
       type: String,

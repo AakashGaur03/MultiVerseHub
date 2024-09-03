@@ -79,7 +79,7 @@ const cricketMatchSchema = new Schema(
 );
 const cricketNewsSchema = new Schema(
   {
-    id: {
+    cricketNewsId: {
       type: String,
       required: true,
       unique: true,
