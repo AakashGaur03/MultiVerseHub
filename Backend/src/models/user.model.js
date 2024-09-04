@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
   {
+    userId: {
+      type: Number,
+      required: true,
+    },
     username: {
       type: String,
       required: true,

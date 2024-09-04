@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import axios from "axios";
 import { Image } from "../models/image.model.js";
+import { Counter } from "../models/counter.model.js";
 
 // const allJokes = asyncHandler(async (req, res) => {
 //   const jokes = [
@@ -128,7 +129,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
+  const counter = await Counter.findOneAndUpdate(
+    { name: "userId" },
+    { $inc: { value: 1 } },
+    { new: true, upsert: true }
+  );
+  console.log(counter,"Counter")
   const user = await User.create({
+    userId: counter.value,
     fullName,
     avatar: avatar?.url || "",
     email,
@@ -431,7 +439,9 @@ const sendOtponMail = asyncHandler(async (req, res) => {
       }
     });
   } catch (error) {
-    return res.status(500).json(new ApiError(500, "Some Error occurred while sending mail"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while sending mail"));
   }
 });
 
@@ -488,7 +498,9 @@ const createNewPassword = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, {}, "Password Reset Successfully"));
   } catch (error) {
     console.error("Error resetting password:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while resetting password"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while resetting password"));
   }
 });
 
@@ -762,7 +774,11 @@ const getWeathter = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Weahter:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Weahter Data"));
+    return res
+      .status(500)
+      .json(
+        new ApiError(500, "Some Error occurred while fetching Weahter Data")
+      );
   }
 });
 
@@ -796,7 +812,11 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Word Of The Day:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Word Of The Day"));
+    return res
+      .status(500)
+      .json(
+        new ApiError(500, "Some Error occurred while fetching Word Of The Day")
+      );
   }
 });
 
@@ -841,7 +861,9 @@ const uploadImageCloudinary = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error saving image to Cloudinary:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while uploading image"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while uploading image"));
   }
 });
 
@@ -899,37 +921,31 @@ const getImageFromDB = asyncHandler(async (req, res) => {
   }
   return res
     .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        {},
-        "Image Not Found in DB "
-      )
-    );
-
+    .json(new ApiResponse(200, {}, "Image Not Found in DB "));
 });
 
 const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
-
-  const { topRatedPage, popularPage, nowPlayingPage, upcomingPage, oldData } = req.body
+  const { topRatedPage, popularPage, nowPlayingPage, upcomingPage, oldData } =
+    req.body;
   const urls = [
     `https://api.themoviedb.org/3/movie/top_rated?&page=${topRatedPage}`,
     `https://api.themoviedb.org/3/movie/popular?&page=${popularPage}`,
     `https://api.themoviedb.org/3/movie/now_playing?&page=${nowPlayingPage}`,
     `https://api.themoviedb.org/3/movie/upcoming?&page=${upcomingPage}`,
-  ]
+  ];
 
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
+      Authorization: `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
-    const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
-    let responseData = []
+    const [response1, response2, response3, response4] = await Promise.all(
+      urls.map((url) => axios.request({ ...options, url }))
+    );
+    let responseData = [];
     if (response1 && response2 && response3 && response4) {
       if (oldData) {
         const responseData1 = response1.data;
@@ -937,55 +953,47 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
         const responseData3 = response3.data;
         const responseData4 = response4.data;
 
-        let topRated
-        let nowPlaying
-        let upcoming
-        let popular
-        let searchResult
+        let topRated;
+        let nowPlaying;
+        let upcoming;
+        let popular;
+        let searchResult;
 
         if (oldData.search_result) {
-          searchResult = oldData.search_result
+          searchResult = oldData.search_result;
         }
 
         if (oldData.top_rated.page != topRatedPage) {
           topRated = {
-            ...responseData1, results: [
-              ...oldData.top_rated.results,
-              ...responseData1.results
-            ]
-          }
+            ...responseData1,
+            results: [...oldData.top_rated.results, ...responseData1.results],
+          };
         } else {
-          topRated = oldData.top_rated
+          topRated = oldData.top_rated;
         }
         if (oldData.popular.page != popularPage) {
           popular = {
-            ...responseData2, results: [
-              ...oldData.popular.results,
-              ...responseData2.results
-            ]
-          }
+            ...responseData2,
+            results: [...oldData.popular.results, ...responseData2.results],
+          };
         } else {
-          popular = oldData.popular
+          popular = oldData.popular;
         }
         if (oldData.now_playing.page != nowPlayingPage) {
           nowPlaying = {
-            ...responseData3, results: [
-              ...oldData.now_playing.results,
-              ...responseData3.results
-            ]
-          }
+            ...responseData3,
+            results: [...oldData.now_playing.results, ...responseData3.results],
+          };
         } else {
-          nowPlaying = oldData.now_playing
+          nowPlaying = oldData.now_playing;
         }
         if (oldData.upcoming.page != upcomingPage) {
           upcoming = {
-            ...responseData4, results: [
-              ...oldData.upcoming.results,
-              ...responseData4.results
-            ]
-          }
+            ...responseData4,
+            results: [...oldData.upcoming.results, ...responseData4.results],
+          };
         } else {
-          upcoming = oldData.upcoming
+          upcoming = oldData.upcoming;
         }
 
         responseData = {
@@ -994,13 +1002,18 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
           popular: popular,
           now_playing: nowPlaying,
           upcoming: upcoming,
-        }
+        };
       } else {
         const responseData1 = response1.data;
         const responseData2 = response2.data;
         const responseData3 = response3.data;
         const responseData4 = response4.data;
-        responseData = { top_rated: responseData1, popular: responseData2, now_playing: responseData3, upcoming: responseData4 }
+        responseData = {
+          top_rated: responseData1,
+          popular: responseData2,
+          now_playing: responseData3,
+          upcoming: responseData4,
+        };
       }
       return res
         .status(200)
@@ -1018,85 +1031,88 @@ const getEntertainmentDataMovie = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Entertainment Data:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching data"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while fetching data"));
   }
 });
 const getEntertainmentDataTV = asyncHandler(async (req, res) => {
-
-  const { onTheAirPageTv, topRatedPageTv, popularPageTv, airingTodayPageTv, oldData } = req.body
+  const {
+    onTheAirPageTv,
+    topRatedPageTv,
+    popularPageTv,
+    airingTodayPageTv,
+    oldData,
+  } = req.body;
   const urls = [
     `https://api.themoviedb.org/3/tv/on_the_air?&page=${onTheAirPageTv}`,
     `https://api.themoviedb.org/3/tv/popular?&page=${popularPageTv}`,
     `https://api.themoviedb.org/3/tv/top_rated?&page=${topRatedPageTv}`,
     `https://api.themoviedb.org/3/tv/airing_today?&page=${airingTodayPageTv}`,
-  ]
+  ];
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
+      Authorization: `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
-    const [response1, response2, response3, response4] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
+    const [response1, response2, response3, response4] = await Promise.all(
+      urls.map((url) => axios.request({ ...options, url }))
+    );
     if (response1 && response2 && response3 && response4) {
-      let responseData = []
+      let responseData = [];
       if (oldData) {
         const responseData1 = response1.data;
         const responseData2 = response2.data;
         const responseData3 = response3.data;
         const responseData4 = response4.data;
 
-        let onTheAirTv
-        let airingTodayTv
-        let popularTv
-        let topRatedTv
-        let searchResult
+        let onTheAirTv;
+        let airingTodayTv;
+        let popularTv;
+        let topRatedTv;
+        let searchResult;
 
         if (oldData.search_result) {
-          searchResult = oldData.search_result
+          searchResult = oldData.search_result;
         }
 
         if (oldData.on_the_air.page != onTheAirPageTv) {
           onTheAirTv = {
-            ...responseData1, results: [
-              ...oldData.on_the_air.results,
-              ...responseData1.results
-            ]
-          }
+            ...responseData1,
+            results: [...oldData.on_the_air.results, ...responseData1.results],
+          };
         } else {
-          onTheAirTv = oldData.on_the_air
+          onTheAirTv = oldData.on_the_air;
         }
         if (oldData.popular.page != popularPageTv) {
           popularTv = {
-            ...responseData2, results: [
-              ...oldData.popular.results,
-              ...responseData2.results
-            ]
-          }
+            ...responseData2,
+            results: [...oldData.popular.results, ...responseData2.results],
+          };
         } else {
-          popularTv = oldData.popular
+          popularTv = oldData.popular;
         }
         if (oldData.top_rated.page != topRatedPageTv) {
           topRatedTv = {
-            ...responseData3, results: [
-              ...oldData.top_rated.results,
-              ...responseData3.results
-            ]
-          }
+            ...responseData3,
+            results: [...oldData.top_rated.results, ...responseData3.results],
+          };
         } else {
-          topRatedTv = oldData.top_rated
+          topRatedTv = oldData.top_rated;
         }
         if (oldData.airing_today.page != airingTodayPageTv) {
           airingTodayTv = {
-            ...responseData4, results: [
+            ...responseData4,
+            results: [
               ...oldData.airing_today.results,
-              ...responseData4.results
-            ]
-          }
+              ...responseData4.results,
+            ],
+          };
         } else {
-          airingTodayTv = oldData.airing_today
+          airingTodayTv = oldData.airing_today;
         }
 
         responseData = {
@@ -1105,15 +1121,18 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
           popular: popularTv,
           on_the_air: onTheAirTv,
           airing_today: airingTodayTv,
-        }
-      }
-      else {
-
+        };
+      } else {
         const responseData1 = response1.data;
         const responseData2 = response2.data;
         const responseData3 = response3.data;
         const responseData4 = response4.data;
-        responseData = { on_the_air: responseData1, popular: responseData2, top_rated: responseData3, airing_today: responseData4 }
+        responseData = {
+          on_the_air: responseData1,
+          popular: responseData2,
+          top_rated: responseData3,
+          airing_today: responseData4,
+        };
       }
       return res
         .status(200)
@@ -1131,15 +1150,17 @@ const getEntertainmentDataTV = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Entertainment Data:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching data"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while fetching data"));
   }
 });
 
 // Particulars of Movie or TV
 const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
   const { category, id } = req.params;
-  if (category === undefined) category = 'tv'
-  if (id === undefined) id = '4057'
+  if (category === undefined) category = "tv";
+  if (id === undefined) id = "4057";
 
   let urls = [
     `https://api.themoviedb.org/3/${category}/${id}`,
@@ -1148,27 +1169,35 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     `https://api.themoviedb.org/3/${category}/${id}/videos?language=en-US`,
     `https://api.themoviedb.org/3/${category}/${id}/images`,
     `https://api.themoviedb.org/3/${category}/${id}/recommendations`,
-  ]
+  ];
 
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
+      Authorization: `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
     },
   };
   try {
-
-    const [response1, response2, response3, response4, response5, response6] = await Promise.all(urls.map(url => axios.request({ ...options, url })))
-    if (response1 && response2 && response3 && response4 && response5, response6) {
+    const [response1, response2, response3, response4, response5, response6] =
+      await Promise.all(urls.map((url) => axios.request({ ...options, url })));
+    if (
+      (response1 && response2 && response3 && response4 && response5, response6)
+    ) {
       const responseData1 = response1.data;
       const responseData2 = response2.data;
       const responseData3 = response3.data;
       const responseData4 = response4.data;
       const responseData5 = response5.data;
       const responseData6 = response6.data;
-      const responseData = { about: responseData1, credits: responseData2, reviews: responseData3, video: responseData4, images: responseData5, recommendations: responseData6 }
+      const responseData = {
+        about: responseData1,
+        credits: responseData2,
+        reviews: responseData3,
+        video: responseData4,
+        images: responseData5,
+        recommendations: responseData6,
+      };
       return res
         .status(200)
         .json(
@@ -1185,13 +1214,17 @@ const getEntertainmentParticularsData = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error("Error fetching Entertainment Data:", error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching particulars data"));
+    return res
+      .status(500)
+      .json(
+        new ApiError(500, "Some Error occurred while fetching particulars data")
+      );
   }
 });
 const getEntertainmentSearch = asyncHandler(async (req, res) => {
   let { category, searchQuery } = req.body;
-  if (category === undefined) category = 'tv'
-  if (searchQuery === undefined) searchQuery = ''
+  if (category === undefined) category = "tv";
+  if (searchQuery === undefined) searchQuery = "";
 
   try {
     const options = {
@@ -1199,8 +1232,7 @@ const getEntertainmentSearch = asyncHandler(async (req, res) => {
       url: `https://api.themoviedb.org/3/search/${category}?query=${searchQuery}`,
       headers: {
         accept: "application/json",
-        Authorization:
-          `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
+        Authorization: `Bearer ${process.env.TMBD_AUTHORIZATION_HEADER}`,
       },
     };
 
@@ -1224,10 +1256,11 @@ const getEntertainmentSearch = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(`Error fetching ${searchQuery} :`, error);
-    return res.status(500).json(new ApiError(500, "Some Error occurred while fetching Search API"));
+    return res
+      .status(500)
+      .json(new ApiError(500, "Some Error occurred while fetching Search API"));
   }
 });
-
 
 // Categories top_rated,popular,now_playing
 // Search
@@ -1258,8 +1291,6 @@ export {
   getEntertainmentParticularsData,
   getEntertainmentSearch,
 };
-
-
 
 // Use for Refernce for Gallery Type Implementation in Multi Images per ID
 // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_tab_img_gallery
