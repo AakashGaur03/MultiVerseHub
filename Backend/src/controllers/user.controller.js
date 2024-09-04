@@ -134,7 +134,6 @@ const registerUser = asyncHandler(async (req, res) => {
     { $inc: { value: 1 } },
     { new: true, upsert: true }
   );
-  console.log(counter,"Counter")
   const user = await User.create({
     userId: counter.value,
     fullName,
