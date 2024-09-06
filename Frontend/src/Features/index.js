@@ -26,7 +26,7 @@ import logoutReducer, {
   updateLogoutMessage,
 } from "./auth/logoutSlice.js";
 
-import sidebarRecuer, {
+import sidebarReducer, {
   updateSidebar,
   toggleClicked,
 } from "./Components/sidebarSlice.js";
@@ -86,7 +86,7 @@ export {
   themeReducer,
   registerUser,
   toggleTheme,
-  sidebarRecuer,
+  sidebarReducer,
   loginReducer,
   loginUser,
   logoutReducer,

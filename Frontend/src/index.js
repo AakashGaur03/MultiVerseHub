@@ -39,7 +39,7 @@ import {
   logoutUser,
   getCurrentStatusReducer,
   fetchCurrentStatusUser,
-  sidebarRecuer,
+  sidebarReducer,
 } from "./Features/index.js";
 import truncateText from "./GlobalComp/TruncateText.js";
 import CustomCircularProgressRating from "./GlobalComp/CustomCircularProgressRating.jsx";
