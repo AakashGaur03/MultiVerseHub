@@ -23,12 +23,12 @@ const addFavorites = asyncHandler(async (req, res) => {
     redirectLink,
     hLine,
     description,
-    source,
     sourceImg,
     sourceRedirectLink,
     publishDate,
     word,
     meaning,
+    cricketFavType,
     matchId,
     seriesId,
     matchDesc,
@@ -123,63 +123,92 @@ const addFavorites = asyncHandler(async (req, res) => {
         await item.save();
       }
     } else if (favType === "cricket") {
-      if (matchId) {
-        item = await Cricket.findOne({ "matchDetails.matchId": itemId });
-        if (!item) {
-          item = new Cricket({
-            matchDetails: [
-              {
-                matchId,
-                seriesId,
-                matchDesc,
-                matchFormat,
-                team1ShortName,
-                team2ShortName,
-                team1Inn1Runs,
-                team1Inn2Runs,
-                team1Inn1Wickets,
-                team1Inn2Wickets,
-                team1Inn1Overs,
-                team1Inn2Overs,
-                team2Inn1Runs,
-                team2Inn2Runs,
-                team2Inn1Wickets,
-                team2Inn2Wickets,
-                team2Inn1Overs,
-                team2Inn2Overs,
-                matchStatus,
-              },
-            ],
+      item = await Cricket.findOne();
+      if (!item) {
+        item = new Cricket();
+        await item.save(); // Save new Cricket document before using it
+      }
+      const counter = await Counter.findOneAndUpdate(
+        { name: "wordOfTheDayId" },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true }
+      );
+      let cricketNewsId = counter.value;
+      if (matchId && cricketFavType === "matchDetails") {
+        let matchExists = item.matchDetails.some(
+          (detail) => detail.matchId === matchId
+        );
+        if (!matchExists) {
+          item.matchDetails.push({
+            matchId,
+            seriesId,
+            matchDesc,
+            matchFormat,
+            team1ShortName,
+            team2ShortName,
+            team1Inn1Runs,
+            team1Inn2Runs,
+            team1Inn1Wickets,
+            team1Inn2Wickets,
+            team1Inn1Overs,
+            team1Inn2Overs,
+            team2Inn1Runs,
+            team2Inn2Runs,
+            team2Inn1Wickets,
+            team2Inn2Wickets,
+            team2Inn1Overs,
+            team2Inn2Overs,
+            matchStatus,
           });
-          await item.save();
+        } else {
+          return res
+            .status(400)
+            .json(
+              new ApiResponse(
+                400,
+                favSection,
+                "Item already exists in Fav Section"
+              )
+            );
         }
-      } else if (cricketNewsId) {
-        item = await Cricket.findOne({ "cricketNews.cricketNewsId": itemId });
-        if (!item) {
-          item = new Cricket({
-            cricketNews: [
-              {
-                cricketNewsId: itemId,
-                imageUrl,
-                redirectLink,
-                hLine,
-                description,
-                source,
-                publishTime,
-              },
-            ],
+      } else if (cricketNewsId && cricketFavType === "newsDetails") {
+        let newsExists = item.cricketNews.some(
+          (news) => news.cricketNewsId === cricketNewsId
+        );
+        if (!newsExists) {
+          item.cricketNews.push({
+            cricketNewsId,
+            imageUrl,
+            redirectLink,
+            hLine,
+            description,
+            sourceImg,
+            sourceRedirectLink,
+            publishTime,
           });
-          await item.save();
+        } else {
+          return res
+            .status(400)
+            .json(
+              new ApiResponse(
+                400,
+                favSection,
+                "Item already exists in Fav Section"
+              )
+            );
         }
       }
+      await item.save();
+      favSection.cricket = item._id; // Ensure cricket ID is correctly assigned
     }
-    if (favSection[favType].includes(item._id)) {
+    if (favType !== "cricket" && favSection[favType].includes(item._id)) {
       return res
         .status(400)
         .json(
           new ApiResponse(400, favSection, "Item already exists in Fav Section")
         );
     }
+
     favSection[favType].push(item._id);
     await favSection.save();
     return res
