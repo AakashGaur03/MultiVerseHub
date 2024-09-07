@@ -24,7 +24,11 @@ const newsSchema = new Schema(
       type: String,
       required: true,
     },
-    source: {
+    sourceImg: {
+      type: String,
+      required: true,
+    },
+    sourceRedirectLink: {
       type: String,
       required: true,
     },

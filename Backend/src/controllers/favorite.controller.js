@@ -8,9 +8,11 @@ import { FavSection } from "../models/favSection.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
+import { Counter } from "../models/counter.model.js";
 
 const addFavorites = asyncHandler(async (req, res) => {
   const {
+    favType,
     itemId,
     name,
     imageUrl,
@@ -22,6 +24,8 @@ const addFavorites = asyncHandler(async (req, res) => {
     hLine,
     description,
     source,
+    sourceImg,
+    sourceRedirectLink,
     publishDate,
     word,
     meaning,
@@ -45,6 +49,7 @@ const addFavorites = asyncHandler(async (req, res) => {
     team2Inn2Overs,
     matchStatus,
     publishTime,
+    cricketNewsId,
   } = req.body;
   try {
     // const itemId = "475";
@@ -83,24 +88,35 @@ const addFavorites = asyncHandler(async (req, res) => {
         await item.save();
       }
     } else if (favType === "news") {
-      item = await News.findOne({ newsId: itemId });
+      const counter = await Counter.findOneAndUpdate(
+        { name: "favSectionNewsId" },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true }
+      );
+      item = await News.findOne({ newsId: counter.value });
       if (!item) {
         item = new News({
-          newsId: itemId,
+          newsId: counter.value,
           imageUrl,
           redirectLink,
           hLine,
           description,
-          source,
+          sourceImg,
+          sourceRedirectLink,
           publishDate,
         });
         await item.save();
       }
     } else if (favType === "wordOfTheDay") {
-      item = await WordOfTheDay.findOne({ wordOfTheDayId: itemId });
+      const counter = await Counter.findOneAndUpdate(
+        { name: "wordOfTheDayId" },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true }
+      );
+      item = await WordOfTheDay.findOne({ wordOfTheDayId: counter.value });
       if (!item) {
         item = new WordOfTheDay({
-          wordOfTheDayId: itemId,
+          wordOfTheDayId: counter.value,
           word,
           meaning,
         });
