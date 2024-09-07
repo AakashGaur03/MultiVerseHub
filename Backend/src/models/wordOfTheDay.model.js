@@ -2,6 +2,12 @@ import mongoose, { Schema } from "mongoose";
 
 const wordOfTheDaySchema = new Schema(
   {
+    wordOfTheDayId: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
     word: {
       type: String,
       required: true,
