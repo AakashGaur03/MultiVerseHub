@@ -10,14 +10,49 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 
 const addFavorites = asyncHandler(async (req, res) => {
-  // const { favType, itemId } = req.body;
+  const {
+    itemId,
+    name,
+    imageUrl,
+    releaseDate,
+    entertainmentType,
+    rating,
+    title,
+    redirectLink,
+    hLine,
+    description,
+    source,
+    publishDate,
+    word,
+    meaning,
+    matchId,
+    seriesId,
+    matchDesc,
+    matchFormat,
+    team1ShortName,
+    team2ShortName,
+    team1Inn1Runs,
+    team1Inn2Runs,
+    team1Inn1Wickets,
+    team1Inn2Wickets,
+    team1Inn1Overs,
+    team1Inn2Overs,
+    team2Inn1Runs,
+    team2Inn2Runs,
+    team2Inn1Wickets,
+    team2Inn2Wickets,
+    team2Inn1Overs,
+    team2Inn2Overs,
+    matchStatus,
+    publishTime,
+  } = req.body;
   try {
-    const itemId = "475";
-    const favType = "games";
-    const gameId = "475";
-    const imageUrl = "https://www.freetogame.com/g/475/thumbnail.jpg";
-    const name = "Genshin Impact";
-    const releaseDate = "28 September 2020";
+    // const itemId = "475";
+    // const favType = "games";
+    // const gameId = "475";
+    // const imageUrl = "https://www.freetogame.com/g/475/thumbnail.jpg";
+    // const name = "Genshin Impact";
+    // const releaseDate = "28 September 2020";
     const userId = req.user._id;
     let user = await User.findById(userId).populate("favSection");
     let favSection = user.favSection;
@@ -33,6 +68,93 @@ const addFavorites = asyncHandler(async (req, res) => {
       if (!item) {
         item = new Game({ gameId: itemId, name, imageUrl, releaseDate });
         await item.save();
+      }
+    } else if (favType === "entertainment") {
+      item = await Entertainment.findOne({ entertainmentId: itemId });
+      if (!item) {
+        item = new Entertainment({
+          entertainmentId: itemId,
+          entertainmentType,
+          imageUrl,
+          rating,
+          title,
+          releaseDate,
+        });
+        await item.save();
+      }
+    } else if (favType === "news") {
+      item = await News.findOne({ newsId: itemId });
+      if (!item) {
+        item = new News({
+          newsId: itemId,
+          imageUrl,
+          redirectLink,
+          hLine,
+          description,
+          source,
+          publishDate,
+        });
+        await item.save();
+      }
+    } else if (favType === "wordOfTheDay") {
+      item = await WordOfTheDay.findOne({ wordOfTheDayId: itemId });
+      if (!item) {
+        item = new WordOfTheDay({
+          wordOfTheDayId: itemId,
+          word,
+          meaning,
+        });
+        await item.save();
+      }
+    } else if (favType === "cricket") {
+      if (matchId) {
+        item = await Cricket.findOne({ "matchDetails.matchId": itemId });
+        if (!item) {
+          item = new Cricket({
+            matchDetails: [
+              {
+                matchId,
+                seriesId,
+                matchDesc,
+                matchFormat,
+                team1ShortName,
+                team2ShortName,
+                team1Inn1Runs,
+                team1Inn2Runs,
+                team1Inn1Wickets,
+                team1Inn2Wickets,
+                team1Inn1Overs,
+                team1Inn2Overs,
+                team2Inn1Runs,
+                team2Inn2Runs,
+                team2Inn1Wickets,
+                team2Inn2Wickets,
+                team2Inn1Overs,
+                team2Inn2Overs,
+                matchStatus,
+              },
+            ],
+          });
+          await item.save();
+        }
+      } else if (cricketNewsId) {
+        item = await Cricket.findOne({ "cricketNews.cricketNewsId": itemId });
+        if (!item) {
+          item = new Cricket({
+            cricketNews: [
+              {
+                cricketNewsId: itemId,
+                imageUrl,
+                redirectLink,
+                hLine,
+                description,
+                source,
+                publishTime,
+              },
+            ],
+          });
+          await item.save();
+        }
       }
     }
     if (favSection[favType].includes(item._id)) {
