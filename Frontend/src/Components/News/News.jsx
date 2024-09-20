@@ -5,6 +5,7 @@ import { getFinanceNews, getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../GlobalComp/formatDate";
 
+
 const News = () => {
   // const [newsData, setNewsData] = useState([]);
   const loaderTrueNews = useSelector((state) => state.news.status === "loading");
