@@ -22,7 +22,7 @@ const LogoutModal = ({ show, handleClose }) => {
     <>
       <ModalComponent show={show} handleClose={handleClose} title="Logout ">
         {/* {message && <div>{message}</div>} */}
-        {message && !currentState  ? (
+        {message && !currentState ? (
           <div className="text-green-600 text-center">{message}</div>
         ) : (
           <div className="text-red-600 text-center">{message}</div>

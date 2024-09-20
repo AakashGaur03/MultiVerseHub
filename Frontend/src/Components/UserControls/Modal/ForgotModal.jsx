@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewPassword, sendOTPMail, updateErrorAndMessage, verifyOTP } from "../../../Features";
+import {
+  createNewPassword,
+  sendOTPMail,
+  updateErrorAndMessage,
+  verifyOTP,
+} from "../../../Features";
 import OtpModal from "./OtpModal";
 import NewPassModal from "./NewPassModal";
 
@@ -80,7 +85,7 @@ const ForgotModal = ({
       console.log("sdsds");
       setShowOTPForm(false);
       setShowPasswordRest(false);
-      dispatch(updateErrorAndMessage({error:false,message:""}));
+      dispatch(updateErrorAndMessage({ error: false, message: "" }));
       // handleLogin()
       handleShow("login");
     }
