@@ -14,7 +14,8 @@ const initialState = {
   entertainmentData: null,
   entertainmentDataTV: null,
   entertainmentParticularData: null,
-  entertainmenSearchData: null,
+  entertainmenSearchDataMovie: null,
+  entertainmenSearchDataTV: null,
 };
 
 const getEntertainmentDataPISlice = createSlice({
@@ -34,6 +35,8 @@ const getEntertainmentDataPISlice = createSlice({
     getEntertainmentDataearchStart(state) {
       state.searchState = "loading";
       state.error = null;
+      state.entertainmenSearchDataMovie= null;
+      state.entertainmenSearchDataTV= null;
       // state.entertainmentData = null;
       // state.entertainmentDataTV = null;
     },
@@ -50,7 +53,7 @@ const getEntertainmentDataPISlice = createSlice({
     getEntertainmentDataSearchSuccessTV(state, action) {
       state.searchState = "success";
       state.error = null;
-      state.entertainmenSearchData = action.payload;
+      state.entertainmenSearchDataTV = action.payload;
       state.entertainmentDataTV = {
         ...state.entertainmentDataTV,
         search_result: action.payload,
@@ -65,7 +68,7 @@ const getEntertainmentDataPISlice = createSlice({
         ...state.entertainmentData,
         search_result: action.payload,
       };
-      state.entertainmenSearchData = action.payload;
+      state.entertainmenSearchDataMovie = action.payload;
     },
     getEntertainmentParticularDataStart(state, action) {
       state.state = "success";

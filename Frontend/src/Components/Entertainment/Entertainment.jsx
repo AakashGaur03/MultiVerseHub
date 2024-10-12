@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Carousel } from "react-bootstrap";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getEntertainmentDataMovie,
@@ -31,6 +29,13 @@ const Entertainment = () => {
   const entertainmentDataTV = useSelector(
     (state) => state.getEntertainmentData.entertainmentDataTV
   );
+  const entertainmenSearchDataTV = useSelector(
+    (state) => state.getEntertainmentData.entertainmenSearchDataTV
+  );
+  const entertainmenSearchDataMovie = useSelector(
+    (state) => state.getEntertainmentData.entertainmenSearchDataMovie
+  );
+
   const loaderTrue = useSelector(
     (state) => state.getEntertainmentData.searchState === "loading"
   );
@@ -63,6 +68,65 @@ const Entertainment = () => {
   const infoAboutItem = (id, category) => {
     navigate(`/particulars/${category}/${id}`);
   };
+
+  useEffect(()=>{
+    setMovieDataSearch(entertainmenSearchDataMovie)
+  },[entertainmenSearchDataMovie])
+  useEffect(()=>{
+    setTvDataSearch(entertainmenSearchDataTV)
+  },[entertainmenSearchDataTV])
+
+
+  useEffect(() => {
+    if (entertainmenSearchDataMovie) {
+      const filterUniqueMovies = (movies) => {
+        const uniqueMovieId = new Set();
+        return movies?.filter((movie) => {
+          if (uniqueMovieId.has(movie.id)) {
+            return false;
+          } else {
+            uniqueMovieId.add(movie.id);
+            return true;
+          }
+        });
+      };
+
+      const uniqueSearch = filterUniqueMovies(
+        entertainmenSearchDataMovie?.results
+      );
+
+      setMovieDataSearch({
+        ...entertainmenSearchDataMovie,
+        results: uniqueSearch,
+      });
+    }
+  }, [entertainmenSearchDataMovie]);
+  
+  useEffect(() => {
+    if (entertainmenSearchDataTV) {
+      const filterUniqueMovies = (movies) => {
+        const uniqueMovieId = new Set();
+        return movies?.filter((movie) => {
+          if (uniqueMovieId.has(movie.id)) {
+            return false;
+          } else {
+            uniqueMovieId.add(movie.id);
+            return true;
+          }
+        });
+      };
+
+      const uniqueSearch = filterUniqueMovies(
+        entertainmenSearchDataTV?.results
+      );
+
+      setTvDataSearch({
+        ...entertainmenSearchDataTV,
+        results: uniqueSearch,
+      });
+    }
+  }, [entertainmenSearchDataTV]);
+
   useEffect(() => {
     if (entertainmentData) {
       const filterUniqueMovies = (movies) => {
@@ -77,9 +141,6 @@ const Entertainment = () => {
         });
       };
 
-      const uniqueSearch = filterUniqueMovies(
-        entertainmentData.search_result?.results
-      );
       const uniqueNowPlaying = filterUniqueMovies(
         entertainmentData?.now_playing?.results
       );
@@ -92,10 +153,6 @@ const Entertainment = () => {
       const uniqueUpcoming = filterUniqueMovies(
         entertainmentData?.upcoming?.results
       );
-      setMovieDataSearch({
-        ...entertainmentData.search_result,
-        results: uniqueSearch,
-      });
       setMovieDataNowPlaying({
         ...entertainmentData.now_playing,
         results: uniqueNowPlaying,
@@ -128,9 +185,6 @@ const Entertainment = () => {
           }
         });
       };
-      const uniqueSearch = filterUniqueTv(
-        entertainmentDataTV?.search_result?.results
-      );
       const uniqueOnTheAir = filterUniqueTv(
         entertainmentDataTV?.on_the_air?.results
       );
@@ -143,10 +197,6 @@ const Entertainment = () => {
       const uniqueAiringToday = filterUniqueTv(
         entertainmentDataTV?.airing_today?.results
       );
-      setTvDataSearch({
-        ...entertainmentDataTV.search_result,
-        results: uniqueSearch,
-      });
       setTvDataOnTheAir({
         ...entertainmentDataTV.on_the_air,
         results: uniqueOnTheAir,
@@ -315,7 +365,7 @@ const Entertainment = () => {
                 Heading="Search Results"
                 LoadMoreContent={loadMoreMovies}
                 InfoAboutItem={infoAboutItem}
-                MovieOrTv={"movie"}
+                MovieOrTv={"tv"}
               />
             )
           )}
