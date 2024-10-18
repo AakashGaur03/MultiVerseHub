@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Col,  Row } from "react-bootstrap";
 import { CustomCard, Weather, WordOfTheDay, truncateText } from "../../index";
 import { getFinanceNews, getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,10 +39,9 @@ const News = () => {
     await dispatch(getNews(activeSidebarItem));
   };
 
-  const theme = useSelector((state) => state.theme.theme);
+  // const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const callFinanceNewsApi = async () => {
-    console.log("Is it CAlling");
     await dispatch(getFinanceNews("finance"));
   };
   useEffect(() => {

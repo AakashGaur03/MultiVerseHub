@@ -97,7 +97,7 @@ const getCricketAPISlice = createSlice({
       state.error = null;
       state.searchPlayer = action.payload;
     },
-    getCricketSearchPlayerEmpty(state, action) {
+    getCricketSearchPlayerEmpty(state) {
       state.status = "Player Info emptied Successfully";
       state.error = null;
       state.searchPlayer = null;
@@ -209,26 +209,20 @@ export const getCricketRanking = (payload) => async (dispatch) => {
     dispatch(getCricketRankingFailure(error.message));
   }
 };
-export const getUploadImageCloudinary =
-  (imageUrl, faceImageID) => async (dispatch) => {
-    try {
-      console.log("Dispatching upload image to Cloudinary action");
-      dispatch(getCricketStart());
-      const response = await getUploadImageCloudinaryFunc(
-        imageUrl,
-        faceImageID
-      );
-      if (response) {
-        dispatch(getCricketSuccess(response));
-        return response;
-      }
-    } catch (error) {
-      dispatch(getCricketFailure(error.message));
+export const getUploadImageCloudinary = (imageUrl, faceImageID) => async (dispatch) => {
+  try {
+    dispatch(getCricketStart());
+    const response = await getUploadImageCloudinaryFunc(imageUrl, faceImageID);
+    if (response) {
+      dispatch(getCricketSuccess(response));
+      return response;
     }
-  };
+  } catch (error) {
+    dispatch(getCricketFailure(error.message));
+  }
+};
 export const getCricketImageDB = (faceImageID) => async (dispatch) => {
   try {
-    console.log("Dispatching get image from DB");
     dispatch(getCricketStart());
     const response = await getImageDBFunc(faceImageID);
     if (response) {

@@ -35,8 +35,8 @@ const getEntertainmentDataPISlice = createSlice({
     getEntertainmentDataearchStart(state) {
       state.searchState = "loading";
       state.error = null;
-      state.entertainmenSearchDataMovie= null;
-      state.entertainmenSearchDataTV= null;
+      state.entertainmenSearchDataMovie = null;
+      state.entertainmenSearchDataTV = null;
       // state.entertainmentData = null;
       // state.entertainmentDataTV = null;
     },
@@ -62,15 +62,13 @@ const getEntertainmentDataPISlice = createSlice({
     getEntertainmentDataSearchSuccessMovie(state, action) {
       state.searchState = "success";
       state.error = null;
-      console.log(action);
-      console.log(state);
       state.entertainmentData = {
         ...state.entertainmentData,
         search_result: action.payload,
       };
       state.entertainmenSearchDataMovie = action.payload;
     },
-    getEntertainmentParticularDataStart(state, action) {
+    getEntertainmentParticularDataStart(state) {
       state.state = "success";
       state.error = null;
       state.entertainmentParticularData = null;
@@ -154,39 +152,37 @@ export const getEntertainmentDataTV = (payload) => async (dispatch) => {
     dispatch(getEntertainmentDataFailure(error));
   }
 };
-export const getEntertainmentParticularsData =
-  (payload) => async (dispatch) => {
-    try {
-      dispatch(getEntertainmentParticularDataStart());
-      const response = await getEntertainmentParticularsDataAPIFunc(payload);
-      if (response) {
-        dispatch(getEntertainmentDataParticluarSuccess(response));
-        return response;
-      }
-    } catch (error) {
-      dispatch(getEntertainmentParticularDataFailure(error));
+export const getEntertainmentParticularsData = (payload) => async (dispatch) => {
+  try {
+    dispatch(getEntertainmentParticularDataStart());
+    const response = await getEntertainmentParticularsDataAPIFunc(payload);
+    if (response) {
+      dispatch(getEntertainmentDataParticluarSuccess(response));
+      return response;
     }
-  };
-export const getEntertainmentSearchData =
-  (payload) => async (dispatch, getState) => {
-    try {
-      dispatch(getEntertainmentDataearchStart());
-      const response = await entertainmentSearchAPIFUNC(payload);
-      if (response) {
-        if (payload.searchQuery !== "") {
-          if (payload.category === "tv") {
-            dispatch(getEntertainmentDataSearchSuccessTV(response));
-          } else {
-            dispatch(getEntertainmentDataSearchSuccessMovie(response));
-          }
+  } catch (error) {
+    dispatch(getEntertainmentParticularDataFailure(error));
+  }
+};
+export const getEntertainmentSearchData = (payload) => async (dispatch) => {
+  try {
+    dispatch(getEntertainmentDataearchStart());
+    const response = await entertainmentSearchAPIFUNC(payload);
+    if (response) {
+      if (payload.searchQuery !== "") {
+        if (payload.category === "tv") {
+          dispatch(getEntertainmentDataSearchSuccessTV(response));
         } else {
-          dispatch(updateEntertainmentDataToRemoveSearchResult(response));
+          dispatch(getEntertainmentDataSearchSuccessMovie(response));
         }
-        return response;
+      } else {
+        dispatch(updateEntertainmentDataToRemoveSearchResult(response));
       }
-    } catch (error) {
-      dispatch(getEntertainmentDataFailure(error));
+      return response;
     }
-  };
+  } catch (error) {
+    dispatch(getEntertainmentDataFailure(error));
+  }
+};
 
 export default getEntertainmentDataPISlice.reducer;

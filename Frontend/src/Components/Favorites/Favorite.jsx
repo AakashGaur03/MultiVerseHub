@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 
 const Favorite = () => {
@@ -24,7 +23,7 @@ const Favorite = () => {
       {isLoggedIn && (
         <div className="favSaction">
           <div>Thanks for Login </div>
-          <div>It's an upcoming Feature </div>
+          <div>It&apos;s an upcoming Feature</div>
         </div>
       )}
     </>

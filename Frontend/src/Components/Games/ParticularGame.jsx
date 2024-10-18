@@ -27,7 +27,6 @@ const ParticularGame = () => {
   }, []);
   useEffect(() => {
     setGameData(particularGameData);
-    console.log(particularGameData);
   }, [particularGameData]);
 
   return (

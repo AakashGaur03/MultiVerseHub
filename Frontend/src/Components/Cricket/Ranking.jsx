@@ -1,16 +1,13 @@
 // batsmen|bowlers|allrounders|teams
 // test|odi|t20 (if isWomen parameter is 1, there will be no odi)
 // isWomen (optional) Set to 1 to get rankings for women
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
 import {
-  getCricketImageCBs,
-  getCricketImageDB,
   getCricketRanking,
-  getUploadImageCloudinary,
 } from "../../Features";
 import Badge from "react-bootstrap/Badge";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
@@ -24,8 +21,8 @@ const Ranking = () => {
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
-  const location = useLocation();
-  const Data = location.state?.rankingsData;
+  // const location = useLocation();
+  // const Data = location.state?.rankingsData;
   const dispatch = useDispatch();
   const [rankingData, setRankingData] = useState([]);
   const [rankindDataType, setRankindDataType] = useState("");
@@ -58,10 +55,10 @@ const Ranking = () => {
     // }
   }, [selectedGender, selectedFormat, selectedCategory]);
 
-  const getCachedData = () => {
-    const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
-    return cache[key];
-  };
+  // const getCachedData = () => {
+  //   const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
+  //   return cache[key];
+  // };
   const updateCache = (data) => {
     const key = `${selectedGender}-${selectedFormat}-${selectedCategory}`;
     setCache((prevCache) => ({ ...prevCache, [key]: data }));
@@ -96,7 +93,6 @@ const Ranking = () => {
     } else {
       setSelectedFormat(format);
     }
-    console.log(selectedFormat, "selectedFormat");
   };
 
   const callRankingApi = async () => {

@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
   getCricket,
-  getCricketImageCBs,
   getCricketNewsCBs,
-  getcricketPlayerInfo,
-  getCricketPointsTable,
-  getCricketRanking,
 } from "../../Features";
 import truncateText from "../../GlobalComp/TruncateText";
 import { formatDate } from "../../GlobalComp/formatDate";
@@ -36,12 +32,12 @@ const Cricket = ({ setQuery }) => {
   const [typeMatches, setTypeMatches] = useState([]);
   const [cricketData, setCricketData] = useState([]);
   const [newCricketData, setNewCricketData] = useState([]);
-  const [rankingData, setRankingData] = useState([]);
+  // const [rankingData, setRankingData] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [imageUrls, setImageUrls] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
-  const [pointstable, setpointstable] = useState({ id: null, data: [] });
+  // const [pointstable, setpointstable] = useState({ id: null, data: [] });
   const [validNews, setValidNews] = useState([]);
 
   useEffect(() => {
@@ -142,11 +138,8 @@ const Cricket = ({ setQuery }) => {
           if (Array.isArray(match.seriesAdWrapper.matches)) {
             FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
           }
-          console.log(FilteredCricketData);
         });
         setCricketData(FilteredCricketData);
-        console.log("routing");
-        console.log("routed");
       }
     };
 
