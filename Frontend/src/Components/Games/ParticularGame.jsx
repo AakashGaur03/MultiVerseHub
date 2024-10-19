@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getGamesParticularsData } from "../../Features";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import GameInfoComp from "../../GlobalComp/GameInfoComp";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";

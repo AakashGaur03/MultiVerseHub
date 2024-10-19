@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEntertainmentParticularsData } from "../../Features";
@@ -26,7 +26,7 @@ const Particulars = () => {
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
-  const [particularData, setParticulatData] = useState(globalParticularData);
+  // const [particularData, setParticulatData] = useState(globalParticularData);
 
   const [aboutData, setAboutData] = useState([]);
   const [creditsData, setCreditsData] = useState([]);
@@ -48,7 +48,7 @@ const Particulars = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    setParticulatData(globalParticularData);
+    // setParticulatData(globalParticularData);
     // console.log(globalParticularData, "globalParticularData");
     setAboutData(globalParticularData?.about);
     setCreditsData(globalParticularData?.credits);
