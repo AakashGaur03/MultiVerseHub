@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Tooltip } from "react-tooltip";
 
-const LikeButton = () => {
+const LikeButton = ({ customId }) => {
   const [isActive, setIsActive] = useState(false);
   const buttonRef = useRef(null);
 
@@ -18,8 +18,13 @@ const LikeButton = () => {
 
   return (
     <div>
-      <Tooltip anchorSelect="#likeButton" content={isActive ? "Remove From Favorite" : "Add To Favorite"} />
-      <div ref={buttonRef} className="flex justify-center items-center" id="likeButton">
+      <Tooltip
+        className="z-20"
+        place="left"
+        anchorSelect={`#${customId}`}
+        content={isActive ? "Remove From Favorite" : "Add To Favorite"}
+      />
+      <div ref={buttonRef} className="flex justify-center items-center" id={customId}>
         <svg
           onClick={handleClick}
           xmlns="http://www.w3.org/2000/svg"
