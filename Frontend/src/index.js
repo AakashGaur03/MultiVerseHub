@@ -21,13 +21,9 @@ import ReviewSection from "./Components/Entertainment/ReviewSection.jsx";
 import PictureSection from "./Components/Entertainment/PictureSection.jsx";
 import ParticularGame from "./Components/Games/ParticularGame.jsx";
 import PlayerInfo from "./Components/Cricket/PlayerInfo.jsx";
-import {
-  OtpForm,
-  ForgotPassword,
-  Login,
-  Logout,
-  Registration,
-} from "./Components/UserControls/index.js";
+import LikeButton from "./GlobalComp/LikeButton.jsx";
+
+import { OtpForm, ForgotPassword, Login, Logout, Registration } from "./Components/UserControls/index.js";
 import {
   registerReducer,
   themeReducer,
@@ -87,4 +83,5 @@ export {
   ParticularGame,
   GameInfoComp,
   PlayerInfo,
+  LikeButton,
 };

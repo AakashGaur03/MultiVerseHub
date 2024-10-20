@@ -6,7 +6,7 @@
 
 .svgClass {
   fill: transparent;
-  stroke: black;
+  stroke: red;
   transition: all 0.5s;
 }
 

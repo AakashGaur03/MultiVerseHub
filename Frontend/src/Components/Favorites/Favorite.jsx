@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-// import LikeButton from "../LikeButton";
-// import HeartToggle from "../HeartToggle";
+import {LikeButton} from "../..";
 
 const Favorite = () => {
   const isLoggedIn = useSelector(
@@ -10,8 +9,7 @@ const Favorite = () => {
     <>
       {!isLoggedIn && (
         <div className="favSaction">
-          {/* <LikeButton />
-         <HeartToggle />  */}
+          <LikeButton />
           <div>Please Login to Unlock favorite Section</div>
           <div>
             <svg

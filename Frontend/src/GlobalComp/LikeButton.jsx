@@ -15,8 +15,8 @@ const LikeButton = () => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill={isActive ? 'red' : 'transparent'}
-        stroke="black"
-        strokeWidth="2"
+        stroke="red"
+        strokeWidth="0.5"
         className={`svgClass ${isActive ? 'active' : ''}`}
         style={{ width: '100px', height: '100px', cursor: 'pointer' }} // Adjust size and cursor
       >
