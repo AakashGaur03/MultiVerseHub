@@ -1,20 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getWordOfTheDayAPIFunc } from "../../Api";
+import { LikeButton } from "../..";
 
 const WordOfTheDay = () => {
-  const [wordOfTheDayData, setWordOfTheDayData] = useState(
-    JSON.parse(localStorage.getItem("wordOfTheDay")) || null
-  );
+  const [wordOfTheDayData, setWordOfTheDayData] = useState(JSON.parse(localStorage.getItem("wordOfTheDay")) || null);
   const handleClicl = async () => {
     const currentDate = new Date().toDateString();
     const storedDate = localStorage.getItem("wordOfTheDayDate") || null;
     try {
-      if (
-        !wordOfTheDayData ||
-        !wordOfTheDayData.word ||
-        storedDate != currentDate
-      ) {
+      if (!wordOfTheDayData || !wordOfTheDayData.word || storedDate != currentDate) {
         const response = await getWordOfTheDayAPIFunc();
         const wordData = response;
         setWordOfTheDayData(wordData);
@@ -30,15 +25,16 @@ const WordOfTheDay = () => {
   }, []);
   return (
     <>
-      <div className="text-center flex flex-col min:h-52 m-8 wordOfTheDay p-2">
+      <div className="text-center flex flex-col min:h-52 m-8 wordOfTheDay p-2 relative">
+        <div className="absolute z-10 right-4 top-[-25px]">
+          <LikeButton customId={`likeButton-wordOfTheDay`} />
+        </div>
         <div className="mt-4">
           <h2>Word of the Day</h2>
         </div>
         <div className="mt-5">
           <p className="text-left">Word : {wordOfTheDayData?.word}</p>
-          <p className="text-left pb-6">
-            Meaning : {wordOfTheDayData?.meaning}
-          </p>
+          <p className="text-left pb-6">Meaning : {wordOfTheDayData?.meaning}</p>
         </div>
       </div>
     </>

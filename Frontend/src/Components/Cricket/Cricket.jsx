@@ -3,26 +3,18 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import {
-  getCricket,
-  getCricketNewsCBs,
-} from "../../Features";
+import { getCricket, getCricketNewsCBs } from "../../Features";
 import truncateText from "../../GlobalComp/TruncateText";
 import { formatDate } from "../../GlobalComp/formatDate";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import CustomCard from "../../GlobalComp/CustomCard";
+import LikeButton from "../../GlobalComp/LikeButton";
 
 const Cricket = ({ setQuery }) => {
-  const activeSidebarItem = useSelector(
-    (state) => state.sidebar.currentSidebar
-  );
-  const loaderMatchTrue = useSelector(
-    (state) => state.cricket.matchStatus === "loading"
-  );
+  const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
+  const loaderMatchTrue = useSelector((state) => state.cricket.matchStatus === "loading");
 
-  const loaderNewsTrue = useSelector(
-    (state) => state.cricket.newsStatus === "loading"
-  );
+  const loaderNewsTrue = useSelector((state) => state.cricket.newsStatus === "loading");
 
   const matchData = useSelector((state) => state.cricket.matchData);
   const newsData = useSelector((state) => state.cricket.newsData);
@@ -55,27 +47,15 @@ const Cricket = ({ setQuery }) => {
   };
 
   const callThisFunc = () => {
-    let InterMatches = typeMatches?.find(
-      (match) => match.matchType === "International"
-    );
-    let WomenMatches = typeMatches?.find(
-      (match) => match.matchType === "Women"
-    );
-    let LeagueMatches = typeMatches?.find(
-      (match) => match.matchType === "League"
-    );
+    let InterMatches = typeMatches?.find((match) => match.matchType === "International");
+    let WomenMatches = typeMatches?.find((match) => match.matchType === "Women");
+    let LeagueMatches = typeMatches?.find((match) => match.matchType === "League");
 
-    let IntlMatches = InterMatches?.seriesMatches
-      .filter((match) => match.seriesAdWrapper)
-      .slice(0, 2);
+    let IntlMatches = InterMatches?.seriesMatches.filter((match) => match.seriesAdWrapper).slice(0, 2);
 
-    let LegMatches = LeagueMatches?.seriesMatches
-      .filter((match) => match.seriesAdWrapper)
-      .slice(0, 2);
+    let LegMatches = LeagueMatches?.seriesMatches.filter((match) => match.seriesAdWrapper).slice(0, 2);
 
-    let WomMatches = WomenMatches?.seriesMatches
-      .filter((match) => match.seriesAdWrapper)
-      .slice(0, 2);
+    let WomMatches = WomenMatches?.seriesMatches.filter((match) => match.seriesAdWrapper).slice(0, 2);
 
     let newCricketData2 = [];
 
@@ -125,13 +105,9 @@ const Cricket = ({ setQuery }) => {
       } else if (activeSidebarItem === "Rankings") {
         navigate(`ranking`);
       } else {
-        let InterMatches = typeMatches.find(
-          (match) => match.matchType == activeSidebarItem
-        );
+        let InterMatches = typeMatches.find((match) => match.matchType == activeSidebarItem);
 
-        let IntlMatches = InterMatches?.seriesMatches
-          .filter((match) => match.seriesAdWrapper)
-          .slice(0, 2); // It slices number of series to 2
+        let IntlMatches = InterMatches?.seriesMatches.filter((match) => match.seriesAdWrapper).slice(0, 2); // It slices number of series to 2
 
         let FilteredCricketData = [];
         IntlMatches?.forEach((match) => {
@@ -139,6 +115,7 @@ const Cricket = ({ setQuery }) => {
             FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
           }
         });
+        console.log(cricketData);
         setCricketData(FilteredCricketData);
       }
     };
@@ -163,6 +140,7 @@ const Cricket = ({ setQuery }) => {
     if (validNews.length > 0) {
       getCricketNews();
     }
+    console.log(validNews);
   }, [validNews]);
 
   const getCricketNews = async () => {
@@ -170,13 +148,7 @@ const Cricket = ({ setQuery }) => {
       if (news.story.imageId) {
         // setTimeout(() => fetchImage(news.story.imageId), index * 500); // Delay each image fetch by 500ms
         setTimeout(() => {
-          getImageUrl(
-            news.story.imageId,
-            imageUrls,
-            setImageUrls,
-            setLoadingImages,
-            dispatch
-          );
+          getImageUrl(news.story.imageId, imageUrls, setImageUrls, setLoadingImages, dispatch);
         }, 1000);
       }
     });
@@ -204,58 +176,51 @@ const Cricket = ({ setQuery }) => {
       <div className="flex overflow-y-auto ">
         {cricketData.length > 0 ? (
           cricketData.map((data, index) => (
-            <div className="min-w-52 me-4" md={4} key={index}>
+            <div className="min-w-52 me-4 relative" md={4} key={index}>
+              <div className="absolute z-10 right-4 bottom-0">
+                <LikeButton
+                  customHeight="30px"
+                  customWidth="30px"
+                  customId={`likeButton-cricket-match-${data?.matchInfo?.matchId}`}
+                />
+              </div>
               <div>
-                {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName}{" "}
-                {data.matchInfo?.matchFormat}
+                {data.matchInfo?.matchDesc} {data.matchInfo?.seriesName} {data.matchInfo?.matchFormat}
               </div>
               <div>
                 {data.matchInfo.team1?.teamSName}
-                {data.matchScore?.team1Score?.inngs1.runs &&
-                  !data.matchScore?.team1Score?.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team1Score?.inngs1.runs}-
-                      {data.matchScore?.team1Score?.inngs1.wickets} (
-                      {data.matchScore?.team1Score?.inngs1.overs})
-                    </>
-                  )}
-                {data.matchScore?.team1Score?.inngs1.runs &&
-                  data.matchScore?.team1Score?.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team1Score?.inngs1.runs}-
-                      {data.matchScore?.team1Score?.inngs1.wickets}{" "}
-                      {data.matchScore?.team1Score?.inngs2?.runs}-
-                      {data.matchScore?.team1Score?.inngs2?.wickets}
-                    </>
-                  )}
+                {data.matchScore?.team1Score?.inngs1.runs && !data.matchScore?.team1Score?.inngs2?.runs && (
+                  <>
+                    : {data.matchScore?.team1Score?.inngs1.runs}-{data.matchScore?.team1Score?.inngs1.wickets} (
+                    {data.matchScore?.team1Score?.inngs1.overs})
+                  </>
+                )}
+                {data.matchScore?.team1Score?.inngs1.runs && data.matchScore?.team1Score?.inngs2?.runs && (
+                  <>
+                    : {data.matchScore?.team1Score?.inngs1.runs}-{data.matchScore?.team1Score?.inngs1.wickets}{" "}
+                    {data.matchScore?.team1Score?.inngs2?.runs}-{data.matchScore?.team1Score?.inngs2?.wickets}
+                  </>
+                )}
               </div>
               <div></div>
               <div>
                 {data.matchInfo.team2?.teamSName}
-                {data.matchScore?.team2Score?.inngs1.runs &&
-                  !data.matchScore?.team2Score?.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team2Score?.inngs1.runs}-
-                      {data.matchScore?.team2Score?.inngs1.wickets} (
-                      {data.matchScore?.team2Score?.inngs1.overs})
-                    </>
-                  )}
-                {data.matchScore?.team2Score?.inngs1.runs &&
-                  data.matchScore?.team2Score?.inngs2?.runs && (
-                    <>
-                      : {data.matchScore?.team2Score?.inngs1.runs}-
-                      {data.matchScore?.team2Score?.inngs1.wickets}{" "}
-                      {data.matchScore?.team2Score?.inngs2?.runs}-
-                      {data.matchScore?.team2Score?.inngs2?.wickets}
-                    </>
-                  )}
+                {data.matchScore?.team2Score?.inngs1.runs && !data.matchScore?.team2Score?.inngs2?.runs && (
+                  <>
+                    : {data.matchScore?.team2Score?.inngs1.runs}-{data.matchScore?.team2Score?.inngs1.wickets} (
+                    {data.matchScore?.team2Score?.inngs1.overs})
+                  </>
+                )}
+                {data.matchScore?.team2Score?.inngs1.runs && data.matchScore?.team2Score?.inngs2?.runs && (
+                  <>
+                    : {data.matchScore?.team2Score?.inngs1.runs}-{data.matchScore?.team2Score?.inngs1.wickets}{" "}
+                    {data.matchScore?.team2Score?.inngs2?.runs}-{data.matchScore?.team2Score?.inngs2?.wickets}
+                  </>
+                )}
               </div>
               <div></div>
               <div>{data.matchInfo?.status}</div>
-              <NavLink
-                className="cursor-pointer"
-                onClick={() => getPointsTable(data.matchInfo.seriesId)}
-              >
+              <NavLink className="cursor-pointer" onClick={() => getPointsTable(data.matchInfo.seriesId)}>
                 Table
               </NavLink>
             </div>
@@ -272,7 +237,7 @@ const Cricket = ({ setQuery }) => {
         {validNews.length > 0 ? (
           <>
             {validNews.slice(0, 9).map((news, index) => (
-              <div key={index}>
+              <div key={index} className="relative">
                 <CustomCard
                   alt={"Cricket"}
                   index={index}
@@ -280,20 +245,9 @@ const Cricket = ({ setQuery }) => {
                   onError={(e) => {
                     e.target.src = "/ImageNotFound.png";
                   }}
-                  redirectLink={generateRedirectLink(
-                    news.story.id,
-                    news.story.hline
-                  )}
-                  newsStoryHLine={
-                    news.story.hline
-                      ? truncateText(news.story.hline, 10)
-                      : "No Title Found"
-                  }
-                  newsStoryIntro={
-                    news.story.intro
-                      ? truncateText(news.story.intro, 60)
-                      : "No Description Found"
-                  }
+                  redirectLink={generateRedirectLink(news.story.id, news.story.hline)}
+                  newsStoryHLine={news.story.hline ? truncateText(news.story.hline, 10) : "No Title Found"}
+                  newsStoryIntro={news.story.intro ? truncateText(news.story.intro, 60) : "No Description Found"}
                   newsStorySource={
                     news.story.source == "Cricbuzz" && (
                       <a href="https://www.cricbuzz.com/" target="_blank">
@@ -310,6 +264,13 @@ const Cricket = ({ setQuery }) => {
                   }
                   updatedOn={formatDate(news.story.pubTime)}
                 />
+                <div className="absolute z-10 right-4 top-[-30px]">
+                  <LikeButton
+                    customHeight="30px"
+                    customWidth="30px"
+                    customId={`likeButton-cricket-news-${news.story.id}`}
+                  />
+                </div>
               </div>
             ))}
           </>

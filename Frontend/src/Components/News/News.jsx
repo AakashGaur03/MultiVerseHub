@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Card, Col,  Row } from "react-bootstrap";
-import { CustomCard, Weather, WordOfTheDay, truncateText } from "../../index";
+import { Card, Col, Row } from "react-bootstrap";
+import { CustomCard, LikeButton, Weather, WordOfTheDay, truncateText } from "../../index";
 import { getFinanceNews, getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../GlobalComp/formatDate";
-
 
 const News = () => {
   // const [newsData, setNewsData] = useState([]);
@@ -14,23 +13,15 @@ const News = () => {
     setIsLoadingNews(loaderTrueNews);
   }, [loaderTrueNews]);
 
-  const loaderTrueFinance = useSelector(
-    (state) => state.news.financeStatus === "loading"
-  );
+  const loaderTrueFinance = useSelector((state) => state.news.financeStatus === "loading");
   const [isLoadingFinance, setIsLoadingFinance] = useState(false);
   useEffect(() => {
     setIsLoadingFinance(loaderTrueFinance);
   }, [loaderTrueFinance]);
 
-  const activeSidebarItem = useSelector(
-    (state) => state.sidebar.currentSidebar
-  );
-  const newsDataNew = useSelector(
-    (state) => state.news?.data?.data?.responseData?.results
-  );
-  const financenewsDataNew = useSelector(
-    (state) => state.news?.financeData?.data?.responseData?.results
-  );
+  const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
+  const newsDataNew = useSelector((state) => state.news?.data?.data?.responseData?.results);
+  const financenewsDataNew = useSelector((state) => state.news?.financeData?.data?.responseData?.results);
   useEffect(() => {
     handleNewsUpdate();
   }, [activeSidebarItem]);
@@ -54,29 +45,26 @@ const News = () => {
           {newsDataNew?.length > 0 ? (
             <>
               {newsDataNew?.slice(0, 9).map((news, index) => (
-                <div key={index}>
+                <div key={index} className="relative">
+                  <div className="absolute z-10 right-4 top-[-30px]">
+                    <LikeButton
+                      customHeight="35px"
+                      customWidth="35px"
+                      customId={`likeButton-news-${news?.article_id}`}
+                    />
+                  </div>
                   <CustomCard
                     alt={"News"}
                     index={index}
                     imageUrls={
-                      news.image_url && !news.image_url.includes("410")
-                        ? news.image_url
-                        : "/ImageNotFound.png"
+                      news.image_url && !news.image_url.includes("410") ? news.image_url : "/ImageNotFound.png"
                     }
                     onError={(e) => {
                       e.target.src = "/ImageNotFound.png";
                     }}
                     redirectLink={news.link}
-                    newsStoryHLine={
-                      news.title
-                        ? truncateText(news.title, 10)
-                        : "No Title Found"
-                    }
-                    newsStoryIntro={
-                      news.description
-                        ? truncateText(news.description, 60)
-                        : "No Description Found"
-                    }
+                    newsStoryHLine={news.title ? truncateText(news.title, 10) : "No Title Found"}
+                    newsStoryIntro={news.description ? truncateText(news.description, 60) : "No Description Found"}
                     newsStorySource={
                       <a href={news.source_url} target="_blank">
                         <img
@@ -85,8 +73,7 @@ const News = () => {
                           height={30}
                           width={30}
                           src={
-                            news.source_icon &&
-                            !news.source_icon.includes("410")
+                            news.source_icon && !news.source_icon.includes("410")
                               ? news.source_icon
                               : "/LogoNotAvail.png"
                           }
@@ -121,11 +108,14 @@ const News = () => {
               {financenewsDataNew?.length > 0 ? (
                 <>
                   {financenewsDataNew?.slice(0, 6).map((news, index) => (
-                    <Card
-                      style={{}}
-                      key={index}
-                      className="my-8 ms-3 rounded-2xl border-0"
-                    >
+                    <Card style={{}} key={index} className="my-8 ms-3 rounded-2xl border-0 relative">
+                      <div className="absolute z-10 right-4 top-[-30px]">
+                        <LikeButton
+                          customHeight="35px"
+                          customWidth="35px"
+                          customId={`likeButton-Fnews-${news?.article_id}`}
+                        />
+                      </div>
                       <Card.Body className="minHeightCard">
                         <Row>
                           <Col md={4} className="d-flex align-items-center">
@@ -134,8 +124,7 @@ const News = () => {
                               alt="ImageNotFound.png"
                               className=""
                               src={
-                                news.image_url &&
-                                !news.image_url.includes("410")
+                                news.image_url && !news.image_url.includes("410")
                                   ? news.image_url
                                   : "/ImageNotFound.png"
                               }
@@ -144,16 +133,11 @@ const News = () => {
                               }}
                             />
                           </Col>
-                          <Col
-                            md={8}
-                            className="d-flex justify-center flex-col"
-                          >
+                          <Col md={8} className="d-flex justify-center flex-col">
                             <div>
                               <a href={news.link} target="_blank">
                                 <Card.Body className="limit2Lines hover:text-amber-500 p-0">
-                                  {news.title
-                                    ? truncateText(news.title, 10)
-                                    : "No Title Found"}
+                                  {news.title ? truncateText(news.title, 10) : "No Title Found"}
                                 </Card.Body>
                               </a>
                             </div>
@@ -167,7 +151,7 @@ const News = () => {
                 <div className="w-full flex justify-center hscreen align-items-center">
                   <div className="loader"></div>
                 </div>
-              )  : (
+              ) : (
                 <div>No News data Found</div>
               )}
             </div>

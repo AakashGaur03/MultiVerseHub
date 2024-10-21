@@ -19,9 +19,9 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
           {ListData?.results?.length > 0 ? (
             ListData.results.map((data) => (
               <div className="activeClass relative" key={data.id}>
-                {/* <div className="absolute z-10 right-4 top-[-30px]">
-                  <LikeButton customId={`likeButton-${data.id}`} />
-                </div> */}
+                <div className="absolute z-10 right-4 top-[-30px]">
+                  <LikeButton customId={`likeButton-entertainment-${data.id}`} />
+                </div>
                 <Card
                   style={{ width: "15rem", minHeight: "357px" }}
                   className="overflow-x-auto rounded-3xl "

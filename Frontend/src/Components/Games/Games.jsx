@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   // getGamesSectionData,
   getGamesSectionDataCategoryWise,
-  getGamesParticularsData,
 } from "../../Features";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import { useNavigate } from "react-router-dom";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
+import { LikeButton } from "../..";
 
 const Games = () => {
   const dispatch = useDispatch();
@@ -18,9 +18,7 @@ const Games = () => {
   const [category, setcategory] = useState("mmorpg");
   const [sortBy, setSortBy] = useState("relevance");
   const loaderTrue = useSelector((state) => state.games.status === "loading");
-  const allGameState = useSelector(
-    (state) => state.games.gamesDataCategoryWise
-  );
+  const allGameState = useSelector((state) => state.games.gamesDataCategoryWise);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(loaderTrue);
@@ -62,10 +60,7 @@ const Games = () => {
       <div className=" my-2 ">
         <div className="flex justify-evenly flex-wrap">
           <form className="">
-            <label
-              htmlFor="default"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label htmlFor="default" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Platform
             </label>
             <select
@@ -79,10 +74,7 @@ const Games = () => {
             </select>
           </form>
           <form className="">
-            <label
-              htmlFor="default"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label htmlFor="default" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Category
             </label>
             <select
@@ -132,10 +124,7 @@ const Games = () => {
             </select>
           </form>
           <form className="">
-            <label
-              htmlFor="default"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label htmlFor="default" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Platform
             </label>
             <select
@@ -151,41 +140,33 @@ const Games = () => {
           </form>
         </div>
 
-        <div className="font-semibold text-2xl text-gray-400 text-center">
-          Total ({allgames?.length})
-        </div>
+        <div className="font-semibold text-2xl text-gray-400 text-center">Total ({allgames?.length})</div>
 
         <div className="flex flex-wrap justify-center pb-4 pt-10">
           {allgames?.length > 0 ? (
             allgames.map((data, index) => (
-              <div
-                className="activeClass m-4 cursor-pointer relative"
-                key={data.id}
-                onClick={() => particularGameCall(data.id)}
-              >
-                <Card
-                  style={{ width: "18rem" ,minHeight:"150px"}}
-                  className="overflow-x-auto rounded-3xl "
-                >
-                  {/* <Card.Img
+              <div className="activeClass m-4 cursor-pointer relative" key={data.id}>
+                <div className="absolute z-10 right-4 top-[-30px]">
+                  <LikeButton customId={`likeButton-games-${data.id}`} />
+                </div>
+                <div onClick={() => particularGameCall(data.id)}>
+                  <Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
+                    {/* <Card.Img
                     variant="top"
                     className="h-100"
                     src={`${data.thumbnail}`}
                   /> */}
-                  <ImageWithLoader
-                    src={`${data.thumbnail}`}
-                    alt="Game Thumbnail"
-                    failedImage="/ImageNotFound.png"
-                  />
-                </Card>
-                <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                  {data.title}
-                </div>
-                {data.release_date && (
+                    <ImageWithLoader src={`${data.thumbnail}`} alt="Game Thumbnail" failedImage="/ImageNotFound.png" />
+                  </Card>
                   <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                    Release Date : {formatDateinHumanredable(data.release_date)}
+                    {data.title}
                   </div>
-                )}
+                  {data.release_date && (
+                    <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                      Release Date : {formatDateinHumanredable(data.release_date)}
+                    </div>
+                  )}
+                </div>
               </div>
             ))
           ) : isLoading ? (
