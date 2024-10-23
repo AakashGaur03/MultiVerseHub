@@ -26,14 +26,9 @@ import logoutReducer, {
   updateLogoutMessage,
 } from "./auth/logoutSlice.js";
 
-import sidebarReducer, {
-  updateSidebar,
-  toggleClicked,
-} from "./Components/sidebarSlice.js";
+import sidebarReducer, { updateSidebar, toggleClicked } from "./Components/sidebarSlice.js";
 
-import getCurrentStatusReducer, {
-  fetchCurrentStatusUser,
-} from "./auth/getCurrentStatusSlice.js";
+import getCurrentStatusReducer, { fetchCurrentStatusUser } from "./auth/getCurrentStatusSlice.js";
 
 import forgotPasswordReducer, {
   sendOTPMail,
@@ -53,10 +48,7 @@ import forgotPasswordReducer, {
 
 import weatherReducer, { getWeather } from "./APIReducers/weatherAPISlice.js";
 
-import getNewsAPIReducer, {
-  getNews,
-  getFinanceNews,
-} from "./APIReducers/getNewsAPISlice.js";
+import getNewsAPIReducer, { getNews, getFinanceNews } from "./APIReducers/getNewsAPISlice.js";
 
 // import getGamesAPIReducer, { getGamesSectionData,getGamesSectionDataCategoryWise } from './APIReducers/getGamesSlice.js'
 import getGamesAPIReducer, {
@@ -81,6 +73,12 @@ import getEntertainmentReducer, {
   getEntertainmentDataTV,
   getEntertainmentSearchData,
 } from "./APIReducers/entertainmentSlice.js";
+import FavSectionReducer, {
+  addFavSection,
+  favSectionStart,
+  favSectionSuccess,
+  favSectionFailure,
+} from "./APIReducers/favAPISlice.js";
 export {
   registerReducer,
   themeReducer,
@@ -147,4 +145,9 @@ export {
   getGamesSectionDataCategoryWise,
   getGamesParticularsData,
   getEntertainmentSearchData,
+  FavSectionReducer,
+  addFavSection,
+  favSectionStart,
+  favSectionSuccess,
+  favSectionFailure,
 };

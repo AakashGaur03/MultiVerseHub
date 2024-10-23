@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addFavSection,
   // getGamesSectionData,
   getGamesSectionDataCategoryWise,
 } from "../../Features";
@@ -9,6 +10,7 @@ import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import { useNavigate } from "react-router-dom";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 import { LikeButton } from "../..";
+import { getFavSection, removeFavSection } from "../../Features/APIReducers/favAPISlice";
 
 const Games = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,8 @@ const Games = () => {
   const [platform, setPlatform] = useState("all");
   const [category, setcategory] = useState("mmorpg");
   const [sortBy, setSortBy] = useState("relevance");
+  const [likedGames, setLikedGames] = useState({});
+
   const loaderTrue = useSelector((state) => state.games.status === "loading");
   const allGameState = useSelector((state) => state.games.gamesDataCategoryWise);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +59,73 @@ const Games = () => {
   const updateSortBy = (e) => {
     setSortBy(e.target.value);
   };
+  const handleLikeClick = async (gameData) => {
+    // Toggle like state optimistically
+    const gameId = gameData.id;
+    const isCurrentlyLiked = likedGames[gameId] || false;
+
+    setLikedGames((prevLikedGames) => ({
+      ...prevLikedGames,
+      [gameId]: !isCurrentlyLiked,
+    }));
+    const payload = {
+      category: "game",
+      data: {
+        gameId: gameData.id,
+        thumbnail: gameData.thumbnail,
+        title: gameData.title,
+        releaseDate: gameData.release_date,
+      }, // Send the complete game data
+    };
+
+    try {
+      let res;
+      if (!isCurrentlyLiked) {
+        // Add to favorites
+        res = await dispatch(addFavSection(payload));
+      } else {
+        // Remove from favorites
+        res = await dispatch(removeFavSection({ category: "game", itemId: gameId }));
+      }
+
+      if (!res || !res.success) {
+        // Revert the state if the API call fails
+        setLikedGames((prevLikedGames) => ({
+          ...prevLikedGames,
+          [gameId]: isCurrentlyLiked,
+        }));
+      }
+    } catch (error) {
+      console.error("Error adding to favorite:", error);
+      // Revert like state if API call fails
+      setLikedGames((prevLikedGames) => ({
+        ...prevLikedGames,
+        [gameId]: isCurrentlyLiked,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await dispatch(getFavSection());
+        console.log(response, "reseser");
+        if (response && response?.data && response?.data?.favorite) {
+          const favoriteGames = response.data.favorite.game || [];
+          // Create a dictionary of liked games based on their IDs
+          const likedGamesMap = favoriteGames.reduce((acc, game) => {
+            acc[game.gameId] = true;
+            return acc;
+          }, {});
+          setLikedGames(likedGamesMap);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [dispatch]);
   return (
     <>
       <div className=" my-2 ">
@@ -144,10 +215,14 @@ const Games = () => {
 
         <div className="flex flex-wrap justify-center pb-4 pt-10">
           {allgames?.length > 0 ? (
-            allgames.map((data, index) => (
+            allgames.map((data) => (
               <div className="activeClass m-4 cursor-pointer relative" key={data.id}>
                 <div className="absolute z-10 right-4 top-[-30px]">
-                  <LikeButton customId={`likeButton-games-${data.id}`} />
+                  <LikeButton
+                    customId={`likeButton-games-${data.id}`}
+                    isActive={!!likedGames[data.id]}
+                    onClick={() => handleLikeClick(data)}
+                  />
                 </div>
                 <div onClick={() => particularGameCall(data.id)}>
                   <Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">

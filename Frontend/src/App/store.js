@@ -12,6 +12,7 @@ import {
   getGamesAPIReducer,
   getNewsAPIReducer,
   weatherReducer,
+  FavSectionReducer,
 } from "../Features/index.js";
 
 const store = configureStore({
@@ -28,6 +29,7 @@ const store = configureStore({
     games: getGamesAPIReducer,
     news: getNewsAPIReducer,
     weather: weatherReducer,
+    favSection: FavSectionReducer,
 
     // other reducers...
   },

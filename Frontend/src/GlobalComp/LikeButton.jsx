@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Tooltip } from "react-tooltip";
 
-const LikeButton = ({ customId, customHeight = "50px", customWidth = "50px" }) => {
-  const [isActive, setIsActive] = useState(false);
+const LikeButton = ({ customId, customHeight = "50px", customWidth = "50px", isActive, onClick }) => {
   const buttonRef = useRef(null);
 
   const handleClick = () => {
-    setIsActive(!isActive);
+    if (onClick) onClick();
   };
 
   useEffect(() => {
