@@ -21,7 +21,7 @@ const getWeatherAPISlice = createSlice({
       state.error = null;
       state.data = action.payload;
     },
-    getWeatherFailure(state, action) {
+    getWeatherFailure(state) {
       state.weatherStatus = "Failed";
       state.error = "Error";
       state.data = {};
@@ -29,15 +29,14 @@ const getWeatherAPISlice = createSlice({
   },
 });
 
-export const { getWeatherStart, getWeatherSuccess, getWeatherFailure } =
-  getWeatherAPISlice.actions;
+export const { getWeatherStart, getWeatherSuccess, getWeatherFailure } = getWeatherAPISlice.actions;
 
 export const getWeather = (query) => async (dispatch) => {
   try {
     dispatch(getWeatherStart());
     const response = await getWeatherAPIFunc(query);
     if (response) {
-        dispatch(getWeatherSuccess(response));
+      dispatch(getWeatherSuccess(response));
       return response;
     }
   } catch (error) {
