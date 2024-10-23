@@ -109,7 +109,6 @@ const Games = () => {
     const fetchFavorites = async () => {
       try {
         const response = await dispatch(getFavSection());
-        console.log(response, "reseser");
         if (response && response?.data && response?.data?.favorite) {
           const favoriteGames = response.data.favorite.game || [];
           // Create a dictionary of liked games based on their IDs

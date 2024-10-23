@@ -188,7 +188,6 @@ export const addFavAPIFunc = async (payload, accessToken) => {
   return response.data;
 };
 export const getFavAPIFunc = async (accessToken) => {
-  console.log(accessToken, "access");
   const response = await axios.post(
     `${API_URL}/api/v1/favorite`,
     {},
