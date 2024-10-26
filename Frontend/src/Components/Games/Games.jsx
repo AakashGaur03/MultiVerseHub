@@ -23,10 +23,16 @@ const Games = () => {
 
   const loaderTrue = useSelector((state) => state.games.status === "loading");
   const allGameState = useSelector((state) => state.games.gamesDataCategoryWise);
+  const favSectionGameData = useSelector((state) => state?.favSection?.allItem?.data?.favorite?.game);
+  const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
+  const [isFavLoading, setIsFavLoading] = useState(false);
+  useEffect(() => {
+    setIsFavLoading(favSectionGameLoader);
+  }, [favSectionGameLoader]);
   useEffect(() => {
     callAPI();
   }, [platform, category, sortBy]);
@@ -37,7 +43,7 @@ const Games = () => {
       platform,
     };
     // category="strategy",sortBy="release-date",platform="all"
-    const response = await dispatch(getGamesSectionDataCategoryWise(payload));
+    await dispatch(getGamesSectionDataCategoryWise(payload));
     // console.log(response);
     // setAllGames(response);
   };
@@ -60,48 +66,50 @@ const Games = () => {
     setSortBy(e.target.value);
   };
   const handleLikeClick = async (gameData) => {
-    // Toggle like state optimistically
-    const gameId = gameData.id;
-    const isCurrentlyLiked = likedGames[gameId] || false;
+    // Determine if the game is already liked by checking if it exists in favSectionGameData
+    const isLiked = favSectionGameData?.some((favGame) => {
+      console.log(`favGame.gameId:`, favGame.gameId, `| Type:`, typeof favGame.gameId);
+      console.log(`gameData.id:`, gameData.id, `| Type:`, typeof gameData.id);
+      return favGame.gameId == gameData.id; // Ensure strict comparison
+    });
 
-    setLikedGames((prevLikedGames) => ({
-      ...prevLikedGames,
-      [gameId]: !isCurrentlyLiked,
-    }));
-    const payload = {
-      category: "game",
-      data: {
-        gameId: gameData.id,
-        thumbnail: gameData.thumbnail,
-        title: gameData.title,
-        releaseDate: gameData.release_date,
-      }, // Send the complete game data
-    };
-
+    console.log(`Final gameData.id:`, gameData.id);
+    console.log(`isLiked:`, isLiked);
     try {
-      let res;
-      if (!isCurrentlyLiked) {
-        // Add to favorites
-        res = await dispatch(addFavSection(payload));
+      if (isLiked) {
+        // If the game is already liked, remove it
+        const favItem = favSectionGameData.find((favGame) => favGame.gameId == gameData.id);
+        console.log(favItem, "FI");
+        if (favItem) {
+          const payload = { category: "game", itemId: favItem._id }; // Payload to send for removing
+          await dispatch(removeFavSection(payload)); // Dispatch the remove action
+          await dispatch(getFavSection());
+          setLikedGames((prevLikedGames) => {
+            const updatedLikedGames = { ...prevLikedGames };
+            delete updatedLikedGames[gameData.id];
+            return updatedLikedGames;
+          });
+        }
       } else {
-        // Remove from favorites
-        res = await dispatch(removeFavSection({ category: "game", itemId: gameId }));
-      }
-
-      if (!res || !res.success) {
-        // Revert the state if the API call fails
+        // If the game is not liked, add it to the favorites
+        const payload = {
+          category: "game",
+          data: {
+            gameId: gameData.id,
+            thumbnail: gameData.thumbnail,
+            title: gameData.title,
+            releaseDate: gameData.release_date,
+          },
+        };
+        await dispatch(addFavSection(payload)); // Dispatch the add action
+        await dispatch(getFavSection());
         setLikedGames((prevLikedGames) => ({
           ...prevLikedGames,
-          [gameId]: isCurrentlyLiked,
+          [gameData.id]: true,
         }));
       }
     } catch (error) {
-      console.error("Error adding to favorite:", error);
-      // Revert like state if API call fails
-      setLikedGames((prevLikedGames) => ({
-        ...prevLikedGames,
-        [gameId]: isCurrentlyLiked,
-      }));
+      console.error("Error handling like click:", error);
     }
   };
 
@@ -252,6 +260,12 @@ const Games = () => {
           )}
         </div>
       </div>
+
+      {isFavLoading && (
+        <div className="w-full flex justify-center">
+          <div className="loader"></div>
+        </div>
+      )}
     </>
   );
 };

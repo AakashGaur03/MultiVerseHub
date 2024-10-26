@@ -133,25 +133,32 @@ const getFavorites = asyncHandler(async (req, res) => {
 const removeFavorite = asyncHandler(async (req, res) => {
   const { category, itemId } = req.body;
   const userId = req.user._id;
+  let Model;
   let field;
 
   switch (category) {
     case "news":
+      Model = News;
       field = "news";
       break;
     case "wordOfTheDay":
+      Model = WordOfTheDay;
       field = "wordOfTheDay";
       break;
     case "entertainment":
+      Model = Entertainment;
       field = "entertainment";
       break;
     case "game":
+      Model = Game;
       field = "game";
       break;
     case "cricketNews":
+      Model = CricketNews;
       field = "cricketNews";
       break;
     case "cricketMatch":
+      Model = CricketMatch;
       field = "cricketMatch";
       break;
     default:
@@ -165,16 +172,24 @@ const removeFavorite = asyncHandler(async (req, res) => {
         .status(404)
         .json(new ApiError(404, "No favorite section found for the user"));
     }
-    const itemExists = favorite[field].some(
+    const itemIndex = favorite[field].findIndex(
       (item) => item.toString() === itemId
     );
 
-    if (!itemExists) {
+    if (itemIndex === -1) {
       // Item does not exist in the user's favorites
       return res
         .status(404)
         .json(new ApiError(404, "Item doesn't exist in favorites"));
     }
+
+    const removedItemId = favorite[field][itemIndex];
+    console.log(field);
+    // Optionally fetch complete item details if needed from another collection
+    const removedItem = {
+      category,
+      item: await Model.findById(removedItemId),
+    };
 
     favorite[field] = favorite[field].filter(
       (item) => item.toString() !== itemId
@@ -183,7 +198,11 @@ const removeFavorite = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(
-        new ApiResponse(200, {}, "Item removed from favorites successfully")
+        new ApiResponse(
+          200,
+          { removedItem },
+          "Item removed from favorites successfully"
+        )
       );
   } catch (error) {
     console.error("Error removing from favorites:", error);

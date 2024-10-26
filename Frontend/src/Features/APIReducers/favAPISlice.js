@@ -4,80 +4,123 @@ import { addFavAPIFunc, getFavAPIFunc, removeFavAPIFunc } from "../../Api";
 const initialState = {
   loader: false,
   error: null,
-  data: null,
+  allItem: null,
+  addItem: null,
+  removeItem: null,
 };
 
 const favSectionAPISlice = createSlice({
   name: "favSection",
   initialState,
   reducers: {
-    favSectionStart(state) {
+    addFavSectionStart(state) {
       state.loader = true;
       state.error = null;
-      state.data = {};
+      state.addItem = {};
     },
-    favSectionSuccess(state, action) {
+    addFavSectionSuccess(state, action) {
       state.loader = false;
       state.error = null;
-      state.data = action.payload;
+      state.addItem = action.payload;
     },
-    favSectionFailure(state) {
+    addFavSectionFailure(state) {
       state.loader = false;
       state.error = "Error";
-      state.data = {};
+      state.addItem = {};
+    },
+    getFavSectionStart(state) {
+      state.loader = true;
+      state.error = null;
+      state.allItem = {};
+    },
+    getFavSectionSuccess(state, action) {
+      state.loader = false;
+      state.error = null;
+      state.allItem = action.payload;
+    },
+    getFavSectionFailure(state) {
+      state.loader = false;
+      state.error = "Error";
+      state.allItem = {};
+    },
+    removeFavSectionStart(state) {
+      state.loader = true;
+      state.error = null;
+      state.removeItem = {};
+    },
+    removeFavSectionSuccess(state, action) {
+      state.loader = false;
+      state.error = null;
+      console.log(action.payload, "action.payload");
+      state.removeItem = action.payload;
+    },
+    removeFavSectionFailure(state) {
+      state.loader = false;
+      state.error = "Error";
+      state.removeItem = {};
     },
   },
 });
 
-export const { favSectionStart, favSectionSuccess, favSectionFailure } = favSectionAPISlice.actions;
+export const {
+  addFavSectionStart,
+  addFavSectionSuccess,
+  addFavSectionFailure,
+  getFavSectionStart,
+  getFavSectionSuccess,
+  getFavSectionFailure,
+  removeFavSectionStart,
+  removeFavSectionSuccess,
+  removeFavSectionFailure,
+} = favSectionAPISlice.actions;
 
 export const addFavSection = (payload, accessToken) => async (dispatch) => {
   try {
-    dispatch(favSectionStart());
+    dispatch(addFavSectionStart());
     if (!accessToken) {
       accessToken = localStorage.getItem("accessToken");
     }
     const response = await addFavAPIFunc(payload, accessToken);
     if (response) {
-      dispatch(favSectionSuccess(response));
+      dispatch(addFavSectionSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(favSectionFailure(error.message));
+    dispatch(addFavSectionFailure(error.message));
   }
 };
 
 // Action to get favorite items
 export const getFavSection = (accessToken) => async (dispatch) => {
   try {
-    dispatch(favSectionStart());
+    dispatch(getFavSectionStart());
     if (!accessToken) {
       accessToken = localStorage.getItem("accessToken");
     }
     const response = await getFavAPIFunc(accessToken);
     if (response) {
-      dispatch(favSectionSuccess(response));
+      dispatch(getFavSectionSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(favSectionFailure(error.message));
+    dispatch(getFavSectionFailure(error.message));
   }
 };
 
 // Action to remove a favorite item
 export const removeFavSection = (payload, accessToken) => async (dispatch) => {
   try {
-    dispatch(favSectionStart());
+    dispatch(removeFavSectionStart());
     if (!accessToken) {
       accessToken = localStorage.getItem("accessToken");
     }
     const response = await removeFavAPIFunc(payload, accessToken);
     if (response) {
-      dispatch(favSectionSuccess(response));
+      dispatch(removeFavSectionSuccess(response));
       return response;
     }
   } catch (error) {
-    dispatch(favSectionFailure(error.message));
+    dispatch(removeFavSectionFailure(error.message));
   }
 };
 
