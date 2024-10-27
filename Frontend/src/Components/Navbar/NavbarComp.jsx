@@ -1,16 +1,9 @@
-import { Container, Nav, Navbar, Form, Offcanvas } from "react-bootstrap";
+import { Container, Navbar, Form, Offcanvas } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentStatusUser, Sidebar, toggleTheme } from "../../index";
 import { useEffect, useState } from "react";
-import {
-  ForgotModal,
-  LoginModal,
-  LogoutModal,
-  NewPassModal,
-  OtpModal,
-  RegisrationModal,
-} from "../UserControls";
+import { ForgotModal, LoginModal, LogoutModal, RegisrationModal } from "../UserControls";
 import {
   loginMessageUpdate,
   toggleClicked,
@@ -37,9 +30,7 @@ import debounce from "../../GlobalComp/debounce";
 function NavbarComp({ setQuery }) {
   const themeColor = useSelector((state) => state.theme.theme);
   const textColor = useSelector((state) => state.theme.textColor);
-  const isLoggedIn = useSelector(
-    (state) => state.getCurrentStatus.isUserLoggedIn
-  );
+  const isLoggedIn = useSelector((state) => state.getCurrentStatus.isUserLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showEmailInput, setShowEmailInput] = useState(true);
@@ -126,12 +117,7 @@ function NavbarComp({ setQuery }) {
   return (
     <>
       {/* <Navbar expand="lg" className={`bg-body- tertiary bg-${themeColor}`} style={{backgroundColor:"black",color:"white"}}> */}
-      <Navbar
-        expand="lg"
-        className={`bg-body- tertiary ${
-          themeColor == "light" ? "bg-light" : ""
-        }`}
-      >
+      <Navbar expand="lg" className={`bg-body- tertiary ${themeColor == "light" ? "bg-light" : ""}`}>
         <Container>
           <Navbar.Brand className={textColor}>
             <NavLink to={"/"}>MultiverseHubb</NavLink>
@@ -181,12 +167,7 @@ function NavbarComp({ setQuery }) {
             </div>
           )}
           {toggleBtnVisible && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-              height={20}
-              onClick={handleShowSidebar}
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height={20} onClick={handleShowSidebar}>
               <path
                 fill="#ffffff"
                 d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
@@ -199,11 +180,7 @@ function NavbarComp({ setQuery }) {
         </Container>
       </Navbar>
 
-      <RegisrationModal
-        show={showModal === "register"}
-        handleClose={handleClose}
-        handleShow={handleShow}
-      />
+      <RegisrationModal show={showModal === "register"} handleClose={handleClose} handleShow={handleShow} />
       <LoginModal
         show={showModal === "login"}
         handleClose={handleClose}

@@ -65,12 +65,9 @@ const Games = () => {
       return favGame.gameId == gameData.id;
     });
 
-    console.log(`Final gameData.id:`, gameData.id);
-    console.log(`isLiked:`, isLiked);
     try {
       if (isLiked) {
         const favItem = favSectionGameDataAll.find((favGame) => favGame.gameId == gameData.id);
-        console.log(favItem, "FI");
         if (favItem) {
           const payload = { category: "game", itemId: favItem._id };
           await dispatch(removeFavSection(payload));
