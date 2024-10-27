@@ -3,6 +3,7 @@ import { addFavAPIFunc, getFavAPIFunc, removeFavAPIFunc } from "../../Api";
 
 const initialState = {
   loader: false,
+  getLoader: false,
   error: null,
   allItem: null,
   addItem: null,
@@ -46,17 +47,17 @@ const favSectionAPISlice = createSlice({
       state.addItem = {};
     },
     getFavSectionStart(state) {
-      state.loader = true;
+      state.getLoader = true;
       state.error = null;
       state.allItem = {};
     },
     getFavSectionSuccess(state, action) {
-      state.loader = false;
+      state.getLoader = false;
       state.error = null;
       state.allItem = action.payload;
     },
     getFavSectionFailure(state) {
-      state.loader = false;
+      state.getLoader = false;
       state.error = "Error";
       state.allItem = {};
     },
