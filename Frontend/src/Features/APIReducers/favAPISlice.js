@@ -22,6 +22,23 @@ const favSectionAPISlice = createSlice({
       state.loader = false;
       state.error = null;
       state.addItem = action.payload;
+
+      const category = action?.payload?.data?.addedItem?.category;
+      const newItem = action?.payload?.data?.addedItem?.item;
+
+      if (!state.allItem?.data?.favorite) {
+        state.allItem = {
+          data: {
+            favorite: {
+              [category]: [],
+            },
+          },
+        };
+      } else if (!state.allItem.data.favorite[category]) {
+        state.allItem.data.favorite[category] = [];
+      }
+
+      state.allItem.data.favorite[category].push(newItem);
     },
     addFavSectionFailure(state) {
       state.loader = false;
@@ -51,8 +68,15 @@ const favSectionAPISlice = createSlice({
     removeFavSectionSuccess(state, action) {
       state.loader = false;
       state.error = null;
-      console.log(action.payload, "action.payload");
       state.removeItem = action.payload;
+
+      const category = action?.payload?.data?.removedItem?.category;
+      const removeItemId = action?.payload?.data?.removedItem?.item?.gameId;
+      if (state.allItem?.data?.favorite?.[category]) {
+        state.allItem.data.favorite[category] = state.allItem.data.favorite[category].filter(
+          (item) => item.gameId !== removeItemId
+        );
+      }
     },
     removeFavSectionFailure(state) {
       state.loader = false;

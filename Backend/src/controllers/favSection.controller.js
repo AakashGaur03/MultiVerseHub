@@ -64,10 +64,14 @@ const addToFavorite = asyncHandler(async (req, res) => {
         await favorite.save();
       }
     }
+    const addedItem = {
+      category,
+      item,
+    };
 
     return res
       .status(200)
-      .json(new ApiResponse(200, { item }, "Added To Favorites"));
+      .json(new ApiResponse(200, { addedItem }, "Added To Favorites"));
   } catch (error) {
     console.error("Error Adding To Favorite:", error);
     return res

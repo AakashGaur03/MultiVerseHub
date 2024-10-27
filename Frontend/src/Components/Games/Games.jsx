@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addFavSection,
-  // getGamesSectionData,
-  getGamesSectionDataCategoryWise,
-} from "../../Features";
+import { addFavSection, getGamesSectionDataCategoryWise } from "../../Features";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import { useNavigate } from "react-router-dom";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
@@ -20,16 +16,20 @@ const Games = () => {
   const [category, setcategory] = useState("mmorpg");
   const [sortBy, setSortBy] = useState("relevance");
   const [likedGames, setLikedGames] = useState({});
+  const [favSectionGameDataAll, setFavSectionGameDataAll] = useState({});
 
   const loaderTrue = useSelector((state) => state.games.status === "loading");
   const allGameState = useSelector((state) => state.games.gamesDataCategoryWise);
   const favSectionGameData = useSelector((state) => state?.favSection?.allItem?.data?.favorite?.game);
   const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFavLoading, setIsFavLoading] = useState(false);
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
-  const [isFavLoading, setIsFavLoading] = useState(false);
+  useEffect(() => {
+    setFavSectionGameDataAll(favSectionGameData);
+  }, [favSectionGameData]);
   useEffect(() => {
     setIsFavLoading(favSectionGameLoader);
   }, [favSectionGameLoader]);
@@ -47,11 +47,6 @@ const Games = () => {
     // console.log(response);
     // setAllGames(response);
   };
-
-  useEffect(() => {
-    setAllGames(allGameState);
-  }, [allGameState]);
-
   const particularGameCall = async (id) => {
     navigate(`/game/${id}`);
     window.scroll(0, 0);
@@ -66,32 +61,26 @@ const Games = () => {
     setSortBy(e.target.value);
   };
   const handleLikeClick = async (gameData) => {
-    // Determine if the game is already liked by checking if it exists in favSectionGameData
-    const isLiked = favSectionGameData?.some((favGame) => {
-      console.log(`favGame.gameId:`, favGame.gameId, `| Type:`, typeof favGame.gameId);
-      console.log(`gameData.id:`, gameData.id, `| Type:`, typeof gameData.id);
-      return favGame.gameId == gameData.id; // Ensure strict comparison
+    const isLiked = favSectionGameDataAll?.some((favGame) => {
+      return favGame.gameId == gameData.id;
     });
 
     console.log(`Final gameData.id:`, gameData.id);
     console.log(`isLiked:`, isLiked);
     try {
       if (isLiked) {
-        // If the game is already liked, remove it
-        const favItem = favSectionGameData.find((favGame) => favGame.gameId == gameData.id);
+        const favItem = favSectionGameDataAll.find((favGame) => favGame.gameId == gameData.id);
         console.log(favItem, "FI");
         if (favItem) {
-          const payload = { category: "game", itemId: favItem._id }; // Payload to send for removing
-          await dispatch(removeFavSection(payload)); // Dispatch the remove action
-          await dispatch(getFavSection());
+          const payload = { category: "game", itemId: favItem._id };
+          await dispatch(removeFavSection(payload));
           setLikedGames((prevLikedGames) => {
             const updatedLikedGames = { ...prevLikedGames };
-            delete updatedLikedGames[gameData.id];
+            delete updatedLikedGames[gameData.id]; // delete keyword in JavaScript is used to remove a property from an object
             return updatedLikedGames;
           });
         }
       } else {
-        // If the game is not liked, add it to the favorites
         const payload = {
           category: "game",
           data: {
@@ -101,8 +90,7 @@ const Games = () => {
             releaseDate: gameData.release_date,
           },
         };
-        await dispatch(addFavSection(payload)); // Dispatch the add action
-        await dispatch(getFavSection());
+        await dispatch(addFavSection(payload));
         setLikedGames((prevLikedGames) => ({
           ...prevLikedGames,
           [gameData.id]: true,
@@ -112,6 +100,10 @@ const Games = () => {
       console.error("Error handling like click:", error);
     }
   };
+
+  useEffect(() => {
+    setAllGames(allGameState);
+  }, [allGameState]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -262,8 +254,8 @@ const Games = () => {
       </div>
 
       {isFavLoading && (
-        <div className="w-full flex justify-center">
-          <div className="loader"></div>
+        <div className="overlay">
+          <div className="loader2"></div>
         </div>
       )}
     </>
