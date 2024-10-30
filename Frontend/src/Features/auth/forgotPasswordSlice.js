@@ -89,16 +89,14 @@ export const sendOTPMail = (email) => async (dispatch) => {
     dispatch(sendOTPMailStart());
     const response = await sendOTPApi(email);
     if (response) {
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(sendOTPMailSuccess(response.data.message));
       return response;
     }
   } catch (error) {
     console.log(error);
     let dispatchMessage = "";
-    dispatchMessage =
-      error.response?.data?.message ||
-      "Unknown Error Ocuured While Sending OTP";
+    dispatchMessage = error.response?.data?.message || "Unknown Error Ocuured While Sending OTP";
     dispatch(sendOTPMailFailure(dispatchMessage));
   }
 };
@@ -115,9 +113,7 @@ export const verifyOTP = (otp) => async (dispatch) => {
   } catch (error) {
     // dispatch(verifyOTPFailure(error.message));
     let dispatchMessage = "";
-    dispatchMessage =
-      error.response?.data?.message ||
-      "Unknown Error Ocuured While Verifying OTP";
+    dispatchMessage = error.response?.data?.message || "Unknown Error Ocuured While Verifying OTP";
     dispatch(sendOTPMailFailure(dispatchMessage));
   }
 };
@@ -135,9 +131,7 @@ export const createNewPassword = (data) => async (dispatch) => {
   } catch (error) {
     // dispatch(resetPasswordFailure(error.message));
     let dispatchMessage = "";
-    dispatchMessage =
-      error.response?.data?.message ||
-      "Unknown Error Ocuured While Reseting Password";
+    dispatchMessage = error.response?.data?.message || "Unknown Error Ocuured While Reseting Password";
     dispatch(resetPasswordFailure(dispatchMessage));
   }
 };

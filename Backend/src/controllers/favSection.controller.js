@@ -188,7 +188,7 @@ const removeFavorite = asyncHandler(async (req, res) => {
     }
 
     const removedItemId = favorite[field][itemIndex];
-    console.log(field);
+    // console.log(field);
     // Optionally fetch complete item details if needed from another collection
     const removedItem = {
       category,

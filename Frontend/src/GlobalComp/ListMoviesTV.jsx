@@ -29,7 +29,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
       releaseDate: itemData.release_date,
       firstAirDate: itemData.first_air_date,
     };
-    console.log(itemData, "ITEMATA");
+    // console.log(itemData, "ITEMATA");
     await handleLikeOperation({
       category,
       itemData,

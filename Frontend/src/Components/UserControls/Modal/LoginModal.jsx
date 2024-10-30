@@ -9,9 +9,7 @@ const LoginModal = ({ show, handleClose, handleForgot }) => {
   const loading = useSelector((state) => state.login.loading);
   const message = useSelector((state) => state.login.message);
   // const currentState = useSelector((state) => state.login.currentState);
-  const currentState = useSelector(
-    (state) => state.getCurrentStatus.isUserLoggedIn
-  );
+  const currentState = useSelector((state) => state.getCurrentStatus.isUserLoggedIn);
 
   const [errMessage, setErrMessage] = useState("");
   const [userNameOrPass, setUserNameOrPass] = useState(false);
@@ -61,7 +59,7 @@ const LoginModal = ({ show, handleClose, handleForgot }) => {
       let resData;
       if (userNameOrPass) {
         resData = await dispatch(loginUser(loginData));
-        console.log(resData);
+        // console.log(resData);
         setErrMessage(message);
       } else {
         setErrMessage("Username or Email is required");
@@ -75,17 +73,9 @@ const LoginModal = ({ show, handleClose, handleForgot }) => {
   };
 
   return (
-    <ModalComponent
-      show={show}
-      handleClose={handleModalClose}
-      title="Log In to Your"
-    >
-      {errMessage && !currentState && (
-        <div className="text-red-600 text-center">{errMessage}</div>
-      )}
-      {errMessage && currentState && (
-        <div className="text-green-600 text-center">{errMessage}</div>
-      )}
+    <ModalComponent show={show} handleClose={handleModalClose} title="Log In to Your">
+      {errMessage && !currentState && <div className="text-red-600 text-center">{errMessage}</div>}
+      {errMessage && currentState && <div className="text-green-600 text-center">{errMessage}</div>}
       {!currentState && (
         <Form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -97,9 +87,7 @@ const LoginModal = ({ show, handleClose, handleForgot }) => {
               id="loginEmail"
               data-id="email"
             />
-            <div className="form-text text-white">
-              We'll never share your email with anyone else.
-            </div>
+            <div className="form-text text-white">We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">
             <Form.Label htmlFor="loginUsername">username</Form.Label>
@@ -130,11 +118,7 @@ const LoginModal = ({ show, handleClose, handleForgot }) => {
             {/* <Button className='btn bg-slate-600 hover:bg-slate-900'>Forgot Password</Button> */}
           </div>
           <div className="text-center">
-            <button
-              type="submit"
-              className="btn btn-outline-primary"
-              disabled={loading}
-            >
+            <button type="submit" className="btn btn-outline-primary" disabled={loading}>
               Submit
             </button>
           </div>

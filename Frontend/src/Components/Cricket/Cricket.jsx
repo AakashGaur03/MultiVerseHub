@@ -115,7 +115,7 @@ const Cricket = ({ setQuery }) => {
             FilteredCricketData.push(...match.seriesAdWrapper.matches); // It slices mathces in series to 2
           }
         });
-        console.log(cricketData);
+        // console.log(cricketData);
         setCricketData(FilteredCricketData);
       }
     };
@@ -140,7 +140,7 @@ const Cricket = ({ setQuery }) => {
     if (validNews.length > 0) {
       getCricketNews();
     }
-    console.log(validNews);
+    // console.log(validNews);
   }, [validNews]);
 
   const getCricketNews = async () => {

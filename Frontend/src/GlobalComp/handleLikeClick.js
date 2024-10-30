@@ -7,26 +7,18 @@ export const handleLikeOperation = async ({
   addFavSection,
   removeFavSection,
 }) => {
-  console.log(itemData, "itemDataitemData");
-  console.log(favSectionDataAll, "favSectionDataAllfavSectionDataAll");
   const itemId = itemData.id; // Change this according to how your data is structured
   // Check if the item is already liked based on the category
   const isLiked = favSectionDataAll[category]?.some((favItem) => {
-    console.log(favItem, "favItemfavItem");
-    console.log(category, "categorycategory");
-    console.log(itemId, "itemIditemId");
     return favItem[`${category}Id`] == itemId;
   });
-  console.log(isLiked, "isLikedisLiked");
 
   try {
     if (isLiked) {
       // Find the item to be removed based on category and itemId
       const favItem = favSectionDataAll[category].find((favItem) => favItem[`${category}Id`] == itemId);
-      console.log(favItem, "favItemfavItemfavItem");
       if (favItem) {
         const payload = { category, itemId: favItem._id };
-        console.log(payload, "payloadpayloadpayload");
         await dispatch(removeFavSection(payload));
 
         // Update the liked items state

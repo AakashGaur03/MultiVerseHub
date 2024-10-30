@@ -16,13 +16,7 @@ const PlayerInfo = () => {
   const sanitizedContent = DOMPurify.sanitize(playerData?.info?.bio || "");
   useEffect(() => {
     if (playerData?.info?.faceImageId) {
-      getImageUrl(
-        playerData?.info?.faceImageId,
-        imageUrls,
-        setImageUrls,
-        setLoadingImages,
-        dispatch
-      );
+      getImageUrl(playerData?.info?.faceImageId, imageUrls, setImageUrls, setLoadingImages, dispatch);
     }
   }, [playerData, imageUrls]);
   useEffect(() => {
@@ -34,10 +28,10 @@ const PlayerInfo = () => {
   }, [playerId]);
   useEffect(() => {
     setPlayerData(currentPlayerInfo?.[playerId]);
-    console.log(currentPlayerInfo, "currentPlayerInfo");
-    console.log(playerData, "playerData");
+    // console.log(currentPlayerInfo, "currentPlayerInfo");
+    // console.log(playerData, "playerData");
   }, [currentPlayerInfo]);
-  console.log(playerId);
+  // console.log(playerId);
 
   return (
     <>
@@ -50,10 +44,7 @@ const PlayerInfo = () => {
                 <div>Lading...</div>
               ) : (
                 <img
-                  src={
-                    imageUrls[playerData?.info?.faceImageId] ||
-                    "/ImageNotFound.png"
-                  }
+                  src={imageUrls[playerData?.info?.faceImageId] || "/ImageNotFound.png"}
                   className="max-w-64"
                   alt={playerData?.info?.name || "Player Image"}
                 />
@@ -68,9 +59,7 @@ const PlayerInfo = () => {
               </div>
             </div>
             <div>
-              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">
-                Personal Information
-              </div>
+              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">Personal Information</div>
               <Table borderless hover variant="dark" responsive>
                 <tbody>
                   {playerData?.info?.DoB && (
@@ -113,9 +102,7 @@ const PlayerInfo = () => {
               </Table>
             </div>
             <div>
-              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">
-                ICC Rankings
-              </div>
+              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">ICC Rankings</div>
               <div>
                 <Table borderless hover variant="dark" responsive>
                   <thead>
@@ -177,23 +164,17 @@ const PlayerInfo = () => {
               </div>
             </div>
             <div>
-              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">
-                Team Information
-              </div>
+              <div className="mt-4 text-center uppercase font-semibold  text-gray-300">Team Information</div>
               <div className="mt-3 text-center">{playerData?.info?.teams}</div>
             </div>
           </div>
         </Col>
         <Col lg={9}>
-          <div className="mb-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
-            Batting Career Summary
-          </div>
+          <div className="mb-3 text-center uppercase font-semibold text-2xl text-gray-300 ">Batting Career Summary</div>
           <Table borderless hover variant="dark" responsive>
             <thead>
               <tr>
-                <th className="sticky-col p-2 border-b text-center z-0">
-                  Format
-                </th>
+                <th className="sticky-col p-2 border-b text-center z-0">Format</th>
                 {playerData?.batting?.values?.map((row, index) => (
                   <th key={index} className="p-2 border-b text-center">
                     {row.values[0] === "Not Out" ? "NO" : row.values[0]}
@@ -202,31 +183,23 @@ const PlayerInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {playerData?.batting?.headers
-                ?.slice(1)
-                .map((header, headerIndex) => (
-                  <tr key={headerIndex} className="border-b">
-                    <td className="sticky-col p-2 border-b text-center z-0">
-                      {header}
+              {playerData?.batting?.headers?.slice(1).map((header, headerIndex) => (
+                <tr key={headerIndex} className="border-b">
+                  <td className="sticky-col p-2 border-b text-center z-0">{header}</td>
+                  {playerData?.batting?.values?.map((row, colIndex) => (
+                    <td key={colIndex} className="p-2 border-b text-center">
+                      {row.values[headerIndex + 1]}
                     </td>
-                    {playerData?.batting?.values?.map((row, colIndex) => (
-                      <td key={colIndex} className="p-2 border-b text-center">
-                        {row.values[headerIndex + 1]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </Table>
-          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
-            Bowling Career Summary
-          </div>
+          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">Bowling Career Summary</div>
           <Table borderless hover variant="dark" responsive>
             <thead>
               <tr>
-                <th className="sticky-col p-2 border-b text-center z-0">
-                  Format
-                </th>
+                <th className="sticky-col p-2 border-b text-center z-0">Format</th>
                 {playerData?.bowling?.values?.map((row, index) => (
                   <th key={index} className="p-2 border-b text-center">
                     {row.values[0] === "Not Out" ? "NO" : row.values[0]}
@@ -235,25 +208,19 @@ const PlayerInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {playerData?.bowling?.headers
-                ?.slice(1)
-                .map((header, headerIndex) => (
-                  <tr key={headerIndex} className="border-b">
-                    <td className="sticky-col p-2 border-b text-center z-0">
-                      {header}
+              {playerData?.bowling?.headers?.slice(1).map((header, headerIndex) => (
+                <tr key={headerIndex} className="border-b">
+                  <td className="sticky-col p-2 border-b text-center z-0">{header}</td>
+                  {playerData?.bowling?.values?.map((row, colIndex) => (
+                    <td key={colIndex} className="p-2 border-b text-center">
+                      {row.values[headerIndex + 1]}
                     </td>
-                    {playerData?.bowling?.values?.map((row, colIndex) => (
-                      <td key={colIndex} className="p-2 border-b text-center">
-                        {row.values[headerIndex + 1]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </Table>
-          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
-            Career Information
-          </div>
+          <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">Career Information</div>
           <Table borderless hover variant="dark" responsive>
             <tbody>
               {playerData?.career?.values?.map((value, index) => (
@@ -281,14 +248,8 @@ const PlayerInfo = () => {
           {/* <div>{playerData?.info?.bio}</div> */}
         </Col>
       </Row>
-      <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">
-        Player Bio
-      </div>
-      <div
-        className="mt-3"
-        style={{ color: "wheat" }}
-        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-      ></div>
+      <div className="my-3 text-center uppercase font-semibold text-2xl text-gray-300 ">Player Bio</div>
+      <div className="mt-3" style={{ color: "wheat" }} dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
       {/* <iframe srcDoc={playerData?.info?.bio} className="text-white w-100">
 
           

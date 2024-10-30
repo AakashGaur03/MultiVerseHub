@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getEntertainmentDataMovie,
-  getEntertainmentDataTV,
-} from "../../Features";
+import { getEntertainmentDataMovie, getEntertainmentDataTV } from "../../Features";
 import { ListMoviesTV } from "../..";
 import { useNavigate } from "react-router-dom";
 const Entertainment = () => {
-  const activeSidebarItem = useSelector(
-    (state) => state.sidebar.currentSidebar
-  );
+  const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
   const navigate = useNavigate();
   const [movieDataNowPlaying, setMovieDataNowPlaying] = useState([]);
   const [movieDataSearch, setMovieDataSearch] = useState([]);
@@ -23,22 +18,12 @@ const Entertainment = () => {
   const [tvDataTopRated, setTvDataTopRated] = useState([]);
   const [tvDataAiringToday, setTvDataAiringToday] = useState([]);
   const dispatch = useDispatch();
-  const entertainmentData = useSelector(
-    (state) => state.getEntertainmentData.entertainmentData
-  );
-  const entertainmentDataTV = useSelector(
-    (state) => state.getEntertainmentData.entertainmentDataTV
-  );
-  const entertainmenSearchDataTV = useSelector(
-    (state) => state.getEntertainmentData.entertainmenSearchDataTV
-  );
-  const entertainmenSearchDataMovie = useSelector(
-    (state) => state.getEntertainmentData.entertainmenSearchDataMovie
-  );
+  const entertainmentData = useSelector((state) => state.getEntertainmentData.entertainmentData);
+  const entertainmentDataTV = useSelector((state) => state.getEntertainmentData.entertainmentDataTV);
+  const entertainmenSearchDataTV = useSelector((state) => state.getEntertainmentData.entertainmenSearchDataTV);
+  const entertainmenSearchDataMovie = useSelector((state) => state.getEntertainmentData.entertainmenSearchDataMovie);
 
-  const loaderTrue = useSelector(
-    (state) => state.getEntertainmentData.searchState === "loading"
-  );
+  const loaderTrue = useSelector((state) => state.getEntertainmentData.searchState === "loading");
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(loaderTrue);
@@ -69,13 +54,12 @@ const Entertainment = () => {
     navigate(`/particulars/${category}/${id}`);
   };
 
-  useEffect(()=>{
-    setMovieDataSearch(entertainmenSearchDataMovie)
-  },[entertainmenSearchDataMovie])
-  useEffect(()=>{
-    setTvDataSearch(entertainmenSearchDataTV)
-  },[entertainmenSearchDataTV])
-
+  useEffect(() => {
+    setMovieDataSearch(entertainmenSearchDataMovie);
+  }, [entertainmenSearchDataMovie]);
+  useEffect(() => {
+    setTvDataSearch(entertainmenSearchDataTV);
+  }, [entertainmenSearchDataTV]);
 
   useEffect(() => {
     if (entertainmenSearchDataMovie) {
@@ -91,9 +75,7 @@ const Entertainment = () => {
         });
       };
 
-      const uniqueSearch = filterUniqueMovies(
-        entertainmenSearchDataMovie?.results
-      );
+      const uniqueSearch = filterUniqueMovies(entertainmenSearchDataMovie?.results);
 
       setMovieDataSearch({
         ...entertainmenSearchDataMovie,
@@ -101,7 +83,7 @@ const Entertainment = () => {
       });
     }
   }, [entertainmenSearchDataMovie]);
-  
+
   useEffect(() => {
     if (entertainmenSearchDataTV) {
       const filterUniqueMovies = (movies) => {
@@ -116,9 +98,7 @@ const Entertainment = () => {
         });
       };
 
-      const uniqueSearch = filterUniqueMovies(
-        entertainmenSearchDataTV?.results
-      );
+      const uniqueSearch = filterUniqueMovies(entertainmenSearchDataTV?.results);
 
       setTvDataSearch({
         ...entertainmenSearchDataTV,
@@ -141,18 +121,10 @@ const Entertainment = () => {
         });
       };
 
-      const uniqueNowPlaying = filterUniqueMovies(
-        entertainmentData?.now_playing?.results
-      );
-      const uniquePopular = filterUniqueMovies(
-        entertainmentData?.popular?.results
-      );
-      const uniqueTopRated = filterUniqueMovies(
-        entertainmentData?.top_rated?.results
-      );
-      const uniqueUpcoming = filterUniqueMovies(
-        entertainmentData?.upcoming?.results
-      );
+      const uniqueNowPlaying = filterUniqueMovies(entertainmentData?.now_playing?.results);
+      const uniquePopular = filterUniqueMovies(entertainmentData?.popular?.results);
+      const uniqueTopRated = filterUniqueMovies(entertainmentData?.top_rated?.results);
+      const uniqueUpcoming = filterUniqueMovies(entertainmentData?.upcoming?.results);
       setMovieDataNowPlaying({
         ...entertainmentData.now_playing,
         results: uniqueNowPlaying,
@@ -185,18 +157,10 @@ const Entertainment = () => {
           }
         });
       };
-      const uniqueOnTheAir = filterUniqueTv(
-        entertainmentDataTV?.on_the_air?.results
-      );
-      const uniquePopularTv = filterUniqueTv(
-        entertainmentDataTV?.popular?.results
-      );
-      const uniqueTopRatedTv = filterUniqueTv(
-        entertainmentDataTV?.top_rated?.results
-      );
-      const uniqueAiringToday = filterUniqueTv(
-        entertainmentDataTV?.airing_today?.results
-      );
+      const uniqueOnTheAir = filterUniqueTv(entertainmentDataTV?.on_the_air?.results);
+      const uniquePopularTv = filterUniqueTv(entertainmentDataTV?.popular?.results);
+      const uniqueTopRatedTv = filterUniqueTv(entertainmentDataTV?.top_rated?.results);
+      const uniqueAiringToday = filterUniqueTv(entertainmentDataTV?.airing_today?.results);
       setTvDataOnTheAir({
         ...entertainmentDataTV.on_the_air,
         results: uniqueOnTheAir,
@@ -259,7 +223,7 @@ const Entertainment = () => {
   let airingTodayPageTv = tvDataAiringToday.page;
 
   const loadMoreTv = (updatePage, TvType) => {
-    console.log(updatePage, TvType);
+    // console.log(updatePage, TvType);
     let payload2 = {
       onTheAirPageTv,
       topRatedPageTv,
@@ -276,14 +240,14 @@ const Entertainment = () => {
       case "topRatedTv":
         payload2.topRatedPageTv = updatePage + 1;
         topRatedPageTv = updatePage + 1;
-        console.log(payload2.topRatedPageTv, "payload2.topRatedPageTv");
-        console.log(topRatedPageTv, "topRatedPageTv");
+        // console.log(payload2.topRatedPageTv, "payload2.topRatedPageTv");
+        // console.log(topRatedPageTv, "topRatedPageTv");
         break;
       case "popularTv":
         payload2.popularPageTv = updatePage + 1;
         popularPageTv = updatePage + 1;
-        console.log(payload2.popularPageTv, "payload2.popularPageTv");
-        console.log(popularPageTv, "popularPageTv");
+        // console.log(payload2.popularPageTv, "payload2.popularPageTv");
+        // console.log(popularPageTv, "popularPageTv");
         break;
       case "airingTodayTv":
         payload2.airingTodayPageTv = updatePage + 1;

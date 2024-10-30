@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNewPassword,
-  sendOTPMail,
-  updateErrorAndMessage,
-  verifyOTP,
-} from "../../../Features";
+import { createNewPassword, sendOTPMail, updateErrorAndMessage, verifyOTP } from "../../../Features";
 import OtpModal from "./OtpModal";
 import NewPassModal from "./NewPassModal";
 
@@ -72,7 +67,7 @@ const ForgotModal = ({
   };
   const handleSetPassword = async (e = null) => {
     if (e) e.preventDefault();
-    console.log(userId, "aaaa");
+    // console.log(userId, "aaaa");
     const response = await dispatch(
       createNewPassword({
         userId,
@@ -80,9 +75,9 @@ const ForgotModal = ({
         confirmPassword: confPassword,
       })
     );
-    console.log(response);
+    // console.log(response);
     if (response) {
-      console.log("sdsds");
+      // console.log("sdsds");
       setShowOTPForm(false);
       setShowPasswordRest(false);
       dispatch(updateErrorAndMessage({ error: false, message: "" }));
@@ -97,11 +92,7 @@ const ForgotModal = ({
   return (
     <>
       {showEmailInput && (
-        <ModalComponent
-          show={show}
-          handleClose={handleModalClose}
-          title="Reset Password"
-        >
+        <ModalComponent show={show} handleClose={handleModalClose} title="Reset Password">
           {message && !error ? (
             <div className="text-green-600 text-center">{message}</div>
           ) : (
@@ -110,22 +101,13 @@ const ForgotModal = ({
           <Form onSubmit={handleEmailSubmit}>
             <div className="mb-3">
               <Form.Label>Enter Email </Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                onChange={handleMailChange}
-                required
-              ></Form.Control>
+              <Form.Control type="email" value={email} onChange={handleMailChange} required></Form.Control>
             </div>
             <div className="text-center mt-2">
               {/* <Button variant="link" onClick={handleOtp}>
                 Next
               </Button> */}
-              <Button
-                type="submit"
-                className="bg-orange-300"
-                disabled={status === "loading"}
-              >
+              <Button type="submit" className="bg-orange-300" disabled={status === "loading"}>
                 Next
               </Button>
             </div>
@@ -133,13 +115,7 @@ const ForgotModal = ({
         </ModalComponent>
       )}
       {/* {showOTPForm && <OtpModal onOTPSubmit={handleOTPSubmit} />} */}
-      {showOTPForm && (
-        <OtpModal
-          show={showModal === "otp"}
-          handleClose={handleClose}
-          onOTPSubmit={handleOTPSubmit}
-        />
-      )}
+      {showOTPForm && <OtpModal show={showModal === "otp"} handleClose={handleClose} onOTPSubmit={handleOTPSubmit} />}
 
       {showPasswordRest && (
         <NewPassModal

@@ -118,7 +118,7 @@ const Games = () => {
     const fetchFavorites = async () => {
       try {
         if (favSectionDataAll && Object.keys(favSectionDataAll).length > 0) {
-          console.log(favSectionDataAll, "favSectionDataAll");
+          // console.log(favSectionDataAll, "favSectionDataAll");
           const favoriteGames = favSectionDataAll?.game || [];
           // Create a dictionary of liked games based on their IDs
           const likedGamesMap = favoriteGames.reduce((acc, game) => {

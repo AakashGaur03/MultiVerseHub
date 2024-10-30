@@ -43,7 +43,7 @@ const News = () => {
       sourceIconUrl: itemData.source_icon,
       publishDate: itemData.pubDate,
     };
-    console.log(itemData, "ITEMATA");
+    // console.log(itemData, "ITEMATA");
     await handleLikeOperation({
       category,
       itemData,

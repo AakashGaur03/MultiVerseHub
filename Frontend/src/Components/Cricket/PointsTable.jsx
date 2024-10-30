@@ -7,9 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 const PointsTable = () => {
   const dispatch = useDispatch();
   const pointsTableData = useSelector((state) => state.cricket.pointsTableData);
-  const loaderTrue = useSelector(
-    (state) => state.cricket.pointsTableStatus === "loading"
-  );
+  const loaderTrue = useSelector((state) => state.cricket.pointsTableStatus === "loading");
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(loaderTrue);
@@ -34,7 +32,7 @@ const PointsTable = () => {
     callPointsTable();
   }, [seriesId]);
 
-  console.log(seriesId);
+  // console.log(seriesId);
   return (
     <>
       {dataPoints.length > 0 ? (
@@ -59,8 +57,7 @@ const PointsTable = () => {
                     <tr key={idx} className="d-fle x">
                       <td>
                         {data.teamName}
-                        {data.teamQualifyStatus &&
-                          ` (${data.teamQualifyStatus})`}
+                        {data.teamQualifyStatus && ` (${data.teamQualifyStatus})`}
                       </td>
                       <td>{data.matchesPlayed || 0}</td>
                       <td>{data.matchesWon || 0}</td>

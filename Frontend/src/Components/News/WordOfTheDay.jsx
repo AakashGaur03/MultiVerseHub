@@ -18,15 +18,15 @@ const WordOfTheDay = () => {
   const [wordDate, setWordDate] = useState("");
 
   const handleLikeClick = async (itemData, category = "wordOfTheDay") => {
-    console.log(itemData);
+    // console.log(itemData);
     itemData = {
       id: wordDate,
       date: wordDate,
       word: itemData.word,
       meaning: itemData.meaning,
     };
-    console.log(itemData, "ITEMATA");
-    console.log(likedItems, "likedItemslikedItemslikedItemslikedItems");
+    // console.log(itemData, "ITEMATA");
+    // console.log(likedItems, "likedItemslikedItemslikedItemslikedItems");
     await handleLikeOperation({
       category,
       itemData,

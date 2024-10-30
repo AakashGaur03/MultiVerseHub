@@ -67,7 +67,7 @@ const RegisrationModal = ({ show, handleClose, handleShow }) => {
       formDataToSend.append("avatar", formData.avatar);
 
       const res = await dispatch(registerUser(formDataToSend));
-      console.log(res);
+      // console.log(res);
       if (res.statusCode == 200) {
         setFormData({
           username: "",
@@ -86,11 +86,7 @@ const RegisrationModal = ({ show, handleClose, handleShow }) => {
 
   return (
     <>
-      <ModalComponent
-        show={show}
-        handleClose={handleModalClose}
-        title="Register In to Your"
-      >
+      <ModalComponent show={show} handleClose={handleModalClose} title="Register In to Your">
         {/* {message && <div>{message}</div>} */}
         {errMessage === "User Registered Successfully" ? (
           <div className="text-green-600 text-center">{errMessage}</div>
@@ -141,18 +137,9 @@ const RegisrationModal = ({ show, handleClose, handleShow }) => {
               required
             />
             <Form.Label htmlFor="avatar">avatar</Form.Label>
-            <input
-              type="file"
-              data-id="avatar"
-              id="avatar"
-              onChange={handleFile}
-            />
+            <input type="file" data-id="avatar" id="avatar" onChange={handleFile} />
 
-            <button
-              type="submit"
-              className="btn btn-outline-primary"
-              disabled={loading}
-            >
+            <button type="submit" className="btn btn-outline-primary" disabled={loading}>
               Submit
             </button>
           </Form>
