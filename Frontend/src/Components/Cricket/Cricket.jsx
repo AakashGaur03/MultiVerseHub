@@ -261,6 +261,11 @@ const Cricket = ({ setQuery }) => {
 
   return (
     <div className="overflow-y-auto pl-0 md:pl-11 w-full">
+      {isFavLoading && (
+        <div className="overlay">
+          <div className="loader2"></div>
+        </div>
+      )}
       <div className="flex overflow-y-auto ">
         {cricketData.length > 0 ? (
           cricketData.map((data, index) => (
