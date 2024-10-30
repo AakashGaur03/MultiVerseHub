@@ -86,13 +86,13 @@ const News = () => {
   }, [activeSidebarItem]);
 
   const handleNewsUpdate = async () => {
-    // await dispatch(getNews(activeSidebarItem));
+    await dispatch(getNews(activeSidebarItem));
   };
 
   // const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const callFinanceNewsApi = async () => {
-    // await dispatch(getFinanceNews("finance"));
+    await dispatch(getFinanceNews("finance"));
   };
   useEffect(() => {
     callFinanceNewsApi();
