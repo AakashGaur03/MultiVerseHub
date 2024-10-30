@@ -5,6 +5,7 @@ import { fetchCurrentStatusUser, Sidebar, toggleTheme } from "../../index";
 import { useEffect, useState } from "react";
 import { ForgotModal, LoginModal, LogoutModal, RegisrationModal } from "../UserControls";
 import {
+  getFavSection,
   loginMessageUpdate,
   toggleClicked,
   updateErrorAndMessage,
@@ -31,6 +32,7 @@ function NavbarComp({ setQuery }) {
   const themeColor = useSelector((state) => state.theme.theme);
   const textColor = useSelector((state) => state.theme.textColor);
   const isLoggedIn = useSelector((state) => state.getCurrentStatus.isUserLoggedIn);
+  const [newIsUserLoggedIn, setNewIsUserLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showEmailInput, setShowEmailInput] = useState(true);
@@ -62,12 +64,18 @@ function NavbarComp({ setQuery }) {
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
   };
+  useEffect(() => {
+    setNewIsUserLoggedIn(isLoggedIn);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     // if (isLoggedIn) {
     dispatch(fetchCurrentStatusUser()); // Fetch current user status on component mount
     // }
-  }, [dispatch]);
+    if (newIsUserLoggedIn) {
+      dispatch(getFavSection());
+    }
+  }, [dispatch, newIsUserLoggedIn]);
 
   useEffect(() => {
     const items = getSidebarItems();
@@ -122,7 +130,7 @@ function NavbarComp({ setQuery }) {
           <Navbar.Brand className={textColor}>
             <NavLink to={"/"}>MultiverseHubb</NavLink>
           </Navbar.Brand>
-          {!isLoggedIn && (
+          {!newIsUserLoggedIn && (
             <>
               <div>
                 <NavLink>
@@ -144,7 +152,7 @@ function NavbarComp({ setQuery }) {
               </div>
             </>
           )}
-          {isLoggedIn && (
+          {newIsUserLoggedIn && (
             <div className="flex align-items-center">
               <button
                 onClick={() => handleShow("logout")}

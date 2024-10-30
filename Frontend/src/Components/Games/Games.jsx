@@ -105,9 +105,9 @@ const Games = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await dispatch(getFavSection());
-        if (response && response?.data && response?.data?.favorite) {
-          const favoriteGames = response.data.favorite.game || [];
+        if (favSectionGameDataAll && Object.keys(favSectionGameDataAll).length > 0) {
+          console.log(favSectionGameDataAll, "favSectionGameDataAll");
+          const favoriteGames = favSectionGameDataAll || [];
           // Create a dictionary of liked games based on their IDs
           const likedGamesMap = favoriteGames.reduce((acc, game) => {
             acc[game.gameId] = true;
@@ -121,7 +121,7 @@ const Games = () => {
     };
 
     fetchFavorites();
-  }, [dispatch]);
+  }, [favSectionGameDataAll]);
   return (
     <>
       <div className=" my-2 ">

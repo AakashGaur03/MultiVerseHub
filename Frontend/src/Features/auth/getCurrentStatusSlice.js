@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUserStatusApi } from "../../Api";
 
-const storedVal = localStorage.getItem("isUserLoggedIn") === "true" ? true : false
+const storedVal = localStorage.getItem("isUserLoggedIn") === "true" ? true : false;
 const initialState = {
   isUserLoggedIn: storedVal || null,
   state: null,
@@ -14,7 +14,7 @@ const getCurrentStatusSlice = createSlice({
     setCurrentStatus(state, action) {
       state.isUserLoggedIn = action.payload;
       state.state = null;
-      localStorage.setItem("isUserLoggedIn", action.payload)
+      localStorage.setItem("isUserLoggedIn", action.payload);
     },
     setCurrentStatusState(state, action) {
       state.state = "loading";
