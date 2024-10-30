@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const entertainmentSchema = new Schema(
   {
-    movieId: {
+    entertainmentId: {
       type: String,
       required: true,
       unique: true,

@@ -2,6 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const wordOfTheDatSchema = new Schema(
   {
+    wordOfTheDayId: {
+      type: Schema.Types.ObjectId,
+      default: () => new mongoose.Types.ObjectId(),
+      unique: true,
+    },
     date: {
       type: Date,
       required: true,
