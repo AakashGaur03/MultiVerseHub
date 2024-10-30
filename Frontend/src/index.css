@@ -381,6 +381,7 @@ input:-webkit-autofill:active {
   animation: rotation 1s linear infinite;
 }
 .overlay {
+  opacity: 0.2;
   position: fixed;
   top: 0;
   left: 0;
