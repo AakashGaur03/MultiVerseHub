@@ -137,7 +137,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
         </div>
       </div>
       {isFavLoading && (
-        <div className="overlay">
+        <div className="overlay opacity-40">
           <div className="loader2"></div>
         </div>
       )}
