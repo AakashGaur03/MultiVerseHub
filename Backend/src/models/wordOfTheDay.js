@@ -3,12 +3,13 @@ import mongoose, { Schema } from "mongoose";
 const wordOfTheDatSchema = new Schema(
   {
     wordOfTheDayId: {
-      type: Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
+      type: String,
+      required: true,
       unique: true,
+      index: true,
     },
     date: {
-      type: Date,
+      type: String,
       required: true,
       unique: true,
       index: true,
