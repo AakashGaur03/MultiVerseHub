@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const cricketMatchSchema = new Schema(
   {
-    crikcetMatchId: {
+    cricketMatchId: {
       type: String,
       required: true,
       unique: true,

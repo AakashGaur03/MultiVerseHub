@@ -3,12 +3,13 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getCricket, getCricketNewsCBs } from "../../Features";
+import { addFavSection, getCricket, getCricketNewsCBs, removeFavSection } from "../../Features";
 import truncateText from "../../GlobalComp/TruncateText";
 import { formatDate } from "../../GlobalComp/formatDate";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import CustomCard from "../../GlobalComp/CustomCard";
 import LikeButton from "../../GlobalComp/LikeButton";
+import { handleLikeOperation } from "../../GlobalComp/handleLikeClick";
 
 const Cricket = ({ setQuery }) => {
   const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
@@ -31,6 +32,93 @@ const Cricket = ({ setQuery }) => {
   const [loadingImages, setLoadingImages] = useState({});
   // const [pointstable, setpointstable] = useState({ id: null, data: [] });
   const [validNews, setValidNews] = useState([]);
+
+  const [likedItems, setLikedItems] = useState({});
+  const [favSectionDataAll, setFavSectionDataAll] = useState({});
+  const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite);
+  const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
+  const [isFavLoading, setIsFavLoading] = useState(false);
+
+  const handleLikeClick = async (itemData, category = "cricketMatch") => {
+    // Different data formats based on category
+    if (category === "cricketMatch") {
+      itemData = {
+        id: itemData.matchInfo.matchId,
+        cricketMatchId: itemData.matchInfo.matchId,
+        seriesId: itemData.matchInfo.seriesId,
+        description: itemData.matchInfo.matchDesc,
+        seriesName: itemData.matchInfo.seriesName,
+        matchFormat: itemData.matchInfo.matchFormat,
+        team1SName: itemData.matchInfo.team1?.teamSName,
+        team1inngs1runs: itemData.matchScore?.team1Score?.inngs1.runs,
+        team1inngs1wickets: itemData.matchScore?.team1Score?.inngs1.wickets,
+        team1inngs1overs: itemData.matchScore?.team1Score?.inngs1.overs,
+        team1inngs2runs: itemData.matchScore?.team1Score?.inngs2?.runs,
+        team1inngs2wickets: itemData.matchScore?.team1Score?.inngs2?.wickets,
+        team2SName: itemData.matchInfo.team2?.teamSName,
+        team2inngs1runs: itemData.matchScore?.team2Score?.inngs1.runs,
+        team2inngs1wickets: itemData.matchScore?.team2Score?.inngs1.wickets,
+        team2inngs1overs: itemData.matchScore?.team2Score?.inngs1.overs,
+        team2inngs2runs: itemData.matchScore?.team2Score?.inngs2?.runs,
+        team2inngs2wickets: itemData.matchScore?.team2Score?.inngs2?.wickets,
+        matchStatus: itemData.matchInfo.status,
+      };
+    } else if (category === "cricketNews") {
+      itemData = {
+        id: itemData.story.id,
+        cricketNewsId: itemData.story.id,
+        imageId: itemData.story.imageId,
+        hLine: itemData.story.hline,
+        intro: itemData.story.intro,
+        source: itemData.story.source,
+        pubTime: itemData.story.pubTime,
+      };
+    }
+
+    // Pass itemData and category to handleLikeOperation
+    await handleLikeOperation({
+      category,
+      itemData,
+      favSectionDataAll,
+      setLikedItems,
+      dispatch,
+      addFavSection,
+      removeFavSection,
+    });
+  };
+
+  useEffect(() => {
+    setFavSectionDataAll(favSectionData);
+  }, [favSectionData]);
+
+  useEffect(() => {
+    setIsFavLoading(favSectionGameLoader);
+  }, [favSectionGameLoader]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        if (favSectionDataAll && Object.keys(favSectionDataAll).length > 0) {
+          // Map liked items
+          const likedMatches = favSectionDataAll?.cricketMatch?.reduce((acc, match) => {
+            acc[match.cricketMatchId] = true;
+            return acc;
+          }, {});
+          const likedNews = favSectionDataAll?.cricketNews?.reduce((acc, news) => {
+            acc[news.cricketNewsId] = true;
+            return acc;
+          }, {});
+
+          // Set liked items
+          setLikedItems({ ...likedMatches, ...likedNews });
+        }
+      } catch (error) {
+        console.error("Error fetching cricket favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [favSectionDataAll]);
 
   useEffect(() => {
     setIsLoadingNews(loaderNewsTrue);
@@ -182,6 +270,8 @@ const Cricket = ({ setQuery }) => {
                   customHeight="30px"
                   customWidth="30px"
                   customId={`likeButton-cricket-match-${data?.matchInfo?.matchId}`}
+                  isActive={!!likedItems[data?.matchInfo?.matchId]}
+                  onClick={() => handleLikeClick(data, "cricketMatch")}
                 />
               </div>
               <div>
@@ -269,6 +359,8 @@ const Cricket = ({ setQuery }) => {
                     customHeight="30px"
                     customWidth="30px"
                     customId={`likeButton-cricket-news-${news.story.id}`}
+                    isActive={!!likedItems[news?.story.id]}
+                    onClick={() => handleLikeClick(news, "cricketNews")}
                   />
                 </div>
               </div>
