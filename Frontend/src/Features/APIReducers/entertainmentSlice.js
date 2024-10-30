@@ -133,7 +133,9 @@ export const getEntertainmentDataMovie = (payload) => async (dispatch) => {
       return response;
     }
   } catch (error) {
-    dispatch(getEntertainmentDataFailure(error));
+    const errorMessage = error.response?.data?.message || error.message || "Unknown error";
+    dispatch(getEntertainmentDataFailure({ message: errorMessage }));
+    // dispatch(getEntertainmentDataFailure(error));
   }
 };
 export const getEntertainmentDataTV = (payload) => async (dispatch) => {

@@ -72,10 +72,10 @@ const favSectionAPISlice = createSlice({
       state.removeItem = action.payload;
 
       const category = action?.payload?.data?.removedItem?.category;
-      const removeItemId = action?.payload?.data?.removedItem?.item?.gameId;
+      const removeItemId = action?.payload?.data?.removedItem?.item?.[`${category}Id`];
       if (state.allItem?.data?.favorite?.[category]) {
         state.allItem.data.favorite[category] = state.allItem.data.favorite[category].filter(
-          (item) => item.gameId !== removeItemId
+          (item) => item[`${category}Id`] !== removeItemId
         );
       }
     },

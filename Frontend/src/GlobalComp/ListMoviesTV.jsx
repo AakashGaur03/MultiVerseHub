@@ -2,11 +2,70 @@ import { Button, Card } from "react-bootstrap";
 import { CustomCircularProgressRating, LikeButton } from "..";
 import { formatDateinHumanredable } from "./formatDate";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ImageWithLoader from "./ImageWithLoader";
+import { handleLikeOperation } from "./handleLikeClick";
+import { addFavSection, removeFavSection } from "../Features";
+
+// eslint-disable-next-line react/prop-types
 const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, InfoAboutItem, MovieOrTv }) => {
+  const dispatch = useDispatch();
+
   const loaderTrue = useSelector((state) => state.getEntertainmentData.state === "loading");
   const [isLoading, setIsLoading] = useState(false);
+  const [likedItems, setLikedItems] = useState({});
+  const [favSectionDataAll, setFavSectionDataAll] = useState({});
+  const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite);
+  const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
+  const [isFavLoading, setIsFavLoading] = useState(false);
+
+  const handleLikeClick = async (itemData, movieOrtvIncoming, category = "entertainment") => {
+    itemData = {
+      id: itemData.id,
+      entertainmentId: itemData.id,
+      entertainmentType: movieOrtvIncoming,
+      posterUrl: itemData.poster_path,
+      voteAverage: itemData.vote_average,
+      releaseDate: itemData.release_date,
+      firstAirDate: itemData.first_air_date,
+    };
+    console.log(itemData, "ITEMATA");
+    await handleLikeOperation({
+      category,
+      itemData,
+      favSectionDataAll,
+      setLikedItems,
+      dispatch,
+      addFavSection,
+      removeFavSection,
+    });
+  };
+  useEffect(() => {
+    setFavSectionDataAll(favSectionData);
+  }, [favSectionData]);
+  useEffect(() => {
+    setIsFavLoading(favSectionGameLoader);
+  }, [favSectionGameLoader]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        if (favSectionDataAll && Object.keys(favSectionDataAll).length > 0) {
+          const favoriteEntertainment = favSectionDataAll?.entertainment || [];
+          // Create a dictionary of liked games based on their IDs
+          const likedGamesMap = favoriteEntertainment.reduce((acc, entertainment) => {
+            acc[entertainment.entertainmentId] = true;
+            return acc;
+          }, {});
+          setLikedItems(likedGamesMap);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [favSectionDataAll]);
   useEffect(() => {
     setIsLoading(loaderTrue);
   }, [loaderTrue]);
@@ -20,7 +79,11 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
             ListData.results.map((data) => (
               <div className="activeClass relative" key={data.id}>
                 <div className="absolute z-10 right-4 top-[-30px]">
-                  <LikeButton customId={`likeButton-entertainment-${data.id}`} />
+                  <LikeButton
+                    customId={`likeButton-entertainment-${data.id}`}
+                    isActive={!!likedItems[data.id]}
+                    onClick={() => handleLikeClick(data, MovieOrTv)}
+                  />
                 </div>
                 <Card
                   style={{ width: "15rem", minHeight: "357px" }}
@@ -73,6 +136,11 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
             )}
         </div>
       </div>
+      {isFavLoading && (
+        <div className="overlay">
+          <div className="loader2"></div>
+        </div>
+      )}
     </div>
   );
 };
