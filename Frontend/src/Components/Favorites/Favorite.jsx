@@ -56,7 +56,7 @@ const Favorite = () => {
             <div className="flex flex-wrap justify-center pb-4 pt-10">
               {allGames?.length > 0 ? (
                 allGames.map((data) => (
-                  <div className="activeClass m-4 cursor-pointer relative" key={data.entertainmentId}>
+                  <div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
                     <div className="absolute z-10 right-4 top-[-30px]">
                       {/* <LikeButton
                     customId={`likeButton-games-${data.id}`}
@@ -64,7 +64,7 @@ const Favorite = () => {
                     onClick={() => handleLikeClick(data)}
                   /> */}
                     </div>
-                    <div onClick={() => particularGameCall(data.id)}>
+                    <div onClick={() => particularGameCall(data.gameId)}>
                       <Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
                         {/* <Card.Img
                     variant="top"
@@ -80,9 +80,9 @@ const Favorite = () => {
                       <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                         {data.title}
                       </div>
-                      {data.release_date && (
+                      {data.releaseDate && (
                         <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                          Release Date : {formatDateinHumanredable(data.release_date)}
+                          Release Date : {formatDateinHumanredable(data.releaseDate)}
                         </div>
                       )}
                     </div>
