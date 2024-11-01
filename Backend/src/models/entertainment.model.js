@@ -8,6 +8,10 @@ const entertainmentSchema = new Schema(
       unique: true,
       index: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
     entertainmentType: {
       type: String,
       required: true,

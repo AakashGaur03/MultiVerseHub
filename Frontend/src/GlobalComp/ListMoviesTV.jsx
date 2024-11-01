@@ -20,6 +20,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
   const [isFavLoading, setIsFavLoading] = useState(false);
 
   const handleLikeClick = async (itemData, movieOrtvIncoming, category = "entertainment") => {
+    console.log(itemData, "itemDataitemData");
     itemData = {
       id: itemData.id,
       entertainmentId: itemData.id,
@@ -28,6 +29,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
       voteAverage: itemData.vote_average,
       releaseDate: itemData.release_date,
       firstAirDate: itemData.first_air_date,
+      title: itemData.title,
     };
     // console.log(itemData, "ITEMATA");
     await handleLikeOperation({

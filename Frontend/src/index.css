@@ -370,6 +370,12 @@ input:-webkit-autofill:active {
   align-items: center;
   flex-direction: column;
 }
+.favSactionAfterLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .loader {
   width: 48px;
   height: 48px;

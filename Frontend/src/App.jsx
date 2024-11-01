@@ -1,11 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import {
   ForgotPassword,
@@ -56,7 +50,7 @@ function App() {
   // }, [location.pathname]);
   useEffect(() => {
     const path = location.pathname;
-    const basePaths = ["/cricket", "/entertainment", "/news"];
+    const basePaths = ["/cricket", "/entertainment", "/news", "/favorites"];
     const isBasePath = basePaths.some((basePath) => path.startsWith(basePath));
     const isExcluded = path.includes("/playerInfo");
 
@@ -102,28 +96,14 @@ function App() {
   };
   const isMainSectionChange = (currentPath, prevPath) => {
     // Define main sections
-    const mainSections = [
-      "/news",
-      "/entertainment",
-      "/cricket",
-      "/games",
-      "/favorites",
-    ];
+    const mainSections = ["/news", "/entertainment", "/cricket", "/games", "/favorites"];
 
     // Check if current and previous paths are main sections
-    const isCurrentMain = mainSections.some((section) =>
-      currentPath.startsWith(section)
-    );
-    const isPrevMain = mainSections.some((section) =>
-      prevPath.startsWith(section)
-    );
+    const isCurrentMain = mainSections.some((section) => currentPath.startsWith(section));
+    const isPrevMain = mainSections.some((section) => prevPath.startsWith(section));
 
     // Return true if changing between main sections
-    return (
-      isCurrentMain &&
-      isPrevMain &&
-      currentPath.split("/")[1] !== prevPath.split("/")[1]
-    );
+    return isCurrentMain && isPrevMain && currentPath.split("/")[1] !== prevPath.split("/")[1];
   };
 
   useEffect(() => {
@@ -148,51 +128,22 @@ function App() {
         <Container fluid className="restOfComponets">
           <div className={`${sidebarItemsActive ? "d-flex" : ""}`}>
             <div className="d-lg-block d-none ">
-              {sidebarItemsActive && (
-                <Sidebar
-                  items={sidebarItems}
-                  handleItemClick={handleSidebarClick}
-                />
-              )}
+              {sidebarItemsActive && <Sidebar items={sidebarItems} handleItemClick={handleSidebarClick} />}
             </div>
 
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route
-                path="/news"
-                element={
-                  <News
-                    query={query}
-                    setQuery={setQuery}
-                    handleChange={handleChange}
-                  />
-                }
-              />
+              <Route path="/news" element={<News query={query} setQuery={setQuery} handleChange={handleChange} />} />
               <Route path="/favorites" element={<Favorite />} />
               <Route
                 path="/cricket"
-                element={
-                  <Cricket
-                    query={query}
-                    setQuery={setQuery}
-                    handleChange={handleChange}
-                  />
-                }
+                element={<Cricket query={query} setQuery={setQuery} handleChange={handleChange} />}
               />
-              <Route
-                path="/cricket/:seriesId/pointsTable"
-                element={<PointsTable />}
-              />
+              <Route path="/cricket/:seriesId/pointsTable" element={<PointsTable />} />
               <Route path="/cricket/ranking" element={<Ranking />} />
-              <Route
-                path="/cricket/playerInfo/:playerId"
-                element={<PlayerInfo />}
-              />
+              <Route path="/cricket/playerInfo/:playerId" element={<PlayerInfo />} />
               <Route path="/entertainment" element={<Entertainment />} />
-              <Route
-                path="/particulars/:category/:id"
-                element={<Particulars />}
-              />
+              <Route path="/particulars/:category/:id" element={<Particulars />} />
               <Route path="/games" element={<Games />} />
               <Route path="/game/:id" element={<ParticularGame />} />
               <Route path="/login" element={<Login />} />
