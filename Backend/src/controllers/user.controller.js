@@ -793,8 +793,17 @@ const getWordOfTheDay = asyncHandler(async (req, res) => {
   try {
     const response = await axios.request(options);
     if (response) {
-      const responseData = response.data.data;
-      // console.log(responseData, "REQOFPOJDS");
+      let responseData;
+
+      if (response?.data?.data?.word && response?.data?.data?.meaning) {
+        responseData = response.data.data;
+      } else {
+        // Fallback data if the API doesn't return expected data
+        responseData = {
+          word: "Currently Not Coming",
+          meaning: "Currently Not Coming.",
+        };
+      }
       return res
         .status(200)
         .json(
