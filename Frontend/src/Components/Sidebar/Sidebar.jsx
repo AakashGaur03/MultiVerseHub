@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { toggleClicked } from "../../Features";
 
 const Sidebar = ({ items, handleItemClick }) => {
+  const isLoggedIn = useSelector((state) => state.getCurrentStatus.isUserLoggedIn);
+
   // console.log(items)
   const dispatch = useDispatch();
   const handleClick = (category) => {
@@ -14,10 +16,8 @@ const Sidebar = ({ items, handleItemClick }) => {
 
   return (
     <>
-      {
-        <div
-          className={`min-w-52 bg-slate-30 h-full z-20 relative sidebarColor`}
-        >
+      {(!location.pathname.includes("/favorites") || isLoggedIn) && (
+        <div className={`min-w-52 bg-slate-30 h-full z-20 relative sidebarColor`}>
           <ul
             className={`sidebarFixedSide bg-s late-300 min-w-52 sidebarColor h-full ${
               isToggleClicked ? "sidebarBoxShadow" : "fixed"
@@ -30,7 +30,7 @@ const Sidebar = ({ items, handleItemClick }) => {
             ))}
           </ul>
         </div>
-      }
+      )}
     </>
   );
 };

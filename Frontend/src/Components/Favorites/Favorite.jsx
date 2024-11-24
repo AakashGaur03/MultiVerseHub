@@ -40,7 +40,7 @@ const Favorite = () => {
   return (
     <>
       {!isLoggedIn && (
-        <div className="favSaction">
+        <div className="favSaction w-full">
           {/* <LikeButton /> */}
           <div>Please Login to Unlock favorite Section</div>
           <div>
@@ -50,33 +50,85 @@ const Favorite = () => {
           </div>
         </div>
       )}
-      <div className="overflow-y-auto w-full">
-        {isLoggedIn && (currentSidebarItem === "Game" || currentSidebarItem === "All") && (
-          <div className="favSactionAfterLogin">
-            <div className="flex flex-wrap justify-center pb-4 pt-10">
-              {allGames?.length > 0 ? (
-                allGames.map((data) => (
-                  <div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
-                    <div className="absolute z-10 right-4 top-[-30px]">
-                      {/* <LikeButton
+      {isLoggedIn && (
+        <div className="overflow-y-auto w-full">
+          {isLoggedIn && (currentSidebarItem === "Game" || currentSidebarItem === "All") && (
+            <div className="favSactionAfterLogin">
+              <div className="flex flex-wrap justify-center pb-4 pt-10">
+                {allGames?.length > 0 ? (
+                  allGames.map((data) => (
+                    <div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
+                      <div className="absolute z-10 right-4 top-[-30px]">
+                        {/* <LikeButton
                     customId={`likeButton-games-${data.id}`}
                     isActive={!!likedItems[data.id]}
                     onClick={() => handleLikeClick(data)}
                   /> */}
-                    </div>
-                    <div onClick={() => particularGameCall(data.gameId)}>
-                      <Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
-                        {/* <Card.Img
+                      </div>
+                      <div onClick={() => particularGameCall(data.gameId)}>
+                        <Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
+                          {/* <Card.Img
                     variant="top"
                     className="h-100"
                     src={`${data.thumbnail}`}
                   /> */}
+                          <ImageWithLoader
+                            src={`${data.thumbnail}`}
+                            alt="Game Thumbnail"
+                            failedImage="/ImageNotFound.png"
+                          />
+                        </Card>
+                        <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                          {data.title}
+                        </div>
+                        {data.releaseDate && (
+                          <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                            Release Date : {formatDateinHumanredable(data.releaseDate)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : isLoading ? (
+                  <div className="w-full flex justify-center">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>No Data to Show</div>
+                )}
+              </div>
+            </div>
+          )}
+          {isLoggedIn && (currentSidebarItem === "Entertainment" || currentSidebarItem === "All") && (
+            <div className="overflow-y-auto flex my-2 px-5">
+              <div className="flex gap-8 pb-4 pt-10 w-full">
+                {allEntertainment?.length > 0 ? (
+                  allEntertainment.map((data) => (
+                    <div className="activeClass relative" key={data.entertainmentId}>
+                      <div className="absolute z-10 right-4 top-[-30px]">
+                        {/* <LikeButton
+                      customId={`likeButton-entertainment-${data.entertainmentId}`}
+                      isActive={!!likedItems[data.entertainmentId]}
+                      onClick={() => handleLikeClick(data, MovieOrTv)}
+                    /> */}
+                      </div>
+                      <Card
+                        style={{ width: "15rem", minHeight: "357px" }}
+                        className="overflow-x-auto rounded-3xl "
+                        onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
+                      >
                         <ImageWithLoader
-                          src={`${data.thumbnail}`}
-                          alt="Game Thumbnail"
-                          failedImage="/ImageNotFound.png"
+                          variant="top"
+                          className="h-100"
+                          src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
+                          alt="Movie Thumbnail"
+                          failedImage="/ImageNotFoundVertical.png"
                         />
                       </Card>
+                      <div className="flex justify-center mt-3 ">
+                        <CustomCircularProgressRating voteAverage={data?.voteAverage} />
+                      </div>
+
                       <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
                         {data.title}
                       </div>
@@ -85,75 +137,25 @@ const Favorite = () => {
                           Release Date : {formatDateinHumanredable(data.releaseDate)}
                         </div>
                       )}
+                      {data.firstAirDate && (
+                        <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+                          Release Date : {formatDateinHumanredable(data.firstAirDate)}
+                        </div>
+                      )}
                     </div>
+                  ))
+                ) : isLoading ? (
+                  <div className="w-full flex justify-center">
+                    <div className="loader"></div>
                   </div>
-                ))
-              ) : isLoading ? (
-                <div className="w-full flex justify-center">
-                  <div className="loader"></div>
-                </div>
-              ) : (
-                <div>No Data to Show</div>
-              )}
+                ) : (
+                  <div>No Data to Show</div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {isLoggedIn && (currentSidebarItem === "Entertainment" || currentSidebarItem === "All") && (
-          <div className="overflow-y-auto flex my-2 px-5">
-            <div className="flex gap-8 pb-4 pt-10 w-full">
-              {allEntertainment?.length > 0 ? (
-                allEntertainment.map((data) => (
-                  <div className="activeClass relative" key={data.entertainmentId}>
-                    <div className="absolute z-10 right-4 top-[-30px]">
-                      {/* <LikeButton
-                      customId={`likeButton-entertainment-${data.entertainmentId}`}
-                      isActive={!!likedItems[data.entertainmentId]}
-                      onClick={() => handleLikeClick(data, MovieOrTv)}
-                    /> */}
-                    </div>
-                    <Card
-                      style={{ width: "15rem", minHeight: "357px" }}
-                      className="overflow-x-auto rounded-3xl "
-                      onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
-                    >
-                      <ImageWithLoader
-                        variant="top"
-                        className="h-100"
-                        src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
-                        alt="Movie Thumbnail"
-                        failedImage="/ImageNotFoundVertical.png"
-                      />
-                    </Card>
-                    <div className="flex justify-center mt-3 ">
-                      <CustomCircularProgressRating voteAverage={data?.voteAverage} />
-                    </div>
-
-                    <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                      {data.title}
-                    </div>
-                    {data.releaseDate && (
-                      <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                        Release Date : {formatDateinHumanredable(data.releaseDate)}
-                      </div>
-                    )}
-                    {data.firstAirDate && (
-                      <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                        Release Date : {formatDateinHumanredable(data.firstAirDate)}
-                      </div>
-                    )}
-                  </div>
-                ))
-              ) : isLoading ? (
-                <div className="w-full flex justify-center">
-                  <div className="loader"></div>
-                </div>
-              ) : (
-                <div>No Data to Show</div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

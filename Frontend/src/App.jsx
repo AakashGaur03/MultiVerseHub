@@ -110,10 +110,19 @@ function App() {
     const currentPath = location.pathname;
     const prevPath = prevLocationRef.current;
 
-    // Check if navigating between main sections
-    if (isMainSectionChange(currentPath, prevPath)) {
-      dispatch(updateSidebar(""));
+    if (location.pathname.includes("/favorites")) {
+      dispatch(updateSidebar("All"));
+    } else if (isMainSectionChange(currentPath, prevPath)) {
+      dispatch(updateSidebar("")); // Reset sidebar for other sections
     }
+    // Check if navigating between main sections
+    // if (isMainSectionChange(currentPath, prevPath)) {
+    //   if (location.pathname.includes("/favorites")) {
+    //     dispatch(updateSidebar("All"));
+    //   } else {
+    //     dispatch(updateSidebar(""));
+    //   }
+    // }
 
     // Update the previous path
     prevLocationRef.current = currentPath;
