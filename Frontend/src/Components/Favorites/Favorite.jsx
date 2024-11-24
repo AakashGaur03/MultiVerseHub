@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
-import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
+import { formatDate, formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 import { useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgressRating";
+import CustomCard from "../../GlobalComp/CustomCard";
+import truncateText from "../../GlobalComp/TruncateText";
 
 const Favorite = () => {
   const navigate = useNavigate();
@@ -17,9 +19,13 @@ const Favorite = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [allGames, setsetAllGames] = useState({});
   const [allEntertainment, setAllEntertainment] = useState({});
+  const [allNews, setAllNews] = useState([]);
   console.log(favSectionData, "favSectionDatafavSectionData");
   useEffect(() => {
     setAllEntertainment(favSectionData?.entertainment);
+  }, [favSectionData]);
+  useEffect(() => {
+    setAllNews(favSectionData?.news);
   }, [favSectionData]);
   useEffect(() => {
     setsetAllGames(favSectionData?.game);
@@ -153,6 +159,56 @@ const Favorite = () => {
                 )}
               </div>
             </div>
+          )}
+          {isLoggedIn && (currentSidebarItem === "News" || currentSidebarItem === "All") && (
+            <>
+              {allNews?.length > 0 ? (
+                allNews?.map((news, index) => (
+                  <div key={index} className="relative">
+                    <div className="absolute z-10 right-4 top-[-30px]"></div>
+                    <CustomCard
+                      alt={"News"}
+                      index={index}
+                      imageUrls={news.imageUrl && !news.imageUrl.includes("410") ? news.imageUrl : "/ImageNotFound.png"}
+                      onError={(e) => {
+                        e.target.src = "/ImageNotFound.png";
+                      }}
+                      redirectLink={news.redirectLink}
+                      newsStoryHLine={news.title ? truncateText(news.title, 10) : "No Title Found"}
+                      newsStoryIntro={news.description ? truncateText(news.description, 60) : "No Description Found"}
+                      newsStorySource={
+                        <a href={news.sourceRedirectUrl} target="_blank">
+                          <img
+                            variant="top"
+                            alt="LogoNotAvail.png"
+                            height={30}
+                            width={30}
+                            src={
+                              news.sourceIconUrl && !news.sourceIconUrl.includes("410")
+                                ? news.sourceIconUrl
+                                : "/LogoNotAvail.png"
+                            }
+                            onError={(e) => {
+                              console.error("Error loading image:", e);
+                              e.target.src = "/LogoNotAvail.png";
+                              e.target.style.height = "50px";
+                              e.target.style.width = "50px";
+                            }}
+                          />
+                        </a>
+                      }
+                      updatedOn={formatDate(news.publishDate)}
+                    />
+                  </div>
+                ))
+              ) : isLoading ? (
+                <div className="w-full flex justify-center hscreen align-items-center">
+                  <div className="loader"></div>
+                </div>
+              ) : (
+                <div>No News data Found</div>
+              )}
+            </>
           )}
         </div>
       )}

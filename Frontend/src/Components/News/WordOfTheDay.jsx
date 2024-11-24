@@ -93,13 +93,13 @@ const WordOfTheDay = () => {
             <div className="loader2"></div>
           </div>
         )}
-        <div className="absolute z-10 right-4 top-[-25px]">
+        {/* <div className="absolute z-10 right-4 top-[-25px]">
           <LikeButton
             customId={`likeButton-wordOfTheDay`}
             isActive={!!likedItems[wordDate]}
             onClick={() => handleLikeClick(wordOfTheDayData)}
           />
-        </div>
+        </div> */}
         <div className="mt-4">
           <h2>Word of the Day</h2>
         </div>

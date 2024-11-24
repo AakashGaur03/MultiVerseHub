@@ -29,7 +29,7 @@ const getSidebarItems = () => {
       { title: "Game", path: "/game" },
       { title: "News", path: "/news" },
       { title: "Cricket", path: "/cricket" },
-      { title: "Word Of The Day", path: "/wotd" },
+      // { title: "Word Of The Day", path: "/wotd" },
     ];
   }
   //  else if (location.pathname.includes("/games")) {
