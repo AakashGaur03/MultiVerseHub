@@ -1,15 +1,18 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate, formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgressRating";
 import CustomCard from "../../GlobalComp/CustomCard";
 import truncateText from "../../GlobalComp/TruncateText";
+import { getCricketPointsTable } from "../../Features";
+import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
 const Favorite = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.getCurrentStatus.isUserLoggedIn);
   const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite);
@@ -20,6 +23,11 @@ const Favorite = () => {
   const [allGames, setsetAllGames] = useState({});
   const [allEntertainment, setAllEntertainment] = useState({});
   const [allNews, setAllNews] = useState([]);
+  const [allCricketMatch, setAllCricketMatch] = useState([]);
+  const [allCricketNews, setallCricketNews] = useState([]);
+  const [imageUrlsNews, setImageUrlsNews] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
+
   console.log(favSectionData, "favSectionDatafavSectionData");
   useEffect(() => {
     setAllEntertainment(favSectionData?.entertainment);
@@ -29,6 +37,12 @@ const Favorite = () => {
   }, [favSectionData]);
   useEffect(() => {
     setsetAllGames(favSectionData?.game);
+  }, [favSectionData]);
+  useEffect(() => {
+    setAllCricketMatch(favSectionData?.cricketMatch);
+  }, [favSectionData]);
+  useEffect(() => {
+    setallCricketNews(favSectionData?.cricketNews);
   }, [favSectionData]);
   useEffect(() => {
     setCurrentSidebarItem(activeSidebarItem);
@@ -43,6 +57,37 @@ const Favorite = () => {
   const infoAboutItem = (id, category) => {
     navigate(`/particulars/${category}/${id}`);
   };
+  const generateRedirectLink = (id, headLine) => {
+    // let splitHLine = headLine.split(" ");
+    // let joinedHLine = splitHLine.join("-");
+    // let removeExtracomma = joinedHLine.replace(",", "");
+    // let removeExtracomma2 = removeExtracomma.replace("'", "");
+    // let finalUrl = removeExtracomma2.replace(/-+/g, "-");
+    let finalUrl = headLine
+      .replace(/'/g, "") // Remove single quotes
+      .replace(/,/g, "") // Remove double quotes
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-"); // Replace multiple hyphens with a single hyphen
+
+    let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
+    return url;
+  };
+  useEffect(() => {
+    if (allCricketNews?.length > 0) {
+      getCricketNews();
+    }
+  }, [allCricketNews]);
+  const getCricketNews = async () => {
+    allCricketNews?.forEach((news, index) => {
+      if (news.imageId) {
+        setTimeout(() => {
+          getImageUrl(news.imageId, imageUrlsNews, setImageUrlsNews, setLoadingImages, dispatch);
+        }, 1000);
+      }
+    });
+  };
+
   return (
     <>
       {!isLoggedIn && (
@@ -208,6 +253,104 @@ const Favorite = () => {
               ) : (
                 <div>No News data Found</div>
               )}
+            </>
+          )}
+          {isLoggedIn && (currentSidebarItem === "Cricket" || currentSidebarItem === "All") && (
+            <>
+              <div className="pl-4 flex overflow-y-auto ">
+                {allCricketMatch?.length > 0 ? (
+                  allCricketMatch?.map((data, index) => (
+                    <div className="min-w-52 me-4 relative" md={4} key={index}>
+                      <div>
+                        {data.description} {data.seriesName} {data.matchFormat}
+                      </div>
+                      <div>
+                        {data.team1SName}
+                        {data.team1inngs1runs && !data.team1inngs2runs && (
+                          <>
+                            : {data.team1inngs1runs}-{data.team1inngs1wickets} ({data.team1inngs1overs})
+                          </>
+                        )}
+                        {data.team1inngs1runs && data.team1inngs2runs && (
+                          <>
+                            : {data.team1inngs1runs}-{data.team1inngs1wickets} {data.team1inngs2runs}-
+                            {data.team1inngs2wickets}
+                          </>
+                        )}
+                      </div>
+                      <div></div>
+                      <div>
+                        {data.team2SName}
+                        {data.team2inngs1runs && !data.team2inngs2runs && (
+                          <>
+                            : {data.team2inngs1runs}-{data.team2inngs1wickets} ({data.team2inngs1overs})
+                          </>
+                        )}
+                        {data.team2inngs1runs && data.team2inngs2runs && (
+                          <>
+                            : {data.team2inngs1runs}-{data.team2inngs1wickets} {data.team2inngs2runs}-
+                            {data.team2inngs2wickets}
+                          </>
+                        )}
+                      </div>
+                      <div></div>
+                      <div>{data.matchStatus}</div>
+                      <NavLink className="cursor-pointer" onClick={() => getCricketPointsTable(data.seriesId)}>
+                        Table
+                      </NavLink>
+                    </div>
+                  ))
+                ) : isLoading ? (
+                  <div className="w-full flex justify-center align-items-center mt-5">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>No Cricket Match Data Found</div>
+                )}
+              </div>
+
+              <div>
+                {allCricketNews?.length > 0 ? (
+                  <>
+                    {allCricketNews?.map((news, index) => (
+                      <div key={index} className="relative">
+                        <CustomCard
+                          alt={"Cricket"}
+                          index={index}
+                          imageUrls={imageUrlsNews[news.imageId]}
+                          onError={(e) => {
+                            e.target.src = "/ImageNotFound.png";
+                          }}
+                          redirectLink={generateRedirectLink(news.cricketNewsId, news.hLine)}
+                          newsStoryHLine={news.hLine ? truncateText(news.hLine, 10) : "No Title Found"}
+                          newsStoryIntro={news.intro ? truncateText(news.intro, 60) : "No Description Found"}
+                          newsStorySource={
+                            news.source == "Cricbuzz" && (
+                              <a href="https://www.cricbuzz.com/" target="_blank">
+                                <img
+                                  className="rounded-full"
+                                  variant="top"
+                                  alt="LogoNotAvail.png"
+                                  height={30}
+                                  width={30}
+                                  src="/cricbuzzLogo.png"
+                                />
+                              </a>
+                            )
+                          }
+                          updatedOn={formatDate(news.pubTime)}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : isLoading ? (
+                  <div className="w-full flex justify-center hscreen align-items-center">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>No Cricket News Found</div>
+                )}
+              </div>
             </>
           )}
         </div>

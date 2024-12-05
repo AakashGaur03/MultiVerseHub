@@ -1,6 +1,5 @@
 // src/utils/imageUtils.js
 import { getCricketImageCBs, getCricketImageDB, getUploadImageCloudinary } from "../Features";
-import { useDispatch } from "react-redux";
 
 export const getImageUrl = async (imageId, imageUrls, setImageUrls, setLoadingImages, dispatch) => {
   if (!imageUrls[imageId]) {
@@ -18,9 +17,7 @@ export const getImageUrl = async (imageId, imageUrls, setImageUrls, setLoadingIm
             ...prevState,
             [imageId]: response.imageUrl,
           }));
-          await dispatch(
-            getUploadImageCloudinary(response.imageUrl, imageId)
-          );
+          await dispatch(getUploadImageCloudinary(response.imageUrl, imageId));
         }
       }
     } catch (error) {
