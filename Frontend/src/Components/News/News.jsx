@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { CustomCard, LikeButton, Weather, WordOfTheDay, truncateText } from "../../index";
+import { CustomCard, LikeButton, Weather,  truncateText } from "../../index";
 import { getFinanceNews, getNews } from "../../Features";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../GlobalComp/formatDate";
@@ -168,7 +168,7 @@ const News = () => {
         <Col md={4}>
           <div className="colMd4Div" style={{ position: "sticky", top: "0" }}>
             <Weather />
-            <WordOfTheDay />
+            {/* <WordOfTheDay /> // It Got Paid */}
 
             <div>
               {financenewsDataNew?.length > 0 ? (
