@@ -143,7 +143,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/news" element={<News query={query} setQuery={setQuery} handleChange={handleChange} />} />
-              <Route path="/favorites" element={<Favorite />} />
+              <Route path="/favorites" element={<Favorite setQuery={setQuery} />} />
               <Route
                 path="/cricket"
                 element={<Cricket query={query} setQuery={setQuery} handleChange={handleChange} />}

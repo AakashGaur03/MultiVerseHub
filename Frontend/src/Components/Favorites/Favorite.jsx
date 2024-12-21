@@ -10,7 +10,7 @@ import truncateText from "../../GlobalComp/TruncateText";
 import { getCricketPointsTable } from "../../Features";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
-const Favorite = () => {
+const Favorite = ({ setQuery }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -27,7 +27,12 @@ const Favorite = () => {
   const [allCricketNews, setallCricketNews] = useState([]);
   const [imageUrlsNews, setImageUrlsNews] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
-
+  const getPointsTable = async (id) => {
+    setQuery("");
+    setTimeout(() => {
+      navigate(`/cricket/${id}/pointsTable`);
+    }, 0);
+  };
   console.log(favSectionData, "favSectionDatafavSectionData");
   useEffect(() => {
     setAllEntertainment(favSectionData?.entertainment);
@@ -295,7 +300,7 @@ const Favorite = () => {
                       </div>
                       <div></div>
                       <div>{data.matchStatus}</div>
-                      <NavLink className="cursor-pointer" onClick={() => getCricketPointsTable(data.seriesId)}>
+                      <NavLink className="cursor-pointer" onClick={() => getPointsTable(data.seriesId)}>
                         Table
                       </NavLink>
                     </div>
