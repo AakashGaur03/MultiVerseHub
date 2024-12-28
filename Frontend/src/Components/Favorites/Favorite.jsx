@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgressRating";
 import CustomCard from "../../GlobalComp/CustomCard";
 import truncateText from "../../GlobalComp/TruncateText";
-import { getCricketPointsTable } from "../../Features";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
 
 const Favorite = ({ setQuery }) => {
@@ -33,7 +32,7 @@ const Favorite = ({ setQuery }) => {
       navigate(`/cricket/${id}/pointsTable`);
     }, 0);
   };
-  console.log(favSectionData, "favSectionDatafavSectionData");
+
   useEffect(() => {
     setAllEntertainment(favSectionData?.entertainment);
   }, [favSectionData]);
@@ -84,7 +83,7 @@ const Favorite = ({ setQuery }) => {
     }
   }, [allCricketNews]);
   const getCricketNews = async () => {
-    allCricketNews?.forEach((news, index) => {
+    allCricketNews?.forEach((news) => {
       if (news.imageId) {
         setTimeout(() => {
           getImageUrl(news.imageId, imageUrlsNews, setImageUrlsNews, setLoadingImages, dispatch);
