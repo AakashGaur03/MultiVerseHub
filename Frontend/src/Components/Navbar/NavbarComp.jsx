@@ -167,7 +167,7 @@ function NavbarComp({ setQuery }) {
                   checked={themeColor === "dark"}
                   onChange={handleToggleTheme}
                   type="switch"
-                  label={`${themeColor} Mode`}
+                  label={`${themeColor === "light" ? "Light" : "Dark"} Mode`}
                   id="toggleThemeBtn"
                   className={textColor}
                 />
