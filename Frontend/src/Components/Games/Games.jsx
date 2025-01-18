@@ -225,7 +225,7 @@ const Games = () => {
 				<div className="flex flex-wrap justify-center pb-4 pt-10">
 					{allgames?.length > 0 ? (
 						[...allgames]
-							.sort(() => Math.random() - 0.5) // Shuffle the array
+							// .sort(() => Math.random() - 0.5) // Shuffle the array
 							.map((data) => (
 								<div className="activeClass m-4 cursor-pointer relative" key={data.id}>
 									<div className="absolute z-10 right-4 top-[-30px]">

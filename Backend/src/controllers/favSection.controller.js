@@ -108,12 +108,12 @@ const getFavorites = asyncHandler(async (req, res) => {
     */
 
     const favorite = await Favorite.findOne({ user: userId })
-      .populate("news")
-      .populate("wordOfTheDay")
-      .populate("entertainment")
-      .populate("game")
-      .populate("cricketNews")
-      .populate("cricketMatch");
+      .populate({ path: "news", options: { sort: { updatedAt: -1 } } })
+      .populate({ path: "wordOfTheDay", options: { sort: { updatedAt: -1 } } })
+      .populate({ path: "entertainment", options: { sort: { updatedAt: -1 } } })
+      .populate({ path: "game", options: { sort: { updatedAt: -1 } } })
+      .populate({ path: "cricketNews", options: { sort: { updatedAt: -1 } } })
+      .populate({ path: "cricketMatch", options: { sort: { updatedAt: -1 } } });
     if (!favorite) {
       return res
         .status(404)
