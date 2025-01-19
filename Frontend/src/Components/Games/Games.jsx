@@ -111,8 +111,19 @@ const Games = () => {
 	// };
 
 	useEffect(() => {
-		setAllGames(allGameState);
-		console.log(allgames, "allgamesallgames");
+		if (
+			allGameState &&
+			allGameState.status !== 0 &&
+			platform === "all" &&
+			category === "mmorpg" &&
+			sortBy === "relevance"
+		) {
+			setTimeout(() => {
+				setAllGames([...allGameState].sort(() => Math.random() - 0.5));
+			}, 0);
+		} else {
+			setAllGames(allGameState);
+		}
 	}, [allGameState]);
 
 	useEffect(() => {
