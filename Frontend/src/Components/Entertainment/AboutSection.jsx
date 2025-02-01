@@ -48,54 +48,28 @@ const AboutSection = ({ aboutData }) => {
           </div>
           <div className="col-md-8 flex flex-col justify-evenly">
             <div>
-              <h2 className="text-3xl">
-                {aboutData?.original_title || aboutData?.original_name}
-              </h2>
+              <h2 className="text-3xl">{aboutData?.original_title || aboutData?.original_name}</h2>
               <div>
-                {aboutData?.release_date && (
-                  <>
-                    Release Date :{" "}
-                    {formatDateinHumanredable(aboutData?.release_date)}
-                  </>
-                )}
+                {aboutData?.release_date && <>Release Date : {formatDateinHumanredable(aboutData?.release_date)}</>}
                 {aboutData?.first_air_date && (
-                  <>
-                    First Air Date :{" "}
-                    {formatDateinHumanredable(aboutData?.first_air_date)}
-                  </>
+                  <>First Air Date : {formatDateinHumanredable(aboutData?.first_air_date)}</>
                 )}
 
-                <div>
-                  {aboutData?.runtime && giveTimeInHours(aboutData?.runtime)}
-                </div>
-                <div>
-                  {aboutData?.number_of_episodes && (
-                    <>Total Episode(s) : {aboutData?.number_of_episodes}</>
-                  )}
-                </div>
-                <div>
-                  {aboutData?.number_of_seasons && (
-                    <>Total Season(s) : {aboutData?.number_of_seasons}</>
-                  )}
-                </div>
+                <div>{aboutData?.runtime && giveTimeInHours(aboutData?.runtime)}</div>
+                <div>{aboutData?.number_of_episodes && <>Total Episode(s) : {aboutData?.number_of_episodes}</>}</div>
+                <div>{aboutData?.number_of_seasons && <>Total Season(s) : {aboutData?.number_of_seasons}</>}</div>
               </div>
             </div>
             <div>
-              <CustomCircularProgressRating
-                voteAverage={aboutData?.vote_average}
-              />
+              <CustomCircularProgressRating voteAverage={aboutData?.vote_average} />
             </div>
             <div className="italic text-gray-300">
-              {aboutData?.tagline
-                ? aboutData?.tagline
-                : "Tagline Not Available"}
+              {aboutData?.tagline ? aboutData?.tagline : "Tagline Not Available"}
             </div>
             <div>
               <div className="mb-3">Overview</div>
               <div className="leading-6 px-6">
-                {aboutData?.overview
-                  ? aboutData?.overview
-                  : "Overview not Available"}
+                {aboutData?.overview ? aboutData?.overview : "Overview not Available"}
               </div>
             </div>
             {/* <div className="flex"> */}
