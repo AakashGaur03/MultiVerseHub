@@ -2,25 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEntertainmentParticularsData } from "../../Features";
-import {
-  AboutSection,
-  CreditSection,
-  PictureSection,
-  ReviewSection,
-} from "../..";
+import { AboutSection, CreditSection, PictureSection, ReviewSection } from "../..";
 import ListMoviesTv from "../../GlobalComp/ListMoviesTV";
 
 const Particulars = () => {
   const navigate = useNavigate();
-  const globalParticularData = useSelector(
-    (state) => state.getEntertainmentData.entertainmentParticularData
-  );
-  const activeSidebarItem = useSelector(
-    (state) => state.sidebar.currentSidebar
-  );
-  const loaderTrue = useSelector(
-    (state) => state.getEntertainmentData.searchStateParticular === "loading"
-  );
+  const globalParticularData = useSelector((state) => state.getEntertainmentData.entertainmentParticularData);
+  const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
+  const loaderTrue = useSelector((state) => state.getEntertainmentData.searchStateParticular === "loading");
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
