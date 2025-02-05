@@ -11,11 +11,9 @@ const ReviewSection = ({ reviewsData }) => {
   };
   return (
     <div className="container mb-5 bg-slate-900 rounded-3xl">
-      <div className="mt-3 pt-4 mb-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">
-        Reviews
-      </div>
+      <div className="mt-3 pt-4 mb-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">Reviews</div>
       <div className="overflow-y-auto max-h-80">
-        {reviewsData?.results?.length>0 ? (
+        {reviewsData?.results?.length > 0 ? (
           reviewsData?.results?.map((review, index) => {
             const sanitizedContent = DOMPurify.sanitize(review.content);
             return (
@@ -37,20 +35,12 @@ const ReviewSection = ({ reviewsData }) => {
                       )}
                     </div>
                     <div className="ms-10 w-full justify-between flex flex-wrap">
-                      <div className="text-2xl">
-                        A review by {review.author}
-                      </div>
-                      <div>
-                        Written On :{" "}
-                        {formatDateinHumanredable(review.updated_at)}
-                      </div>
+                      <div className="text-2xl">A review by {review.author}</div>
+                      <div>Written On : {formatDateinHumanredable(review.updated_at)}</div>
                     </div>
                   </div>
                   <hr />
-                  <div
-                    className="mt-5 text-gray-300"
-                    dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-                  ></div>
+                  <div className="mt-5 text-gray-300" dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
 
                   <img alt="" />
                 </div>

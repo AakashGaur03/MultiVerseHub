@@ -21,10 +21,7 @@ const PictureSection = ({ imagesData, videoData }) => {
             imageActive ? "text-white" : ""
           }`}
         >
-          <span
-            className="cursor-pointer"
-            onClick={() => setActiveSection("image")}
-          >
+          <span className="cursor-pointer" onClick={() => setActiveSection("image")}>
             Image(s) ({imagesData?.backdrops?.length})
           </span>
         </div>
@@ -33,10 +30,7 @@ const PictureSection = ({ imagesData, videoData }) => {
             videoActive ? "text-white" : ""
           }`}
         >
-          <span
-            className="cursor-pointer"
-            onClick={() => setActiveSection("video")}
-          >
+          <span className="cursor-pointer" onClick={() => setActiveSection("video")}>
             Video(s) ({videoData?.results?.length})
           </span>
         </div>
