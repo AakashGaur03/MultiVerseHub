@@ -24,6 +24,12 @@ const Games = () => {
 	const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFavLoading, setIsFavLoading] = useState(false);
+
+	const theme = useSelector((state) => state.theme.theme);
+	const textColor = useSelector((state) => state.theme.textColor || (theme === "light" ? "text-black" : "text-white"));
+	const bgColor = theme === "light" ? "bg-white" : "bg-gray-800";
+	const placeholderColor = theme === "light" ? "light-placeholder" : "dark-placeholder";
+
 	useEffect(() => {
 		setIsLoading(loaderTrue);
 	}, [loaderTrue]);
@@ -157,7 +163,7 @@ const Games = () => {
 						<select
 							id="default"
 							onChange={updatePlatform}
-							className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className={`mb-6 text-sm rounded-lg border border-gray-300 block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 ${bgColor} ${textColor} ${placeholderColor}`}
 						>
 							<option value="all">All Platforms</option>
 							<option value="pc">Windows (PC)</option>
@@ -171,7 +177,7 @@ const Games = () => {
 						<select
 							id="default"
 							onChange={updateCategory}
-							className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className={`mb-6 text-sm rounded-lg border border-gray-300 block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 ${bgColor} ${textColor} ${placeholderColor}`}
 						>
 							<option value="mmorpg">MMORPG</option>
 							<option value="mmo">MMO</option>
@@ -221,7 +227,7 @@ const Games = () => {
 						<select
 							id="default"
 							onChange={updateSortBy}
-							className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className={`mb-6 text-sm rounded-lg border border-gray-300 block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500 ${bgColor} ${textColor} ${placeholderColor}`}
 						>
 							<option value="relevance"> Relevance</option>
 							<option value="popularity">Popularity</option>
@@ -231,7 +237,7 @@ const Games = () => {
 					</form>
 				</div>
 
-				<div className="font-semibold text-2xl text-gray-400 text-center">Total ({allgames?.length})</div>
+				<div className={`font-semibold text-2xl text-center mt-4 mb-4 ${textColor}`}>Total ({allgames?.length})</div>
 
 				<div className="flex flex-wrap justify-center pb-4 pt-10">
 					{allgames?.length > 0 ? (
@@ -259,11 +265,15 @@ const Games = () => {
 												failedImage="/ImageNotFound.png"
 											/>
 										</Card>
-										<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+										<div
+											className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${textColor}`}
+										>
 											{data.title}
 										</div>
 										{data.release_date && (
-											<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+											<div
+												className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${textColor}`}
+											>
 												Release Date : {formatDateinHumanredable(data.release_date)}
 											</div>
 										)}

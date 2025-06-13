@@ -9,142 +9,142 @@ import { addFavSection, removeFavSection } from "../Features";
 
 // eslint-disable-next-line react/prop-types
 const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, InfoAboutItem, MovieOrTv }) => {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const loaderTrue = useSelector((state) => state.getEntertainmentData.state === "loading");
-  const [isLoading, setIsLoading] = useState(false);
-  const [likedItems, setLikedItems] = useState({});
-  const [favSectionDataAll, setFavSectionDataAll] = useState({});
-  const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite);
-  const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
-  const [isFavLoading, setIsFavLoading] = useState(false);
+	const loaderTrue = useSelector((state) => state.getEntertainmentData.state === "loading");
+	const [isLoading, setIsLoading] = useState(false);
+	const [likedItems, setLikedItems] = useState({});
+	const [favSectionDataAll, setFavSectionDataAll] = useState({});
+	const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite);
+	const favSectionGameLoader = useSelector((state) => state?.favSection?.loader);
+	const [isFavLoading, setIsFavLoading] = useState(false);
 
-  const handleLikeClick = async (itemData, movieOrtvIncoming, category = "entertainment") => {
-    console.log(itemData, "itemDataitemData");
-    itemData = {
-      id: itemData.id,
-      entertainmentId: itemData.id,
-      entertainmentType: movieOrtvIncoming,
-      posterUrl: itemData.poster_path,
-      voteAverage: itemData.vote_average,
-      releaseDate: itemData.release_date,
-      firstAirDate: itemData.first_air_date,
-      title: itemData.title,
-    };
-    // console.log(itemData, "ITEMATA");
-    await handleLikeOperation({
-      category,
-      itemData,
-      favSectionDataAll,
-      setLikedItems,
-      dispatch,
-      addFavSection,
-      removeFavSection,
-    });
-  };
-  useEffect(() => {
-    setFavSectionDataAll(favSectionData);
-  }, [favSectionData]);
-  useEffect(() => {
-    setIsFavLoading(favSectionGameLoader);
-  }, [favSectionGameLoader]);
+	const handleLikeClick = async (itemData, movieOrtvIncoming, category = "entertainment") => {
+		console.log(itemData, "itemDataitemData");
+		itemData = {
+			id: itemData.id,
+			entertainmentId: itemData.id,
+			entertainmentType: movieOrtvIncoming,
+			posterUrl: itemData.poster_path,
+			voteAverage: itemData.vote_average,
+			releaseDate: itemData.release_date,
+			firstAirDate: itemData.first_air_date,
+			title: itemData.title,
+		};
+		// console.log(itemData, "ITEMATA");
+		await handleLikeOperation({
+			category,
+			itemData,
+			favSectionDataAll,
+			setLikedItems,
+			dispatch,
+			addFavSection,
+			removeFavSection,
+		});
+	};
+	useEffect(() => {
+		setFavSectionDataAll(favSectionData);
+	}, [favSectionData]);
+	useEffect(() => {
+		setIsFavLoading(favSectionGameLoader);
+	}, [favSectionGameLoader]);
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        if (favSectionDataAll && Object.keys(favSectionDataAll).length > 0) {
-          const favoriteEntertainment = favSectionDataAll?.entertainment || [];
-          // Create a dictionary of liked games based on their IDs
-          const likedGamesMap = favoriteEntertainment.reduce((acc, entertainment) => {
-            acc[entertainment.entertainmentId] = true;
-            return acc;
-          }, {});
-          setLikedItems(likedGamesMap);
-        }
-      } catch (error) {
-        console.error("Error fetching favorites:", error);
-      }
-    };
+	useEffect(() => {
+		const fetchFavorites = async () => {
+			try {
+				if (favSectionDataAll && Object.keys(favSectionDataAll).length > 0) {
+					const favoriteEntertainment = favSectionDataAll?.entertainment || [];
+					// Create a dictionary of liked games based on their IDs
+					const likedGamesMap = favoriteEntertainment.reduce((acc, entertainment) => {
+						acc[entertainment.entertainmentId] = true;
+						return acc;
+					}, {});
+					setLikedItems(likedGamesMap);
+				}
+			} catch (error) {
+				console.error("Error fetching favorites:", error);
+			}
+		};
 
-    fetchFavorites();
-  }, [favSectionDataAll]);
-  useEffect(() => {
-    setIsLoading(loaderTrue);
-  }, [loaderTrue]);
+		fetchFavorites();
+	}, [favSectionDataAll]);
+	useEffect(() => {
+		setIsLoading(loaderTrue);
+	}, [loaderTrue]);
 
-  return (
-    <div>
-      <div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">{Heading}</div>
-      <div className="overflow-y-auto flex my-2 px-5">
-        <div className="flex gap-8 pb-4 pt-10 w-full">
-          {ListData?.results?.length > 0 ? (
-            ListData.results.map((data) => (
-              <div className="activeClass relative" key={data.id}>
-                <div className="absolute z-10 right-4 top-[-30px]">
-                  <LikeButton
-                    customId={`likeButton-entertainment-${data.id}`}
-                    isActive={!!likedItems[data.id]}
-                    onClick={() => handleLikeClick(data, MovieOrTv)}
-                  />
-                </div>
-                <Card
-                  style={{ width: "15rem", minHeight: "357px" }}
-                  className="overflow-x-auto rounded-3xl "
-                  onClick={() => InfoAboutItem(data.id, MovieOrTv)}
-                >
-                  <ImageWithLoader
-                    variant="top"
-                    className="h-100"
-                    src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-                    alt="Movie Thumbnail"
-                    failedImage="/ImageNotFoundVertical.png"
-                  />
-                </Card>
-                <div className="flex justify-center mt-3 ">
-                  <CustomCircularProgressRating voteAverage={data.vote_average} />
-                </div>
+	return (
+		<div>
+			<div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">{Heading}</div>
+			<div className="overflow-y-auto flex my-2 px-5">
+				<div className="flex gap-8 pb-4 pt-10 w-full">
+					{ListData?.results?.length > 0 ? (
+						ListData.results.map((data) => (
+							<div className="activeClass relative" key={data.id}>
+								<div className="absolute z-10 right-4 top-[-30px]">
+									<LikeButton
+										customId={`likeButton-entertainment-${data.id}`}
+										isActive={!!likedItems[data.id]}
+										onClick={() => handleLikeClick(data, MovieOrTv)}
+									/>
+								</div>
+								<Card
+									style={{ width: "15rem", minHeight: "357px" }}
+									className="overflow-x-auto rounded-3xl "
+									onClick={() => InfoAboutItem(data.id, MovieOrTv)}
+								>
+									<ImageWithLoader
+										variant="top"
+										className="h-100"
+										src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+										alt="Movie Thumbnail"
+										failedImage="/ImageNotFoundVertical.png"
+									/>
+								</Card>
+								<div className="flex justify-center mt-3 ">
+									<CustomCircularProgressRating voteAverage={data.vote_average} />
+								</div>
 
-                <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                  {data.title}
-                </div>
-                {data.release_date && (
-                  <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                    Release Date : {formatDateinHumanredable(data.release_date)}
-                  </div>
-                )}
-                {data.first_air_date && (
-                  <div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
-                    Release Date : {formatDateinHumanredable(data.first_air_date)}
-                  </div>
-                )}
-              </div>
-            ))
-          ) : isLoading ? (
-            <div className="w-full flex justify-center">
-              <div className="loader"></div>
-            </div>
-          ) : (
-            <div>No Data to Show</div>
-          )}
+								<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+									{data.title}
+								</div>
+								{data.release_date && (
+									<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+										Release Date : {formatDateinHumanredable(data.release_date)}
+									</div>
+								)}
+								{data.first_air_date && (
+									<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+										Release Date : {formatDateinHumanredable(data.first_air_date)}
+									</div>
+								)}
+							</div>
+						))
+					) : isLoading ? (
+						<div className="w-full flex justify-center">
+							<div className="loader"></div>
+						</div>
+					) : (
+						<div>No Data to Show</div>
+					)}
 
-          {Heading !== "Search Results" &&
-            Heading !== "Recommendations" &&
-            ListData.page < Math.min(ListData.total_pages, 500) && (
-              <div className="w-max flex items-center" style={{ minWidth: "105px" }}>
-                <Button variant="secondary" onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}>
-                  Load More
-                </Button>
-              </div>
-            )}
-        </div>
-      </div>
-      {isFavLoading && (
-        <div className="overlay" style={{ opacity: 0.1 }}>
-          <div className="loader2"></div>
-        </div>
-      )}
-    </div>
-  );
+					{Heading !== "Search Results" &&
+						Heading !== "Recommendations" &&
+						ListData.page < Math.min(ListData.total_pages, 500) && (
+							<div className="w-max flex items-center" style={{ minWidth: "105px" }}>
+								<Button variant="secondary" onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}>
+									Load More
+								</Button>
+							</div>
+						)}
+				</div>
+			</div>
+			{isFavLoading && (
+				<div className="overlay" style={{ opacity: 0.1 }}>
+					<div className="loader2"></div>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default ListMoviesTv;
