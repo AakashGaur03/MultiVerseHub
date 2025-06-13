@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from "react-redux";
 import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgressRating";
 import { formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
 
 const AboutSection = ({ aboutData }) => {
+	const theme = useSelector((state) => state.theme.theme);
+
 	function giveTimeInHours(minutes) {
 		let remainHour = Math.floor(minutes / 60);
 		let remainMin = minutes % 60;
@@ -20,9 +23,13 @@ const AboutSection = ({ aboutData }) => {
 			className=" bg-no-repeat bg-cover"
 		>
 			<div
-				style={{ background: "linear-gradient(45deg, black, transparent)" }}
-				// Need To insert Linear background Here
-				className=""
+				style={{
+					background:
+						theme === "dark"
+							? "linear-gradient(45deg, black, rgba(0,0,0,0.4))"
+							: "linear-gradient(45deg, white, rgba(255,255,255,0.4))",
+				}}
+				className={`w-full ${theme === "dark" ? "text-gray-200" : "text-gray-800"}`}
 			>
 				{/* Here Add for Image Title Percentage Overview */}
 				<div className="row">
@@ -48,7 +55,7 @@ const AboutSection = ({ aboutData }) => {
 					<div className="col-md-8 flex flex-col justify-evenly">
 						<div>
 							<h2 className="text-3xl">{aboutData?.original_title || aboutData?.original_name}</h2>
-							<div>
+							<div className={`${theme === "dark" ? "text-gray-300" : "text-gray-700"} text-sm space-y-1`}>
 								{aboutData?.release_date && <>Release Date : {formatDateinHumanredable(aboutData?.release_date)}</>}
 								{aboutData?.first_air_date && (
 									<>First Air Date : {formatDateinHumanredable(aboutData?.first_air_date)}</>
@@ -62,19 +69,24 @@ const AboutSection = ({ aboutData }) => {
 						<div>
 							<CustomCircularProgressRating voteAverage={aboutData?.vote_average} />
 						</div>
-						<div className="italic text-gray-300">
+						<div className={`italic ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
 							{aboutData?.tagline ? aboutData?.tagline : "Tagline Not Available"}
 						</div>
 						<div>
 							<div className="mb-3">Overview</div>
-							<div className="leading-6 px-6">
+							<div className={`leading-6 px-6 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
 								{aboutData?.overview ? aboutData?.overview : "Overview not Available"}
 							</div>
 						</div>
 						{/* <div className="flex"> */}
 						<div className="flex flex-wrap gap-2">
 							{aboutData?.genres?.map((genre) => (
-								<div className="customBadge" key={genre.id}>
+								<div
+									className={`customBadge px-3 py-1 rounded-full text-sm font-medium ${
+										theme === "dark" ? "bg-gray-700 text-gray-100" : "bg-gray-200 text-gray-900"
+									}`}
+									key={genre.id}
+								>
 									{genre.name}
 								</div>
 							))}

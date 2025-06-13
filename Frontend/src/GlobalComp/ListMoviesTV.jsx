@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Button, Card } from "react-bootstrap";
 import { CustomCircularProgressRating, LikeButton } from "..";
 import { formatDateinHumanredable } from "./formatDate";
@@ -10,7 +11,7 @@ import { addFavSection, removeFavSection } from "../Features";
 // eslint-disable-next-line react/prop-types
 const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, InfoAboutItem, MovieOrTv }) => {
 	const dispatch = useDispatch();
-
+	const theme = useSelector((state) => state.theme.theme);
 	const loaderTrue = useSelector((state) => state.getEntertainmentData.state === "loading");
 	const [isLoading, setIsLoading] = useState(false);
 	const [likedItems, setLikedItems] = useState({});
@@ -74,7 +75,13 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 
 	return (
 		<div>
-			<div className="mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-gray-300 text-center">{Heading}</div>
+			<div
+				className={`mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-center ${
+					theme === "dark" ? "text-gray-300" : "text-gray-700"
+				}`}
+			>
+				{Heading}
+			</div>
 			<div className="overflow-y-auto flex my-2 px-5">
 				<div className="flex gap-8 pb-4 pt-10 w-full">
 					{ListData?.results?.length > 0 ? (
@@ -89,7 +96,9 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 								</div>
 								<Card
 									style={{ width: "15rem", minHeight: "357px" }}
-									className="overflow-x-auto rounded-3xl "
+									className={`overflow-x-auto rounded-3xl shadow-md ${
+										theme === "dark" ? "bg-slate-800 text-gray-200" : "bg-white text-gray-800"
+									}`}
 									onClick={() => InfoAboutItem(data.id, MovieOrTv)}
 								>
 									<ImageWithLoader
@@ -104,16 +113,28 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 									<CustomCircularProgressRating voteAverage={data.vote_average} />
 								</div>
 
-								<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+								<div
+									className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${
+										theme === "dark" ? "text-gray-300" : "text-gray-700"
+									}`}
+								>
 									{data.title}
 								</div>
 								{data.release_date && (
-									<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+									<div
+										className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${
+											theme === "dark" ? "text-gray-300" : "text-gray-700"
+										}`}
+									>
 										Release Date : {formatDateinHumanredable(data.release_date)}
 									</div>
 								)}
 								{data.first_air_date && (
-									<div className="text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold text-gray-300">
+									<div
+										className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${
+											theme === "dark" ? "text-gray-300" : "text-gray-700"
+										}`}
+									>
 										Release Date : {formatDateinHumanredable(data.first_air_date)}
 									</div>
 								)}
@@ -124,14 +145,21 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 							<div className="loader"></div>
 						</div>
 					) : (
-						<div>No Data to Show</div>
+						<div className={theme === "dark" ? "text-gray-400" : "text-gray-700"}>No Data to Show</div>
 					)}
 
 					{Heading !== "Search Results" &&
 						Heading !== "Recommendations" &&
 						ListData.page < Math.min(ListData.total_pages, 500) && (
 							<div className="w-max flex items-center" style={{ minWidth: "105px" }}>
-								<Button variant="secondary" onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}>
+								<Button
+									className={`px-4 py-2 rounded-md font-semibold shadow-md ${
+										theme === "dark"
+											? "bg-gray-700 text-white hover:bg-gray-600"
+											: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+									}`}
+									onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
+								>
 									Load More
 								</Button>
 							</div>
