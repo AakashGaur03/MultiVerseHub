@@ -84,11 +84,15 @@ function App() {
 	}, [location.pathname, navigate, query]);
 
 	const handleSidebarClick = async (category) => {
-		dispatch(updateSidebar(category));
-		setQuery(category);
+		const timeout = setTimeout(() => {
+			dispatch(updateSidebar(category));
+			setQuery(category);
+		}, 100);
+
 		if (location.pathname.includes("/cricket")) {
 			navigate("/cricket");
 		}
+		return () => clearTimeout(timeout);
 	};
 	const dispatch = useDispatch();
 
