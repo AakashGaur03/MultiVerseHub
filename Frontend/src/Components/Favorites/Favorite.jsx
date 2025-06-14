@@ -66,11 +66,6 @@ const Favorite = ({ setQuery }) => {
 		navigate(`/particulars/${category}/${id}`);
 	};
 	const generateRedirectLink = (id, headLine) => {
-		// let splitHLine = headLine.split(" ");
-		// let joinedHLine = splitHLine.join("-");
-		// let removeExtracomma = joinedHLine.replace(",", "");
-		// let removeExtracomma2 = removeExtracomma.replace("'", "");
-		// let finalUrl = removeExtracomma2.replace(/-+/g, "-");
 		let finalUrl = headLine
 			.replace(/'/g, "") // Remove single quotes
 			.replace(/,/g, "") // Remove double quotes
@@ -111,75 +106,13 @@ const Favorite = ({ setQuery }) => {
 			)}
 			{isLoggedIn && (
 				<div className="overflow-y-auto w-full">
-					{isLoggedIn && (currentSidebarItem === "Game" || currentSidebarItem === "All") && (
-						<div className="favSactionAfterLogin">
-							<div className="flex flex-wrap justify-center pb-4 pt-10">
-								{allGames?.length > 0 ? (
-									allGames.map((data) => (
-										<div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
-											<div className="absolute z-10 right-4 top-[-30px]">
-												{/* <LikeButton
-                    customId={`likeButton-games-${data.id}`}
-                    isActive={!!likedItems[data.id]}
-                    onClick={() => handleLikeClick(data)}
-                  /> */}
-											</div>
-											<div onClick={() => particularGameCall(data.gameId)}>
-												<Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
-													{/* <Card.Img
-                    variant="top"
-                    className="h-100"
-                    src={`${data.thumbnail}`}
-                  /> */}
-													<ImageWithLoader
-														src={`${data.thumbnail}`}
-														alt="Game Thumbnail"
-														failedImage="/ImageNotFound.png"
-													/>
-												</Card>
-												<div
-													className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold 
-                            ${theme === "dark" ? "text-gray-300" : ""} mt-3
-                            `}
-												>
-													{data.title}
-												</div>
-												{data.releaseDate && (
-													<div
-														className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
-															theme === "dark" ? "text-gray-300" : ""
-														}
-                            `}
-													>
-														Release Date : {formatDateinHumanredable(data.releaseDate)}
-													</div>
-												)}
-											</div>
-										</div>
-									))
-								) : isLoading ? (
-									<div className="w-full flex justify-center">
-										<div className="loader"></div>
-									</div>
-								) : (
-									<div>No Data to Show</div>
-								)}
-							</div>
-						</div>
-					)}
 					{isLoggedIn && (currentSidebarItem === "Entertainment" || currentSidebarItem === "All") && (
 						<div className="overflow-y-auto flex my-2 px-5">
 							<div className="flex gap-8 pb-4 pt-10 w-full">
 								{allEntertainment?.length > 0 ? (
 									allEntertainment.map((data) => (
 										<div className="activeClass relative" key={data.entertainmentId}>
-											<div className="absolute z-10 right-4 top-[-30px]">
-												{/* <LikeButton
-                      customId={`likeButton-entertainment-${data.entertainmentId}`}
-                      isActive={!!likedItems[data.entertainmentId]}
-                      onClick={() => handleLikeClick(data, MovieOrTv)}
-                    /> */}
-											</div>
+											<div className="absolute z-10 right-4 top-[-30px]"></div>
 											<Card
 												style={{ width: "15rem", minHeight: "357px" }}
 												className="overflow-x-auto rounded-3xl "
@@ -229,13 +162,71 @@ const Favorite = ({ setQuery }) => {
 										<div className="loader"></div>
 									</div>
 								) : (
-									<div>No Data to Show</div>
+									<div
+										className={`${
+											theme === "dark" ? "text-gray-400" : "text-gray-700"
+										} w-full text-center text-lg mt-10`}
+									>
+										No Entertainment Data to Show
+									</div>
 								)}
 							</div>
 						</div>
 					)}
+					{isLoggedIn && (currentSidebarItem === "Game" || currentSidebarItem === "All") && (
+						<div className="favSactionAfterLogin">
+							<div className="flex flex-wrap justify-center pb-4 pt-10">
+								{allGames?.length > 0 ? (
+									allGames.map((data) => (
+										<div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
+											<div className="absolute z-10 right-4 top-[-30px]"></div>
+											<div onClick={() => particularGameCall(data.gameId)}>
+												<Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
+													<ImageWithLoader
+														src={`${data.thumbnail}`}
+														alt="Game Thumbnail"
+														failedImage="/ImageNotFound.png"
+													/>
+												</Card>
+												<div
+													className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold 
+                            ${theme === "dark" ? "text-gray-300" : ""} mt-3
+                            `}
+												>
+													{data.title}
+												</div>
+												{data.releaseDate && (
+													<div
+														className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
+															theme === "dark" ? "text-gray-300" : ""
+														}
+                            `}
+													>
+														Release Date : {formatDateinHumanredable(data.releaseDate)}
+													</div>
+												)}
+											</div>
+										</div>
+									))
+								) : isLoading ? (
+									<div className="w-full flex justify-center">
+										<div className="loader"></div>
+									</div>
+								) : (
+									<div
+										className={`${
+											theme === "dark" ? "text-gray-400" : "text-gray-700"
+										} w-full text-center text-lg mt-10`}
+									>
+										No Game Data to Show
+									</div>
+								)}
+							</div>
+						</div>
+					)}
+
 					{isLoggedIn && (currentSidebarItem === "News" || currentSidebarItem === "All") && (
-						<>
+						<div className="pb-4 pt-10">
 							{allNews?.length > 0 ? (
 								allNews?.map((news, index) => (
 									<div key={index} className="relative">
@@ -281,13 +272,17 @@ const Favorite = ({ setQuery }) => {
 									<div className="loader"></div>
 								</div>
 							) : (
-								<div>No News data Found</div>
+								<div
+									className={`${theme === "dark" ? "text-gray-400" : "text-gray-700"} w-full text-center text-lg mt-10`}
+								>
+									No News data Found
+								</div>
 							)}
-						</>
+						</div>
 					)}
 					{isLoggedIn && (currentSidebarItem === "Cricket" || currentSidebarItem === "All") && (
 						<>
-							<div className="pl-4 flex overflow-y-auto ">
+							<div className="pl-4 flex overflow-y-auto pb-4 pt-10">
 								{allCricketMatch?.length > 0 ? (
 									allCricketMatch?.map((data, index) => (
 										<div className="min-w-52 me-4 relative" md={4} key={index}>
@@ -335,11 +330,17 @@ const Favorite = ({ setQuery }) => {
 										<div className="loader"></div>
 									</div>
 								) : (
-									<div>No Cricket Match Data Found</div>
+									<div
+										className={`${
+											theme === "dark" ? "text-gray-400" : "text-gray-700"
+										} w-full text-center text-lg mt-10`}
+									>
+										No Cricket Match Data Found
+									</div>
 								)}
 							</div>
 
-							<div>
+							<div className="pb-4 pt-10">
 								{allCricketNews?.length > 0 ? (
 									<>
 										{allCricketNews?.map((news, index) => (
@@ -378,7 +379,13 @@ const Favorite = ({ setQuery }) => {
 										<div className="loader"></div>
 									</div>
 								) : (
-									<div>No Cricket News Found</div>
+									<div
+										className={`${
+											theme === "dark" ? "text-gray-400" : "text-gray-700"
+										} w-full text-center text-lg mt-10`}
+									>
+										No Cricket News Found
+									</div>
 								)}
 							</div>
 						</>

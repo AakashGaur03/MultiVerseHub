@@ -19,7 +19,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		if (getCurrentState == null) {
-			setTimer(1000);
+			setTimer(0);
 			localStorage.setItem("timerVal", "0");
 		} else {
 			const savedTimer = localStorage.getItem("timerVal");

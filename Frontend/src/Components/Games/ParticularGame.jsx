@@ -182,7 +182,7 @@ const ParticularGame = () => {
 					<div className="loader"></div>
 				</div>
 			) : (
-				<div>No Data to Show</div>
+				<div className={theme === "dark" ? "text-gray-400" : "text-gray-700"}>No Data to Show</div>
 			)}
 		</>
 	);
