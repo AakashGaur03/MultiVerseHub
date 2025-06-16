@@ -27,6 +27,7 @@ import { useEffect, useRef, useState } from "react";
 import ThemeProvider from "./ThemeProvider";
 import { getSidebarItems } from "./GlobalComp/sidebarItem";
 import NotFound from "./Components/NotFound";
+import SearchResultPage from "./Components/GlobalSearch/SearchResultPage";
 
 function App() {
 	const location = useLocation();
@@ -164,6 +165,7 @@ function App() {
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/register" element={<Registration />} />
 							<Route path="/forgot-password" element={<ForgotPassword />} />
+							<Route path="/search" element={<SearchResultPage />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>

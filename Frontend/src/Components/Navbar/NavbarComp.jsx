@@ -16,6 +16,7 @@ import {
 } from "../../Features";
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
 import debounce from "../../GlobalComp/debounce";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 // function debounce(func, wait) {
 //   let timeout;
@@ -154,6 +155,7 @@ function NavbarComp({ setQuery }) {
 					)}
 					{newIsUserLoggedIn && (
 						<div className="flex align-items-center">
+							<GlobalSearch />
 							<button
 								onClick={() => handleShow("logout")}
 								className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}

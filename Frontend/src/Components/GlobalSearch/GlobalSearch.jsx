@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getNews, getEntertainmentSearchData, getcricketSearchPlayer } from "../../Features";
 
 const GlobalSearch = () => {
 	const [query, setQuery] = useState("");
 	const [prevQuery, setPrevQuery] = useState("");
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const theme = useSelector((state) => state.theme.theme);
+	const textColor = useSelector((state) => state.theme.textColor);
 
 	const handleSearch = async () => {
-		if (!query.trim() && prevQuery.trim()) return;
-
 		const trimmed = query.trim();
-
+		if (!trimmed || trimmed === prevQuery) return;
+		console.log(trimmed, "trimmed");
 		await Promise.all([
 			dispatch(getNews(trimmed)),
 			dispatch(getEntertainmentSearchData({ category: "tv", searchQuery: trimmed })),
@@ -22,17 +25,19 @@ const GlobalSearch = () => {
 		]);
 
 		setPrevQuery(trimmed);
+		navigate(`/search?q=${encodeURIComponent(trimmed)}`);
 	};
 
 	useEffect(() => {
-		const timeout = setTimeout(() => {
+		const delayDebounce = setTimeout(() => {
 			handleSearch();
 		}, 1000);
-		return () => clearTimeout(timeout);
+
+		return () => clearTimeout(delayDebounce);
 	}, [query]);
 
 	return (
-		<Form className="d-flex w-100">
+		<Form className="d-flex w-100" onSubmit={(e) => e.preventDefault()}>
 			<Form.Control
 				type="search"
 				placeholder="Search News, Movies, TV, Cricket..."
