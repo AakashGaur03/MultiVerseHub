@@ -6,6 +6,7 @@ import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import { formatDate, formatDateinHumanredable } from "../../GlobalComp/formatDate";
 import { Card } from "react-bootstrap";
 import ImageWithLoader from "../../GlobalComp/ImageWithLoader";
+import ListMoviesTv from "../../GlobalComp/ListMoviesTV";
 
 const SearchResultPage = () => {
 	const location = useLocation();
@@ -16,7 +17,9 @@ const SearchResultPage = () => {
 
 	const newsDataRaw = useSelector((state) => state.news?.data?.data?.responseData?.results || []);
 	const favSectionData = useSelector((state) => state?.favSection?.allItem?.data?.favorite || {});
-	const { tvData = [], movieData = [] } = useSelector((state) => state.entertainment || {});
+	const entertainmenSearchDataTV = useSelector((state) => state.getEntertainmentData.entertainmenSearchDataTV);
+	const entertainmenSearchDataMovie = useSelector((state) => state.getEntertainmentData.entertainmenSearchDataMovie);
+	console.log(entertainmenSearchDataMovie, "entertainmenSearchDataMovieentertainmenSearchDataMovie");
 	const searchPlayersData = useSelector((state) => state.cricket.searchPlayer || {});
 	const [imageUrls, setImageUrls] = useState({});
 	const [loadingImages, setLoadingImages] = useState({});
@@ -26,6 +29,13 @@ const SearchResultPage = () => {
 	const [filteredFavCricketMatch, setFilteredFavCricketMatch] = useState([]);
 	const [filteredFavCricketNews, setFilteredFavCricketNews] = useState([]);
 	const [imageUrlsNews, setImageUrlsNews] = useState({});
+
+	const particularGameCall = async (id) => {
+		navigate(`/game/${id}`);
+		window.scroll(0, 0);
+	};
+	const loadMoreMovies = () => {};
+	const loadMoreTv = () => {};
 	console.log(favSectionData, "favSectionDatafavSectionDatafavSectionData");
 	const infoAboutItem = (id, category) => {
 		navigate(`/particulars/${category}/${id}`);
@@ -206,25 +216,84 @@ const SearchResultPage = () => {
 				</section>
 			)}
 
-			{/* 📺 TV Shows */}
-			{tvData.length > 0 && (
+			{/* 🎬 Search Results - Movies */}
+			{entertainmenSearchDataMovie?.results?.length > 0 && (
 				<section className="mb-6">
-					<ListMoviesTV data={tvData} title="TV Shows" type="tv" />
+					<ListMoviesTv
+						ListData={entertainmenSearchDataMovie}
+						LoadMoreOption="searchMovies"
+						Heading="Search Movie Results"
+						LoadMoreContent={loadMoreMovies}
+						InfoAboutItem={infoAboutItem}
+						MovieOrTv="movie"
+					/>
 				</section>
 			)}
 
-			{/* 🎬 Movies */}
-			{movieData.length > 0 && (
+			{/* 📺 Search Results - TV Shows */}
+			{entertainmenSearchDataTV?.results?.length > 0 && (
 				<section className="mb-6">
-					<ListMoviesTV data={movieData} title="Movies" type="movie" />
+					<ListMoviesTv
+						ListData={entertainmenSearchDataTV}
+						LoadMoreOption="searchTv"
+						Heading="Search TV Results"
+						LoadMoreContent={loadMoreTv}
+						InfoAboutItem={infoAboutItem}
+						MovieOrTv="tv"
+					/>
 				</section>
 			)}
 
-			{filteredFavGames.length > 0 && (
-				<section className="mb-6">
-					<h2 className="text-xl font-semibold mb-3">Favorite Sports</h2>
-					<ListMoviesTV data={filteredFavGames} title="Favorite Sports" type="game" />
-				</section>
+			{filteredFavGames?.length > 0 && (
+				<div className="favSactionAfterLogin">
+					<div
+						className={`mb-2 mt-3 px-5 uppercase font-semibold text-2xl text-center ${
+							theme === "dark" ? "text-gray-300" : "text-gray-700"
+						}`}
+					>
+						Searched Favorite Games
+					</div>
+
+					<div className="flex flex-wrap justify-center pb-4 pt-10">
+						{filteredFavGames.map((data) => (
+							<div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
+								<div className="absolute z-10 right-4 top-[-30px]"></div>
+								<div onClick={() => particularGameCall(data.gameId)}>
+									<Card
+										style={{ width: "18rem", minHeight: "150px" }}
+										className={`overflow-x-auto rounded-3xl shadow-md ${
+											theme === "dark" ? "bg-slate-800 text-gray-200" : "bg-white text-gray-800"
+										}`}
+									>
+										<ImageWithLoader
+											src={data.thumbnail || "/ImageNotFound.png"}
+											alt="Game Thumbnail"
+											failedImage="/ImageNotFound.png"
+										/>
+									</Card>
+
+									<div
+										className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold mt-3 ${
+											theme === "dark" ? "text-gray-300" : "text-gray-800"
+										}`}
+									>
+										{data.title}
+									</div>
+
+									{data.releaseDate && (
+										<div
+											className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold ${
+												theme === "dark" ? "text-gray-300" : "text-gray-700"
+											}`}
+										>
+											Release Date : {formatDateinHumanredable(data.releaseDate)}
+										</div>
+									)}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
 			)}
 
 			{filteredFavCricketMatch?.length > 0 && (
@@ -343,73 +412,77 @@ const SearchResultPage = () => {
 			)}
 
 			{filteredFavEntertainment?.length > 0 && (
-				<div className="flex flex-wrap gap-4 justify-center py-6">
-					{filteredFavEntertainment.map((data) => (
-						<div className="relative" key={data.entertainmentId}>
-							{/* Card */}
-							<div className="absolute z-10 right-4 top-[-30px]">
-								{/* You can add a Like or Remove icon here if needed */}
-							</div>
+				<div>
+					<h2 className="text-xl font-semibold mb-3 mt-5">Favorite Entertainment Section</h2>
 
-							<Card
-								style={{ width: "15rem", minHeight: "357px" }}
-								className="overflow-hidden rounded-3xl cursor-pointer"
-								onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
-							>
-								{/* Poster Image */}
-								<ImageWithLoader
-									variant="top"
-									className="h-100"
-									src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
-									alt={data.title || "Entertainment Poster"}
-									failedImage="/ImageNotFoundVertical.png"
-								/>
-							</Card>
+					<div className="flex flex-wrap gap-4 justify-center py-6">
+						{filteredFavEntertainment.map((data) => (
+							<div className="relative" key={data.entertainmentId}>
+								{/* Card */}
+								<div className="absolute z-10 right-4 top-[-30px]">
+									{/* You can add a Like or Remove icon here if needed */}
+								</div>
 
-							{/* Rating */}
-							<div className="flex justify-center mt-3">
-								<CustomCircularProgressRating voteAverage={data?.voteAverage} />
-							</div>
+								<Card
+									style={{ width: "15rem", minHeight: "357px" }}
+									className="overflow-hidden rounded-3xl cursor-pointer"
+									onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
+								>
+									{/* Poster Image */}
+									<ImageWithLoader
+										variant="top"
+										className="h-100"
+										src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
+										alt={data.title || "Entertainment Poster"}
+										failedImage="/ImageNotFoundVertical.png"
+									/>
+								</Card>
 
-							{/* Title */}
-							<div
-								className={`text-center mt-2 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
-									theme === "dark" ? "text-gray-300" : "text-gray-800"
-								}`}
-							>
-								{data.title}
-							</div>
+								{/* Rating */}
+								<div className="flex justify-center mt-3">
+									<CustomCircularProgressRating voteAverage={data?.voteAverage} />
+								</div>
 
-							{/* Release Date */}
-							{data.releaseDate && (
+								{/* Title */}
 								<div
-									className={`text-center mt-1 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
-										theme === "dark" ? "text-gray-300" : "text-gray-700"
+									className={`text-center mt-2 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
+										theme === "dark" ? "text-gray-300" : "text-gray-800"
 									}`}
 								>
-									Release Date: {formatDateinHumanredable(data.releaseDate)}
+									{data.title}
 								</div>
-							)}
 
-							{data.firstAirDate && (
-								<div
-									className={`text-center mt-1 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
-										theme === "dark" ? "text-gray-300" : "text-gray-700"
-									}`}
-								>
-									Release Date: {formatDateinHumanredable(data.firstAirDate)}
-								</div>
-							)}
-						</div>
-					))}
+								{/* Release Date */}
+								{data.releaseDate && (
+									<div
+										className={`text-center mt-1 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
+											theme === "dark" ? "text-gray-300" : "text-gray-700"
+										}`}
+									>
+										Release Date: {formatDateinHumanredable(data.releaseDate)}
+									</div>
+								)}
+
+								{data.firstAirDate && (
+									<div
+										className={`text-center mt-1 w-60 text-ellipsis whitespace-nowrap overflow-hidden font-semibold ${
+											theme === "dark" ? "text-gray-300" : "text-gray-700"
+										}`}
+									>
+										Release Date: {formatDateinHumanredable(data.firstAirDate)}
+									</div>
+								)}
+							</div>
+						))}
+					</div>
 				</div>
 			)}
 
 			{[
 				searchPlayersData?.player?.length,
 				newsDataRaw.length,
-				tvData.length,
-				movieData.length,
+				entertainmenSearchDataMovie?.length,
+				entertainmenSearchDataTV?.length,
 				filteredFavNews.length,
 				filteredFavEntertainment.length,
 				filteredFavGames.length,

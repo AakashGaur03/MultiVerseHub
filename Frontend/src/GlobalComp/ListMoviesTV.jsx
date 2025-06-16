@@ -149,6 +149,8 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 					)}
 
 					{Heading !== "Search Results" &&
+						Heading !== "Search TV Results" &&
+						Heading !== "Search Movie Results" &&
 						Heading !== "Recommendations" &&
 						ListData?.page < Math.min(ListData?.total_pages, 500) && (
 							<div className="w-max flex items-center" style={{ minWidth: "105px" }}>

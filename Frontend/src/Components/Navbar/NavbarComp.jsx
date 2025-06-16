@@ -162,7 +162,7 @@ function NavbarComp({ setQuery }) {
 							>
 								Logout
 							</button>
-							<Form className="togglePosition d-flex" name="togglePosition">
+							<Form className="togglePosition d-flex w-full" name="togglePosition">
 								<Form.Label htmlFor="toggleThemeBtn"></Form.Label>
 								<Form.Check
 									name="themeMode"

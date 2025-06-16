@@ -19,8 +19,8 @@ const GlobalSearch = () => {
 		console.log(trimmed, "trimmed");
 		await Promise.all([
 			// dispatch(getNews(trimmed)),
-			dispatch(getEntertainmentSearchData({ category: "tv", searchQuery: trimmed })),
-			dispatch(getEntertainmentSearchData({ category: "movie", searchQuery: trimmed })),
+			// dispatch(getEntertainmentSearchData({ category: "tv", searchQuery: trimmed })),
+			// dispatch(getEntertainmentSearchData({ category: "movie", searchQuery: trimmed })),
 			// dispatch(getcricketSearchPlayer({ playeraName: trimmed })),
 		]);
 
@@ -37,7 +37,7 @@ const GlobalSearch = () => {
 	}, [query]);
 
 	return (
-		<Form className="d-flex w-100" onSubmit={(e) => e.preventDefault()}>
+		<Form className="d-flex w-100 me-5" onSubmit={(e) => e.preventDefault()}>
 			<Form.Control
 				type="search"
 				placeholder="Search News, Movies, TV, Cricket..."
