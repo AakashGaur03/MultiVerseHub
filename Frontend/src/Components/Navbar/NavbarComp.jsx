@@ -17,6 +17,7 @@ import {
 import { getSidebarItems } from "../../GlobalComp/sidebarItem";
 import debounce from "../../GlobalComp/debounce";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
+import ProfileMenu from "./ProfileMenu";
 
 // function debounce(func, wait) {
 //   let timeout;
@@ -156,13 +157,7 @@ function NavbarComp({ setQuery }) {
 					{newIsUserLoggedIn && (
 						<div className="flex align-items-center">
 							<GlobalSearch />
-							<button
-								onClick={() => handleShow("logout")}
-								className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
-							>
-								Logout
-							</button>
-							<Form className="togglePosition d-flex w-full" name="togglePosition">
+							{/* <Form className="togglePosition d-flex w-full" name="togglePosition">
 								<Form.Label htmlFor="toggleThemeBtn"></Form.Label>
 								<Form.Check
 									name="themeMode"
@@ -173,7 +168,8 @@ function NavbarComp({ setQuery }) {
 									id="toggleThemeBtn"
 									className={textColor}
 								/>
-							</Form>
+							</Form> */}
+							<ProfileMenu handleShowLogout={() => handleShow("logout")} />
 						</div>
 					)}
 					{toggleBtnVisible && (

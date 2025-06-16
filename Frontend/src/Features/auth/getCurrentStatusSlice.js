@@ -1,45 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUserStatusApi } from "../../Api";
 
-const storedVal = localStorage.getItem("isUserLoggedIn") === "true" ? true : false;
+const storedVal = localStorage.getItem("isUserLoggedIn") === "true";
+
 const initialState = {
-  isUserLoggedIn: storedVal || null,
-  state: null,
+	isUserLoggedIn: storedVal || false,
+	state: null,
+	user: null,
 };
 
 const getCurrentStatusSlice = createSlice({
-  name: "getCurrentStatus",
-  initialState,
-  reducers: {
-    setCurrentStatus(state, action) {
-      state.isUserLoggedIn = action.payload;
-      state.state = null;
-      localStorage.setItem("isUserLoggedIn", action.payload);
-    },
-    setCurrentStatusState(state, action) {
-      state.state = "loading";
-    },
-  },
+	name: "getCurrentStatus",
+	initialState,
+	reducers: {
+		setCurrentStatus(state, action) {
+			const user = action.payload?.user || null;
+			state.user = user;
+			state.isUserLoggedIn = !!user;
+			state.state = null;
+
+			localStorage.setItem("isUserLoggedIn", user ? "true" : "false");
+		},
+		setCurrentStatusState(state) {
+			state.state = "loading";
+		},
+	},
 });
 
 export const { setCurrentStatus, setCurrentStatusState } = getCurrentStatusSlice.actions;
 
 export const fetchCurrentStatusUser = () => async (dispatch) => {
-  try {
-    dispatch(setCurrentStatusState());
-    const accessToken = localStorage.getItem("accessToken");
-    // if (accessToken) {
-    const response = await getCurrentUserStatusApi(accessToken);
-    if (response) {
-      dispatch(setCurrentStatus(true));
-      // }
-    } else {
-      dispatch(setCurrentStatus(false));
-    }
-  } catch (error) {
-    dispatch(setCurrentStatus(false));
-    console.log("Error fetching current user Status : ", error);
-  }
+	try {
+		dispatch(setCurrentStatusState());
+		const accessToken = localStorage.getItem("accessToken");
+
+		const response = await getCurrentUserStatusApi(accessToken);
+
+		if (response?.data?.data) {
+			dispatch(setCurrentStatus({ user: response.data.data }));
+		} else {
+			dispatch(setCurrentStatus({ user: null }));
+		}
+	} catch (error) {
+		dispatch(setCurrentStatus({ user: null }));
+		console.error("Error fetching current user status:", error);
+	}
 };
 
 export default getCurrentStatusSlice.reducer;
