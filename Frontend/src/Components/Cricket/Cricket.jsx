@@ -11,6 +11,7 @@ import { getImageUrl } from "../../GlobalComp/getImageFunc";
 import CustomCard from "../../GlobalComp/CustomCard";
 import LikeButton from "../../GlobalComp/LikeButton";
 import { handleLikeOperation } from "../../GlobalComp/handleLikeClick";
+import { getCricketSearchPlayerEmpty } from "../../Features/APIReducers/getCricketAPISlice";
 
 const Cricket = ({ setQuery }) => {
 	const activeSidebarItem = useSelector((state) => state.sidebar.currentSidebar);
@@ -88,6 +89,9 @@ const Cricket = ({ setQuery }) => {
 		});
 	};
 
+	useEffect(() => {
+		dispatch(getCricketSearchPlayerEmpty());
+	}, []);
 	useEffect(() => {
 		setFavSectionDataAll(favSectionData);
 	}, [favSectionData]);
@@ -259,6 +263,8 @@ const Cricket = ({ setQuery }) => {
 		let url = `https://www.cricbuzz.com/cricket-news/${id}/${finalUrl}`;
 		return url;
 	};
+
+	console.log(cricketData, "cricketDatacricketDatacricketData");
 
 	return (
 		<div className="overflow-y-auto pl-0 md:pl-11 w-full">

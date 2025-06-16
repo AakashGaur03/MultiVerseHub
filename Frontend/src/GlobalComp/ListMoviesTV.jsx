@@ -150,7 +150,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 
 					{Heading !== "Search Results" &&
 						Heading !== "Recommendations" &&
-						ListData.page < Math.min(ListData.total_pages, 500) && (
+						ListData?.page < Math.min(ListData?.total_pages, 500) && (
 							<div className="w-max flex items-center" style={{ minWidth: "105px" }}>
 								<Button
 									className={`p-2 rounded-md font-semibold shadow-md ${
@@ -158,7 +158,7 @@ const ListMoviesTv = ({ ListData, Heading, LoadMoreOption, LoadMoreContent, Info
 											? "bg-gray-700 text-white hover:bg-gray-600"
 											: "bg-gray-200 text-gray-800 hover:bg-gray-300"
 									}`}
-									onClick={() => LoadMoreContent(ListData.page, LoadMoreOption)}
+									onClick={() => LoadMoreContent(ListData?.page, LoadMoreOption)}
 								>
 									Load More
 								</Button>
