@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { toggleTheme } from "../../Features";
+import { toggleTheme, saveThemePreference } from "../../Features"; // ⬅️ Add saveThemePreference
 import { Sun, Moon } from "lucide-react";
 import truncateTextByChar from "../../GlobalComp/truncateTextByChar";
 
@@ -24,6 +24,7 @@ const ProfileMenu = ({ handleShowLogout }) => {
 		setDropdownOpen(false);
 		navigate("/profile");
 	};
+
 	const handleUpdatePassword = () => {
 		setDropdownOpen(false);
 		navigate("/update-password");
@@ -38,7 +39,10 @@ const ProfileMenu = ({ handleShowLogout }) => {
 		dispatch(toggleTheme());
 	};
 
-	// Close dropdown when clicking outside
+	const handleSaveTheme = () => {
+		dispatch(saveThemePreference(theme));
+	};
+
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -52,11 +56,11 @@ const ProfileMenu = ({ handleShowLogout }) => {
 		};
 	}, []);
 
-	const dropdownClass = `absolute right-0 top-14 z-50 w-44 rounded-md shadow-md border transition-all duration-200 ${
+	const dropdownClass = `absolute right-0 top-14 z-50 w-48 rounded-md shadow-md border transition-all duration-200 ${
 		theme === "light" ? "bg-white border-gray-200" : "bg-gray-800 border-gray-700"
 	}`;
 
-	const itemClass = `flex items-center gap-2 w-full px-4 py-2 text-left text-sm ${
+	const itemClass = `flex items-center justify-between w-full px-4 py-2 text-left text-sm ${
 		theme === "light" ? "hover:bg-gray-100 text-gray-800" : "hover:bg-gray-700 text-gray-200"
 	}`;
 
@@ -92,19 +96,23 @@ const ProfileMenu = ({ handleShowLogout }) => {
 					<button onClick={handleLogout} className={itemClass}>
 						Logout
 					</button>
-					<button onClick={handleThemeToggle} className={itemClass}>
-						{theme === "light" ? (
-							<>
-								<Moon className="w-4 h-4" />
-								Dark Mode
-							</>
-						) : (
-							<>
-								<Sun className="w-4 h-4" />
-								Light Mode
-							</>
+
+					<div className={itemClass}>
+						<button onClick={handleThemeToggle} className="flex items-center gap-2">
+							{theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+							{theme === "light" ? "Dark Mode" : "Light Mode"}
+						</button>
+
+						{user && (
+							<button
+								onClick={handleSaveTheme}
+								title="Save preference"
+								className="hover:text-green-600 transition-colors"
+							>
+								💾
+							</button>
 						)}
-					</button>
+					</div>
 				</div>
 			)}
 		</div>

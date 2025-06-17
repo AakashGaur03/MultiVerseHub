@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCurrentUserStatusApi } from "../../Api";
+import { setThemeFromServer } from "../theme/themeSlice";
 
 const storedVal = localStorage.getItem("isUserLoggedIn") === "true";
 
@@ -37,7 +38,13 @@ export const fetchCurrentStatusUser = () => async (dispatch) => {
 		const response = await getCurrentUserStatusApi(accessToken);
 
 		if (response?.data?.data) {
-			dispatch(setCurrentStatus({ user: response.data.data }));
+			const user = response.data.data;
+			dispatch(setCurrentStatus({ user }));
+
+			// ⬅️ Apply saved theme
+			if (user?.themePreference) {
+				dispatch(setThemeFromServer(user.themePreference));
+			}
 		} else {
 			dispatch(setCurrentStatus({ user: null }));
 		}

@@ -146,7 +146,7 @@ const News = () => {
 															: "/LogoNotAvail.png"
 													}
 													onError={(e) => {
-														console.error("Error loading image:", e);
+														// console.error("Error loading image:", e);
 														e.target.src = "/LogoNotAvail.png";
 														e.target.style.height = "50px";
 														e.target.style.width = "50px";

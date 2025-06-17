@@ -25,6 +25,7 @@ import {
   getEntertainmentDataMovie,
   getEntertainmentDataTV,
   getEntertainmentSearch,
+  updateThemePreference,
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
@@ -52,6 +53,7 @@ router.route("/refresh-token").post(refreshAccessToken);
 router.route("/change-password").post(verifyJWT, changeCurrentPassword);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
+router.put("/update-theme", verifyJWT, updateThemePreference);
 router.route("/send-otp-mail").post(sendOtponMail);
 router.route("/verifyOTP").post(verifyOTP);
 router.route("/create-new-password").post(createNewPassword);
@@ -70,7 +72,9 @@ router.route("/weatherApi").get(getWeathter);
 router.route("/wordofthedayApi").get(getWordOfTheDay);
 router.route("/entertainmentMovieApi").post(getEntertainmentDataMovie);
 router.route("/entertainmentTVApi").post(getEntertainmentDataTV);
-router.route("/entertainmentParticularsApi/:category/:id").get(getEntertainmentParticularsData);
+router
+  .route("/entertainmentParticularsApi/:category/:id")
+  .get(getEntertainmentParticularsData);
 router.route("/entertainmentSearch").post(getEntertainmentSearch);
 
 export default router;

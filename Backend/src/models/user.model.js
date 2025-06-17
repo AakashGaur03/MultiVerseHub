@@ -41,6 +41,11 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "FavSection",
     },
+    themePreference: {
+      type: String,
+      enum: ["light", "dark"],
+      default: "light",
+    },
   },
   { timestamps: true }
 );

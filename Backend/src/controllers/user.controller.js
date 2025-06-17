@@ -392,6 +392,24 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Avatar Updated Successfully"));
 });
 
+const updateThemePreference = asyncHandler(async (req, res) => {
+  const { theme } = req.body;
+
+  if (!["light", "dark"].includes(theme)) {
+    return res.status(400).json(new ApiError(400, "Invalid theme value"));
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { themePreference: theme },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Theme preference updated successfully"));
+});
+
 const sendOtponMail = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
@@ -1289,6 +1307,7 @@ export {
   getCurrentUser,
   updateAccountDetails,
   updateUserAvatar,
+  updateThemePreference,
   sendOtponMail,
   verifyOTP,
   createNewPassword,

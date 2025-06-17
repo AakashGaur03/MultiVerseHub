@@ -7,7 +7,15 @@ import registerReducer, {
 	UpdateRegisterMessage,
 } from "./auth/registerSlice.js";
 
-import themeReducer, { toggleTheme } from "./theme/themeSlice.js";
+import themeReducer, {
+	toggleTheme,
+	setThemeFromServer,
+	saveThemeStart,
+	saveThemeSuccess,
+	saveThemeFailure,
+	saveThemePreference,
+	resetTheme,
+} from "./theme/themeSlice.js";
 
 import loginReducer, {
 	loginUser,
@@ -121,6 +129,12 @@ export {
 	themeReducer,
 	registerUser,
 	toggleTheme,
+	setThemeFromServer,
+	saveThemeStart,
+	saveThemeSuccess,
+	saveThemeFailure,
+	resetTheme,
+	saveThemePreference,
 	sidebarReducer,
 	loginReducer,
 	loginUser,

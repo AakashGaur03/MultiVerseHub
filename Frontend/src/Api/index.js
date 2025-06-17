@@ -68,6 +68,18 @@ export const changePasswordApi = async (accessToken, data) => {
 	return response;
 };
 
+export const updateUserThemePreference = async (accessToken, theme) => {
+	return await axios.put(
+		`${API_URL}/api/v1/users/update-theme`,
+		{ theme },
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}
+	);
+};
+
 // sendOTP
 export const sendOTPApi = async (emailId) => {
 	const response = await axios.post(`${API_URL}/api/v1/users/send-otp-mail`, emailId);
