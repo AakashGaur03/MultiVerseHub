@@ -307,8 +307,16 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) {
+    return res
+      .status(400)
+      .json(new ApiError(400, "Old and new password are required"));
+  }
+  const user = await User.findById(req.user?._id).select("+password");
+  if (!user) {
+    return res.status(404).json(new ApiError(404, "User not found"));
+  }
 
-  const user = await User.findById(req.user?._id);
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) {

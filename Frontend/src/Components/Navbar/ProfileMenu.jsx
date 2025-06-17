@@ -24,6 +24,10 @@ const ProfileMenu = ({ handleShowLogout }) => {
 		setDropdownOpen(false);
 		navigate("/profile");
 	};
+	const handleUpdatePassword = () => {
+		setDropdownOpen(false);
+		navigate("/update-password");
+	};
 
 	const handleLogout = () => {
 		setDropdownOpen(false);
@@ -81,6 +85,9 @@ const ProfileMenu = ({ handleShowLogout }) => {
 				<div className={dropdownClass}>
 					<button onClick={handleProfile} className={itemClass}>
 						Profile
+					</button>
+					<button onClick={handleUpdatePassword} className={itemClass}>
+						Update Password
 					</button>
 					<button onClick={handleLogout} className={itemClass}>
 						Logout

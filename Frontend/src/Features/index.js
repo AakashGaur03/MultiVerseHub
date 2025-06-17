@@ -107,7 +107,15 @@ import UpdateAvatarAPIReducer, {
 	updateAvatarSuccess,
 	clearUpdateAvatarMessage,
 } from "./auth/updateAvatarSlice.js";
+import updatePasswordAPIReducer, {
+	clearUpdatePasswordMessage,
+	updatePassword,
+	updatePasswordFailure,
+	updatePasswordStart,
+	updatePasswordSuccess,
+} from "./auth/updatePasswordSlice.js";
 
+updatePassword;
 export {
 	registerReducer,
 	themeReducer,
@@ -204,4 +212,10 @@ export {
 	updateAvatar,
 	clearUpdateAvatarMessage,
 	clearUpdateAccountMessage,
+	updatePasswordAPIReducer,
+	updatePasswordStart,
+	updatePasswordSuccess,
+	updatePasswordFailure,
+	clearUpdatePasswordMessage,
+	updatePassword,
 };

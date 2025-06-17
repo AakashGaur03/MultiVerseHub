@@ -16,6 +16,7 @@ import {
 	UpdateAccountAPIReducer,
 	ChangePasswordAPIReducer,
 	UpdateAvatarAPIReducer,
+	updatePasswordAPIReducer,
 } from "../Features/index.js";
 
 const store = configureStore({
@@ -36,6 +37,7 @@ const store = configureStore({
 		updateAccount: UpdateAccountAPIReducer,
 		changePassword: ChangePasswordAPIReducer,
 		updateAvatar: UpdateAvatarAPIReducer,
+		updatePassword: updatePasswordAPIReducer,
 
 		// other reducers...
 	},

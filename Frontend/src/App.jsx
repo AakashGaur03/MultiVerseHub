@@ -29,6 +29,7 @@ import { getSidebarItems } from "./GlobalComp/sidebarItem";
 import NotFound from "./Components/NotFound";
 import SearchResultPage from "./Components/GlobalSearch/SearchResultPage";
 import Profile from "./Components/Navbar/Profile";
+import UpdatePassword from "./Components/Navbar/UpdatePassword";
 
 function App() {
 	const location = useLocation();
@@ -168,6 +169,7 @@ function App() {
 							<Route path="/forgot-password" element={<ForgotPassword />} />
 							<Route path="/search" element={<SearchResultPage />} />
 							<Route path="/profile" element={<Profile />} />
+							<Route path="/update-password" element={<UpdatePassword />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>

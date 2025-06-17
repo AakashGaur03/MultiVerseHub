@@ -59,7 +59,7 @@ export const updateUserAvatarApi = async (accessToken, formData) => {
 };
 
 export const changePasswordApi = async (accessToken, data) => {
-	const response = await axios.put(`${API_URL}/api/v1/users/change-password`, data, {
+	const response = await axios.post(`${API_URL}/api/v1/users/change-password`, data, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
