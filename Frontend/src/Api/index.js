@@ -47,11 +47,8 @@ export const updateAccountDetailsApi = async (accessToken, data) => {
 	return response;
 };
 
-export const updateUserAvatarApi = async (accessToken, file) => {
-	const formData = new FormData();
-	formData.append("avatar", file);
-
-	const response = await axios.put(`${API_URL}/api/v1/users/update-avatar`, formData, {
+export const updateUserAvatarApi = async (accessToken, formData) => {
+	const response = await axios.patch(`${API_URL}/api/v1/users/avatar`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 			Authorization: `Bearer ${accessToken}`,

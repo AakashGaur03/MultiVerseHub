@@ -21,14 +21,12 @@ const Profile = () => {
 	const theme = useSelector((state) => state.theme.theme);
 
 	const [fullName, setFullName] = useState("");
-
 	const [email, setEmail] = useState("");
+	const [isChanged, setIsChanged] = useState(false);
+
 	const [avatarPreview, setAvatarPreview] = useState("/default-avatar.png");
 
 	useEffect(() => {
-		dispatch(clearUpdateAccountMessage(null));
-		dispatch(clearUpdateAvatarMessage(null));
-
 		if (!user) {
 			dispatch(fetchCurrentStatusUser());
 		} else {
@@ -38,11 +36,41 @@ const Profile = () => {
 		}
 	}, [user, dispatch]);
 
+	useEffect(() => {
+		if (updateMessage) {
+			const timer = setTimeout(() => {
+				dispatch(clearUpdateAccountMessage(null));
+			}, 3000); // 3 seconds
+
+			return () => clearTimeout(timer);
+		}
+	}, [updateMessage, dispatch]);
+
+	useEffect(() => {
+		if (avatarMessage) {
+			const timer = setTimeout(() => {
+				dispatch(clearUpdateAvatarMessage(null));
+			}, 3000); // 3 seconds
+
+			return () => clearTimeout(timer);
+		}
+	}, [avatarMessage, dispatch]);
+
+	useEffect(() => {
+		if (!user) return;
+
+		const nameChanged = fullName !== (user.fullName || "");
+		const emailChanged = email !== (user.email || "");
+
+		setIsChanged(nameChanged || emailChanged);
+	}, [fullName, email, user]);
+
 	const handleProfileUpdate = (e) => {
 		e.preventDefault();
 		dispatch(updateAccountDetails({ fullName, email })).then((res) => {
 			if (res?.statusCode === 200) {
-				dispatch(fetchCurrentStatusUser()); // ✅ Refresh redux user state
+				dispatch(fetchCurrentStatusUser());
+				setIsChanged(false);
 			}
 		});
 	};
@@ -53,7 +81,11 @@ const Profile = () => {
 			setAvatarPreview(URL.createObjectURL(file));
 			const formData = new FormData();
 			formData.append("avatar", file);
-			dispatch(updateAvatar(formData));
+			dispatch(updateAvatar(formData)).then((res) => {
+				if (res?.status === 200) {
+					dispatch(fetchCurrentStatusUser());
+				}
+			});
 		}
 	};
 
@@ -137,9 +169,21 @@ const Profile = () => {
 					/>
 				</Form.Group>
 
-				<Button variant="success" type="submit" disabled={updateLoading}>
+				<button
+					type="submit"
+					disabled={updateLoading || !isChanged}
+					className={`p-2 rounded-md font-semibold shadow-md transition-all duration-200 ${
+						updateLoading || !isChanged
+							? theme === "dark"
+								? "bg-gray-600 text-white cursor-not-allowed"
+								: "bg-gray-300 text-gray-500 cursor-not-allowed"
+							: theme === "dark"
+							? "bg-gray-700 text-white hover:bg-gray-600"
+							: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+					}`}
+				>
 					{updateLoading ? "Updating..." : "Update Profile"}
-				</Button>
+				</button>
 
 				{updateMessage && <p className="text-sm mt-2 text-green-600">{updateMessage}</p>}
 			</Form>
