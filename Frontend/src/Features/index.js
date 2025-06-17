@@ -94,6 +94,7 @@ import FavSectionReducer, {
 	removeFavSectionStart,
 	removeFavSectionSuccess,
 	removeFavSectionFailure,
+	toggleFavoriteItem,
 } from "./APIReducers/favAPISlice.js";
 import ChangePasswordAPIReducer, {
 	changePassword,
@@ -209,6 +210,7 @@ export {
 	removeFavSectionStart,
 	removeFavSectionSuccess,
 	removeFavSectionFailure,
+	toggleFavoriteItem,
 	changePasswordStart,
 	changePasswordSuccess,
 	changePasswordFailure,

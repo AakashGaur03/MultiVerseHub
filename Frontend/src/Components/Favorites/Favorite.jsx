@@ -10,6 +10,7 @@ import CustomCircularProgressRating from "../../GlobalComp/CustomCircularProgres
 import CustomCard from "../../GlobalComp/CustomCard";
 import truncateText from "../../GlobalComp/TruncateText";
 import { getImageUrl } from "../../GlobalComp/getImageFunc";
+import LikeButtonG from "../../GlobalComp/LikeButtonG";
 
 const Favorite = ({ setQuery }) => {
 	const navigate = useNavigate();
@@ -111,50 +112,54 @@ const Favorite = ({ setQuery }) => {
 							<div className="flex gap-8 pb-4 pt-10 w-full">
 								{allEntertainment?.length > 0 ? (
 									allEntertainment.map((data) => (
-										<div className="activeClass relative" key={data.entertainmentId}>
-											<div className="absolute z-10 right-4 top-[-30px]"></div>
-											<Card
-												style={{ width: "15rem", minHeight: "357px" }}
-												className="overflow-x-auto rounded-3xl "
-												onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
-											>
-												<ImageWithLoader
-													variant="top"
-													className="h-100"
-													src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
-													alt="Movie Thumbnail"
-													failedImage="/ImageNotFoundVertical.png"
-												/>
-											</Card>
-											<div className="flex justify-center mt-3 ">
-												<CustomCircularProgressRating voteAverage={data?.voteAverage} />
-											</div>
+										<div key={data.entertainmentId}>
+											<div className="relative">
+												<LikeButtonG itemId={data._id} itemType="entertainment" />
+												<div className="activeClass">
+													<Card
+														style={{ width: "15rem", minHeight: "357px" }}
+														className="overflow-x-auto rounded-3xl "
+														onClick={() => infoAboutItem(data.entertainmentId, data.entertainmentType)}
+													>
+														<ImageWithLoader
+															variant="top"
+															className="h-100"
+															src={`https://image.tmdb.org/t/p/w500${data.posterUrl}`}
+															alt="Movie Thumbnail"
+															failedImage="/ImageNotFoundVertical.png"
+														/>
+													</Card>
+													<div className="flex justify-center mt-3 ">
+														<CustomCircularProgressRating voteAverage={data?.voteAverage} />
+													</div>
 
-											<div
-												className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
-													theme === "dark" ? "text-gray-300" : ""
-												}`}
-											>
-												{data.title}
+													<div
+														className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
+															theme === "dark" ? "text-gray-300" : ""
+														}`}
+													>
+														{data.title}
+													</div>
+													{data.releaseDate && (
+														<div
+															className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
+																theme === "dark" ? "text-gray-300" : ""
+															}`}
+														>
+															Release Date : {formatDateinHumanredable(data.releaseDate)}
+														</div>
+													)}
+													{data.firstAirDate && (
+														<div
+															className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
+																theme === "dark" ? "text-gray-300" : ""
+															}`}
+														>
+															Release Date : {formatDateinHumanredable(data.firstAirDate)}
+														</div>
+													)}
+												</div>
 											</div>
-											{data.releaseDate && (
-												<div
-													className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
-														theme === "dark" ? "text-gray-300" : ""
-													}`}
-												>
-													Release Date : {formatDateinHumanredable(data.releaseDate)}
-												</div>
-											)}
-											{data.firstAirDate && (
-												<div
-													className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
-														theme === "dark" ? "text-gray-300" : ""
-													}`}
-												>
-													Release Date : {formatDateinHumanredable(data.firstAirDate)}
-												</div>
-											)}
 										</div>
 									))
 								) : isLoading ? (
@@ -178,33 +183,40 @@ const Favorite = ({ setQuery }) => {
 							<div className="flex flex-wrap justify-center pb-4 pt-10">
 								{allGames?.length > 0 ? (
 									allGames.map((data) => (
-										<div className="activeClass m-4 cursor-pointer relative" key={data.gameId}>
-											<div className="absolute z-10 right-4 top-[-30px]"></div>
-											<div onClick={() => particularGameCall(data.gameId)}>
-												<Card style={{ width: "18rem", minHeight: "150px" }} className="overflow-x-auto rounded-3xl ">
-													<ImageWithLoader
-														src={`${data.thumbnail}`}
-														alt="Game Thumbnail"
-														failedImage="/ImageNotFound.png"
-													/>
-												</Card>
-												<div
-													className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold 
+										<div key={data.gameId}>
+											<div className="relative m-4 cursor-pointer">
+												<LikeButtonG itemId={data._id} itemType="game" />
+												<div className="activeClass">
+													<div onClick={() => particularGameCall(data.gameId)}>
+														<Card
+															style={{ width: "18rem", minHeight: "150px" }}
+															className="overflow-x-auto rounded-3xl "
+														>
+															<ImageWithLoader
+																src={`${data.thumbnail}`}
+																alt="Game Thumbnail"
+																failedImage="/ImageNotFound.png"
+															/>
+														</Card>
+														<div
+															className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold 
                             ${theme === "dark" ? "text-gray-300" : ""} mt-3
                             `}
-												>
-													{data.title}
-												</div>
-												{data.releaseDate && (
-													<div
-														className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
-															theme === "dark" ? "text-gray-300" : ""
-														}
+														>
+															{data.title}
+														</div>
+														{data.releaseDate && (
+															<div
+																className={`text-center mt-2 text-ellipsis w-60 whitespace-nowrap overflow-hidden font-semibold  ${
+																	theme === "dark" ? "text-gray-300" : ""
+																}
                             `}
-													>
-														Release Date : {formatDateinHumanredable(data.releaseDate)}
+															>
+																Release Date : {formatDateinHumanredable(data.releaseDate)}
+															</div>
+														)}
 													</div>
-												)}
+												</div>
 											</div>
 										</div>
 									))
@@ -231,6 +243,8 @@ const Favorite = ({ setQuery }) => {
 								allNews?.map((news, index) => (
 									<div key={index} className="relative">
 										<div className="absolute z-10 right-4 top-[-30px]"></div>
+										<LikeButtonG itemId={news._id} itemType="news" />
+
 										<CustomCard
 											alt={"News"}
 											index={index}
@@ -286,43 +300,46 @@ const Favorite = ({ setQuery }) => {
 								{allCricketMatch?.length > 0 ? (
 									allCricketMatch?.map((data, index) => (
 										<div className="min-w-52 me-4 relative" md={4} key={index}>
+											<LikeButtonG itemId={data._id} itemType="cricketMatch" />
 											<div>
-												{data.description} {data.seriesName} {data.matchFormat}
+												<div>
+													{data.description} {data.seriesName} {data.matchFormat}
+												</div>
+												<div>
+													{data.team1SName}
+													{data.team1inngs1runs && !data.team1inngs2runs && (
+														<>
+															: {data.team1inngs1runs}-{data.team1inngs1wickets} ({data.team1inngs1overs})
+														</>
+													)}
+													{data.team1inngs1runs && data.team1inngs2runs && (
+														<>
+															: {data.team1inngs1runs}-{data.team1inngs1wickets} {data.team1inngs2runs}-
+															{data.team1inngs2wickets}
+														</>
+													)}
+												</div>
+												<div></div>
+												<div>
+													{data.team2SName}
+													{data.team2inngs1runs && !data.team2inngs2runs && (
+														<>
+															: {data.team2inngs1runs}-{data.team2inngs1wickets} ({data.team2inngs1overs})
+														</>
+													)}
+													{data.team2inngs1runs && data.team2inngs2runs && (
+														<>
+															: {data.team2inngs1runs}-{data.team2inngs1wickets} {data.team2inngs2runs}-
+															{data.team2inngs2wickets}
+														</>
+													)}
+												</div>
+												<div></div>
+												<div>{data.matchStatus}</div>
+												<NavLink className="cursor-pointer" onClick={() => getPointsTable(data.seriesId)}>
+													Table
+												</NavLink>
 											</div>
-											<div>
-												{data.team1SName}
-												{data.team1inngs1runs && !data.team1inngs2runs && (
-													<>
-														: {data.team1inngs1runs}-{data.team1inngs1wickets} ({data.team1inngs1overs})
-													</>
-												)}
-												{data.team1inngs1runs && data.team1inngs2runs && (
-													<>
-														: {data.team1inngs1runs}-{data.team1inngs1wickets} {data.team1inngs2runs}-
-														{data.team1inngs2wickets}
-													</>
-												)}
-											</div>
-											<div></div>
-											<div>
-												{data.team2SName}
-												{data.team2inngs1runs && !data.team2inngs2runs && (
-													<>
-														: {data.team2inngs1runs}-{data.team2inngs1wickets} ({data.team2inngs1overs})
-													</>
-												)}
-												{data.team2inngs1runs && data.team2inngs2runs && (
-													<>
-														: {data.team2inngs1runs}-{data.team2inngs1wickets} {data.team2inngs2runs}-
-														{data.team2inngs2wickets}
-													</>
-												)}
-											</div>
-											<div></div>
-											<div>{data.matchStatus}</div>
-											<NavLink className="cursor-pointer" onClick={() => getPointsTable(data.seriesId)}>
-												Table
-											</NavLink>
 										</div>
 									))
 								) : isLoading ? (
@@ -345,32 +362,36 @@ const Favorite = ({ setQuery }) => {
 									<>
 										{allCricketNews?.map((news, index) => (
 											<div key={index} className="relative">
-												<CustomCard
-													alt={"Cricket"}
-													index={index}
-													imageUrls={imageUrlsNews[news.imageId]}
-													onError={(e) => {
-														e.target.src = "/ImageNotFound.png";
-													}}
-													redirectLink={generateRedirectLink(news.cricketNewsId, news.hLine)}
-													newsStoryHLine={news.hLine ? truncateText(news.hLine, 10) : "No Title Found"}
-													newsStoryIntro={news.intro ? truncateText(news.intro, 60) : "No Description Found"}
-													newsStorySource={
-														news.source == "Cricbuzz" && (
-															<a href="https://www.cricbuzz.com/" target="_blank">
-																<img
-																	className="rounded-full"
-																	variant="top"
-																	alt="LogoNotAvail.png"
-																	height={30}
-																	width={30}
-																	src="/cricbuzzLogo.png"
-																/>
-															</a>
-														)
-													}
-													updatedOn={formatDate(news.pubTime)}
-												/>
+												<LikeButtonG itemId={news._id} itemType="cricketNews" />
+
+												<div>
+													<CustomCard
+														alt={"Cricket"}
+														index={index}
+														imageUrls={imageUrlsNews[news.imageId]}
+														onError={(e) => {
+															e.target.src = "/ImageNotFound.png";
+														}}
+														redirectLink={generateRedirectLink(news.cricketNewsId, news.hLine)}
+														newsStoryHLine={news.hLine ? truncateText(news.hLine, 10) : "No Title Found"}
+														newsStoryIntro={news.intro ? truncateText(news.intro, 60) : "No Description Found"}
+														newsStorySource={
+															news.source == "Cricbuzz" && (
+																<a href="https://www.cricbuzz.com/" target="_blank">
+																	<img
+																		className="rounded-full"
+																		variant="top"
+																		alt="LogoNotAvail.png"
+																		height={30}
+																		width={30}
+																		src="/cricbuzzLogo.png"
+																	/>
+																</a>
+															)
+														}
+														updatedOn={formatDate(news.pubTime)}
+													/>
+												</div>
 											</div>
 										))}
 									</>
