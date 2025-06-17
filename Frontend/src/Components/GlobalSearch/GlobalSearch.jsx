@@ -18,10 +18,10 @@ const GlobalSearch = () => {
 		if (!trimmed || trimmed === prevQuery) return;
 		console.log(trimmed, "trimmed");
 		await Promise.all([
-			// dispatch(getNews(trimmed)),
-			// dispatch(getEntertainmentSearchData({ category: "tv", searchQuery: trimmed })),
-			// dispatch(getEntertainmentSearchData({ category: "movie", searchQuery: trimmed })),
-			// dispatch(getcricketSearchPlayer({ playeraName: trimmed })),
+			dispatch(getNews(trimmed)),
+			dispatch(getEntertainmentSearchData({ category: "tv", searchQuery: trimmed })),
+			dispatch(getEntertainmentSearchData({ category: "movie", searchQuery: trimmed })),
+			dispatch(getcricketSearchPlayer({ playeraName: trimmed })),
 		]);
 
 		setPrevQuery(trimmed);
