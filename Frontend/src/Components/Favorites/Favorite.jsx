@@ -95,7 +95,11 @@ const Favorite = ({ setQuery }) => {
 	return (
 		<>
 			{!isLoggedIn && (
-				<div className="favSaction w-full">
+				<div
+					className={`h-[calc(100vh-118px)] flex justify-center items-center flex-col w-full ${
+						theme === "dark" ? "bg-[#1f1f1f] text-gray-200" : "bg-[#f4f4f4] text-black"
+					}`}
+				>
 					{/* <LikeButton /> */}
 					<div>Please Login to Unlock favorite Section</div>
 					<div>

@@ -138,7 +138,11 @@ function NavbarComp({ setQuery }) {
 								<NavLink>
 									<button
 										onClick={() => handleShow("login")}
-										className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+										className={`${
+											themeColor === "dark"
+												? "bg-gray-700 text-white hover:bg-gray-600"
+												: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+										} font-bold py-2 px-4 rounded-full mr-10`}
 									>
 										Login
 									</button>
@@ -146,7 +150,11 @@ function NavbarComp({ setQuery }) {
 								<NavLink>
 									<button
 										onClick={() => handleShow("register")}
-										className={`bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-10`}
+										className={`${
+											themeColor === "dark"
+												? "bg-gray-700 text-white hover:bg-gray-600"
+												: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+										} font-bold py-2 px-4 rounded-full mr-10`}
 									>
 										Sign Up
 									</button>
