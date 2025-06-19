@@ -180,7 +180,7 @@ function NavbarComp({ setQuery }) {
 							<ProfileMenu handleShowLogout={() => handleShow("logout")} />
 						</div>
 					)}
-					{toggleBtnVisible && (
+					{toggleBtnVisible && (!location.pathname.includes("/favorites") || isLoggedIn) && (
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height={20} onClick={handleShowSidebar}>
 							<path
 								fill={themeColor === "dark" ? "#ffffff" : "#000000"}

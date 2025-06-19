@@ -30,6 +30,7 @@ import NotFound from "./Components/NotFound";
 import SearchResultPage from "./Components/GlobalSearch/SearchResultPage";
 import Profile from "./Components/Navbar/Profile";
 import UpdatePassword from "./Components/Navbar/UpdatePassword";
+import ProtectedRoute from "./GlobalComp/ProtectedRoute";
 
 function App() {
 	const location = useLocation();
@@ -168,8 +169,22 @@ function App() {
 							<Route path="/register" element={<Registration />} />
 							<Route path="/forgot-password" element={<ForgotPassword />} />
 							<Route path="/search" element={<SearchResultPage />} />
-							<Route path="/profile" element={<Profile />} />
-							<Route path="/update-password" element={<UpdatePassword />} />
+							<Route
+								path="/profile"
+								element={
+									<ProtectedRoute>
+										<Profile />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path="/update-password"
+								element={
+									<ProtectedRoute>
+										<UpdatePassword />
+									</ProtectedRoute>
+								}
+							/>
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>
